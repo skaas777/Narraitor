@@ -57,7 +57,7 @@ export function useSessionPacing(options: UseSessionPacingOptions = {}): UseSess
     for (let threshold = milestoneInterval; threshold <= count; threshold += milestoneInterval) {
       if (!firedMilestonesRef.current.has(threshold)) {
         firedMilestonesRef.current.add(threshold);
-        toast.info(`${threshold} story beats in`);
+        toast.info(`还有 ${threshold} 个故事节拍`);
       }
     }
   }, [count, milestoneInterval, enabled, toast]);

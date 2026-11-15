@@ -38,7 +38,7 @@ describe('TutorialProvider dismissal handling', () => {
       screen.getByText('Start First Play Tour').click();
     });
 
-    const skipButton = await screen.findByRole('button', { name: /skip/i });
+    const skipButton = await screen.findByRole('button', { name: /跳过引导/i });
 
     await act(async () => {
       skipButton.click();
@@ -59,7 +59,7 @@ describe('TutorialProvider dismissal handling', () => {
       screen.getByText('Start First Play Tour').click();
     });
 
-    await screen.findByRole('button', { name: /skip/i });
+    await screen.findByRole('button', { name: /跳过引导/i });
 
     await act(async () => {
       fireEvent.keyDown(document.body, { key: 'Escape', code: 'Escape' });

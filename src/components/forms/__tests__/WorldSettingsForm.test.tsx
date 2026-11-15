@@ -42,7 +42,7 @@ describe('WorldSettingsForm - MVP Level Tests', () => {
       />
     );
 
-    const maxAttributesInput = screen.getByLabelText(/Maximum Attributes/i);
+    const maxAttributesInput = screen.getByLabelText(/最大属性数/i);
     fireEvent.change(maxAttributesInput, { target: { value: '15' } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
@@ -60,7 +60,7 @@ describe('WorldSettingsForm - MVP Level Tests', () => {
       />
     );
 
-    const skillPointPoolInput = screen.getByLabelText(/Skill Point Pool/i);
+    const skillPointPoolInput = screen.getByLabelText(/技能点池/i);
     fireEvent.change(skillPointPoolInput, { target: { value: '40' } });
 
     expect(mockOnChange).toHaveBeenCalledWith({

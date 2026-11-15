@@ -103,8 +103,8 @@ const createBaseActions = (set: SetState, get: GetState) => ({
     if (!fact) {
       set({
         error: createStoreError(
-          'Lore Fact Not Found',
-          'The specified lore fact could not be found.'
+          "未找到设定条目",
+          "找不到指定的设定条目。"
         ),
       });
       return;
@@ -157,8 +157,8 @@ const createBaseActions = (set: SetState, get: GetState) => ({
     if (id && !get().facts[id]) {
       set({
         error: createStoreError(
-          'Lore Fact Not Found',
-          'The specified lore fact could not be found.'
+          "未找到设定条目",
+          "找不到指定的设定条目。"
         ),
         currentEntityId: null,
       });
@@ -198,8 +198,8 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
       });
       set({
         error: createStoreError(
-          'Invalid Lore Fact',
-          'Lore facts require a key, value, category, and world.'
+          "无效的设定条目",
+          "设定条目需要包含键、值、类别和世界。"
         ),
       });
       return '' as EntityID;
@@ -209,8 +209,8 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
       logger.error('[LoreStore] addFact invalid key', { key });
       set({
         error: createStoreError(
-          'Invalid Lore Key',
-          'Lore keys must start with a letter and contain only letters, numbers, or underscores.'
+          "无效的设定键",
+          "设定键必须以字母开头，且只能包含字母、数字或下划线。"
         ),
       });
       return '' as EntityID;
@@ -223,8 +223,8 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
       });
       set({
         error: createStoreError(
-          'Duplicate Lore Fact',
-          'A lore fact with this key and value already exists for this world.'
+          "重复的设定条目",
+          "该世界已存在具有此键和值的设定条目。"
         ),
       });
       return '' as EntityID;

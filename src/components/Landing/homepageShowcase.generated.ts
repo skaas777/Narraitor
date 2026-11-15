@@ -59,222 +59,222 @@ export interface ShowcaseWorld {
 export const HOMEPAGE_SHOWCASE: ShowcaseWorld[] = [
   {
     "id": "port-city",
-    "caption": "A rain-soaked port city",
+    "caption": "一座被雨水浸透的港口城市",
     "genre": "mystery",
-    "typed": "A rain-soaked port city where it never stops raining and every cop is on someone's payroll. Nineteen-forties, but the light is the wrong colour.",
+    "typed": "一座被雨水浸透的港口城市，这里雨从不停歇，每个警察都拿某人的钱。故事设定在四十年代，但光线的颜色不对劲。",
     "protagonist": "Vaughn",
     "attributeNames": [
-      "Brawn",
-      "Agility",
-      "Wits",
-      "Resolve"
+      "蛮力",
+      "敏捷",
+      "机智",
+      "决心"
     ],
     "skillNames": [
-      "Streetwise",
-      "Investigation",
-      "Intimidation",
-      "Persuasion",
-      "Shadowing",
-      "Bluff"
+      "街头智慧",
+      "调查",
+      "恐吓",
+      "说服",
+      "跟踪",
+      "虚张声势"
     ],
     "opening": "The perpetual drizzle clung to your trench coat, a cold, insistent reminder of this city's melancholic grip as you navigated the slick, uneven cobblestones of the waterfront. Under the sickly yellow glow of a flickering gas lamp, the overturned fishing trawler, the 'Sea Serpent,' listed heavily against the barnacle-encrusted pier, its splintered hull a gaping maw to the unforgiving grey sky. A lone, uniformed figure, clearly a beat cop too far from his usual patrol, stood silhouetted against the unnatural twilight, his shoulders hunched, his hat brim pulled low, the faint glint of something metallic in his hand suggesting a fresh, illicit payment. You felt the familiar knot in your gut, the one that always tightened when a job pulled you back into the murky waters you'd sworn to leave behind, but the dead man sprawled across the trawler's deck, half-submerged in a growing pool of crimson, wasn't going to investigate himself.",
-    "situation": "“Runner!” you yelled, pointing a finger past the 'Sea Serpent's' bow, towards the dense, rain-streaked shadows of a narrow alleyway. The word hung heavy in the damp air, a flat, unconvincing sound that carried no urgency. The beat cop, his shoulders still hunched, merely shifted his weight, his gaze unwavering as he watched you, the paper-wrapped coins still clutched in his hand. A slow, knowing smirk spread across his face, a silent acknowledgement of your clumsy attempt.",
+    "situation": "“有逃犯！”你喊道，手指越过“Sea Serpent”号的船头，指向一条狭窄小巷深处被雨水划出条纹的浓密阴影。这个词沉甸甸地悬在潮湿的空气中，平淡而缺乏说服力，毫无紧迫感。那名巡警肩膀仍然缩着，只是换了换重心，目光始终牢牢盯着你，手里还攥着纸包着的硬币。一个缓慢而心照不宣的冷笑在他脸上蔓延开来，无声地承认了你那笨拙的尝试。",
     "decisionPrompt": "What will you do?",
     "options": [
       {
-        "text": "\"Runner, you say? I'm requisitioning your assistance.\"",
+        "text": "“你说逃犯？我要征用你的协助。”",
         "alignment": "lawful",
         "taken": false
       },
       {
-        "text": "Offer the cop your own coins to point out the runner's path.",
+        "text": "拿你自己的硬币收买警察，让他指出逃犯的路线。",
         "alignment": "neutral",
         "taken": true
       },
       {
-        "text": "Ignore the cop and move towards the alley's mouth, scanning for tracks.",
+        "text": "无视警察，走向巷口，搜寻痕迹。",
         "alignment": "neutral",
         "taken": false
       },
       {
-        "text": "Snatch the paper-wrapped coins from the cop and dash into the alley.",
+        "text": "从警察手里夺过纸包硬币，冲进小巷。",
         "alignment": "chaotic",
         "taken": false
       }
     ],
     "check": {
-      "skillName": "Streetwise",
+      "skillName": "街头智慧",
       "diceRoll": 3,
       "skillLevel": 3,
       "attributeBonus": 1,
       "total": 7,
       "dc": 12
     },
-    "consequence": "You reached into your coat, pulling out a small leather pouch, its weight a familiar comfort. As you extended it toward the beat cop, a glint of hope in your eyes, he merely chuckled, a low, guttural sound that seemed to vibrate through the damp air. He held up the roll of coins already in his hand, a mocking gesture, then casually let it drop into his coat pocket. \"Already bought and paid for, Vaughn,\" he rasped, his eyes still fixed on yours, the earlier smirk now a full-blown sneer. \"And you're too late.\""
+    "consequence": "你伸手探进外套，掏出一个小皮袋，那熟悉的重量让你感到一丝安心。当你把它递向巡警，眼里闪着希望时，他只是低声笑了笑——那是一种低沉沙哑、仿佛能震动潮湿空气的声音。他举起手里那卷硬币，带着嘲弄的意味，然后随手让它落进外套口袋。“早就买通、付过钱了，Vaughn，”他嘶哑地说，目光仍然紧盯着你，先前的冷笑如今变成了毫不掩饰的讥笑。“而且你来晚了。”"
   },
   {
     "id": "survey-ship",
-    "caption": "A survey ship, six months dark",
+    "caption": "一艘失联六个月的勘测船",
     "genre": "sci-fi",
-    "typed": "A survey ship six months into a silent run, the crew down to four, and something in the hold that was not on the manifest.",
+    "typed": "一艘勘测船已静默航行六个月，船员只剩四人，而货舱里有一件不在舱单上的东西。",
     "protagonist": "Aiya",
     "attributeNames": [
-      "Constitution",
-      "Dexterity",
-      "Intelligence",
-      "Wits"
+      "体质",
+      "敏捷",
+      "智力",
+      "机智"
     ],
     "skillNames": [
-      "Piloting",
-      "Engineering",
-      "Security Systems",
-      "First Aid",
-      "Survival (Ship)",
-      "Xenology"
+      "驾驶",
+      "工程",
+      "安防系统",
+      "急救",
+      "生存（舰船）",
+      "异星学"
     ],
-    "opening": "The hum of the ship's life support systems, usually a comforting drone, now felt like a low thrum against your very bones, a constant reminder of the six months you'd been adrift in the void. You traced the faded text on the ancient data pad: 'Cargo Manifest, Stardate 247.03.12.' Your finger hovered over the discrepancy, a single line item, 'Cryo-Containment Unit, Experimental,' that had appeared in the maintenance logs two months prior, a ghost on the ship's internal records that no one else seemed to have noticed, or perhaps, bothered to look for. The flickering emergency lights in the narrow corridor ahead cast long, shifting shadows, making the ship feel less like a vessel and more like a tomb as you headed toward the cargo hold, a sickly premonition coiling in your gut.",
-    "situation": "You quickly navigate the ancient data pad's interface, a series of precise taps and swipes isolating the cargo hold's atmosphere and sealing its heavy blast doors with a low, hydraulic hiss. The ship's internal sensors hummed, now focused entirely on the pulsing red dot. Its rhythmic signature, once faint, now registered with a clearer, more defined cadence, a slow, steady thrum against the backdrop of the ship's failing life support. You held your breath, the chill in the air deepening as you watched the single, isolated heartbeat on the screen.",
+    "opening": "飞船生命维持系统的嗡鸣平时令人安心，如今却像低沉的震颤贴着你的骨头，不断提醒你已在虚空中漂流了六个月。你用手指描过那台古老数据板上的褪色文字：‘货物舱单，星历 247.03.12。’你的手指悬停在那个不符之处上：一条单项记录，‘低温封存单元，实验型’，它两个月前出现在维护日志里，是飞船内部记录中的一个幽灵，似乎没有别人注意到，或者也许根本懒得去找。前方狭窄走廊里闪烁的应急灯投下长长晃动的影子，让你走向货舱时觉得这艘船不像一艘船，倒更像一座坟墓，一股病态的不祥预感在胃里盘绕。",
+    "situation": "你迅速操作古老数据板的界面，几下精准的点击与滑动隔离了货舱的空气，伴随着一声低沉液压嘶响，封死了厚重的防爆门。飞船内部传感器嗡鸣着，此刻完全锁定在那个脉动的红点上。它那有节奏的信号原本微弱，如今呈现出更清晰、更明确的节拍，在飞船生命维持系统逐渐失效的背景中，像一阵缓慢而稳定的搏动。你屏住呼吸，随着你盯着屏幕上那一个孤立的心跳信号，空气中的寒意越发深重。",
     "decisionPrompt": "What will you do?",
     "options": [
       {
-        "text": "Review ship logs for cargo hold anomalies.",
+        "text": "查看飞船日志，寻找货舱异常。",
         "alignment": "lawful",
         "taken": false
       },
       {
-        "text": "Route remaining life support to this section.",
+        "text": "将剩余生命维持系统输送到这一区域。",
         "alignment": "neutral",
         "taken": true
       },
       {
-        "text": "Prepare a hazmat suit and entry tools.",
+        "text": "准备防化服和破拆工具。",
         "alignment": "neutral",
         "taken": false
       },
       {
-        "text": "Open the cargo hold blast doors and trigger an emergency purge.",
+        "text": "打开货舱防爆门，并触发紧急净化。",
         "alignment": "chaotic",
         "taken": false
       }
     ],
     "check": {
-      "skillName": "Engineering",
+      "skillName": "工程",
       "diceRoll": 4,
       "skillLevel": 3,
       "attributeBonus": 1,
       "total": 8,
       "dc": 12
     },
-    "consequence": "You slammed your palm against the ancient console, trying to force the power conduit over, but the failing systems responded with a whine of protest. Instead of rerouting, the remaining life support flickered erratically, the dim emergency lights in the corridor ahead dying completely, plunging the passage into an oppressive, inky blackness. The rhythmic thrum from the cargo hold now echoed louder, more distinct, a singular heartbeat in the suffocating silence, a stark counterpoint to the growing chill that seeped into your bones."
+    "consequence": "你手掌猛拍古老的操控台，试图强行切换供电导管，但失灵的系统只以一声抗议般的哀鸣回应。能量没有改道，剩余的生命维持系统反而紊乱地闪烁，前方走廊里昏暗的应急灯彻底熄灭，将通道抛入令人窒息的墨黑之中。货舱传来的有节奏搏动如今回荡得更响、更清晰，在令人窒息的寂静中成为唯一的心跳，与渗入你骨髓的越来越重的寒意形成鲜明对照。"
   },
   {
     "id": "normandy",
-    "caption": "Normandy, June 1944",
+    "caption": "诺曼底，1944年6月",
     "genre": "historical",
-    "typed": "Normandy, June 1944. A rifle squad separated from its unit, working inland through the hedgerows with no radio.",
-    "protagonist": "Corporal Ade",
+    "typed": "诺曼底，1944年6月。一个步枪班与部队失散，没有无线电，正穿过树篱向内陆推进。",
+    "protagonist": "Ade下士",
     "attributeNames": [
-      "Strength",
-      "Agility",
-      "Stamina",
-      "Perception"
+      "力量",
+      "敏捷",
+      "耐力",
+      "感知"
     ],
     "skillNames": [
-      "Rifle Marksmanship",
-      "Stealth",
-      "Survival (Fieldcraft)",
-      "Navigation",
-      "First Aid",
-      "Observation"
+      "步枪射击",
+      "潜行",
+      "生存（野战）",
+      "导航",
+      "急救",
+      "观察"
     ],
-    "opening": "The stench of damp earth and shattered concrete clung to the air as you pushed through the tangled briars, the heavy M1 Garand feeling like a lead weight in your hands. The distant rumble of artillery, a constant, sickening heartbeat, vibrated through the soles of your worn boots, reminding you of the chaos you'd barely escaped on the beach. Sweat stung your eyes, blurring the already dense hedgerow ahead, a green, impenetrable wall that seemed to swallow sound and light, making every rustle a potential enemy. You glance back at the four grim faces following you, your new squad, the burden of their lives now resting squarely on your shoulders, a corporal by circumstance, not choice.",
-    "situation": "You attempt to weave through the densest part of the hedgerow, but the thick, intertwined branches refuse to yield, snagging at your uniform and gear. A branch, thicker than your arm, springs back with surprising force as you try to push past it, striking the side of your rifle with a sharp crack that echoes far too loudly in the oppressive quiet. Ahead, the deer trail, once skirted, now seems like a glaringly obvious, easier path, but the opportunity is lost.",
+    "opening": "潮湿泥土与碎裂混凝土的气味紧贴空气，你拨开纠缠的荆棘，沉甸甸的 M1 加兰德步枪在手中如同铅块。远处炮火的轰鸣像持续而令人作呕的心跳，透过你磨损靴底传来，提醒着你在海滩上勉强逃脱的混乱。汗水刺痛双眼，使前方本已茂密的树篱变得模糊——那是一堵吞噬声音与光线的绿色高墙，让每一次窸窣都可能是敌人。你回头瞥了一眼跟在身后的四张严峻面孔，这是你的新小队，他们的性命如今沉甸甸地压在你肩上；你成为下士是形势所迫，而非出于选择。",
+    "situation": "你试图从树篱最茂密的地方穿过去，但粗壮交缠的枝条不肯让路，勾住你的制服和装备。你试图推开一根比手臂还粗的树枝时，它带着惊人的力道弹回，重重撞在步枪侧面，发出一声在压抑寂静中传得过远的脆响。前方那条原本只是绕开的鹿径，此刻看起来成了极其明显、也更容易走的路，但机会已经失去。",
     "decisionPrompt": "What will you do?",
     "options": [
       {
-        "text": "Halt movement and listen intently for any enemy response.",
+        "text": "停止移动，凝神倾听敌人是否有任何反应。",
         "alignment": "lawful",
         "taken": false
       },
       {
-        "text": "Backtrack carefully, finding a new, less obvious route.",
+        "text": "小心原路返回，寻找一条更不显眼的新路线。",
         "alignment": "neutral",
         "taken": true
       },
       {
-        "text": "Push through the hedgerow, ignoring the noise for now.",
+        "text": "强行穿过树篱，暂时无视那声响。",
         "alignment": "neutral",
         "taken": false
       },
       {
-        "text": "Deliberately snap another branch to mask the first sound.",
+        "text": "故意再折断一根树枝，以掩盖第一声脆响。",
         "alignment": "chaotic",
         "taken": false
       }
     ],
     "check": {
-      "skillName": "Stealth",
+      "skillName": "潜行",
       "diceRoll": 7,
       "skillLevel": 3,
       "attributeBonus": 1,
       "total": 11,
       "dc": 12
     },
-    "consequence": "You shift your weight, easing back from the snagging branches, trying to retrace your steps without disturbing a single leaf. The snap of the rifle, however, had already echoed too far. A twig under your boot gives way with a sharp crack, followed by the rustle of disturbed leaves just ahead, off the main trail. You freeze, pressing yourself against the rough bark of a thick oak, your M1 Garand now held tightly across your chest, its cold steel a stark contrast to the sudden clammy sweat on your palms."
+    "consequence": "你挪动重心，从勾住你的枝条间缓缓退开，尽力不惊动一片叶子地沿原路返回。然而步枪的脆响已经传得太远。你靴下的一根细枝啪地折断，紧接着前方、偏离主路的地方传来被扰动的树叶窸窣声。你僵住，背靠一棵粗橡树粗糙的树皮，把 M1 加兰德步枪紧紧横在胸前；冰冷的钢铁与你掌心突然冒出的冷汗形成鲜明对比。"
   },
   {
     "id": "debt-court",
-    "caption": "A court that runs on debts",
+    "caption": "靠债务运转的宫廷",
     "genre": "fantasy",
-    "typed": "A court where nobody uses money and every favour is written down, and the ledger is the only law anyone is afraid of.",
+    "typed": "在这座宫廷里，没人使用钱币，每一份人情都被记录下来，而账本则是所有人唯一畏惧的法律。",
     "protagonist": "Sennen",
     "attributeNames": [
-      "Acumen",
-      "Composure",
-      "Influence",
-      "Diligence"
+      "敏锐",
+      "沉着",
+      "影响力",
+      "勤勉"
     ],
     "skillNames": [
-      "Ledger-keeping",
-      "Negotiation",
-      "Gossip & Rumor",
-      "Etiquette",
-      "Debate & Rhetoric",
-      "Intimidation"
+      "记账",
+      "谈判",
+      "流言与传闻",
+      "礼仪",
+      "辩论与修辞",
+      "恐吓"
     ],
     "opening": "The flickering glow of a single tallow candle casts long, dancing shadows across the meticulously stacked ledgers, their leather-bound spines groaning under the weight of countless obligations. Each page, filled with the elegant script of debts owed and favors granted, represents a life intricately woven into the court's unforgiving fabric, and you, a junior clerk, feel the chilling echo of that power as you carefully turn a brittle leaf. A sudden, sharp rap on the heavy oaken door sends a tremor through the quiet chamber, the sound too abrupt, too insistent for a casual visitor, pulling your gaze from the intricate web of ancient promises. You instinctively adjust the worn satchel at your hip, the familiar weight of your own uncalled debt a cold comfort against the sudden, unwelcome intrusion, as the latch clicks with an ominous finality.",
-    "situation": "You hold Master Theron's gaze, your own expression unwavering as the ledger's open pages lie plainly between you. The faint scent of aged parchment and drying ink fills the air, a familiar comfort. He studies you for a long moment, his eyes, dark as polished obsidian, seeming to pierce through the very fabric of your composure, before a subtle shift in his posture signals a reluctant acceptance. The tension in the room, thick as the dust motes dancing in the candle's glow, eases almost imperceptibly as he finally turns his attention to the precise, elegant script covering the brittle page.",
+    "situation": "你迎上塞隆大师的目光，自己的神情毫不动摇，账本摊开的书页就明明白白地摆在你们之间。陈旧羊皮纸与正在晾干的墨迹散发淡淡气味，那是你熟悉的慰藉。他端详你许久，那双如抛光黑曜石般深暗的眼睛仿佛能刺穿你镇定的外壳；随后，他姿态中细微的变化透露出勉强的接受。房间里的紧张气氛如同烛光中飞舞的尘埃般浓重，直到他终于把注意力转向那张脆页上精准而优雅的字迹，才几乎难以察觉地缓和下来。",
     "decisionPrompt": "What will you do?",
     "options": [
       {
-        "text": "Point out the precise, elegant script on the brittle page.",
+        "text": "指出脆页上那精准而优雅的字迹。",
         "alignment": "lawful",
         "taken": false
       },
       {
-        "text": "Ask Master Theron to specify which entry concerns him.",
+        "text": "请塞隆大师说明是哪个条目令他担忧。",
         "alignment": "neutral",
         "taken": true
       },
       {
-        "text": "Offer a subtle explanation for the ledger's nuanced entries.",
+        "text": "为账本中那些微妙的条目给出含蓄的解释。",
         "alignment": "neutral",
         "taken": false
       },
       {
-        "text": "Casually tear the brittle page from the ledger, offering to rewrite it.",
+        "text": "随手从账本上撕下那张脆页，提出重写它。",
         "alignment": "chaotic",
         "taken": false
       }
     ],
     "check": {
-      "skillName": "Negotiation",
+      "skillName": "谈判",
       "diceRoll": 6,
       "skillLevel": 3,
       "attributeBonus": 1,
       "total": 10,
       "dc": 12
     },
-    "consequence": "Master Theron’s eyes narrow, the flicker of the candle catching a cold glint within their depths. He doesn't answer your question directly. Instead, his gaze drifts from your face to the ledger, then back again, a silent, weighty assessment that prickles your skin. The air in the small chamber seems to grow heavier, pressing down on you until the quiet hum of the court's distant machinery feels like a judgment."
+    "consequence": "塞隆大师眯起眼睛，烛焰的闪动在他眼底映出一丝冷光。他没有直接回答你的问题。相反，他的目光从你脸上移到账本，又移回来，那无声而沉重的审视让你皮肤发紧。小房间里的空气似乎更沉重了，压得你透不过气，直到宫廷远处机械装置低沉的嗡鸣也像一种审判。"
   }
 ];

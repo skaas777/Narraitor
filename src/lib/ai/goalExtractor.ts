@@ -342,13 +342,13 @@ function createBasicGoal(
     characterId: request.characterId,
     worldId: request.worldId,
     title: capitalize(title),
-    description: `${title} (extracted from narrative)`,
+    description: `${title}（提取自叙事）`,
     type,
     priority: 'medium' as GoalPriority,
     status: 'active' as GoalStatus,
     mentionCount: 1,
     keywords: title.split(' ').filter((word) => word.length > 2),
-    contextSummary: `Player needs to ${title}`,
+    contextSummary: `玩家需要 ${title}`,
     originSegmentId: request.segmentId,
   };
 }
@@ -381,8 +381,8 @@ function validateAndCleanGoal(
     sessionId: String(goal.sessionId || ''),
     characterId: goal.characterId as string | undefined,
     worldId: goal.worldId as string | undefined,
-    title: (goal.title as string)?.trim() || 'Untitled Goal',
-    description: (goal.description as string)?.trim() || 'No description',
+    title: (goal.title as string)?.trim() || "未命名目标",
+    description: (goal.description as string)?.trim() || "无描述",
     type: validTypes.includes(goal.type as GoalType)
       ? (goal.type as GoalType)
       : 'quest',

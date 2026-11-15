@@ -48,10 +48,10 @@ describe('WorldCard', () => {
     expect(screen.getByText(mockWorld.description)).toBeInTheDocument();
     
     // Verify genre (theme) is displayed
-    expect(screen.getByText('Fantasy')).toBeInTheDocument();
+    expect(screen.getByText("奇幻")).toBeInTheDocument();
     
     // Verify timestamp is displayed (check for the formatted date string)
-    expect(screen.getByText(`Created: ${formatDate(mockWorld.createdAt)}`)).toBeInTheDocument();
+    expect(screen.getByText(`创建时间： ${formatDate(mockWorld.createdAt)}`)).toBeInTheDocument();
   });
 
   // Test case for edge cases in data display
@@ -67,7 +67,7 @@ describe('WorldCard', () => {
     expect(screen.getByRole('heading', { name: incompleteWorld.name })).toBeInTheDocument();
     
     // Should handle empty description gracefully (may not be visible)
-    expect(screen.getByText('Fantasy')).toBeInTheDocument(); // Genre should still show
+    expect(screen.getByText("奇幻")).toBeInTheDocument(); // Genre should still show
   });
 
   // Test case for world name navigation
@@ -92,7 +92,7 @@ describe('WorldCard', () => {
     render(<WorldCard world={mockWorld} onDelete={jest.fn()} />);
 
     fireEvent.click(
-      screen.getByRole('button', { name: `Create a character for ${mockWorld.name}` })
+      screen.getByRole('button', { name: `为 ${mockWorld.name} 创建角色` })
     );
 
     // Verify world is set as current world via the store
@@ -122,9 +122,9 @@ describe('WorldCard', () => {
 
     render(<WorldCard world={mockWorld} onDelete={jest.fn()} />);
 
-    fireEvent.click(screen.getByRole('button', { name: `Continue ${mockWorld.name}` }));
+    fireEvent.click(screen.getByRole('button', { name: `继续 ${mockWorld.name}` }));
     expect(mockRouterPush).toHaveBeenCalledWith(`/worlds/${mockWorld.id}/play?autoResume=true`);
-    expect(screen.getByText(`Last played: ${formatDate(lastPlayed)}`)).toBeInTheDocument();
+    expect(screen.getByText(`上次游玩： ${formatDate(lastPlayed)}`)).toBeInTheDocument();
   });
 
   // A list repeats "Play" on every card, so the accessible name says which world.
@@ -165,7 +165,7 @@ describe('WorldCard', () => {
     );
 
     // The visible name hides on phones, so the accessible name can't depend on it.
-    fireEvent.click(screen.getByRole('button', { name: 'Aragorn, level 5' }));
+    fireEvent.click(screen.getByRole('button', { name: "Aragorn，等级 5" }));
     expect(mockRouterPush).toHaveBeenCalledWith('/characters/char-1');
   });
 
@@ -184,7 +184,7 @@ describe('WorldCard', () => {
 
     expect(container.querySelectorAll('.world-card-character-pill')).toHaveLength(3);
     const more = screen.getByTestId('world-card-character-pills-more');
-    expect(more).toHaveTextContent('+2 more');
+    expect(more).toHaveTextContent("另有 2 个");
   });
 
   // Regression test for #1113 - no white placeholder image in the no-image case
@@ -237,7 +237,7 @@ describe('WorldCard', () => {
     });
     render(<WorldCard world={originalWorld} onDelete={jest.fn()} />);
     expect(screen.queryByTestId('world-card-type')).not.toBeInTheDocument();
-    expect(screen.queryByText('Original')).not.toBeInTheDocument();
+    expect(screen.queryByText("原创")).not.toBeInTheDocument();
   });
 
   test('renders quiet text metadata for set_within references', () => {
@@ -246,7 +246,7 @@ describe('WorldCard', () => {
       relationship: 'set_within',
     });
     render(<WorldCard world={setInWorld} onDelete={jest.fn()} />);
-    expect(screen.getByTestId('world-card-type')).toHaveTextContent('Set in Middle-earth');
+    expect(screen.getByTestId('world-card-type')).toHaveTextContent("设定于 Middle-earth");
   });
 
   test('renders quiet text metadata for inspired_by references', () => {
@@ -255,7 +255,7 @@ describe('WorldCard', () => {
       relationship: 'inspired_by',
     });
     render(<WorldCard world={inspiredWorld} onDelete={jest.fn()} />);
-    expect(screen.getByTestId('world-card-type')).toHaveTextContent('Inspired by Solaris');
+    expect(screen.getByTestId('world-card-type')).toHaveTextContent("灵感来自 Solaris");
   });
 
   test('configures deliberate action layout with unfilled primary action and flexible actions', () => {
@@ -280,8 +280,8 @@ describe('WorldCard', () => {
     const onDeleteMock = jest.fn();
     render(<WorldCard world={mockWorld} onDelete={onDeleteMock} />);
 
-    const charactersButton = screen.getByRole('button', { name: `Characters in ${mockWorld.name}` });
-    const deleteButton = screen.getByRole('button', { name: `Delete ${mockWorld.name}` });
+    const charactersButton = screen.getByRole('button', { name: `${mockWorld.name} 中的角色` });
+    const deleteButton = screen.getByRole('button', { name: `删除 ${mockWorld.name}` });
 
     fireEvent.click(charactersButton);
     expect(mockRouterPush).toHaveBeenCalledWith(`/characters?worldId=${mockWorld.id}`);

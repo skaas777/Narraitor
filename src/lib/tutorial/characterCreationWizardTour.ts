@@ -5,8 +5,8 @@ export const characterCreationWizardTour: Step[] = [
   {
     target: '[data-tutorial="basic-info"]',
     content: TutorialContent({
-      children: "Here's where you'll name your character and add a description.",
-      example: '"Kira Nightshade" with a backstory hint like "a cunning rogue with a mysterious past"',
+      children: "在这里为你的角色命名并添加描述。",
+      example: "“Kira Nightshade”，并附上类似“一个有着神秘过往的狡黠盗贼”的背景提示",
     }),
     placement: 'bottom',
     disableBeacon: true,
@@ -15,8 +15,8 @@ export const characterCreationWizardTour: Step[] = [
   {
     target: '[data-tutorial="attribute-allocation"]',
     content: TutorialContent({
-      children: "This is where you'll distribute points across your core attributes, which determine your character's natural strengths and weaknesses.",
-      example: 'High Strength for a fighter who relies on physical power',
+      children: "在这里，你可以把点数分配到核心属性上，这些属性决定了角色天生的强项与弱点。",
+      example: "为依赖体力的战士分配高力量",
     }),
     placement: 'bottom',
     disableBeacon: true,
@@ -25,8 +25,8 @@ export const characterCreationWizardTour: Step[] = [
   {
     target: '[data-tutorial="skill-selection"]',
     content: TutorialContent({
-      children: "Here you can select skills that define what your character excels at.",
-      example: 'Stealth for a character who prefers avoiding direct confrontation',
+      children: "在这里，你可以选择能体现角色专长的技能。",
+      example: "为偏好避免正面冲突的角色选择潜行",
     }),
     placement: 'bottom',
     disableBeacon: true,
@@ -35,8 +35,8 @@ export const characterCreationWizardTour: Step[] = [
   {
     target: '[data-tutorial="background-editor"]',
     content: TutorialContent({
-      children: "This section is for fleshing out your backstory. Where are you from? What motivates you?",
-      example: '"Orphaned during the war" to explain their distrust of authority',
+      children: "这一部分用于充实你的背景故事。你来自哪里？你的动机是什么？",
+      example: "“战争期间成为孤儿”，以此解释他们对权威的不信任",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -44,7 +44,7 @@ export const characterCreationWizardTour: Step[] = [
   },
   {
     target: '[data-tutorial="portrait-generator-action"]',
-    content: 'You can generate a unique portrait based on your character description, or upload your own image.',
+    content: "你可以根据角色描述生成独特的肖像，也可以上传自己的图片。",
     placement: 'top',
     disableBeacon: true,
     disableScrolling: true,

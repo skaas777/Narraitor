@@ -19,7 +19,7 @@ describe('GameSessionConfirmationDialog (exit)', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /leave story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /离开故事/i }));
 
     expect(onConfirm).toHaveBeenCalledTimes(1);
     expect(onClose).not.toHaveBeenCalled();
@@ -38,7 +38,7 @@ describe('GameSessionConfirmationDialog (exit)', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /keep playing/i }));
+    fireEvent.click(screen.getByRole('button', { name: /继续游玩/i }));
 
     expect(onClose).toHaveBeenCalledTimes(1);
     expect(onConfirm).not.toHaveBeenCalled();
@@ -59,7 +59,7 @@ describe('GameSessionConfirmationDialog (character-switch)', () => {
 
     expect(
       screen.getByText(
-        'Switching characters ends the current session and starts a new one with Elena the Brave. Your existing progress is saved so you can return later.'
+        '切换角色将结束当前冒险记录，并以Elena the Brave开始新的冒险。你现有的进度已保存，之后可以返回继续。'
       )
     ).toBeInTheDocument();
   });
@@ -76,7 +76,7 @@ describe('GameSessionConfirmationDialog (character-switch)', () => {
 
     expect(
       screen.getByText(
-        'Switching characters ends the current session and starts a new one with the selected character. Your existing progress is saved so you can return later.'
+        "切换角色将结束当前冒险记录，并以所选角色开始新的冒险。你现有的进度已保存，之后可以返回继续。"
       )
     ).toBeInTheDocument();
   });

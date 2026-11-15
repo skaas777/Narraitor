@@ -85,12 +85,12 @@ export default function WorldsPage() {
       convertToGenerationParams(worldTypeData);
 
     if (relationship && !reference?.trim()) {
-      setError('Please enter an existing setting');
+      setError("请输入已有的设定");
       return;
     }
 
     setIsGenerating(true);
-    setGeneratingStatus('Generating world configuration...');
+    setGeneratingStatus("正在生成世界配置…");
     setError(null);
 
     // Complete tutorial phase if active
@@ -105,7 +105,7 @@ export default function WorldsPage() {
       const existingNames = Object.values(worlds).map((w) => w.name);
 
       // Generate the world data using the API service
-      setGeneratingStatus('Generating world configuration...');
+      setGeneratingStatus("正在生成世界配置…");
       const generatedData = await worldApi.generateWorld({
         worldReference: reference,
         worldRelationship: relationship,
@@ -113,14 +113,14 @@ export default function WorldsPage() {
         suggestedName: worldName || undefined,
       });
 
-      setGeneratingStatus('Creating world...');
+      setGeneratingStatus("正在创建世界……");
       const { worldId } = await worldCreationService.createWorldFromGeneration({
         generatedData,
         customizations: worldName ? { name: worldName } : {},
         generateImage: true,
       });
 
-      setGeneratingStatus('Generating world image...');
+      setGeneratingStatus("正在生成世界图像…");
       // Image generation is handled by the service in the background
 
       useWorldStore.getState().setCurrentWorld(worldId);
@@ -133,20 +133,20 @@ export default function WorldsPage() {
 
       // Stay on worlds page to see the new world
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate world');
+      setError(err instanceof Error ? err.message : "生成世界失败");
       setIsGenerating(false);
     }
   };
 
   const actionButtons = [
     {
-      label: 'Create World',
+      label: "创建世界",
       onClick: handleCreateWorld,
       variant: 'primary' as const,
       icon: <Plus aria-hidden="true" />,
     },
     {
-      label: 'Generate World',
+      label: "生成世界",
       onClick: () => setShowPrompt(true),
       variant: 'secondary' as const,
       disabled: isGenerating,
@@ -155,8 +155,8 @@ export default function WorldsPage() {
 
   return (
     <PageLayout
-      title="My Worlds"
-      description="Create story worlds, manage characters, and play through stories."
+      title="我的世界"
+      description="创建故事世界、管理角色，并游玩故事。"
       actions={
         <ActionButtonGroup actions={actionButtons} layout="horizontal" gap="sm" />
       }
@@ -165,7 +165,7 @@ export default function WorldsPage() {
       <SimpleModal
         isOpen={showPrompt}
         onClose={() => setShowPrompt(false)}
-        title="Generate World"
+        title="生成世界"
         showCloseButton={false}
         ariaDescribedBy="generate-world-desc"
         footer={
@@ -174,7 +174,7 @@ export default function WorldsPage() {
             gap="md"
             actions={[
               {
-                label: 'Cancel',
+                label: "取消",
                 onClick: () => {
                   setShowPrompt(false);
                   setWorldTypeData(createInitialWorldTypeData());
@@ -185,7 +185,7 @@ export default function WorldsPage() {
                 disabled: isGenerating,
               },
               {
-                label: isGenerating ? 'Generating...' : 'Generate',
+                label: isGenerating ? "正在生成……" : "生成",
                 onClick: handleGenerateWorld,
                 variant: 'primary',
                 disabled:
@@ -205,10 +205,10 @@ export default function WorldsPage() {
             onChange={setWorldName}
             disabled={isGenerating}
             required={false}
-            placeholder="e.g., The Lost Kingdom"
+            placeholder="例如：失落王国"
           />
           <p id="generate-world-desc">
-            Give your world a custom name, or leave empty for a generated name
+            为你的世界自定义名称，或留空以生成名称
           </p>
 
           <WorldTypeSelector

@@ -56,7 +56,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       const worldData = worlds[storeCharacter.worldId];
 
       if (!worldData) {
-        setLoadError('World data not found for this character');
+        setLoadError("未找到此角色的世界数据");
         setLoading(false);
         return;
       }
@@ -67,7 +67,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       setLoadError(null); // Clear any previous errors
       setLoading(false);
     } catch (err) {
-      setLoadError("Couldn't load this character. Try refreshing the page.");
+      setLoadError("无法加载此角色。请尝试刷新页面。");
       setLoading(false);
       logger.error('Error loading character:', err);
     }
@@ -77,7 +77,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (!storeCharacter && loading) {
-        setLoadError('Character not found');
+        setLoadError("未找到角色");
         setLoading(false);
       }
     }, 2000); // Wait 2 seconds for hydration
@@ -117,7 +117,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
 
       router.push(`/characters/${characterId}`);
     } catch (err) {
-      setLoadError("Couldn't save your changes. Try again.");
+      setLoadError("无法保存你的更改。请重试。");
       logger.error('Error saving character:', err);
     } finally {
       setSaving(false);
@@ -157,15 +157,15 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   };
 
   if (loading) {
-    return <LoadingState message="Loading character data..." />;
+    return <LoadingState message="正在加载角色数据……" />;
   }
 
   // Only show full-page error for load errors, not portrait errors
   if (loadError || !editingCharacter || !world) {
     return (
       <PageError
-        title="Character Not Found"
-        message={loadError || 'The requested character could not be found or loaded.'}
+        title="未找到角色"
+        message={loadError || "找不到或无法加载所请求的角色。"}
         showRetry={true}
         onRetry={() => router.push('/characters')}
       />
@@ -174,7 +174,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
   
   return (
     <div className="component-character-editor">
-      <CollapsibleSection title="Character Portrait" initialCollapsed={true} >
+      <CollapsibleSection title="角色肖像" initialCollapsed={true} >
         <PortraitSection
           portrait={editingCharacter.portrait}
           characterName={editingCharacter.name}
@@ -188,7 +188,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Basic Information" >
+      <CollapsibleSection title="基本信息" >
         <BasicInfoForm
           name={editingCharacter.name}
           level={editingCharacter.level}
@@ -199,7 +199,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Background" initialCollapsed={true} >
+      <CollapsibleSection title="背景" initialCollapsed={true} >
         <BackgroundForm
           background={editingCharacter.background}
           onBackgroundChange={(background) => setEditingCharacter({
@@ -209,7 +209,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Attributes" initialCollapsed={true} >
+      <CollapsibleSection title="属性" initialCollapsed={true} >
         <AttributesForm
           attributes={editingCharacter.attributes.map(attr => ({ attributeId: attr.worldAttributeId || attr.id, value: attr.baseValue }))}
           world={world}
@@ -223,7 +223,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Skills" initialCollapsed={true} >
+      <CollapsibleSection title="技能" initialCollapsed={true} >
         <SkillsForm
           skills={editingCharacter.skills.map(skill => ({
             skillId: skill.worldSkillId || skill.id,
@@ -245,7 +245,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
       <div className="character-editor-actions">
         {!isPoolValid && (
           <p className="character-editor-validation-warning" role="alert">
-            Point pool budget exceeded. Adjust your attributes or skills before saving.
+            点数池预算已超出。请先调整属性或技能，再保存。
           </p>
         )}
         <ActionButtonGroup
@@ -253,13 +253,13 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           gap="md"
           actions={[
             {
-              label: 'Cancel',
+              label: "取消",
               onClick: handleCancel,
               variant: 'secondary',
               disabled: saving,
             },
             {
-              label: saving ? 'Saving...' : 'Save Changes',
+              label: saving ? "保存中……" : "保存更改",
               onClick: handleSave,
               variant: 'primary',
               disabled: saving || !isPoolValid,
@@ -275,7 +275,7 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
           onClick={() => setShowDeleteDialog(true)}
           disabled={saving}
         >
-          Delete Character
+          删除角色
         </button>
       </div>
 
@@ -283,11 +283,11 @@ const CharacterEditor: React.FC<CharacterEditorProps> = ({ characterId }) => {
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDelete}
-        title="Delete Character"
-        description={`Are you sure you want to delete "${editingCharacter.name}"? This action cannot be undone.`}
+        title="删除角色"
+        description={`确定要删除“${editingCharacter.name}”吗？此操作无法撤销。`}
         itemName={editingCharacter.name}
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
+        confirmButtonText="删除"
+        cancelButtonText="取消"
       />
     </div>
   );

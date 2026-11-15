@@ -47,7 +47,7 @@ describe('createAcquisitionJournalEntry', () => {
     expect(entry.title).toContain('Rusty Sword');
     expect(entry.metadata.tags).toContain('equipment');
     // Content should be human-readable prose, not raw "Category: equipment" field
-    expect(entry.content).not.toContain('Category:');
+    expect(entry.content).not.toContain("类别：");
     expect(entry.content).not.toContain('Method:');
   });
 
@@ -59,7 +59,7 @@ describe('createAcquisitionJournalEntry', () => {
     );
 
     expect(entry.content).toContain('Found in the abandoned castle');
-    expect(entry.content).toContain('as loot');
+    expect(entry.content).toContain("作为战利品");
     expect(entry.content).toContain('Rusty Sword');
   });
 
@@ -145,7 +145,7 @@ describe('createAcquisitionJournalEntry', () => {
     );
 
     expect(entry.content).toContain('Rusty Sword');
-    expect(entry.content).toContain('as loot');
+    expect(entry.content).toContain("作为战利品");
   });
 
   it('includes quantity in entry for multiple items', () => {

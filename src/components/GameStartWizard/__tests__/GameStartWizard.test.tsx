@@ -105,8 +105,8 @@ describe('GameStartWizard', () => {
   it('should show progress indicator for current step', () => {
     render(<GameStartWizard />);
     
-    expect(screen.getByText(/step 1 of 3/i)).toBeInTheDocument();
-    expect(screen.getByText(/select world/i, { selector: 'span' })).toBeInTheDocument();
+    expect(screen.getByText(/步骤 1 \/ 3/i)).toBeInTheDocument();
+    expect(screen.getByText(/选择世界/i, { selector: 'span' })).toBeInTheDocument();
   });
 
   it('should progress to character selection when world is selected', () => {
@@ -116,8 +116,8 @@ describe('GameStartWizard', () => {
     
     expect(screen.queryByText('Select a World')).not.toBeInTheDocument();
     expect(screen.getByText('Select a Character')).toBeInTheDocument();
-    expect(screen.getByText(/step 2 of 3/i)).toBeInTheDocument();
-    expect(screen.getByText(/select character/i, { selector: 'span' })).toBeInTheDocument();
+    expect(screen.getByText(/步骤 2 \/ 3/i)).toBeInTheDocument();
+    expect(screen.getByText(/选择角色/i, { selector: 'span' })).toBeInTheDocument();
   });
 
   it('should pass selected world ID to character selection step', () => {
@@ -138,8 +138,8 @@ describe('GameStartWizard', () => {
     
     expect(screen.queryByText('Select a Character')).not.toBeInTheDocument();
     expect(screen.getByText('Ready to Play')).toBeInTheDocument();
-    expect(screen.getByText(/step 3 of 3/i)).toBeInTheDocument();
-    expect(screen.getByText(/ready to play/i, { selector: 'span' })).toBeInTheDocument();
+    expect(screen.getByText(/步骤 3 \/ 3/i)).toBeInTheDocument();
+    expect(screen.getByText(/准备开始/i, { selector: 'span' })).toBeInTheDocument();
   });
 
   it('should pass selected IDs to game ready step', () => {
@@ -224,7 +224,7 @@ describe('GameStartWizard', () => {
     render(<GameStartWizard onCancel={mockOnCancel} />);
     
     // Assuming wizard has a cancel button
-    const cancelButton = screen.getByRole('button', { name: /cancel/i });
+    const cancelButton = screen.getByRole('button', { name: /取消/i });
     fireEvent.click(cancelButton);
     
     expect(mockOnCancel).toHaveBeenCalled();

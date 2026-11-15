@@ -65,12 +65,12 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     // Nothing chosen yet — nothing to disclose.
-    expect(screen.queryByText(/human raters/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/人工评分员/i)).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
 
-    expect(screen.getByText(/human raters/i)).toBeInTheDocument();
-    expect(screen.getByText(/safety-filter setting/i)).toBeInTheDocument();
+    expect(screen.getByText(/人工评分员/i)).toBeInTheDocument();
+    expect(screen.getByText(/安全过滤设置/i)).toBeInTheDocument();
   });
 
   test('walks preset -> connect -> verify -> save and stores the provider', async () => {
@@ -90,15 +90,15 @@ describe('ProviderWizard', () => {
 
     // Step 0: pick Gemini.
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // Step 1: enter the key (name + model are prefilled from the preset).
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // Step 2: verify, then save.
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
-    await screen.findByText(/connected\. save provider to finish/i);
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
+    await screen.findByText(/已连接/i);
 
     expect(mockValidate).toHaveBeenCalledWith(
       expect.objectContaining({ apiKey: 'AIza-test-key', type: 'gemini' })
@@ -109,7 +109,7 @@ describe('ProviderWizard', () => {
     window.dispatchEvent(unsavedExit);
     expect(unsavedExit.defaultPrevented).toBe(true);
 
-    await user.click(screen.getByRole('button', { name: /save provider/i }));
+    await user.click(screen.getByRole('button', { name: /保存模型服务/i }));
 
     await waitFor(() => expect(onComplete).toHaveBeenCalled());
     const savedExit = new Event('beforeunload', { cancelable: true });
@@ -127,17 +127,17 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard onCancel={onCancel} />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'test-key');
-    await user.click(screen.getByRole('button', { name: /^cancel$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'test-key');
+    await user.click(screen.getByRole('button', { name: /^取消$/i }));
 
-    expect(screen.getByRole('dialog')).toHaveTextContent(/provider hasn't been saved/i);
+    expect(screen.getByRole('dialog')).toHaveTextContent(/此模型服务尚未保存/i);
     expect(onCancel).not.toHaveBeenCalled();
-    await user.click(screen.getByRole('button', { name: /keep editing/i }));
-    expect(screen.getByLabelText(/api key/i)).toHaveValue('test-key');
+    await user.click(screen.getByRole('button', { name: /继续编辑/i }));
+    expect(screen.getByLabelText(/API 密钥/i)).toHaveValue('test-key');
 
-    await user.click(screen.getByRole('button', { name: /^cancel$/i }));
-    await user.click(screen.getByRole('button', { name: /discard provider/i }));
+    await user.click(screen.getByRole('button', { name: /^取消$/i }));
+    await user.click(screen.getByRole('button', { name: /放弃模型服务/i }));
     expect(onCancel).toHaveBeenCalledTimes(1);
     const discardedExit = new Event('beforeunload', { cancelable: true });
     window.dispatchEvent(discardedExit);
@@ -161,24 +161,24 @@ describe('ProviderWizard', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'test-key');
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'test-key');
 
     // Click in-app link with unsaved key entered
     await user.click(screen.getByRole('link', { name: 'Worlds' }));
 
-    expect(screen.getByRole('dialog')).toHaveTextContent(/provider hasn't been saved/i);
+    expect(screen.getByRole('dialog')).toHaveTextContent(/此模型服务尚未保存/i);
     expect(mockPush).not.toHaveBeenCalled();
 
     // User chooses to keep editing
-    await user.click(screen.getByRole('button', { name: /keep editing/i }));
+    await user.click(screen.getByRole('button', { name: /继续编辑/i }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByLabelText(/api key/i)).toHaveValue('test-key');
+    expect(screen.getByLabelText(/API 密钥/i)).toHaveValue('test-key');
     expect(mockPush).not.toHaveBeenCalled();
 
     // User clicks link again and chooses to discard
     await user.click(screen.getByRole('link', { name: 'Worlds' }));
-    await user.click(screen.getByRole('button', { name: /discard provider/i }));
+    await user.click(screen.getByRole('button', { name: /放弃模型服务/i }));
     expect(mockPush).toHaveBeenCalledWith('/worlds');
   });
 
@@ -189,14 +189,14 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'bad-key');
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'bad-key');
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
 
-    expect(await screen.findByText(/that key was rejected/i)).toBeInTheDocument();
+    expect(await screen.findByText(/密钥被拒绝/i)).toBeInTheDocument();
     // Save stays disabled until a successful check.
-    expect(screen.getByRole('button', { name: /save provider/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /保存模型服务/i })).toBeDisabled();
   });
 
   test('masks the key by default and reveals it only while toggled on', async () => {
@@ -205,37 +205,37 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    const keyField = screen.getByLabelText(/api key/i);
+    const keyField = screen.getByLabelText(/API 密钥/i);
     await user.type(keyField, 'AIza-test-key');
     expect(keyField).toHaveAttribute('type', 'password');
 
-    const toggle = screen.getByRole('button', { name: /show key/i });
+    const toggle = screen.getByRole('button', { name: /显示密钥/i });
     expect(toggle).toHaveAttribute('aria-pressed', 'false');
     // Must not double as the wizard's submit control.
     expect(toggle).toHaveAttribute('type', 'button');
 
     await user.click(toggle);
     expect(keyField).toHaveAttribute('type', 'text');
-    expect(screen.getByRole('button', { name: /hide key/i })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: /隐藏密钥/i })).toHaveAttribute(
       'aria-pressed',
       'true'
     );
 
-    await user.click(screen.getByRole('button', { name: /hide key/i }));
+    await user.click(screen.getByRole('button', { name: /隐藏密钥/i }));
     expect(keyField).toHaveAttribute('type', 'password');
-    expect(screen.getByRole('button', { name: /show key/i })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: /显示密钥/i })).toHaveAttribute(
       'aria-pressed',
       'false'
     );
 
     // Leaving the step re-masks, so a revealed key never survives navigation.
-    await user.click(screen.getByRole('button', { name: /show key/i }));
+    await user.click(screen.getByRole('button', { name: /显示密钥/i }));
     expect(keyField).toHaveAttribute('type', 'text');
-    await user.click(screen.getByRole('button', { name: /^back$/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    expect(screen.getByLabelText(/api key/i)).toHaveAttribute('type', 'password');
+    await user.click(screen.getByRole('button', { name: /^返回$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    expect(screen.getByLabelText(/API 密钥/i)).toHaveAttribute('type', 'password');
   });
 
   /**
@@ -252,14 +252,14 @@ describe('ProviderWizard', () => {
 
     // The address is the player's, so it starts blank rather than pre-filled
     // with an example they might leave in place.
-    const endpoint = screen.getByLabelText(/endpoint url/i);
+    const endpoint = screen.getByLabelText(/端点 URL/i);
     expect(endpoint).toHaveValue('');
     await user.type(endpoint, 'https://ollama.example.net/v1/chat/completions');
 
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // A text field, not a menu — a menu here would offer nothing.
-    const model = screen.getByLabelText(/^model$/i);
+    const model = screen.getByLabelText(/^模型$/i);
     expect(model.tagName).toBe('INPUT');
     expect(model).toHaveValue('llama3.2');
   });
@@ -277,24 +277,24 @@ describe('ProviderWizard', () => {
 
     await user.click(screen.getByRole('button', { name: /ollama/i }));
     await user.type(
-      screen.getByLabelText(/endpoint url/i),
+      screen.getByLabelText(/端点 URL/i),
       'https://ollama.example.net/v1/chat/completions'
     );
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // The key field is still there for a protected tunnel, but leaving it empty
     // must not block the step the way it does for a hosted service.
-    expect(screen.getByRole('button', { name: /^next$/i })).not.toBeDisabled();
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    expect(screen.getByRole('button', { name: /^下一步$/i })).not.toBeDisabled();
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
-    await screen.findByText(/connected/i);
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
+    await screen.findByText(/已连接/i);
 
     expect(mockValidate).toHaveBeenCalledWith(
       expect.objectContaining({ apiKey: KEYLESS_PROVIDER_KEY, type: 'ollama' })
     );
 
-    await user.click(screen.getByRole('button', { name: /save provider/i }));
+    await user.click(screen.getByRole('button', { name: /保存模型服务/i }));
 
     await waitFor(() => expect(onComplete).toHaveBeenCalled());
     const providers = Object.values(useProviderStore.getState().providers);
@@ -313,17 +313,17 @@ describe('ProviderWizard', () => {
 
     await user.click(screen.getByRole('button', { name: /ollama/i }));
     await user.type(
-      screen.getByLabelText(/endpoint url/i),
+      screen.getByLabelText(/端点 URL/i),
       'https://ollama.example.net/v1/chat/completions'
     );
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
 
     // Not the hosted wording, which would send them looking at a dashboard
     // that does not exist.
-    expect(await screen.findByText(/install it there/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /setup guide/i })).toBeInTheDocument();
+    expect(await screen.findByText(/安装/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /设置指南/i })).toBeInTheDocument();
   });
 
   /**
@@ -339,15 +339,15 @@ describe('ProviderWizard', () => {
 
     await user.click(screen.getByRole('button', { name: /ollama/i }));
     await user.type(
-      screen.getByLabelText(/endpoint url/i),
+      screen.getByLabelText(/端点 URL/i),
       'https://ollama.example.net/v1/chat/completions'
     );
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
 
-    expect(await screen.findByText(/refused the request/i)).toBeInTheDocument();
-    expect(screen.queryByText(/that key was rejected/i)).not.toBeInTheDocument();
+    expect(await screen.findByText(/拒绝了请求/i)).toBeInTheDocument();
+    expect(screen.queryByText(/密钥被拒绝/i)).not.toBeInTheDocument();
   });
 
   test('still demands a key for a hosted preset', async () => {
@@ -356,9 +356,9 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    expect(screen.getByRole('button', { name: /^next$/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^下一步$/i })).toBeDisabled();
   });
 
   test('loads models live on clicking Load models and filters with search', async () => {
@@ -374,10 +374,10 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    const loadBtn = screen.getByRole('button', { name: /load models/i });
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    const loadBtn = screen.getByRole('button', { name: /加载模型/i });
     await user.click(loadBtn);
 
     expect(mockDiscover).toHaveBeenCalledWith(
@@ -385,10 +385,10 @@ describe('ProviderWizard', () => {
     );
 
     // Filtered Select and search should appear
-    const searchInput = await screen.findByLabelText(/search models/i);
+    const searchInput = await screen.findByLabelText(/搜索模型/i);
     expect(searchInput).toBeInTheDocument();
 
-    const modelSelect = screen.getByLabelText(/^model$/i);
+    const modelSelect = screen.getByLabelText(/^模型$/i);
     expect(modelSelect.tagName).toBe('SELECT');
 
     // Filter by search query
@@ -407,29 +407,29 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /ollama/i }));
-    await user.type(screen.getByLabelText(/endpoint url/i), 'https://ollama-a.example.com');
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.type(screen.getByLabelText(/端点 URL/i), 'https://ollama-a.example.com');
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
     expect(await screen.findByRole('option', { name: /config a model/i })).toBeInTheDocument();
 
-    const keyField = screen.getByLabelText(/api key/i);
+    const keyField = screen.getByLabelText(/API 密钥/i);
     await user.type(keyField, 'key-for-config-a');
     await waitFor(() => {
       expect(screen.queryByRole('option', { name: /config a model/i })).not.toBeInTheDocument();
     });
 
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
     expect(await screen.findByRole('option', { name: /config b model/i })).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /^back$/i }));
-    const endpointField = screen.getByLabelText(/endpoint url/i);
+    await user.click(screen.getByRole('button', { name: /^返回$/i }));
+    const endpointField = screen.getByLabelText(/端点 URL/i);
     await user.clear(endpointField);
     await user.type(endpointField, 'https://ollama-b.example.com');
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     await waitFor(() => {
       expect(screen.queryByRole('option', { name: /config b model/i })).not.toBeInTheDocument();
-      expect(screen.getByLabelText(/^model$/i).tagName).toBe('INPUT');
+      expect(screen.getByLabelText(/^模型$/i).tagName).toBe('INPUT');
     });
   });
 
@@ -446,18 +446,18 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-original-key');
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-original-key');
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
-    const keyField = screen.getByLabelText(/api key/i);
+    const keyField = screen.getByLabelText(/API 密钥/i);
     await user.clear(keyField);
     await user.type(keyField, 'AIza-changed-key');
     resolveDiscovery({ models: [{ id: 'stale-model', name: 'Stale model' }] });
 
     await waitFor(() => {
       expect(screen.queryByRole('option', { name: /stale model/i })).not.toBeInTheDocument();
-      expect(screen.getByLabelText(/^model$/i).tagName).toBe('INPUT');
+      expect(screen.getByLabelText(/^模型$/i).tagName).toBe('INPUT');
     });
   });
 
@@ -473,22 +473,22 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
-    const modelSelect = await screen.findByLabelText(/^model$/i);
+    const modelSelect = await screen.findByLabelText(/^模型$/i);
     // Model should be cleared to empty string because gemini-2.5-flash was omitted
     expect(modelSelect).toHaveValue('');
 
     // Next must be disabled until user explicitly chooses
-    expect(screen.getByRole('button', { name: /^next$/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^下一步$/i })).toBeDisabled();
 
     // Explicitly choose an option
     await user.selectOptions(modelSelect, 'gemini-other-1');
     expect(modelSelect).toHaveValue('gemini-other-1');
-    expect(screen.getByRole('button', { name: /^next$/i })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: /^下一步$/i })).not.toBeDisabled();
   });
 
   test('preserves a model the player deliberately entered before discovery', async () => {
@@ -503,16 +503,16 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    const modelInput = screen.getByLabelText(/^model$/i);
+    const modelInput = screen.getByLabelText(/^模型$/i);
     await user.clear(modelInput);
     await user.type(modelInput, 'my-deliberate-model');
 
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
-    const select = await screen.findByLabelText(/^model$/i);
+    const select = await screen.findByLabelText(/^模型$/i);
     expect(select).toHaveValue('my-deliberate-model');
   });
 
@@ -526,24 +526,24 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
     // Error message appears
-    expect(await screen.findByText(/could not reach provider to load models/i)).toBeInTheDocument();
+    expect(await screen.findByText(/无法连接模型服务以加载模型/i)).toBeInTheDocument();
 
     // Input remains available for manual typing
-    const modelInput = screen.getByLabelText(/^model$/i);
+    const modelInput = screen.getByLabelText(/^模型$/i);
     expect(modelInput.tagName).toBe('INPUT');
     await user.clear(modelInput);
     await user.type(modelInput, 'manual-fallback-model');
 
     // Next is enabled and can proceed to verify step
-    expect(screen.getByRole('button', { name: /^next$/i })).not.toBeDisabled();
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    expect(screen.getByRole('button', { name: /test connection/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^下一步$/i })).not.toBeDisabled();
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    expect(screen.getByRole('button', { name: /测试连接/i })).toBeInTheDocument();
   });
 
   test('allows toggling between discovered list and manual model entry', async () => {
@@ -555,25 +555,25 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-test-key');
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-test-key');
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
     // Discovered models dropdown is visible
-    expect(await screen.findByLabelText(/search models/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/^model$/i).tagName).toBe('SELECT');
+    expect(await screen.findByLabelText(/搜索模型/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^模型$/i).tagName).toBe('SELECT');
 
     // Toggle to manual entry
-    const toggleBtn = screen.getByRole('button', { name: /enter model id manually/i });
+    const toggleBtn = screen.getByRole('button', { name: /手动输入模型 ID/i });
     await user.click(toggleBtn);
 
-    expect(screen.queryByLabelText(/search models/i)).not.toBeInTheDocument();
-    expect(screen.getByLabelText(/^model$/i).tagName).toBe('INPUT');
+    expect(screen.queryByLabelText(/搜索模型/i)).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/^模型$/i).tagName).toBe('INPUT');
 
     // Toggle back to discovered models
-    await user.click(screen.getByRole('button', { name: /select from discovered models/i }));
-    expect(screen.getByLabelText(/search models/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/^model$/i).tagName).toBe('SELECT');
+    await user.click(screen.getByRole('button', { name: /从已发现的模型中选择/i }));
+    expect(screen.getByLabelText(/搜索模型/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^模型$/i).tagName).toBe('SELECT');
   });
 
   test('ignores late validation response if credentials change while in flight', async () => {
@@ -589,22 +589,22 @@ describe('ProviderWizard', () => {
     render(<ProviderWizard />);
 
     await user.click(screen.getByRole('button', { name: /google gemini/i }));
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
-    await user.type(screen.getByLabelText(/api key/i), 'AIza-original-key');
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
+    await user.type(screen.getByLabelText(/API 密钥/i), 'AIza-original-key');
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // Start verification in step 2
-    await user.click(screen.getByRole('button', { name: /test connection/i }));
-    expect(screen.getByRole('button', { name: /checking.../i })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /测试连接/i }));
+    expect(screen.getByRole('button', { name: /检查中……/i })).toBeInTheDocument();
 
     // Go back and change the API key
-    await user.click(screen.getByRole('button', { name: /^back$/i }));
-    const keyField = screen.getByLabelText(/api key/i);
+    await user.click(screen.getByRole('button', { name: /^返回$/i }));
+    const keyField = screen.getByLabelText(/API 密钥/i);
     await user.clear(keyField);
     await user.type(keyField, 'AIza-changed-key');
 
     // Navigate back to verify step
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // Late resolution of the original validation
     resolveValidation({
@@ -615,7 +615,7 @@ describe('ProviderWizard', () => {
 
     // Save provider MUST remain disabled because configuration changed!
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /save provider/i })).toBeDisabled();
+      expect(screen.getByRole('button', { name: /保存模型服务/i })).toBeDisabled();
     });
   });
 
@@ -632,24 +632,24 @@ describe('ProviderWizard', () => {
 
     // Select Ollama preset on step 0 (which renders CustomProviderForm because requiresEndpoint: true)
     await user.click(screen.getByRole('button', { name: /ollama/i }));
-    expect(screen.getByLabelText(/endpoint url/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/端点 URL/i)).toBeInTheDocument();
 
     // Fill in endpoint and model on step 0
-    await user.type(screen.getByLabelText(/endpoint url/i), 'https://ollama.example.com');
-    const modelInputStep0 = screen.getByLabelText(/^model$/i);
+    await user.type(screen.getByLabelText(/端点 URL/i), 'https://ollama.example.com');
+    const modelInputStep0 = screen.getByLabelText(/^模型$/i);
     await user.clear(modelInputStep0);
     await user.type(modelInputStep0, 'custom-model:v1');
 
     // Advance to step 1
-    await user.click(screen.getByRole('button', { name: /^next$/i }));
+    await user.click(screen.getByRole('button', { name: /^下一步$/i }));
 
     // Click Load models
-    await user.click(screen.getByRole('button', { name: /load models/i }));
+    await user.click(screen.getByRole('button', { name: /加载模型/i }));
 
     // The deliberately entered model 'custom-model:v1' must be preserved and selected in the Select
     await waitFor(() => {
-      expect(screen.getByLabelText(/search models/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/^model$/i)).toHaveValue('custom-model:v1');
+      expect(screen.getByLabelText(/搜索模型/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^模型$/i)).toHaveValue('custom-model:v1');
     });
   });
 });

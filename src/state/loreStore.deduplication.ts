@@ -155,8 +155,8 @@ export function mergeFactsImpl(
   } catch (error) {
     logger.error('[LoreStore] Error merging facts', error);
     context.setError({
-      title: 'Merge Failed',
-      message: 'Failed to merge facts',
+      title: "合并失败",
+      message: "合并设定条目失败",
       retryable: false,
       type: ErrorType.SERVICE,
       severity: 'error',

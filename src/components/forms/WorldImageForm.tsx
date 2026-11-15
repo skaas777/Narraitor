@@ -40,19 +40,19 @@ const WorldImageForm: React.FC<WorldImageFormProps> = ({ world, onChange }) => {
 
   return (
     <ImageGenerationSection
-      title="World Image"
-      description="A generated environmental image for your world. It appears on world cards and as the hero image on the world details page."
+      title="世界图片"
+      description="为你的世界生成的环境图像。它会显示在世界卡片上，并作为世界详情页的主图。"
       currentImageUrl={world.image?.url}
       currentImageType={world.image?.type}
       isGenerating={isGenerating}
       onGenerate={handleGenerateImage}
       onRemove={handleRemoveImage}
-      customPromptLabel="Customize description for world image generation"
-      customPromptPlaceholder="Describe the specific visual elements you want in the world image (landscape, architecture, atmosphere, etc.)"
-      customPromptHelpText="This will override the auto-generated prompt based on world details for this generation only"
-      generateButtonText="Generate World Image"
-      regenerateButtonText="Regenerate World Image"
-      removeButtonText="Remove World Image"
+      customPromptLabel="自定义世界图像生成描述"
+      customPromptPlaceholder="描述世界图片中的具体元素，例如景观、建筑和氛围。"
+      customPromptHelpText="这将覆盖基于世界详情自动生成的提示词，仅对本次生成生效"
+      generateButtonText="生成世界图像"
+      regenerateButtonText="重新生成世界图像"
+      removeButtonText="移除世界图像"
       generateButtonVariant="secondary"
       imageComponent={
         <WorldImageComponent

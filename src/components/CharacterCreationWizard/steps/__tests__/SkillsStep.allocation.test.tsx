@@ -109,7 +109,7 @@ describe('SkillsStep - skill point allocation', () => {
     renderSkillsStep();
 
     expect(
-      screen.getByText(/Unspent points are allowed if you want to create a less experienced character/)
+      screen.getByText(/也可以保留未使用的技能点/)
     ).toBeInTheDocument();
   });
 
@@ -117,7 +117,7 @@ describe('SkillsStep - skill point allocation', () => {
   it('shows plain-language guidance for leftover skill points', () => {
     renderSkillsStep();
 
-    expect(screen.getByText(/skill points left to spend/i)).toBeInTheDocument();
+    expect(screen.getByText(/点技能点可分配/i)).toBeInTheDocument();
   });
 
   it('clamps skill level changes to the available point pool', () => {
@@ -207,11 +207,11 @@ describe('SkillsStep - skill point allocation', () => {
       },
     });
 
-    expect(screen.getByRole('button', { name: 'Stealth, selected' })).toHaveAccessibleName(
-      'Stealth, selected'
+    expect(screen.getByRole('button', { name: "Stealth，已选择" })).toHaveAccessibleName(
+      "Stealth，已选择"
     );
     expect(
-      screen.getByRole('button', { name: 'Athletics, not selected' })
-    ).toHaveAccessibleName('Athletics, not selected');
+      screen.getByRole('button', { name: "Athletics，未选择" })
+    ).toHaveAccessibleName("Athletics，未选择");
   });
 });

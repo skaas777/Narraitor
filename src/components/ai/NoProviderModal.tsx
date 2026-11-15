@@ -30,16 +30,16 @@ export function NoProviderModal({ isOpen, onConfigure }: NoProviderModalProps) {
     <SimpleModal
       isOpen={isOpen}
       onClose={() => {}}
-      title="Connect a provider to play"
+      title="连接模型服务以开始游戏"
       showCloseButton={false}
       closeOnBackdropClick={false}
       closeOnEscape={false}
-      description="Stories are generated with your own provider key, kept in this browser. Add one to start playing."
+      description="故事将使用你自己的模型服务密钥生成，密钥保存在此浏览器中。添加一个即可开始游戏。"
     >
       <div className="component-no-provider-modal">
         <div className="no-provider-actions">
           <Button variant="default" onClick={handleConfigure}>
-            Set up a provider
+            设置模型服务
           </Button>
         </div>
       </div>

@@ -156,7 +156,7 @@ function buildCharacterContext(
   // In a full implementation, this would query the character store and use world data
   return characterIds.map((id) => ({
     characterId: id,
-    name: `Character ${id}`,
+    name: `角色 ${id}`,
     relevantTraits: [],
   }));
 }

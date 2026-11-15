@@ -69,35 +69,33 @@ export function GameSessionRecoveryPrompt({
           </div>
           <div className="game-session-recovery-prompt-body">
             <DialogTitle className="game-session-recovery-prompt-title">
-              Welcome back — pick up where you left off?
+              欢迎回来——要从上次中断处继续吗？
             </DialogTitle>
             <p
               id="game-session-recovery-desc"
               className="game-session-recovery-prompt-lead"
             >
-              Your last session ended before you could save your spot. Don&apos;t
-              worry — your story was kept safe. Jump back in right where you left
-              off.
+              上次冒险记录在你保存进度前就结束了。别担心——你的故事已安全保留。现在就从上次离开的地方继续吧。
             </p>
             <dl className="game-session-recovery-prompt-details">
               <div className="game-session-recovery-prompt-detail">
-                <dt>World</dt>
+                <dt>世界</dt>
                 <dd>{worldName}</dd>
               </div>
               <div className="game-session-recovery-prompt-detail">
-                <dt>Character</dt>
+                <dt>角色</dt>
                 <dd>{characterName}</dd>
               </div>
               {narrativeCount > 0 && (
                 <div className="game-session-recovery-prompt-detail">
-                  <dt>Progress</dt>
+                  <dt>进度</dt>
                   <dd>
                     {narrativeCount} {narrativeCount === 1 ? 'scene' : 'scenes'}
                   </dd>
                 </div>
               )}
               <div className="game-session-recovery-prompt-detail">
-                <dt>Last played</dt>
+                <dt>上次游玩</dt>
                 <dd>{relativeTime}</dd>
               </div>
             </dl>
@@ -105,17 +103,17 @@ export function GameSessionRecoveryPrompt({
               <Button
                 variant="outline"
                 onClick={onDismiss}
-                aria-label="Dismiss recovery and start fresh"
+                aria-label="关闭恢复提示并重新开始"
               >
-                Start fresh
+                重新开始
               </Button>
               <Button
                 ref={continueButtonRef}
                 variant="default"
                 onClick={onRestore}
-                aria-label="Continue your recovered adventure"
+                aria-label="继续已恢复的冒险"
               >
-                Continue adventure
+                继续冒险
               </Button>
             </div>
           </div>

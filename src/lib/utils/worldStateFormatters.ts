@@ -47,10 +47,10 @@ export function describeCharacterRelationship(relationship: CharacterRelationshi
 
   const trust =
     relationship.trust > 70
-      ? 'high trust'
+      ? "高度信任"
       : relationship.trust < 30
-        ? 'low trust'
-        : 'guarded trust';
+        ? "低度信任"
+        : "谨慎信任";
 
   const tension =
     relationship.tension > 60

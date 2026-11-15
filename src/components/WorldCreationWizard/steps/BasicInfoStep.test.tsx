@@ -27,7 +27,7 @@ describe('BasicInfoStep', () => {
       />
     );
 
-    expect(screen.getByPlaceholderText(/enter your world's name/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/输入你的世界名称/i)).toBeInTheDocument();
     expect(screen.getByTestId('world-genre-select')).toBeInTheDocument();
   });
 
@@ -42,11 +42,11 @@ describe('BasicInfoStep', () => {
       />
     );
 
-    expect(screen.getByLabelText('World Name (optional)')).toBe(
+    expect(screen.getByLabelText("世界名称（可选）")).toBe(
       screen.getByTestId('world-name-input')
     );
     // The Genre label renders a trailing required marker, so match by prefix
-    expect(screen.getByLabelText(/^genre/i)).toBe(
+    expect(screen.getByLabelText(/^题材/i)).toBe(
       screen.getByTestId('world-genre-select')
     );
   });
@@ -65,7 +65,7 @@ describe('BasicInfoStep', () => {
     );
 
     // Should display the error
-    expect(screen.getByText('World name must be at least 3 characters')).toBeInTheDocument();
+    expect(screen.getByText("世界名称至少需要 3 个字符")).toBeInTheDocument();
   });
 
 
@@ -96,7 +96,7 @@ describe('BasicInfoStep', () => {
     expect(screen.getByLabelText('World preview')).toHaveTextContent('Genre: fantasy');
 
     // Change name
-    fireEvent.change(screen.getByPlaceholderText(/enter your world's name/i), {
+    fireEvent.change(screen.getByPlaceholderText(/输入你的世界名称/i), {
       target: { value: 'My New World' },
     });
     expect(screen.getByLabelText('World preview')).toHaveTextContent('Name: My New World');
@@ -139,7 +139,7 @@ describe('BasicInfoStep', () => {
       />
     );
 
-    expect(screen.getByText('Name is too short')).toBeInTheDocument();
+    expect(screen.getByText("操作未能完成，请稍后重试。")).toBeInTheDocument();
   });
 
   test('renders provider key requirement disclosure with accessible alert role', () => {
@@ -155,12 +155,12 @@ describe('BasicInfoStep', () => {
     expect(disclosure).toBeInTheDocument();
     expect(disclosure).toHaveAttribute('role', 'alert');
     expect(disclosure).toHaveTextContent(
-      /Narraitor runs on your own provider key \(Google Gemini, OpenAI, OpenRouter, or a model you host yourself\)/i
+      /Narraitor 使用你自己的模型服务密钥运行/
     );
     expect(disclosure).toHaveTextContent(
-      /stored only in your browser, and there's no account needed/i
+      /密钥仅存储在浏览器中，无需账户/
     );
-    expect(screen.getByRole('link', { name: 'Set up a provider' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: "设置模型服务" })).toHaveAttribute(
       'href',
       '/settings/providers'
     );
@@ -205,7 +205,7 @@ describe('BasicInfoStep', () => {
     const radios = screen.getAllByRole('radio');
     expect(radios.length).toBeGreaterThanOrEqual(3);
     radios.forEach(radio => {
-      expect(radio).toHaveAttribute('name', 'world-type');
+      expect(radio).toHaveAttribute("name", 'world-type');
     });
   });
 });

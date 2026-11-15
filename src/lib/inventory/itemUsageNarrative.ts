@@ -51,18 +51,18 @@ export function buildUsageNarrative(
 
   if (tone === 'detailed') {
     narrativeParts.push(
-      `You use ${previousQuantity === 1 ? 'the' : 'one of the'} ${item.name}${item.description ? `. ${item.description}` : '.'}`
+      `你使用了${previousQuantity === 1 ? '' : '其中一件 '}${item.name}。${item.description || ''}`
     );
   } else {
     if (usageDetails.wasConsumed) {
       narrativeParts.push(
         remainingQuantity > 0
-          ? `You use one of the ${item.name}, leaving ${remainingQuantity} remaining.`
-          : `You use the last of the ${item.name}.`
+          ? `你使用了其中一件 ${item.name}，还剩 ${remainingQuantity} 件。`
+          : `你用完了最后一件 ${item.name}。`
       );
     } else {
       narrativeParts.push(
-        `You use the ${item.name}${item.description ? `. ${item.description}` : '.'}`
+        `你使用了${item.name}。${item.description || ''}`
       );
     }
 
@@ -72,12 +72,12 @@ export function buildUsageNarrative(
   if (usageDetails.wasConsumed) {
     narrativeParts.push(
       remainingQuantity > 0
-        ? `You still have ${remainingQuantity} ${remainingQuantity === 1 ? 'remaining' : 'remaining pieces'} to draw upon.`
-        : 'That was the last of this item.'
+        ? `你还剩 ${remainingQuantity} 件可用。`
+        : "那已是这件物品的最后一件。"
     );
   } else {
     narrativeParts.push(
-      'The item remains firmly in your grasp as the moment passes.'
+      "片刻过去，物品仍稳稳留在你手中。"
     );
   }
 

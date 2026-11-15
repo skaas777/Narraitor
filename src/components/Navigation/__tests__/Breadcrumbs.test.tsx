@@ -92,9 +92,9 @@ describe('Breadcrumbs', () => {
     it('has proper ARIA navigation structure and accessible links', () => {
       render(<Breadcrumbs />);
 
-      const breadcrumbNav = screen.getByRole('navigation', { name: /breadcrumb/i });
+      const breadcrumbNav = screen.getByRole('navigation', { name: /面包屑导航/i });
       expect(breadcrumbNav).toBeInTheDocument();
-      expect(breadcrumbNav).toHaveAttribute('aria-label', 'Breadcrumb');
+      expect(breadcrumbNav).toHaveAttribute('aria-label', "面包屑导航");
 
       const allLinks = screen.getAllByRole('link');
       expect(allLinks.length).toBeGreaterThan(0);

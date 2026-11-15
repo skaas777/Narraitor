@@ -16,8 +16,8 @@ function assertNoJargon(text: string) {
 describe('getNarrativeError', () => {
   it('frames network errors as a story pause and offers a narrative recovery', () => {
     const result = getNarrativeError(new Error('network connection failed'));
-    expect(result.title).toBe('The story paused');
-    expect(result.retryLabel).toBe('Continue the story');
+    expect(result.title).toBe("故事暂停了");
+    expect(result.retryLabel).toBe("继续故事");
     expect(result.retryable).toBe(true);
     assertNoJargon(result.title);
     assertNoJargon(result.message);
@@ -29,13 +29,13 @@ describe('getNarrativeError', () => {
     abort.name = 'AbortError';
 
     const result = getNarrativeError(abort);
-    expect(result.title).toBe('The story paused');
+    expect(result.title).toBe("故事暂停了");
     expect(result.retryable).toBe(true);
   });
 
   it('frames rate-limit/service errors as the story needing a moment', () => {
     const result = getNarrativeError(new Error('429 too many requests'));
-    expect(result.title).toBe('The story needs a moment');
+    expect(result.title).toBe("故事需要稍等片刻");
     expect(result.retryable).toBe(true);
     assertNoJargon(result.message);
     assertNoJargon(result.suggestion ?? '');
@@ -45,14 +45,14 @@ describe('getNarrativeError', () => {
     const result = getNarrativeError(new Error('401 unauthorized'));
     expect(result.retryable).toBe(false);
     expect(result.severity).toBe('critical');
-    expect(result.suggestion).toMatch(/Settings/);
+    expect(result.suggestion).toMatch(/设置/);
     assertNoJargon(result.message);
     assertNoJargon(result.suggestion ?? '');
   });
 
   it('frames validation errors as something that did not fit the story and marks them retryable', () => {
     const result = getNarrativeError(new Error('invalid input data'));
-    expect(result.title).toBe('That didn\'t fit the story');
+    expect(result.title).toBe("这与故事不符");
     expect(result.retryable).toBe(true);
     assertNoJargon(result.message);
     assertNoJargon(result.suggestion ?? '');
@@ -60,8 +60,8 @@ describe('getNarrativeError', () => {
 
   it('gives unknown errors a gentle narrative fallback with retry', () => {
     const result = getNarrativeError(new Error('something exploded internally'));
-    expect(result.title).toBe('The story stumbled');
-    expect(result.retryLabel).toBe('Continue the story');
+    expect(result.title).toBe("故事出了岔子");
+    expect(result.retryLabel).toBe("继续故事");
     expect(result.retryable).toBe(true);
     assertNoJargon(result.message);
     assertNoJargon(result.suggestion ?? '');
@@ -70,7 +70,7 @@ describe('getNarrativeError', () => {
   it('marks malformed API response errors as retryable (#2169)', () => {
     const result = getNarrativeError(new Error('Service error: malformed API response'));
     expect(result.retryable).toBe(true);
-    expect(result.retryLabel).toBe('Continue the story');
+    expect(result.retryLabel).toBe("继续故事");
     assertNoJargon(result.title);
     assertNoJargon(result.message);
     assertNoJargon(result.suggestion ?? '');
@@ -79,12 +79,12 @@ describe('getNarrativeError', () => {
   it('marks plain 500 and 503 errors as retryable (#2169)', () => {
     const error500 = getNarrativeError(new Error('500 Internal Server Error'));
     expect(error500.retryable).toBe(true);
-    expect(error500.retryLabel).toBe('Continue the story');
+    expect(error500.retryLabel).toBe("继续故事");
     assertNoJargon(error500.message);
 
     const error503 = getNarrativeError('503 Service Unavailable');
     expect(error503.retryable).toBe(true);
-    expect(error503.retryLabel).toBe('Continue the story');
+    expect(error503.retryLabel).toBe("继续故事");
     assertNoJargon(error503.message);
   });
 
@@ -94,7 +94,7 @@ describe('getNarrativeError', () => {
 
   it('accepts a raw string and still returns clean narrative copy', () => {
     const result = getNarrativeError('network unreachable');
-    expect(result.title).toBe('The story paused');
+    expect(result.title).toBe("故事暂停了");
     assertNoJargon(result.message);
   });
 });

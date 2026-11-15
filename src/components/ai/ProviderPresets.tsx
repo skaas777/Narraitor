@@ -11,7 +11,7 @@ interface ProviderPresetsProps {
 }
 
 const presetPendingNote = (preset: ProviderPreset) =>
-  preset.note ? `Coming soon - ${preset.note}` : 'Coming soon';
+  preset.note ? `即将推出——${preset.note}` : "即将推出";
 
 /**
  * Grid of popular providers. Only the ones that work in this release are

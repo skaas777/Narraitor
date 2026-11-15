@@ -49,7 +49,7 @@ function attemptJsonRepair(jsonStr: string): string {
 /**
  * Parse JSON from AI response with proper error handling and markdown code block support
  */
-export function parseAIJsonResponse<T>(response: AIResponse, errorMessage: string = 'Unable to read the response'): T {
+export function parseAIJsonResponse<T>(response: AIResponse, errorMessage: string = "无法读取响应"): T {
   if (!response.content) {
     throw new Error('The model provider returned no content');
   }
@@ -78,7 +78,7 @@ export function parseAIJsonResponse<T>(response: AIResponse, errorMessage: strin
         }
       }
     } catch (parseError) {
-      const originalError = parseError instanceof Error ? parseError.message : 'Unknown parsing error';
+      const originalError = parseError instanceof Error ? parseError.message : "未知解析错误";
       throw new Error(`${errorMessage}. Original error: ${originalError}. Content: ${response.content?.substring(0, 100)}...`);
     }
   }

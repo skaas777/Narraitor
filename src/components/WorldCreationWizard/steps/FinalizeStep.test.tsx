@@ -67,11 +67,11 @@ describe('FinalizeStep', () => {
 
     expect(screen.getByText('Might')).toBeInTheDocument();
     expect(screen.getByText('Physical prowess and raw power')).toBeInTheDocument();
-    expect(screen.getByText('Range: 1 - 20')).toBeInTheDocument();
+    expect(screen.getByText("范围： 1 - 20")).toBeInTheDocument();
 
     expect(screen.getByText('Wits')).toBeInTheDocument();
     expect(screen.getByText('Mental agility and cleverness')).toBeInTheDocument();
-    expect(screen.getByText('Range: 3 - 18')).toBeInTheDocument();
+    expect(screen.getByText('范围： 3 - 18')).toBeInTheDocument();
   });
 
   it('renders empty state when no attributes or skills are present', () => {
@@ -82,7 +82,7 @@ describe('FinalizeStep', () => {
       />
     );
 
-    expect(screen.getByText('No attributes selected')).toBeInTheDocument();
-    expect(screen.getByText('No skills selected')).toBeInTheDocument();
+    expect(screen.getByText("未选择属性")).toBeInTheDocument();
+    expect(screen.getByText("未选择技能")).toBeInTheDocument();
   });
 });

@@ -50,16 +50,16 @@ describe('AttributeReviewStep', () => {
     render(<Harness initial={baseData([suggestion('Strength'), suggestion('Agility', false)])} />);
 
     expect(screen.getByText('Strength')).toBeInTheDocument();
-    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent('Excluded');
+    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent("已排除");
     expect(latest.attributes?.map((a) => a.name)).toEqual(['Strength']);
-    expect(screen.getByText(/attributes selected: 1 \/ 6/i)).toBeInTheDocument();
+    expect(screen.getByText(/已选属性： 1 \/ 6/i)).toBeInTheDocument();
   });
 
   test('treats a suggestion with no accepted flag as accepted', () => {
     const { accepted: _omit, ...noFlag } = suggestion('Strength');
     render(<Harness initial={baseData([noFlag as AttributeSuggestion])} />);
 
-    expect(screen.getByTestId('attribute-toggle-0')).toHaveTextContent('Selected');
+    expect(screen.getByTestId('attribute-toggle-0')).toHaveTextContent("已选择");
   });
 
   test('toggling updates the saved attributes', () => {
@@ -67,7 +67,7 @@ describe('AttributeReviewStep', () => {
 
     fireEvent.click(screen.getByTestId('attribute-toggle-1'));
 
-    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent('Selected');
+    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent("已选择");
     expect(latest.attributes?.map((a) => a.name)).toEqual(['Strength', 'Agility']);
   });
 
@@ -108,8 +108,8 @@ describe('AttributeReviewStep', () => {
     render(<Harness initial={baseData([suggestion('Strength')])} onClearSuggestions={onClear} />);
 
     fireEvent.click(screen.getByTestId('clear-ai-suggestions-button'));
-    expect(screen.getByText(/every suggested attribute and skill/i)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: 'Clear Suggestions' }));
+    expect(screen.getByText(/所有建议属性和技能/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: "清除建议" }));
 
     expect(onClear).toHaveBeenCalled();
   });

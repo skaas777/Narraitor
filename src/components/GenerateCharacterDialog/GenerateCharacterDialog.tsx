@@ -7,6 +7,7 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { SimpleModal } from '@/components/shared/SimpleModal';
 import { safeTrim } from '@/lib/utils';
 import './GenerateCharacterDialog.css';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface GenerateCharacterDialogProps {
   isOpen: boolean;
@@ -29,18 +30,18 @@ const GENERATION_TYPE_OPTIONS: Array<{
 }> = [
   {
     value: 'known',
-    label: 'Known Figure',
-    description: (worldName) => `Generate a major character from ${worldName}`,
+    label: "知名人物",
+    description: (worldName) => `根据 ${worldName} 生成一位重要角色`,
   },
   {
     value: 'original',
-    label: 'Original Character',
-    description: () => 'Create a unique character that fits the world',
+    label: "原创角色",
+    description: () => "创建一个符合世界设定的独特角色",
   },
   {
     value: 'specific',
-    label: 'Specific Known Figure',
-    description: (worldName) => `Generate a specific character from ${worldName} lore`,
+    label: "特定知名人物",
+    description: (worldName) => `根据 ${worldName} 的设定生成一个特定角色`,
   },
 ];
 
@@ -63,7 +64,7 @@ export const GenerateCharacterDialog: React.FC<
     <SimpleModal
       isOpen={isOpen}
       onClose={onClose}
-      title="Generate Character"
+      title="生成角色"
       showCloseButton={false}
       ariaDescribedBy="generate-character-desc"
       footer={
@@ -72,13 +73,13 @@ export const GenerateCharacterDialog: React.FC<
           gap="md"
           actions={[
             {
-              label: 'Cancel',
+              label: "取消",
               onClick: onClose,
               variant: 'secondary',
               disabled: isGenerating,
             },
             {
-              label: isGenerating ? 'Generating...' : 'Generate',
+              label: isGenerating ? "正在生成……" : "生成",
               onClick: onGenerate,
               variant: 'primary',
               disabled:
@@ -92,12 +93,12 @@ export const GenerateCharacterDialog: React.FC<
     >
       <div className="component-generate-character-dialog">
         <p id="generate-character-desc" className="form-help-text">
-          Choose the type of character you want to generate for your story.
+          选择要为你的故事生成的角色类型。
         </p>
 
         {/* Generation Type Selection */}
         <div className="generate-character-field">
-          <Label>What type of character would you like to create?</Label>
+          <Label>你想创建哪种类型的角色？</Label>
           <RadioGroup
             value={generationType}
             onValueChange={(value) =>
@@ -125,23 +126,23 @@ export const GenerateCharacterDialog: React.FC<
         {generationType === 'specific' && (
           <div className="generate-character-field">
             <Label htmlFor="generate-character-name">
-              Character Name <span>*</span>
+              角色名称 <span>*</span>
             </Label>
             <Input
               id="generate-character-name"
               type="text"
               value={characterName}
               onChange={(e) => onCharacterNameChange(e.target.value)}
-              placeholder="e.g., Aragorn, Princess Leia, Sherlock Holmes..."
+              placeholder="例如：Aragorn、Princess Leia、Sherlock Holmes……"
               disabled={isGenerating}
             />
             <p className="form-help-text">
-              Enter the name of a known character from {worldName} lore
+              输入一个来自 {worldName} 设定中的知名角色名称
             </p>
           </div>
         )}
 
-        {error && <div className="form-error">{error}</div>}
+        {error && <div className="form-error">{localizeErrorMessage(error)}</div>}
 
         {isGenerating && (
           <div className="generate-character-status">

@@ -472,21 +472,21 @@ export class NarrativeGenerator {
       const fallbackId = `decision-fallback-${Date.now()}`;
       return {
         id: fallbackId,
-        prompt: 'What will you do next?',
+        prompt: "接下来你会怎么做？",
         options: [
           {
             id: `option-${fallbackId}-1`,
-            text: 'Investigate further',
+            text: "进一步调查",
             alignment: 'neutral',
           },
           {
             id: `option-${fallbackId}-2`,
-            text: 'Talk to nearby characters',
+            text: "与附近的角色交谈",
             alignment: 'lawful',
           },
           {
             id: `option-${fallbackId}-3`,
-            text: 'Move to a new location',
+            text: "前往新地点",
             alignment: 'neutral',
           },
         ],

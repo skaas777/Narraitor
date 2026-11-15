@@ -46,11 +46,11 @@ export const SceneStatus: React.FC<SceneStatusProps> = ({ segment, className }) 
   return (
     <section
       className={clsx('component-scene-status', className)}
-      aria-label="Scene status"
+      aria-label="场景状态"
     >
       {location && (
         <div className="scene-status-location">
-          <span className="scene-status-location-label">Location</span>
+          <span className="scene-status-location-label">位置</span>
           <span className="scene-status-location-value">{location}</span>
         </div>
       )}
@@ -58,7 +58,7 @@ export const SceneStatus: React.FC<SceneStatusProps> = ({ segment, className }) 
       {hasParticipants && (
         <div className="scene-status-participants">
           <p className="manuscript-characters-rail-label scene-status-label">
-            Characters Present
+            在场角色
           </p>
           <div className="manuscript-characters-rail-list scene-status-list">
             {participants.map((participant) => {
@@ -78,7 +78,7 @@ export const SceneStatus: React.FC<SceneStatusProps> = ({ segment, className }) 
                     <div className="manuscript-character-avatar scene-status-avatar">
                       <Image
                         src={participant.avatarUrl}
-                        alt={`${participant.name}'s avatar`}
+                        alt={`${participant.name}的头像`}
                         fill
                         sizes="20px"
                       />

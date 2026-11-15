@@ -146,13 +146,13 @@ describe('CharacterTable', () => {
     render(<CharacterTable {...defaultProps} />);
 
     expect(
-      screen.getByRole('table', { name: 'Characters table' })
+      screen.getByRole('table', { name: "角色表格" })
     ).toBeInTheDocument();
-    expect(screen.getByText('Name')).toBeInTheDocument();
-    expect(screen.getByText('Level')).toBeInTheDocument();
-    expect(screen.getByText('Type')).toBeInTheDocument();
-    expect(screen.getByText('Created')).toBeInTheDocument();
-    expect(screen.getByText('Actions')).toBeInTheDocument();
+    expect(screen.getByText("名称")).toBeInTheDocument();
+    expect(screen.getByText("等级")).toBeInTheDocument();
+    expect(screen.getByText("类型")).toBeInTheDocument();
+    expect(screen.getByText("创建时间")).toBeInTheDocument();
+    expect(screen.getByText("操作")).toBeInTheDocument();
   });
 
   it('renders character data correctly', () => {
@@ -166,24 +166,24 @@ describe('CharacterTable', () => {
   it('displays level correctly', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    expect(screen.getByText('Level 10')).toBeInTheDocument();
-    expect(screen.getByText('Level 8')).toBeInTheDocument();
-    expect(screen.getByText('Level 12')).toBeInTheDocument();
+    expect(screen.getByText("等级 10")).toBeInTheDocument();
+    expect(screen.getByText("等级 8")).toBeInTheDocument();
+    expect(screen.getByText('等级 12')).toBeInTheDocument();
   });
 
   it('shows correct badge types for Known Figure and Original', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const badges = screen.getAllByText(/Known Figure|Original/);
+    const badges = screen.getAllByText(/知名人物|原创/);
     expect(badges).toHaveLength(3);
-    expect(screen.getByText('Known Figure')).toBeInTheDocument();
-    expect(screen.getAllByText('Original')).toHaveLength(2);
+    expect(screen.getByText("知名人物")).toBeInTheDocument();
+    expect(screen.getAllByText("原创")).toHaveLength(2);
   });
 
   it('calls onView when View button clicked', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const viewButtons = screen.getAllByLabelText(/View/);
+    const viewButtons = screen.getAllByLabelText(/查看/);
     fireEvent.click(viewButtons[0]);
 
     expect(mockOnView).toHaveBeenCalledTimes(1);
@@ -193,7 +193,7 @@ describe('CharacterTable', () => {
   it('calls onPlay when Play button clicked', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const playButtons = screen.getAllByLabelText(/Play as/);
+    const playButtons = screen.getAllByLabelText(/扮演/);
     fireEvent.click(playButtons[0]);
 
     expect(mockOnPlay).toHaveBeenCalledTimes(1);
@@ -203,7 +203,7 @@ describe('CharacterTable', () => {
   it('calls onEdit when Edit button clicked', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const editButtons = screen.getAllByLabelText(/Edit/);
+    const editButtons = screen.getAllByLabelText(/编辑/);
     fireEvent.click(editButtons[0]);
 
     expect(mockOnEdit).toHaveBeenCalledTimes(1);
@@ -213,7 +213,7 @@ describe('CharacterTable', () => {
   it('calls onDelete when Delete button clicked', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const deleteButtons = screen.getAllByLabelText(/Delete/);
+    const deleteButtons = screen.getAllByLabelText(/删除/);
     fireEvent.click(deleteButtons[0]);
 
     expect(mockOnDelete).toHaveBeenCalledTimes(1);
@@ -226,13 +226,13 @@ describe('CharacterTable', () => {
     const labels = screen.getAllByTestId('character-table-active-label');
     expect(labels).toHaveLength(1);
     expect(labels[0].closest('tr')).toHaveTextContent('Aragorn');
-    expect(screen.queryByLabelText(/active$/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/活跃$/)).not.toBeInTheDocument();
   });
 
   it('filters characters by name search', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const searchInput = screen.getByPlaceholderText('Search characters...');
+    const searchInput = screen.getByPlaceholderText("搜索角色……");
     fireEvent.change(searchInput, { target: { value: 'Aragorn' } });
 
     expect(screen.getByText('Aragorn')).toBeInTheDocument();
@@ -243,7 +243,7 @@ describe('CharacterTable', () => {
   it('search is case-insensitive', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const searchInput = screen.getByPlaceholderText('Search characters...');
+    const searchInput = screen.getByPlaceholderText("搜索角色……");
     fireEvent.change(searchInput, { target: { value: 'aragorn' } });
 
     expect(screen.getByText('Aragorn')).toBeInTheDocument();
@@ -252,7 +252,7 @@ describe('CharacterTable', () => {
   it('clears search shows all characters', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    const searchInput = screen.getByPlaceholderText('Search characters...');
+    const searchInput = screen.getByPlaceholderText("搜索角色……");
     fireEvent.change(searchInput, { target: { value: 'Aragorn' } });
     fireEvent.change(searchInput, { target: { value: '' } });
 
@@ -265,24 +265,24 @@ describe('CharacterTable', () => {
     render(<CharacterTable {...defaultProps} characters={[]} />);
 
     expect(
-      screen.getByText('No characters yet. Create one to get started.')
+      screen.getByText("还没有角色。创建一个角色即可开始。")
     ).toBeInTheDocument();
   });
 
   it('all action buttons have aria-labels', () => {
     render(<CharacterTable {...defaultProps} />);
 
-    expect(screen.getByLabelText('Play as Aragorn')).toBeInTheDocument();
-    expect(screen.getByLabelText('View Aragorn')).toBeInTheDocument();
-    expect(screen.getByLabelText('Edit Aragorn')).toBeInTheDocument();
-    expect(screen.getByLabelText('Delete Aragorn')).toBeInTheDocument();
+    expect(screen.getByLabelText("扮演 Aragorn")).toBeInTheDocument();
+    expect(screen.getByLabelText("查看 Aragorn")).toBeInTheDocument();
+    expect(screen.getByLabelText("编辑 Aragorn")).toBeInTheDocument();
+    expect(screen.getByLabelText("删除 Aragorn")).toBeInTheDocument();
   });
 
   it('table has proper aria-label', () => {
     render(<CharacterTable {...defaultProps} />);
 
     expect(
-      screen.getByRole('table', { name: 'Characters table' })
+      screen.getByRole('table', { name: "角色表格" })
     ).toBeInTheDocument();
   });
 

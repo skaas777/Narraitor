@@ -12,12 +12,12 @@ interface ShortcutEntry {
 // list in sync with ChoiceSelector's number-key handling and the 'j'/'c'/'?'
 // bindings in ActiveGameSession.
 const SHORTCUTS: ShortcutEntry[] = [
-  { keys: ['1', '-', '3'], description: 'Select a suggested action' },
-  { keys: ['Enter'], description: 'Submit a custom action while typing' },
-  { keys: ['J'], description: 'Open journal' },
-  { keys: ['C'], description: 'Toggle character sheet' },
-  { keys: ['Esc'], description: 'Close a dialog or panel' },
-  { keys: ['?'], description: 'Show this shortcuts guide' },
+  { keys: ['1', '-', '3'], description: "选择建议行动" },
+  { keys: ['Enter'], description: "输入时提交自定义行动" },
+  { keys: ['J'], description: "打开日志" },
+  { keys: ['C'], description: "切换角色面板" },
+  { keys: ['Esc'], description: "关闭对话框或面板" },
+  { keys: ['?'], description: "显示快捷键指南" },
 ];
 
 interface KeyboardShortcutsDialogProps {
@@ -32,7 +32,7 @@ export function KeyboardShortcutsDialog({ open, onOpenChange }: KeyboardShortcut
         className="keyboard-shortcuts-dialog"
         aria-describedby={undefined}
       >
-        <DialogTitle>Keyboard Shortcuts</DialogTitle>
+        <DialogTitle>键盘快捷键</DialogTitle>
         <ul className="keyboard-shortcuts-list">
           {SHORTCUTS.map((shortcut) => (
             <li key={shortcut.description} className="keyboard-shortcuts-item">

@@ -15,14 +15,14 @@ interface PointPoolDisplayProps {
 
 export const PointPoolDisplay: React.FC<PointPoolDisplayProps> = ({
   pool,
-  label = 'Point Pool',
+  label = "点数池",
 }) => {
   const isOverBudget = pool.remaining < 0;
   const statusText = isOverBudget
-    ? `Over budget by ${Math.abs(pool.remaining)} points!`
+    ? `超出预算 ${Math.abs(pool.remaining)} 点！`
     : pool.remaining === 0
-      ? 'All points allocated!'
-      : `${pool.remaining} points remaining`;
+      ? "所有点数已分配！"
+      : `剩余 ${pool.remaining} 点`;
 
   return (
     <div
@@ -39,10 +39,10 @@ export const PointPoolDisplay: React.FC<PointPoolDisplayProps> = ({
           <span>{label}</span>
           <div className="component-point-pool-display-stats">
             <span>
-              Total: <span>{pool.total}</span>
+              总计： <span>{pool.total}</span>
             </span>
             <span className={clsx(isOverBudget && 'point-pool-over-budget')}>
-              {isOverBudget ? `Over budget: ${Math.abs(pool.remaining)}` : `Remaining: ${pool.remaining}`}
+              {isOverBudget ? `超出预算：${Math.abs(pool.remaining)}` : `剩余：${pool.remaining}`}
             </span>
           </div>
         </div>
@@ -50,13 +50,13 @@ export const PointPoolDisplay: React.FC<PointPoolDisplayProps> = ({
           {pool.remaining === 0 && (
             <span>
               <CheckCircle aria-hidden="true" />
-              All allocated!
+              已全部分配！
             </span>
           )}
           {isOverBudget && (
             <span className="point-pool-error-tag">
               <AlertCircle aria-hidden="true" />
-              Over budget!
+              超出预算！
             </span>
           )}
         </div>

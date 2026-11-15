@@ -122,7 +122,7 @@ describe('/api/narrative/story-checkpoint', () => {
     }, {}));
     expect(response.status).toBe(412);
     expect(await response.json()).toMatchObject({
-      suggestion: 'Add your API key in Settings > Provider Setup to play.',
+      suggestion: '请在设置 > 模型服务设置中添加 API 密钥以开始游戏。',
       retryable: false,
     });
     expect(mockGenerateStoryCheckpointSummary).not.toHaveBeenCalled();
@@ -141,8 +141,8 @@ describe('/api/narrative/story-checkpoint', () => {
     }));
     expect(response.status).toBe(400);
     const data = await response.json();
-    expect(data.title).toBe('Check Your Input');
-    expect(data.error).toBe("Some of what you entered doesn't look right.");
+    expect(data.title).toBe('检查输入');
+    expect(data.error).toBe("你输入的部分内容似乎不正确。");
     expect(mockGenerateStoryCheckpointSummary).not.toHaveBeenCalled();
   });
 

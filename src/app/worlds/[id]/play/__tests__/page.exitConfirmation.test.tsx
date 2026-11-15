@@ -62,7 +62,7 @@ describe('PlayPage exit confirmation (#268)', () => {
     fireEvent.click(await screen.findByTestId('mock-back-btn'));
 
     expect(pushMock).toHaveBeenCalledWith('/worlds/world-1');
-    expect(screen.queryByText('Leave the Story?')).not.toBeInTheDocument();
+    expect(screen.queryByText("离开故事？")).not.toBeInTheDocument();
   });
 
   test('prompts for confirmation when there is narrative progress', async () => {
@@ -72,7 +72,7 @@ describe('PlayPage exit confirmation (#268)', () => {
     fireEvent.click(await screen.findByTestId('mock-back-btn'));
 
     expect(pushMock).not.toHaveBeenCalled();
-    expect(screen.getByText('Leave the Story?')).toBeInTheDocument();
+    expect(screen.getByText("离开故事？")).toBeInTheDocument();
   });
 
   test('confirming the exit dialog navigates back to the world page', async () => {
@@ -80,7 +80,7 @@ describe('PlayPage exit confirmation (#268)', () => {
     render(<PlayPage />);
 
     fireEvent.click(await screen.findByTestId('mock-back-btn'));
-    fireEvent.click(screen.getByRole('button', { name: /leave story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /离开故事/i }));
 
     expect(pushMock).toHaveBeenCalledWith('/worlds/world-1');
   });
@@ -90,9 +90,9 @@ describe('PlayPage exit confirmation (#268)', () => {
     render(<PlayPage />);
 
     fireEvent.click(await screen.findByTestId('mock-back-btn'));
-    fireEvent.click(screen.getByRole('button', { name: /keep playing/i }));
+    fireEvent.click(screen.getByRole('button', { name: /继续游玩/i }));
 
     expect(pushMock).not.toHaveBeenCalled();
-    expect(screen.queryByText('Leave the Story?')).not.toBeInTheDocument();
+    expect(screen.queryByText("离开故事？")).not.toBeInTheDocument();
   });
 });

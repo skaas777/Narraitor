@@ -20,7 +20,7 @@ function renderPanel(
 }
 
 async function expand(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(screen.getByRole('button', { name: /expand advanced/i }));
+  await user.click(screen.getByRole('button', { name: /展开.*高级/i }));
 }
 
 describe('ProviderAdvancedSettings', () => {
@@ -37,10 +37,10 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel(undefined, onChange);
     await expand(user);
 
-    expect(screen.getByText(/more creative and random/i)).toBeInTheDocument();
-    expect(screen.getByText(/nucleus sampling/i)).toBeInTheDocument();
+    expect(screen.getByText(/越有创意、越随机/i)).toBeInTheDocument();
+    expect(screen.getByText(/核采样——另一种限制回复多样性的方式（0\.0-1\.0）。大多数人只需调整温度；除非你明确需要，否则请保持为 1\.0。/i)).toBeInTheDocument();
 
-    const temperature = screen.getByRole('slider', { name: /temperature/i });
+    const temperature = screen.getByRole('slider', { name: /温度/i });
     fireEvent.change(temperature, { target: { value: '1.5' } });
     expect(onChange).toHaveBeenCalledWith({ temperature: 1.5 });
   });
@@ -51,9 +51,9 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel(undefined, onChange);
     await expand(user);
 
-    const maxTokens = screen.getByLabelText(/max response length/i);
-    expect(maxTokens).toHaveAttribute('type', 'number');
-    expect(screen.getByText(/caps how long one generated response can be/i)).toBeInTheDocument();
+    const maxTokens = screen.getByLabelText(/最大回复长度（token 数）/i);
+    expect(maxTokens).toHaveAttribute("type", 'number');
+    expect(screen.getByText(/限制单次生成回复的长度（最多 4,096 个 token）。数值越高，场景可以越长，但每回合成本更高、耗时也更长。/i)).toBeInTheDocument();
 
     fireEvent.change(maxTokens, { target: { value: '4096' } });
     expect(onChange).toHaveBeenCalledWith({ maxTokens: 4096 });
@@ -65,7 +65,7 @@ describe('ProviderAdvancedSettings', () => {
     await expand(user);
 
     const alert = screen.getByRole('alert');
-    expect(within(alert).getByText(/provider.s own safety filtering/i)).toBeInTheDocument();
+    expect(within(alert).getByText(/模型服务自身的安全过滤/i)).toBeInTheDocument();
   });
 
   test('rate limiting starts off, and reveals the requests-per-hour field once enabled', async () => {
@@ -74,9 +74,9 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel(undefined, onChange);
     await expand(user);
 
-    expect(screen.queryByLabelText(/max requests per hour/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/每小时最大请求数/i)).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('checkbox', { name: /limit requests per hour/i }));
+    await user.click(screen.getByRole('checkbox', { name: /每小时请求数上限/i }));
     expect(onChange).toHaveBeenCalledWith({ rateLimitEnabled: true });
   });
 
@@ -86,7 +86,7 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel({ rateLimitEnabled: true, maxRequestsPerHour: 30 }, onChange);
     await expand(user);
 
-    const perHour = screen.getByLabelText(/max requests per hour/i);
+    const perHour = screen.getByLabelText(/每小时最大请求数/i);
     fireEvent.change(perHour, { target: { value: '10' } });
     expect(onChange).toHaveBeenCalledWith({ rateLimitEnabled: true, maxRequestsPerHour: 10 });
   });
@@ -97,7 +97,7 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel({ rateLimitEnabled: true, maxRequestsPerHour: 30 }, onChange);
     await expand(user);
 
-    const perHour = screen.getByLabelText(/max requests per hour/i);
+    const perHour = screen.getByLabelText(/每小时最大请求数/i);
     fireEvent.change(perHour, { target: { value: '0' } });
     fireEvent.change(perHour, { target: { value: '-5' } });
     fireEvent.change(perHour, { target: { value: '1.5' } });
@@ -113,9 +113,9 @@ describe('ProviderAdvancedSettings', () => {
     renderPanel(undefined, jest.fn(), true);
     await expand(user);
 
-    expect(screen.getByRole('slider', { name: /temperature/i })).toBeDisabled();
-    expect(screen.getByRole('slider', { name: /top-p/i })).toBeDisabled();
-    expect(screen.getByText(/rejects requests that set temperature or top-p/i)).toBeInTheDocument();
+    expect(screen.getByRole('slider', { name: /温度/i })).toBeDisabled();
+    expect(screen.getByRole('slider', { name: /核采样概率/i })).toBeDisabled();
+    expect(screen.getByText(/拒绝设置了温度或 Top-p 的请求/i)).toBeInTheDocument();
   });
 
   test('Reset to defaults clears every override back to unset', async () => {
@@ -127,7 +127,7 @@ describe('ProviderAdvancedSettings', () => {
     );
     await expand(user);
 
-    await user.click(screen.getByRole('button', { name: /reset to defaults/i }));
+    await user.click(screen.getByRole('button', { name: /恢复默认值/i }));
     expect(onChange).toHaveBeenCalledWith(undefined);
   });
 });

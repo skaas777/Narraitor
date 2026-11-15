@@ -11,8 +11,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const error = new Error('network connection failed');
       const result = getUserFriendlyError(error);
 
-      expect(result.message).toContain('model provider');
-      expect(result.message).toContain('network connection failed');
+      expect(result.message).toContain('模型服务');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
       expect(result.type).toBe(ErrorType.NETWORK);
       expect(result.retryable).toBe(true);
     });
@@ -21,9 +21,9 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const error = new Error('request timeout');
       const result = getUserFriendlyError(error);
 
-      expect(result.message).toContain('model provider');
-      expect(result.message).toContain('timed out');
-      expect(result.message).toContain('request timeout');
+      expect(result.message).toContain('模型服务');
+      expect(result.message).toContain('超时');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
       expect(result.type).toBe(ErrorType.NETWORK);
       expect(result.retryable).toBe(true);
     });
@@ -32,8 +32,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const error = new Error('429 rate limit');
       const result = getUserFriendlyError(error);
 
-      expect(result.message).toContain('rate limit');
-      expect(result.message).toContain('429 rate limit');
+      expect(result.message).toContain('请求频率');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
       expect(result.type).toBe(ErrorType.SERVICE);
       expect(result.retryable).toBe(true);
     });
@@ -42,8 +42,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const error = new Error('401 unauthorized');
       const result = getUserFriendlyError(error);
 
-      expect(result.message).toContain('rejected your key');
-      expect(result.message).toContain('401 unauthorized');
+      expect(result.message).toContain('拒绝了你的密钥');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
       expect(result.type).toBe(ErrorType.AUTH);
       expect(result.retryable).toBe(false);
     });
@@ -53,7 +53,7 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const result = getUserFriendlyError(error);
 
       expect(result.message).not.toContain('/usr/local');
-      expect(result.message).toContain('[path]');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
     });
 
     it('should truncate very long error messages', () => {
@@ -63,15 +63,15 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const result = getUserFriendlyError(error);
 
       expect(result.message.length).toBeLessThan(250); // Base message + truncated detail
-      expect(result.message).toContain('...');
+      expect(result.message).not.toContain(longError);
     });
 
     it('should handle rate limit text variations with sanitization', () => {
       const error = new Error('rate limit exceeded');
       const result = getUserFriendlyError(error);
 
-      expect(result.message).toContain('rate limit');
-      expect(result.message).toContain('rate limit exceeded');
+      expect(result.message).toContain('请求频率');
+      expect(result.message).toContain('操作未能完成，请稍后重试。');
       expect(result.retryable).toBe(true);
     });
 
@@ -79,7 +79,7 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const error = new Error('unexpected error');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Something Went Wrong');
+      expect(result.title).toBe("出错了");
       expect(result.type).toBe(ErrorType.UNKNOWN);
     });
 
@@ -100,8 +100,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const message = userFriendlyError(error);
 
       expect(typeof message).toBe('string');
-      expect(message).toContain('model provider');
-      expect(message).toContain('network failure');
+      expect(message).toContain('模型服务');
+      expect(message).toContain('操作未能完成，请稍后重试。');
     });
 
     it('should return just the message string for timeout errors', () => {
@@ -109,8 +109,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const message = userFriendlyError(error);
 
       expect(typeof message).toBe('string');
-      expect(message).toContain('timeout');
-      expect(message).toContain('timeout occurred');
+      expect(message).toContain('超时');
+      expect(message).toContain('操作未能完成，请稍后重试。');
     });
 
     it('should return just the message string for rate limit errors', () => {
@@ -118,8 +118,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const message = userFriendlyError(error);
 
       expect(typeof message).toBe('string');
-      expect(message).toContain('rate limit');
-      expect(message).toContain('429 rate limit');
+      expect(message).toContain('请求频率');
+      expect(message).toContain('操作未能完成，请稍后重试。');
     });
 
     it('should return just the message string for auth errors', () => {
@@ -127,8 +127,8 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const message = userFriendlyError(error);
 
       expect(typeof message).toBe('string');
-      expect(message).toContain('rejected your key');
-      expect(message).toContain('401 unauthorized');
+      expect(message).toContain('拒绝了你的密钥');
+      expect(message).toContain('操作未能完成，请稍后重试。');
     });
 
     it('should return just the message string for unknown errors', () => {
@@ -136,7 +136,7 @@ describe('userFriendlyErrors (AI-specific)', () => {
       const message = userFriendlyError(error);
 
       expect(typeof message).toBe('string');
-      expect(message).toContain('something went wrong');
+      expect(message).toContain('操作未成功');
       expect(message.length).toBeGreaterThan(0);
     });
   });

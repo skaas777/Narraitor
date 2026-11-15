@@ -22,7 +22,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
 
   return (
     <nav
-      aria-label="Progress"
+      aria-label="进度"
       className={clsx(
         'component-wizard-progress',
         wizardStyles.progress.container,
@@ -33,7 +33,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
       <div className="wizard-progress-mobile">
         <div className="wizard-progress-mobile-header">
           <span className="wizard-progress-mobile-count">
-            Step {currentStep + 1} of {steps.length}
+            步骤 {currentStep + 1} / {steps.length}
           </span>
           <span className="wizard-progress-mobile-current" aria-current="step">
             {currentStepData?.label}

@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import type { LoreCategory, LoreFact } from '@/types/lore.types';
 import type { EntityID } from '@/types/common.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface LoreManagementSearchTabProps {
   searchQuery: string;
@@ -38,7 +39,7 @@ export const LoreManagementSearchTab: React.FC<LoreManagementSearchTabProps> = (
   <div>
     <div>
       <Input
-        placeholder="Search facts..."
+        placeholder="搜索事实……"
         value={searchQuery}
         onChange={(e) => onSearchQueryChange(e.target.value)}
         
@@ -48,20 +49,20 @@ export const LoreManagementSearchTab: React.FC<LoreManagementSearchTabProps> = (
         value={categoryFilter}
         onChange={(e) => onCategoryFilterChange(e.target.value as LoreCategory | '')}
       >
-        <option value="">All Categories</option>
-        <option value="characters">Characters</option>
-        <option value="locations">Locations</option>
-        <option value="events">Events</option>
-        <option value="rules">Rules</option>
+        <option value="">全部分类</option>
+        <option value="characters">角色</option>
+        <option value="locations">地点</option>
+        <option value="events">事件</option>
+        <option value="rules">规则</option>
       </Select>
       <Select
         
         value={sessionFilter}
         onChange={(e) => onSessionFilterChange(e.target.value as typeof sessionFilter)}
       >
-        <option value="all">All Sessions</option>
+        <option value="all">全部冒险记录</option>
         {currentSessionId && currentSessionWorldId === selectedWorldId && (
-          <option value="current">Current Session ({currentSessionId})</option>
+          <option value="current">当前冒险记录（{currentSessionId})</option>
         )}
         {sessionOptions
           .filter((id) => id !== currentSessionId)
@@ -74,7 +75,7 @@ export const LoreManagementSearchTab: React.FC<LoreManagementSearchTabProps> = (
     </div>
 
     {searchQuery && (
-      <div>Found {facts.length} result(s) for &quot;{searchQuery}&quot;</div>
+      <div>找到 {facts.length} 条结果，搜索词 “{searchQuery}&quot;</div>
     )}
 
     <div>
@@ -92,10 +93,10 @@ export const LoreManagementSearchTab: React.FC<LoreManagementSearchTabProps> = (
                     : ''
             }`}
           >
-            {importance.toUpperCase()}
+            {displayLabel(importance.toUpperCase())}
           </span>
         ) : (
-          <span>NO IMPORTANCE</span>
+          <span>无重要度</span>
         );
 
         return (
@@ -105,7 +106,7 @@ export const LoreManagementSearchTab: React.FC<LoreManagementSearchTabProps> = (
             onClick={() => onSelectFact(fact.id)}
           >
             <div>
-              <span className={`${categoryColors[fact.category]}`}>{fact.category}</span>
+              <span className={`${categoryColors[fact.category]}`}>{displayLabel(fact.category)}</span>
               {importanceBadge}
               <span>{fact.key}</span>
             </div>

@@ -123,7 +123,7 @@ export const NarrativeDisplay: React.FC<NarrativeDisplayProps> = ({
   if (isLoading) {
     return (
       <div>
-        <LoadingState message="Writing your story..." />
+        <LoadingState message="正在书写你的故事……" />
       </div>
     );
   }
@@ -134,11 +134,11 @@ export const NarrativeDisplay: React.FC<NarrativeDisplayProps> = ({
         <ErrorDisplay
           variant="section"
           severity="error"
-          title="The story paused"
+          title="故事暂停了"
           message={error}
           showRetry={!!onRetry}
           onRetry={onRetry}
-          retryLabel="Continue the story"
+          retryLabel="继续故事"
         />
       </div>
     );

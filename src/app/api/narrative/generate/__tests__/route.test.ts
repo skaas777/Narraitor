@@ -56,8 +56,8 @@ describe('/api/narrative/generate', () => {
     expect(response.status).toBe(412);
     expect(upstream).not.toHaveBeenCalled();
     const data = await response.json();
-    expect(data.title).toBe('API Key Required');
-    expect(data.error).toBe('No API key configured for this provider.');
+    expect(data.title).toBe('需要 API 密钥');
+    expect(data.error).toBe('此模型服务未配置 API 密钥。');
   });
 
   it('sends a Gemini-shaped body built by the real adapter', async () => {

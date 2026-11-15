@@ -20,30 +20,30 @@ const MAX_CUSTOM_INSTRUCTIONS_LENGTH = 500;
 
 const validateToneFields = validateFields<Partial<ToneSettings>>({
   contentRating: [
-    createValidationRules.required('Content Rating is required'),
+    createValidationRules.required("内容分级为必填项"),
     createValidationRules.custom(
       (value) => CONTENT_RATINGS.includes(value ?? ''),
-      'Content Rating must be a valid rating'
+      "内容分级必须是有效的分级"
     ),
   ],
   narrativeStyle: [
-    createValidationRules.required('Narrative Style is required'),
+    createValidationRules.required("叙事风格为必填项"),
     createValidationRules.custom(
       (value) => NARRATIVE_STYLES.includes(value ?? ''),
-      'Narrative Style must be a valid style'
+      "叙事风格必须是有效的风格"
     ),
   ],
   languageComplexity: [
-    createValidationRules.required('Language Complexity is required'),
+    createValidationRules.required("语言复杂度为必填项"),
     createValidationRules.custom(
       (value) => LANGUAGE_COMPLEXITIES.includes(value ?? ''),
-      'Language Complexity must be a valid level'
+      "语言复杂度必须是有效的等级"
     ),
   ],
   customInstructions: [
     createValidationRules.maxLength(
       MAX_CUSTOM_INSTRUCTIONS_LENGTH,
-      `Custom Instructions must be no more than ${MAX_CUSTOM_INSTRUCTIONS_LENGTH} characters`
+      `自定义指令不得超过 ${MAX_CUSTOM_INSTRUCTIONS_LENGTH} 个字符`
     ),
   ],
 });

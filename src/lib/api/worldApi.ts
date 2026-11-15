@@ -41,7 +41,7 @@ export const worldApi = {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Failed to generate world (${response.status})`);
+      throw new Error(errorData.error || `生成世界失败（${response.status}）`);
     }
 
     return response.json();
@@ -61,7 +61,7 @@ export const worldApi = {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Failed to generate world image (${response.status})`);
+      throw new Error(errorData.error || `生成世界图片失败（${response.status}）`);
     }
 
     return response.json();

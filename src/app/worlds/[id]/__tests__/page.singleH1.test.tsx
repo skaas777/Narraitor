@@ -59,6 +59,6 @@ describe('WorldViewPage heading hierarchy', () => {
     expect(
       screen.getAllByRole('heading', { name: 'Fantasy Realm' })
     ).toHaveLength(1);
-    expect(screen.getByAltText('Fantasy Realm world')).toBeInTheDocument();
+    expect(screen.getByAltText('Fantasy Realm 世界')).toBeInTheDocument();
   });
 });

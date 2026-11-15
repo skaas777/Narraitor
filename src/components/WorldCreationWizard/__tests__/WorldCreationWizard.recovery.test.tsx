@@ -97,11 +97,11 @@ describe('WorldCreationWizard draft auto-save and recovery', () => {
     render(<WorldCreationWizard />);
 
     await waitFor(() => {
-      expect(screen.getByText(/World Creation Progress Found/i)).toBeInTheDocument();
+      expect(screen.getByText(/发现世界创建进度/i)).toBeInTheDocument();
     });
 
     expect(screen.getByText(/Solaria/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Sci-Fi/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/科幻/i)[0]).toBeInTheDocument();
   });
 
   it('restores draft into wizard state when Recover Progress is clicked', async () => {
@@ -119,7 +119,7 @@ describe('WorldCreationWizard draft auto-save and recovery', () => {
 
     render(<WorldCreationWizard />);
 
-    const recoverButton = await screen.findByRole('button', { name: /Recover Progress/i });
+    const recoverButton = await screen.findByRole('button', { name: /恢复进度/i });
     await user.click(recoverButton);
 
     // Should switch to step 1 (Description) with restored description
@@ -144,11 +144,11 @@ describe('WorldCreationWizard draft auto-save and recovery', () => {
 
     render(<WorldCreationWizard />);
 
-    const startFreshButton = await screen.findByRole('button', { name: /Start Fresh/i });
+    const startFreshButton = await screen.findByRole('button', { name: /重新开始/i });
     await user.click(startFreshButton);
 
     await waitFor(() => {
-      expect(screen.queryByText(/World Creation Progress Found/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/发现世界创建进度/i)).not.toBeInTheDocument();
     });
 
     expect(localStorage.getItem(DRAFT_STORAGE_KEY)).toBeNull();
@@ -165,7 +165,7 @@ describe('WorldCreationWizard draft auto-save and recovery', () => {
 
     render(<WorldCreationWizard />);
 
-    const startFreshButton = await screen.findByRole('button', { name: /Start Fresh/i });
+    const startFreshButton = await screen.findByRole('button', { name: /重新开始/i });
     await user.click(startFreshButton);
 
     const nameInput = screen.getByTestId('world-name-input');
@@ -184,15 +184,15 @@ describe('WorldCreationWizard draft auto-save and recovery', () => {
     render(<WorldCreationWizard />);
 
     // Type a genre to make form dirty
-    const select = screen.getByLabelText(/genre/i);
+    const select = screen.getByLabelText(/^题材/i);
     await user.selectOptions(select, 'fantasy');
 
     // Click cancel button
-    const cancelButton = screen.getByRole('button', { name: /Cancel/i });
+    const cancelButton = screen.getByRole('button', { name: /取消/i });
     await user.click(cancelButton);
 
     // Confirmation dialog appears
-    const confirmButton = await screen.findByRole('button', { name: /Yes, Cancel/i });
+    const confirmButton = await screen.findByRole('button', { name: /是的，取消/i });
     await user.click(confirmButton);
 
     expect(localStorage.getItem(DRAFT_STORAGE_KEY)).toBeNull();

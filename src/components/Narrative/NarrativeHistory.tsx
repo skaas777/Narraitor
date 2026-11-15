@@ -434,7 +434,7 @@ export const NarrativeHistory: React.FC<NarrativeHistoryProps> = ({
               className="narrative-history-expand-button"
               onClick={() => setIsExpanded(true)}
             >
-              Show earlier story
+              显示更早的故事
             </button>
           )}
           {renderContent()}
@@ -447,7 +447,7 @@ export const NarrativeHistory: React.FC<NarrativeHistoryProps> = ({
           className="narrative-jump-to-latest"
           onClick={jumpToLatest}
         >
-          Jump to latest
+          跳到最新
         </button>
       )}
     </div>

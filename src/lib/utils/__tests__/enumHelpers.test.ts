@@ -6,7 +6,7 @@ describe('descriptionsToSelectOptions', () => {
       'action-packed': 'Fast-paced and exciting',
     });
 
-    expect(options[0].label).toBe('Action Packed');
+    expect(options[0].label).toBe("动作冒险");
   });
 
   it('uses a custom formatter when given, instead of title-casing abbreviations', () => {

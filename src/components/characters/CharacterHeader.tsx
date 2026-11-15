@@ -32,7 +32,7 @@ export function CharacterHeader({ character }: CharacterHeaderProps) {
         )}
         <div className="character-detail-header-meta">
           <p>
-            <strong>Created:</strong> {formatDate(character.createdAt)}
+            <strong>创建时间：</strong> {formatDate(character.createdAt)}
           </p>
         </div>
       </div>

@@ -170,7 +170,7 @@ describe('WorldCreationWizard tour and step sync integration', () => {
     expect(screen.getByTestId('basic-info-step')).toBeInTheDocument();
 
     // Click the wizard's own Next button (advances wizard from step 0 to step 1)
-    const wizardNextButton = screen.getByRole('button', { name: /^next$/i });
+    const wizardNextButton = screen.getByRole('button', { name: /^下一步$/i });
     await act(async () => {
       wizardNextButton.click();
     });
@@ -180,7 +180,7 @@ describe('WorldCreationWizard tour and step sync integration', () => {
     expect(screen.queryByTestId('basic-info-step')).toBeNull();
 
     // Click the wizard's own Back button (returns wizard from step 1 to step 0)
-    const wizardBackButton = screen.getByRole('button', { name: /^back$/i });
+    const wizardBackButton = screen.getByRole('button', { name: /^返回$/i });
     await act(async () => {
       wizardBackButton.click();
     });

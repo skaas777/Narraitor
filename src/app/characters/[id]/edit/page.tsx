@@ -29,18 +29,18 @@ export default function CharacterEditPage() {
   if (!character) {
     return (
       <NotFoundState
-        title="Character Not Found"
-        message="The character you're trying to edit doesn't exist or has been deleted."
+        title="未找到角色"
+        message="你要编辑的角色不存在或已被删除。"
         backUrl="/characters"
-        backLabel="Back to Characters"
+        backLabel="返回角色列表"
       />
     );
   }
 
   return (
-    <PageLayout title={`Edit Character: ${character.name}`}>
+    <PageLayout title={`编辑角色：${character.name}`}>
       <div className="character-edit-back">
-        <BackNavigation href={`/characters/${characterId}`} label="Back to Character" />
+        <BackNavigation href={`/characters/${characterId}`} label="返回角色" />
       </div>
 
       <div className="character-edit-body">

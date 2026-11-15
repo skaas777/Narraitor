@@ -121,7 +121,7 @@ describe('EndingScreen - Your Story Section', () => {
     setupStores([]);
     render(<EndingScreen />);
 
-    expect(screen.queryByText('Your Story')).not.toBeInTheDocument();
+    expect(screen.queryByText("你的故事")).not.toBeInTheDocument();
     expect(screen.queryByTestId('collapsible-section-header')).not.toBeInTheDocument();
   });
 
@@ -244,7 +244,7 @@ describe('EndingScreen - Your Story Section', () => {
     render(<EndingScreen />);
 
     // Find the Your Story section specifically
-    const yourStorySection = screen.getByText('Your Story').closest('[data-testid="collapsible-section"]');
+    const yourStorySection = screen.getByText("你的故事").closest('[data-testid="collapsible-section"]');
     expect(yourStorySection).toBeInTheDocument();
 
     const button = yourStorySection?.querySelector('[data-testid="collapsible-section-header"]') as HTMLElement;
@@ -305,7 +305,7 @@ describe('EndingScreen - Ending image is manually triggered', () => {
     setupStores([]);
     render(<EndingScreen />);
 
-    fireEvent.click(screen.getByRole('button', { name: /generate ending image/i }));
+    fireEvent.click(screen.getByRole('button', { name: /生成结局图片/i }));
 
     await waitFor(() => expect(mockRequestEndingImage).toHaveBeenCalledTimes(1));
   });
@@ -322,7 +322,7 @@ describe('EndingScreen - Heading hierarchy', () => {
     setupStores([]);
     render(<EndingScreen />);
 
-    expect(screen.getByRole('heading', { level: 2, name: 'The End' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: "剧终" })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1 })).toBeNull();
   });
 
@@ -330,7 +330,7 @@ describe('EndingScreen - Heading hierarchy', () => {
     setupStores([], { ...mockEnding, imageUrl: 'data:image/png;base64,abc' });
     render(<EndingScreen />);
 
-    expect(screen.getByRole('heading', { level: 2, name: 'The End' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: "剧终" })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1 })).toBeNull();
   });
 
@@ -338,7 +338,7 @@ describe('EndingScreen - Heading hierarchy', () => {
     setupStores([]);
     render(<EndingScreen />);
 
-    expect(screen.queryByText(/Story Complete/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/故事完结/i)).not.toBeInTheDocument();
   });
 });
 
@@ -358,9 +358,9 @@ describe('EndingScreen - Legacy/Achievements layout', () => {
     // EndingScreen wraps each in a second, outer <section> with no class of its own.
     // The bug was an extra <div> around that outer pair, so what matters here is
     // that pair's shared parent, not the inner SectionWrapper markup.
-    const legacyOuterSection = screen.getByText('Character Legacy').closest('section')
+    const legacyOuterSection = screen.getByText("角色传承").closest('section')
       ?.parentElement;
-    const achievementsOuterSection = screen.getByText('Achievements').closest('section')
+    const achievementsOuterSection = screen.getByText("成就").closest('section')
       ?.parentElement;
 
     expect(legacyOuterSection?.tagName).toBe('SECTION');
@@ -379,8 +379,8 @@ describe('EndingScreen - Action hierarchy (#2083)', () => {
     setupStores([]);
     render(<EndingScreen />);
 
-    const newStoryBtn = screen.getByRole('button', { name: /new story/i });
-    const backToWorldsBtn = screen.getByRole('button', { name: /back to worlds/i });
+    const newStoryBtn = screen.getByRole('button', { name: /新故事/i });
+    const backToWorldsBtn = screen.getByRole('button', { name: /返回世界列表/i });
 
     expect(newStoryBtn).toHaveClass('card-action-variant-primary');
     expect(newStoryBtn).not.toHaveClass('card-action-variant-success');

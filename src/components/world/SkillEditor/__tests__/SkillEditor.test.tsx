@@ -70,8 +70,8 @@ const renderAndSetup = (props: React.ComponentProps<typeof SkillEditor> = mockPr
 };
 
 const fillSkillForm = async (user: ReturnType<typeof userEvent.setup>, name: string, description: string, attributeNames: string[] = []) => {
-  await user.type(screen.getByLabelText(/skill name/i), name);
-  await user.type(screen.getByLabelText(/description/i), description);
+  await user.type(screen.getByLabelText(/技能名称/i), name);
+  await user.type(screen.getByLabelText(/描述/i), description);
   for (const attrName of attributeNames) {
     await user.click(screen.getByLabelText(attrName));
   }
@@ -91,12 +91,12 @@ describe('SkillEditor', () => {
     it('renders create mode interface correctly', () => {
       render(<SkillEditor {...mockProps} />);
       
-      expect(screen.getByText('Create New Skill')).toBeInTheDocument();
-      expect(screen.getByLabelText(/skill name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-      expect(screen.getByText('Linked Attributes')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /create skill/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+      expect(screen.getByText("创建新技能")).toBeInTheDocument();
+      expect(screen.getByLabelText(/技能名称/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/描述/i)).toBeInTheDocument();
+      expect(screen.getByText("关联属性")).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /创建技能/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /取消/i })).toBeInTheDocument();
     });
 
     it('displays all available attributes as checkboxes', () => {
@@ -110,7 +110,7 @@ describe('SkillEditor', () => {
     it('allows creating a skill with multiple attribute links', async () => {
       const user = renderAndSetup();
       await fillSkillForm(user, 'Acrobatics', 'Tumbling and gymnastics', ['Strength', 'Dexterity']);
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       
       expect(mockProps.onSave).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -125,13 +125,13 @@ describe('SkillEditor', () => {
     it('prevents creating skills with duplicate names', async () => {
       const user = renderAndSetup();
       
-      await user.type(screen.getByLabelText(/skill name/i), 'Swordsmanship'); // Duplicate name
-      await user.type(screen.getByLabelText(/description/i), 'Test description');
+      await user.type(screen.getByLabelText(/技能名称/i), 'Swordsmanship'); // Duplicate name
+      await user.type(screen.getByLabelText(/描述/i), 'Test description');
       await user.click(screen.getByLabelText('Strength'));
       
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       
-      expect(screen.getByText(/skill name "Swordsmanship" already exists/i)).toBeInTheDocument();
+      expect(screen.getByText(/技能名称“Swordsmanship”已存在/i)).toBeInTheDocument();
       expect(mockProps.onSave).not.toHaveBeenCalled();
     });
 
@@ -141,26 +141,26 @@ describe('SkillEditor', () => {
       await fillSkillForm(user, 'New Skill', 'Test description');
       // Don't select any attributes
       
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       
-      expect(screen.getByText(/at least one attribute must be selected/i)).toBeInTheDocument();
+      expect(screen.getByText(/至少需要选择一个属性/i)).toBeInTheDocument();
       expect(mockProps.onSave).not.toHaveBeenCalled();
     });
 
     it('validates required fields', async () => {
       const user = renderAndSetup();
       
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       
-      expect(screen.getByText(/skill name is required/i)).toBeInTheDocument();
-      expect(screen.getByText(/description is required/i)).toBeInTheDocument();
+      expect(screen.getByText(/技能名称不能为空/i)).toBeInTheDocument();
+      expect(screen.getByText(/描述不能为空/i)).toBeInTheDocument();
       expect(mockProps.onSave).not.toHaveBeenCalled();
     });
 
     it('enforces maximum skills limit when provided', () => {
       render(<SkillEditor {...mockProps} existingSkills={createMockSkills(12)} maxSkills={12} />);
-      expect(screen.getByText(/maximum number of skills \(12\) reached/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /create skill/i })).toBeDisabled();
+      expect(screen.getByText(/技能数量已达上限（12）/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /创建技能/i })).toBeDisabled();
     });
   });
 
@@ -175,9 +175,9 @@ describe('SkillEditor', () => {
     it('renders edit mode interface correctly', () => {
       render(<SkillEditor {...editProps} />);
       
-      expect(screen.getByText('Edit Skill')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /delete skill/i })).toBeInTheDocument();
+      expect(screen.getByText("编辑技能")).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /保存更改/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /删除技能/i })).toBeInTheDocument();
     });
 
     it('loads existing skill data for editing', () => {
@@ -195,12 +195,12 @@ describe('SkillEditor', () => {
       const user = renderAndSetup(editProps);
       
       await user.clear(screen.getByDisplayValue('Swordsmanship'));
-      await user.type(screen.getByLabelText(/skill name/i), 'Advanced Swordsmanship');
+      await user.type(screen.getByLabelText(/技能名称/i), 'Advanced Swordsmanship');
       
       await user.click(screen.getByLabelText('Intelligence')); // Add Intelligence
       await user.click(screen.getByLabelText('Dexterity')); // Remove Dexterity
       
-      await user.click(screen.getByRole('button', { name: /save changes/i }));
+      await user.click(screen.getByRole('button', { name: /保存更改/i }));
       
       expect(mockProps.onSave).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -213,14 +213,14 @@ describe('SkillEditor', () => {
 
     it('handles delete confirmation dialog flow', async () => {
       const user = renderAndSetup(editProps);
-      await user.click(screen.getByRole('button', { name: /delete skill/i }));
+      await user.click(screen.getByRole('button', { name: /删除技能/i }));
       expect(screen.getByTestId('delete-dialog')).toBeInTheDocument();
 
       await user.click(screen.getByTestId('cancel-delete'));
       expect(editProps.onDelete).not.toHaveBeenCalled();
       expect(screen.queryByTestId('delete-dialog')).not.toBeInTheDocument();
 
-      await user.click(screen.getByRole('button', { name: /delete skill/i }));
+      await user.click(screen.getByRole('button', { name: /删除技能/i }));
       await user.click(screen.getByTestId('confirm-delete'));
       expect(editProps.onDelete).toHaveBeenCalledWith('skill-1');
     });
@@ -231,12 +231,12 @@ describe('SkillEditor', () => {
       {
         name: 'skill name length',
         input: { name: 'a'.repeat(101), description: 'Valid' },
-        errorMatch: /skill name must be 100 characters or less/i
+        errorMatch: /技能名称不能超过 100 个字符/i
       },
       {
         name: 'description length',
         input: { name: 'Valid Name', description: 'a'.repeat(501) },
-        errorMatch: /description must be 500 characters or less/i
+        errorMatch: /描述不能超过 500 个字符/i
       },
     ])('validates $name limits', async ({ input, errorMatch }) => {
       const user = renderAndSetup();
@@ -244,18 +244,18 @@ describe('SkillEditor', () => {
       // keystroke-by-keystroke loop that long can outrun the test timeout. Jest then
       // abandons the test while the typing keeps going, and the stray keystrokes land
       // on whatever input the next test has focused.
-      await user.click(screen.getByLabelText(/skill name/i));
+      await user.click(screen.getByLabelText(/技能名称/i));
       await user.paste(input.name);
-      await user.click(screen.getByLabelText(/description/i));
+      await user.click(screen.getByLabelText(/描述/i));
       await user.paste(input.description);
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       expect(screen.getByText(errorMatch)).toBeInTheDocument();
     });
 
     it('trims whitespace from inputs', async () => {
       const user = renderAndSetup();
       await fillSkillForm(user, 'Swimming', 'Water-based movement', ['Strength']);
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       expect(mockProps.onSave).toHaveBeenCalledWith(
         expect.objectContaining({ name: 'Swimming', description: 'Water-based movement' })
       );
@@ -265,13 +265,13 @@ describe('SkillEditor', () => {
   describe('Error Handling', () => {
     it('displays multiple validation errors and clears them when', async () => {
       const user = renderAndSetup();
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
-      expect(screen.getByText(/skill name is required/i)).toBeInTheDocument();
-      expect(screen.getByText(/description is required/i)).toBeInTheDocument();
-      expect(screen.getByText(/at least one attribute must be selected/i)).toBeInTheDocument();
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
+      expect(screen.getByText(/技能名称不能为空/i)).toBeInTheDocument();
+      expect(screen.getByText(/描述不能为空/i)).toBeInTheDocument();
+      expect(screen.getByText(/至少需要选择一个属性/i)).toBeInTheDocument();
 
-      await user.type(screen.getByLabelText(/skill name/i), 'Valid Name');
-      await waitFor(() => expect(screen.queryByText(/skill name is required/i)).not.toBeInTheDocument());
+      await user.type(screen.getByLabelText(/技能名称/i), 'Valid Name');
+      await waitFor(() => expect(screen.queryByText(/技能名称不能为空/i)).not.toBeInTheDocument());
     });
   });
 
@@ -280,8 +280,8 @@ describe('SkillEditor', () => {
       const user = renderAndSetup();
       await fillSkillForm(user, 'Climbing', 'Scale sheer walls', ['Strength']);
 
-      await user.type(screen.getByLabelText('Minimum Strength'), '4');
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.type(screen.getByLabelText("最低 Strength"), '4');
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
 
       expect(mockProps.onSave).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -307,15 +307,15 @@ describe('SkillEditor', () => {
         />
       );
 
-      expect(screen.getByLabelText('Minimum Strength')).toHaveValue(6);
+      expect(screen.getByLabelText("最低 Strength")).toHaveValue(6);
     });
   });
 
   describe('Cancel Functionality', () => {
     it('calls onCancel and does not save when cancel is clicked', async () => {
       const user = renderAndSetup();
-      await user.type(screen.getByLabelText(/skill name/i), 'Test Skill');
-      await user.click(screen.getByRole('button', { name: /cancel/i }));
+      await user.type(screen.getByLabelText(/技能名称/i), 'Test Skill');
+      await user.click(screen.getByRole('button', { name: /取消/i }));
       expect(mockProps.onSave).not.toHaveBeenCalled();
       expect(mockProps.onCancel).toHaveBeenCalled();
     });
@@ -325,11 +325,11 @@ describe('SkillEditor', () => {
     it('has proper ARIA labels, structure, and error messages', async () => {
       const user = renderAndSetup();
       expect(screen.getByRole('form')).toBeInTheDocument();
-      expect(screen.getByLabelText(/skill name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/技能名称/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/描述/i)).toBeInTheDocument();
       mockAttributes.forEach(attr => expect(screen.getByLabelText(attr.name)).toBeInTheDocument());
 
-      await user.click(screen.getByRole('button', { name: /create skill/i }));
+      await user.click(screen.getByRole('button', { name: /创建技能/i }));
       expect(screen.getAllByRole('alert').length).toBeGreaterThan(0);
     });
   });

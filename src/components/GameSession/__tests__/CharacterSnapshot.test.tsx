@@ -133,8 +133,8 @@ describe('CharacterSnapshot alignment row', () => {
 
     const row = screen.getByTestId('character-snapshot-alignment');
     expect(row).toBeInTheDocument();
-    expect(screen.getByText('Alignment')).toBeInTheDocument();
-    expect(screen.getByText('Chaotic')).toBeInTheDocument();
+    expect(screen.getByText("阵营")).toBeInTheDocument();
+    expect(screen.getByText("混乱")).toBeInTheDocument();
   });
 
   it('labels mid-range alignment as Neutral', () => {
@@ -142,6 +142,6 @@ describe('CharacterSnapshot alignment row', () => {
       <CharacterSnapshot character={{ ...mockCharacter, alignment: 10 }} />
     );
 
-    expect(screen.getByText('Neutral')).toBeInTheDocument();
+    expect(screen.getByText("中立")).toBeInTheDocument();
   });
 });

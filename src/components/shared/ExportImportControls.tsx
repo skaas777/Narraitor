@@ -45,9 +45,9 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
     
     try {
       await downloadGameState();
-      showMessage('Export completed successfully', 'success');
+      showMessage("导出成功", 'success');
     } catch {
-      showMessage("Couldn't export your data. Try again in a moment.", 'error');
+      showMessage("无法导出你的数据。请稍后再试。", 'error');
     } finally {
       setIsExporting(false);
     }
@@ -66,14 +66,14 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
     // The accept=".json" attribute is a UI hint only; users can still pick
     // anything via "All Files". Validate at the boundary before reading.
     if (!file.name.toLowerCase().endsWith('.json')) {
-      showMessage('Import failed. Please choose a .json file.', 'error');
+      showMessage("导入失败。请选择 .json 文件。", 'error');
       clearInput();
       return;
     }
 
     if (file.size > MAX_IMPORT_FILE_SIZE_BYTES) {
       const limitMb = Math.round(MAX_IMPORT_FILE_SIZE_BYTES / (1024 * 1024));
-      showMessage(`Import failed. File exceeds ${limitMb} MB limit.`, 'error');
+      showMessage(`导入失败。文件超过 ${limitMb} MB 限制。`, 'error');
       clearInput();
       return;
     }
@@ -84,12 +84,12 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
       const result = await importFromFile(file);
 
       if (result.success) {
-        showMessage(result.message || 'Import successful', 'success');
+        showMessage(result.message || "导入成功", 'success');
       } else {
-        showMessage(result.error || 'Import failed', 'error');
+        showMessage(result.error || "导入失败", 'error');
       }
     } catch {
-      showMessage('Import failed. Please check the file format.', 'error');
+      showMessage("导入失败。请检查文件格式。", 'error');
     } finally {
       setIsImporting(false);
       clearInput();
@@ -107,7 +107,7 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
           variant="outline"
 
         >
-          {isExporting ? 'Exporting...' : 'Export Game Data'}
+          {isExporting ? "正在导出..." : "导出游戏数据"}
         </Button>
 
         <div className="settings-export-import-files">
@@ -121,7 +121,7 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
             onChange={handleFileChange}
             disabled={isLoading}
             className="sr-only"
-            aria-label="Import game data from file"
+            aria-label="从文件导入游戏数据"
           />
           <Button
             onClick={() => fileInputRef.current?.click()}
@@ -129,7 +129,7 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
             variant="outline"
 
           >
-            {isImporting ? 'Importing...' : 'Import Game Data'}
+            {isImporting ? "正在导入..." : "导入游戏数据"}
           </Button>
         </div>
       </div>
@@ -146,10 +146,10 @@ export function ExportImportControls({ className = '' }: ExportImportControlsPro
 
       <div className="settings-export-import-help">
         <p>
-          <strong>Export:</strong> Creates a backup file of your complete game state including worlds, characters, and progress.
+          <strong>导出：</strong> 创建包含完整游戏状态的备份文件，包括世界、角色和进度。
         </p>
         <p>
-          <strong>Import:</strong> Restores game state from a previously exported backup file. This will replace your current data.
+          <strong>导入：</strong> 从之前导出的备份文件恢复游戏状态。这将替换你当前的数据。
         </p>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { useNPCStore } from '@/state/npcStore';
 import { useWorldThreadStore } from '@/state/worldThreadStore';
 import { aiFetch } from '@/lib/ai/aiFetch';
 import { buildStoryCheckpointPayload } from '@/lib/narrative/storyCheckpointPayload';
-import { fallbackChapterRecap } from '@/lib/narrative/chapters';
+import { CHAPTER_RECAP_LABELS, fallbackChapterRecap } from '@/lib/narrative/chapters';
 import type { NarrativeSegment } from '@/types/narrative.types';
 
 const inFlight = new Map<string, Promise<void>>();
@@ -74,11 +74,11 @@ async function createChapterCheckpointInner(
     .filter((npc) => seenNpcIds.has(npc.id))
     .map(
       (npc) =>
-        `${npc.name}: ${lastNpcIds.has(npc.id) ? 'last seen at the stopping point' : 'last seen earlier in this chapter'}`
+        `${npc.name}: ${lastNpcIds.has(npc.id) ? "最后出现在停留点" : "最后出现在本章较早处"}`
     );
   if (character)
     cast.unshift(
-      `${character.name}: ${character.status.conditions.join(', ') || 'no recorded conditions'}`
+      `${character.name}: ${character.status.conditions.join(', ') || "无记录状态"}`
     );
 
   const payload = buildStoryCheckpointPayload({
@@ -146,18 +146,11 @@ async function createChapterCheckpointInner(
           typeof result.chapterRecap === 'string'
             ? result.chapterRecap.split('\n')
             : [];
-        const labels = [
-          'Previously:',
-          'Where it stopped:',
-          'Cast:',
-          'Holding:',
-          'Open threads:',
-        ];
         if (
           result.chapterRecap?.length <= 850 &&
           lines.length === 5 &&
           lines.every((line: string, index: number) =>
-            line.startsWith(labels[index])
+            line.startsWith(CHAPTER_RECAP_LABELS[index])
           )
         ) {
           recap = result.chapterRecap;

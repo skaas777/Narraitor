@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { cssClasses } from '@/lib/utils';
 import type { ErrorSeverity } from '@/lib/utils/errorUtils';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 type ErrorVariant = 'inline' | 'section' | 'page' | 'toast';
 
@@ -89,16 +90,19 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   suggestion,
   showRetry = false,
   onRetry,
-  retryLabel = 'Try Again',
+  retryLabel = "重试",
   maxRetries,
   fallbackMessage,
-  fallbackLabel = 'Get help',
+  fallbackLabel = "获取帮助",
   onFallback,
   showDismiss = false,
   onDismiss,
   className,
   fieldName,
 }) => {
+  title = title ? localizeErrorMessage(title) : title;
+  message = localizeErrorMessage(message);
+  suggestion = suggestion ? localizeErrorMessage(suggestion) : suggestion;
   const severityClass = `error-display-${severity}`;
   const { isRetrying, retriesExhausted, handleRetry } = useRetryState(
     onRetry,
@@ -130,9 +134,9 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   const retryStatus = (
     <span className="sr-only" role="status" aria-live="polite">
       {isRetrying
-        ? 'Retrying, please wait.'
+        ? "正在重试，请稍候。"
         : showFallback
-          ? 'Automatic retry is unavailable. Choose an alternative.'
+          ? "自动重试不可用。请选择其他方式。"
           : ''}
     </span>
   );
@@ -145,7 +149,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
       disabled={isRetrying}
       aria-busy={isRetrying}
     >
-      {isRetrying ? 'Retrying…' : retryLabel}
+      {isRetrying ? "正在重试…" : retryLabel}
     </button>
   );
 
@@ -178,7 +182,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             {retryButton}
             {fallbackButton}
             {showDismiss && onDismiss && (
-              <button type="button" onClick={onDismiss}>Dismiss</button>
+              <button type="button" onClick={onDismiss}>忽略</button>
             )}
           </div>
         )}
@@ -203,10 +207,10 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             <button
               type="button"
               onClick={onDismiss}
-              aria-label="Dismiss"
+              aria-label="忽略"
               className="error-display-dismiss"
             >
-              Dismiss
+              忽略
             </button>
           )}
         </div>
@@ -233,7 +237,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           {retryButton}
           {fallbackButton}
           {showDismiss && onDismiss && (
-            <button type="button" className="error-display-dismiss" onClick={onDismiss}>Dismiss</button>
+            <button type="button" className="error-display-dismiss" onClick={onDismiss}>忽略</button>
           )}
         </div>
       )}

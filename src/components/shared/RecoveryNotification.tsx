@@ -36,6 +36,7 @@ import { Button } from '../ui/button';
 import { SimpleModal } from './SimpleModal';
 import { formatDateTime } from '@/lib/utils';
 import './RecoveryNotification.css';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 /**
  * Recovery data structure containing analyzed save information for preview display
@@ -140,23 +141,23 @@ export function RecoveryNotification({
    */
   const getStepDescription = (step?: number): string => {
     const names = stepNames || [
-      'Basic Info',
-      'Attributes',
-      'Skills',
-      'Background',
-      'Portrait',
+      "基本信息",
+      "属性",
+      "技能",
+      "背景",
+      "肖像",
     ];
     if (step !== undefined && step >= 0 && step < names.length) {
-      return `${names[step]} step`;
+      return `${names[step]} 步骤`;
     }
-    return 'Unknown step';
+    return "未知步骤";
   };
 
   return (
     <SimpleModal
       isOpen={isVisible}
       onClose={onDismiss}
-      title={title || "Character Creation Progress Found"}
+      title={title || "发现角色创建进度"}
       description={description}
       showCloseButton={true}
       contentClassName="component-recovery-notification"
@@ -168,41 +169,40 @@ export function RecoveryNotification({
             aria-hidden="true"
           />
           <p>
-            <strong>Warning:</strong> recovering will replace any current form
-            data you&apos;ve entered.
+            <strong>警告：</strong> 恢复将替换你已输入的所有当前表单数据。
           </p>
         </div>
       )}
 
       {recoveryData && (
         <div className="recovery-notification-preview">
-          <h4>Saved Progress Preview</h4>
+          <h4>已保存进度预览</h4>
           <dl>
             {recoveryData.name && (
               <div className="recovery-notification-preview-row">
-                <dt>Name</dt>
+                <dt>名称</dt>
                 <dd>{recoveryData.name}</dd>
               </div>
             )}
             {recoveryData.genre && (
               <div className="recovery-notification-preview-row">
-                <dt>Genre</dt>
-                <dd>{recoveryData.genre}</dd>
+                <dt>题材</dt>
+                <dd>{displayLabel(recoveryData.genre)}</dd>
               </div>
             )}
             {recoveryData.currentStep !== undefined && (
               <div className="recovery-notification-preview-row">
-                <dt>Progress</dt>
+                <dt>进度</dt>
                 <dd>{getStepDescription(recoveryData.currentStep)}</dd>
               </div>
             )}
             {recoveryData.hasAttributes &&
               (recoveryData.totalAttributePoints !== undefined || recoveryData.attributeCount !== undefined) && (
                 <div className="recovery-notification-preview-row">
-                  <dt>Attributes</dt>
+                  <dt>属性</dt>
                   <dd>
                     {recoveryData.totalAttributePoints !== undefined
-                      ? `${recoveryData.totalAttributePoints} points allocated`
+                      ? `已分配 ${recoveryData.totalAttributePoints} 点`
                       : recoveryData.attributeCount}
                   </dd>
                 </div>
@@ -210,18 +210,18 @@ export function RecoveryNotification({
             {recoveryData.hasSkills &&
               (recoveryData.selectedSkillCount !== undefined || recoveryData.skillCount !== undefined) && (
                 <div className="recovery-notification-preview-row">
-                  <dt>Skills</dt>
+                  <dt>技能</dt>
                   <dd>
                     {recoveryData.selectedSkillCount !== undefined
-                      ? `${recoveryData.selectedSkillCount} selected`
+                      ? `已选择 ${recoveryData.selectedSkillCount} 项`
                       : recoveryData.skillCount}
                   </dd>
                 </div>
               )}
             {recoveryData.hasBackground && (
               <div className="recovery-notification-preview-row">
-                <dt>Background</dt>
-                <dd>Completed</dd>
+                <dt>背景</dt>
+                <dd>已完成</dd>
               </div>
             )}
           </dl>
@@ -230,16 +230,16 @@ export function RecoveryNotification({
 
       {validDate && (
         <p className="recovery-notification-last-saved">
-          Last saved: {validDate}
+          上次保存： {validDate}
         </p>
       )}
 
       <div className="recovery-notification-actions">
         <Button ref={recoverButtonRef} onClick={onRecover}>
-          Recover Progress
+          恢复进度
         </Button>
         <Button onClick={onDismiss} variant="outline">
-          Start Fresh
+          重新开始
         </Button>
       </div>
     </SimpleModal>

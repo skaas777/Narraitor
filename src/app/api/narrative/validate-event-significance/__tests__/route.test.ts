@@ -84,7 +84,7 @@ describe('POST /api/narrative/validate-event-significance', () => {
     // Fail open: an unreadable verdict must not silently swallow a checkpoint.
     expect(response.status).toBe(200);
     expect(data.isSignificant).toBe(true);
-    expect(data.reason).toContain('Parse error');
+    expect(data.reason).toContain('解析错误');
   });
 
   it('accepts the event when the model call fails outright', async () => {

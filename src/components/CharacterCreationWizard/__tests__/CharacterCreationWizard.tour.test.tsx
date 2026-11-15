@@ -294,13 +294,13 @@ describe('CharacterCreationWizard Joyride Next integration', () => {
 
     // Fill in character name so step 0 is valid
     await act(async () => {
-      fireEvent.change(screen.getByLabelText(/character name/i), {
+      fireEvent.change(screen.getByLabelText(/角色名称/i), {
         target: { value: 'Hero' },
       });
     });
 
     // Click the wizard's own Next button (advancing wizard from step 0 to step 1)
-    const wizardNextButton = screen.getByRole('button', { name: /^next$/i });
+    const wizardNextButton = screen.getByRole('button', { name: /^下一步$/i });
     await act(async () => {
       wizardNextButton.click();
     });
@@ -310,7 +310,7 @@ describe('CharacterCreationWizard Joyride Next integration', () => {
     expect(document.querySelector('[data-tutorial="basic-info"]')).toBeNull();
 
     // Click the wizard's own Back button (returning wizard from step 1 to step 0)
-    const wizardBackButton = screen.getByRole('button', { name: /^back$/i });
+    const wizardBackButton = screen.getByRole('button', { name: /^返回$/i });
     await act(async () => {
       wizardBackButton.click();
     });

@@ -215,7 +215,7 @@ export const useSessionStore = create<SessionStore>()(
       logger.error('Error initializing session:', error);
       set({ 
         status: 'initializing',
-        error: error instanceof Error ? error.message : 'Failed to initialize session',
+        error: error instanceof Error ? error.message : "初始化冒险记录失败",
       });
     }
   },

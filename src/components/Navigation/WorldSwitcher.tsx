@@ -47,7 +47,7 @@ export function WorldSwitcher() {
           setIsOpen(false);
           triggerRef.current?.focus();
         },
-        description: 'Close the world switcher',
+        description: "关闭世界切换器",
       },
     ],
     isOpen
@@ -70,7 +70,7 @@ export function WorldSwitcher() {
     setCurrentWorld(worldId);
     setIsOpen(false);
     const worldName = worlds[worldId]?.name || 'world';
-    navigateWithLoading(`/worlds/${worldId}`, `Loading ${worldName}...`);
+    navigateWithLoading(`/worlds/${worldId}`, `正在加载 ${worldName}……`);
   };
 
   return (
@@ -84,7 +84,7 @@ export function WorldSwitcher() {
       >
         <Globe aria-hidden="true" />
         <span className="world-switcher-name">
-          {currentWorld ? currentWorld.name : 'Select world'}
+          {currentWorld ? currentWorld.name : "选择世界"}
         </span>
         {currentWorld && worldCharacterCount > 0 && (
           <span className="world-switcher-count">
@@ -112,7 +112,7 @@ export function WorldSwitcher() {
                 <div>
                   <div>{world.name}</div>
                   <div>
-                    {getGenreLabel(world.genre)} • {worldCharacters} characters
+                    {getGenreLabel(world.genre)} • {worldCharacters} 个角色
                   </div>
                 </div>
                 {world.id === currentWorldId && <Check aria-hidden="true" />}
@@ -127,7 +127,7 @@ export function WorldSwitcher() {
               onClick={() => setIsOpen(false)}
             >
               <Plus aria-hidden="true" />
-              Create a world
+              创建世界
             </Link>
           </div>
         </div>

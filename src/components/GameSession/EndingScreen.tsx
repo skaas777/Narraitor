@@ -146,7 +146,7 @@ export function EndingScreen() {
       });
     } catch (error) {
       logger.error('Failed to load ending image:', error);
-      setImageError("Couldn't load the ending image.");
+      setImageError("无法加载结局图片。");
       generatedForEndingRef.current = null; // Reset on error so user can retry
     } finally {
       setIsGeneratingImage(false);
@@ -173,7 +173,7 @@ export function EndingScreen() {
     return (
       <div role="main" aria-live="polite">
         <div>
-          <LoadingState message="Loading your story ending..." />
+          <LoadingState message="正在加载你的故事结局……" />
         </div>
       </div>
     );
@@ -184,7 +184,7 @@ export function EndingScreen() {
     return (
       <ErrorDisplay
         variant="page"
-        title="Unable to load story ending"
+        title="无法加载故事结局"
         message={endingError}
         showRetry={true}
         onRetry={() => router.back()}
@@ -197,14 +197,14 @@ export function EndingScreen() {
     return (
       <div>
         <header>
-          <h1>No Ending Available</h1>
-          <p>It looks like the story ending isn&apos;t available right now.</p>
+          <h1>暂无结局</h1>
+          <p>故事结局目前似乎不可用。</p>
         </header>
         <CardActionGroup
           primaryActions={[
             {
               key: 'return-home',
-              text: 'Return to Home',
+              text: "返回首页",
               onClick: () => router.push('/worlds'),
               variant: 'primary',
             },
@@ -218,29 +218,29 @@ export function EndingScreen() {
   const world = worlds[currentEnding.worldId];
 
   const formatPlayTime = (seconds?: number) => {
-    if (!seconds) return 'Unknown';
+    if (!seconds) return "未知";
 
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
 
     if (hours > 0) {
-      return `${hours} hours ${minutes > 0 ? ` ${minutes} minutes` : ''}`;
+      return `${hours} 小时 ${minutes > 0 ? ` ${minutes} 分钟` : ''}`;
     }
-    return `${minutes} minutes`;
+    return `${minutes} 分钟`;
   };
 
   // Navigation actions using shared CardAction format
   const navigationActions: CardAction[] = [
     {
       key: 'back-to-worlds',
-      text: 'Back to Worlds',
+      text: "返回世界列表",
       onClick: () => router.push('/worlds'),
       variant: 'secondary',
       flex: true,
     },
     {
       key: 'new-story',
-      text: 'New Story',
+      text: "新故事",
       onClick: async () => {
         // Set the current character, end the session, clear the ending, then navigate to play
         const { setCurrentCharacter } = useCharacterStore.getState();
@@ -272,20 +272,19 @@ export function EndingScreen() {
       {/* Hero Section: Combined Header with Image */}
       <section
         className="component-ending-screen-hero"
-        aria-label="Story ending"
+        aria-label="故事结局"
       >
         {isGeneratingImage ? (
           <div
             className="component-ending-screen-hero-loading"
             role="img"
             aria-live="polite"
-            aria-label="Loading ending image"
+            aria-label="正在加载结局图片"
           >
             <div className="component-ending-screen-hero-loading-body">
-              <LoadingState message="Loading ending image..." />
+              <LoadingState message="正在加载结局图片……" />
               <p>
-                Preparing a visual representation of your story&apos;s
-                conclusion...
+                正在为你的故事结局准备视觉呈现……
               </p>
             </div>
           </div>
@@ -294,7 +293,7 @@ export function EndingScreen() {
             <Image
               className="component-ending-screen-hero-image"
               src={endingImage}
-              alt={`${capitalize(currentEnding.tone)} ending for ${character?.name || 'the character'}'s story`}
+              alt={`${capitalize(currentEnding.tone)}结局——${character?.name || "该角色"}的故事`}
               width={1280}
               height={720}
               priority
@@ -304,9 +303,9 @@ export function EndingScreen() {
                 {/* h2 in every hero branch: the page-level h1 belongs to the
                       route (sr-only "Story Complete", #1532), and this was the
                       only branch still rendering the hero title as an h1. */}
-                <h2 className="component-ending-screen-hero-title">The End</h2>
+                <h2 className="component-ending-screen-hero-title">剧终</h2>
                 <p className="component-ending-screen-hero-meta">
-                  {`${character?.name || 'Unknown Hero'} • ${world?.name || 'Unknown Realm'}${currentEnding.playTime ? ` • Play Time: ${formatPlayTime(currentEnding.playTime)}` : ''}`}
+                  {`${character?.name || "未知英雄"} • ${world?.name || "未知世界"}${currentEnding.playTime ? ` • 游玩时长：${formatPlayTime(currentEnding.playTime)}` : ''}`}
                 </p>
               </header>
             </div>
@@ -317,9 +316,9 @@ export function EndingScreen() {
           >
             <div className="component-ending-screen-hero-overlay">
               <header className="component-ending-screen-hero-header">
-                <h2 className="component-ending-screen-hero-title">The End</h2>
+                <h2 className="component-ending-screen-hero-title">剧终</h2>
                 <p className="component-ending-screen-hero-meta">
-                  {`${character?.name || 'Unknown Hero'} • ${world?.name || 'Unknown Realm'}${currentEnding.playTime ? ` • Play Time: ${formatPlayTime(currentEnding.playTime)}` : ''}`}
+                  {`${character?.name || "未知英雄"} • ${world?.name || "未知世界"}${currentEnding.playTime ? ` • 游玩时长：${formatPlayTime(currentEnding.playTime)}` : ''}`}
                 </p>
               </header>
             </div>
@@ -329,9 +328,9 @@ export function EndingScreen() {
                 onClick={generateEndingImage}
                 variant="secondary"
                 size="sm"
-                aria-label="Retry loading ending image"
+                aria-label="重试加载结局图片"
               >
-                Try Again
+                重试
               </Button>
             </div>
           </div>
@@ -341,9 +340,9 @@ export function EndingScreen() {
           >
             <div className="component-ending-screen-hero-overlay">
               <header className="component-ending-screen-hero-header">
-                <h2 className="component-ending-screen-hero-title">The End</h2>
+                <h2 className="component-ending-screen-hero-title">剧终</h2>
                 <p className="component-ending-screen-hero-meta">
-                  {`${character?.name || 'Unknown Hero'} • ${world?.name || 'Unknown Realm'}${currentEnding.playTime ? ` • Play Time: ${formatPlayTime(currentEnding.playTime)}` : ''}`}
+                  {`${character?.name || "未知英雄"} • ${world?.name || "未知世界"}${currentEnding.playTime ? ` • 游玩时长：${formatPlayTime(currentEnding.playTime)}` : ''}`}
                 </p>
               </header>
             </div>
@@ -355,9 +354,9 @@ export function EndingScreen() {
                     onClick={generateEndingImage}
                     variant="secondary"
                     size="sm"
-                    aria-label="Generate ending image"
+                    aria-label="生成结局图片"
                   >
-                    Generate Image
+                    生成图片
                   </Button>
                 )}
               </div>
@@ -369,7 +368,7 @@ export function EndingScreen() {
       <div className="component-ending-screen-content">
         {/* Epilogue */}
         <section>
-          <SectionWrapper title="Epilogue">
+          <SectionWrapper title="尾声">
             <div className="manuscript-ending-prose">
               {currentEnding.epilogue}
             </div>
@@ -378,7 +377,7 @@ export function EndingScreen() {
 
         {/* Character Legacy */}
         <section>
-          <SectionWrapper title="Character Legacy">
+          <SectionWrapper title="角色传承">
             <div className="manuscript-ending-prose">
               {currentEnding.characterLegacy}
             </div>
@@ -388,8 +387,8 @@ export function EndingScreen() {
         {/* Achievements */}
         {currentEnding.achievements &&
           currentEnding.achievements.length > 0 && (
-            <section aria-label="Story achievements">
-              <SectionWrapper title="Achievements">
+            <section aria-label="故事成就">
+              <SectionWrapper title="成就">
                 <ul
                   className="component-ending-screen-achievements"
                   role="list"
@@ -431,7 +430,7 @@ export function EndingScreen() {
 
         {/* World Impact */}
         <section>
-          <SectionWrapper title="Impact on the World">
+          <SectionWrapper title="对世界的影响">
             <div className="manuscript-ending-prose">
               {currentEnding.worldImpact}
             </div>
@@ -441,7 +440,7 @@ export function EndingScreen() {
         {/* Your Story - Collapsible Section */}
         {Boolean(fullStory) && (
           <section>
-            <CollapsibleSection title="Your Story" initialCollapsed={true}>
+            <CollapsibleSection title="你的故事" initialCollapsed={true}>
               <div className="manuscript-ending-prose">
                 {fullStory.split(/\n{2,}/).map((paragraph, index) => (
                   <p key={`story-paragraph-${index}`}>{paragraph.trim()}</p>
@@ -453,7 +452,7 @@ export function EndingScreen() {
 
         {/* Next Steps */}
         <section>
-          <SectionWrapper title="What's Next?">
+          <SectionWrapper title="接下来呢？">
             <CardActionGroup
               primaryActions={navigationActions}
               layout="horizontal"

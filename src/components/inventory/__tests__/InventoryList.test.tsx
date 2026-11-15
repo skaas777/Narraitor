@@ -167,8 +167,8 @@ describe('InventoryList', () => {
 
     render(inventoryList());
 
-    expect(screen.getByRole('heading', { name: 'Equipment' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Consumables' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "装备" })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "消耗品" })).toBeInTheDocument();
     expect(screen.getByText('Steel Sword')).toBeInTheDocument();
     expect(screen.getByText('Health Potion')).toBeInTheDocument();
   });
@@ -219,7 +219,7 @@ describe('InventoryList', () => {
 
     render(inventoryList());
 
-    expect(screen.getByText(/no items in inventory/i)).toBeInTheDocument();
+    expect(screen.getByText(/背包中没有物品/i)).toBeInTheDocument();
   });
 
   test('updates when inventory items change', () => {
@@ -245,7 +245,7 @@ describe('InventoryList', () => {
     );
 
     const { rerender } = render(inventoryList());
-    expect(screen.getByText(/no items in inventory/i)).toBeInTheDocument();
+    expect(screen.getByText(/背包中没有物品/i)).toBeInTheDocument();
 
     // Second render: item added to inventory
     mockItemsById = { [newItem.id]: newItem };
@@ -310,7 +310,7 @@ describe('InventoryList', () => {
     render(inventoryList());
 
     expect(
-      screen.getByLabelText('Image unavailable for Broken Compass')
+      screen.getByLabelText("Broken Compass的图片不可用")
     ).toBeInTheDocument();
   });
 
@@ -337,7 +337,7 @@ describe('InventoryList', () => {
     render(inventoryList());
 
     expect(
-      screen.getByLabelText('Image unavailable for Faded Locket')
+      screen.getByLabelText("Faded Locket的图片不可用")
     ).toBeInTheDocument();
   });
 
@@ -360,7 +360,7 @@ describe('InventoryList', () => {
     render(inventoryList());
 
     expect(
-      screen.getByLabelText('Generating image for Summoned Blade')
+      screen.getByLabelText("正在为Summoned Blade生成图片")
     ).toBeInTheDocument();
   });
 
@@ -390,7 +390,7 @@ describe('InventoryList', () => {
     render(inventoryList());
 
     // Find drop button
-    const dropButton = screen.getByLabelText('Drop Test Item');
+    const dropButton = screen.getByLabelText("丢弃 Test Item");
     await user.click(dropButton);
 
     // Dialog should be open
@@ -422,7 +422,7 @@ describe('InventoryList', () => {
 
     const { container } = render(inventoryList());
 
-    expect(screen.getByText('Equipped')).toBeInTheDocument();
+    expect(screen.getByText("已装备")).toBeInTheDocument();
     expect(container.querySelector('.manuscript-inventory-item.is-equipped')).toBeInTheDocument();
   });
 
@@ -448,7 +448,7 @@ describe('InventoryList', () => {
 
     render(inventoryList());
 
-    await user.click(screen.getByRole('button', { name: 'Equip Steel Sword' }));
+    await user.click(screen.getByRole('button', { name: "装备 Steel Sword" }));
 
     expect(toggleEquipItem).toHaveBeenCalledWith(characterId, 'item-eq');
   });
@@ -500,7 +500,7 @@ describe('InventoryList', () => {
 
     render(inventoryList());
 
-    await user.click(screen.getByRole('button', { name: 'Equip Lucky Charm' }));
+    await user.click(screen.getByRole('button', { name: "装备 Lucky Charm" }));
 
     expect(await screen.findByText('That cannot be equipped.')).toBeInTheDocument();
   });

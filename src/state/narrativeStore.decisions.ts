@@ -49,7 +49,7 @@ export const createNarrativeDecisionActions = (
 
   updateDecision: (decisionId: EntityID, updates: Partial<Decision>) => set((state) => {
     if (!state.decisions[decisionId]) {
-      return { error: 'Decision not found' };
+      return { error: "未找到决策" };
     }
 
     const updatedDecision: Decision = {
@@ -76,14 +76,14 @@ export const createNarrativeDecisionActions = (
 
     set((state) => {
       if (!state.decisions[decisionId]) {
-        return { error: 'Decision not found' };
+        return { error: "未找到决策" };
       }
 
       const decision = state.decisions[decisionId];
       const selectedOption = decision.options.find(opt => opt.id === optionId);
 
       if (!selectedOption) {
-        return { error: 'Selected option not found' };
+        return { error: "未找到所选选项" };
       }
 
       const updatedDecision: Decision = {

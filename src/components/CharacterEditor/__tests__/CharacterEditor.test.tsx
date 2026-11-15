@@ -171,7 +171,7 @@ describe('CharacterEditor MVP Tests', () => {
     fireEvent.change(nameInput, { target: { value: 'Modified Character' } });
 
     // Click save button
-    const saveButton = screen.getByText('Save Changes');
+    const saveButton = screen.getByText("保存更改");
     fireEvent.click(saveButton);
 
     // Verify updateCharacter was called and navigation occurred
@@ -207,7 +207,7 @@ describe('CharacterEditor MVP Tests', () => {
       expect(screen.getByDisplayValue('Test Character')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText("保存更改"));
 
     await waitFor(() => {
       expect(mockUpdateCharacter).toHaveBeenCalled();
@@ -231,9 +231,9 @@ describe('CharacterEditor MVP Tests', () => {
       expect(screen.getByDisplayValue('Test Character')).toBeInTheDocument();
     });
 
-    expect(screen.getByText('Remaining: 0')).toBeInTheDocument();
+    expect(screen.getByText("剩余：0")).toBeInTheDocument();
     expect(screen.queryByText(/Over budget/)).not.toBeInTheDocument();
-    expect(screen.getByText('Save Changes').closest('button')).not.toBeDisabled();
+    expect(screen.getByText("保存更改").closest('button')).not.toBeDisabled();
   });
 
   // Acceptance Criteria 5: Users can cancel edits without saving changes
@@ -260,7 +260,7 @@ describe('CharacterEditor MVP Tests', () => {
     fireEvent.change(nameInput, { target: { value: 'Modified Character' } });
 
     // Click cancel button
-    const cancelButton = screen.getByText('Cancel');
+    const cancelButton = screen.getByText("取消");
     fireEvent.click(cancelButton);
 
     // Verify updateCharacter was NOT called
@@ -285,7 +285,7 @@ describe('CharacterEditor MVP Tests', () => {
 
     // Wait for the hydration timeout (2 seconds) to show error
     expect(
-      await screen.findByText('Character Not Found', {}, { timeout: 3000 })
+      await screen.findByRole("heading", { name: "未找到角色" }, { timeout: 3000 })
     ).toBeInTheDocument();
   });
 
@@ -319,10 +319,10 @@ describe('CharacterEditor MVP Tests', () => {
     });
 
     expect(
-      screen.getByText('Point pool budget exceeded. Adjust your attributes or skills before saving.')
+      screen.getByText("点数池预算已超出。请先调整属性或技能，再保存。")
     ).toBeInTheDocument();
 
-    const saveButton = screen.getByText('Save Changes');
+    const saveButton = screen.getByText("保存更改");
     expect(saveButton).toBeDisabled();
   });
 });

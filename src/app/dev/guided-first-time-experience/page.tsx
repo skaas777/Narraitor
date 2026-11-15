@@ -61,57 +61,56 @@ export default function GuidedFirstTimeExperienceTestHarness() {
       <div>
         <div>
           <h1>
-            Guided First-Time Experience Test Harness
+            引导式首次体验测试台
           </h1>
           
           <div>
             <div>
               <span>
-                Onboarding Status:
+                引导状态：
               </span>
               <span className={`${
                 !showOnboarding
                   ? ''
                   : ''
               }`}>
-                {!showOnboarding ? 'Completed' : 'Not Completed'}
+                {!showOnboarding ? "已完成" : "未完成"}
               </span>
             </div>
 
             {/* Debug info */}
             <div>
-              shouldShow: {showOnboarding.toString()} |
-              isFirstTime: {isFirstTimeUser?.().toString() || 'undefined'}
+              显示引导： {showOnboarding.toString()} | 是否首次使用： {isFirstTimeUser?.().toString() || 'undefined'}
             </div>
             
             <button
               onClick={handleReset}
             >
-              Reset (Show Onboarding)
+              重置（显示引导）
             </button>
             
             <button
               onClick={handleMarkCompleted}
             >
-              Mark Completed (Hide Onboarding)
+              标记为已完成（隐藏引导）
             </button>
             
             <button
               onClick={handleClearStorage}
             >
-              Clear All Storage & Reload
+              清除所有存储并重新加载
             </button>
           </div>
           
           <div>
-            <h2>Test Instructions:</h2>
+            <h2>测试说明：</h2>
             <ul>
-              <li>• Test the complete 3-step onboarding flow</li>
-              <li>• Verify skip functionality works correctly</li>
-              <li>• Test mobile responsiveness by resizing window</li>
-              <li>• Ensure progress indicator updates correctly</li>
-              <li>• Verify world creation and navigation at completion</li>
-              <li>• Test that onboarding doesn&apos;t show when marked completed</li>
+              <li>• 测试完整的三步引导流程</li>
+              <li>• 验证跳过功能是否正常工作</li>
+              <li>• 通过调整窗口大小测试移动端适配</li>
+              <li>• 确保进度指示器正确更新</li>
+              <li>• 验证完成时的世界创建与跳转</li>
+              <li>• 测试标记为已完成后引导不再显示</li>
             </ul>
           </div>
         </div>
@@ -126,15 +125,15 @@ export default function GuidedFirstTimeExperienceTestHarness() {
               <div>
                 <div>
                   <h3>
-                    Onboarding Completed
+                    引导已完成
                   </h3>
                   <p>
-                    The guided experience is hidden for returning users.
+                    回访用户不会看到引导体验。
                   </p>
                   <button
                     onClick={handleReset}
                   >
-                    Reset to Test Again
+                    重置以再次测试
                   </button>
                 </div>
               </div>

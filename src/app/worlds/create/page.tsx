@@ -30,7 +30,7 @@ export default function CreateWorldPage() {
   return (
     <section
       className="component-create-world-page wizard-page"
-      aria-label="Create New World"
+      aria-label="创建新世界"
     >
       {/* The wizard header (WizardContainer) renders the visible <h1>; a
           second sr-only <h1> here only duplicated it for screen readers (#1473). */}

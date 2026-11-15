@@ -69,8 +69,8 @@ describe('DataTable', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /previous/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /上一页/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /下一页/i })).toBeInTheDocument();
   });
 
   it('navigates between pages', async () => {
@@ -89,7 +89,7 @@ describe('DataTable', () => {
       />
     );
 
-    const nextButton = screen.getByRole('button', { name: /next/i });
+    const nextButton = screen.getByRole('button', { name: /下一页/i });
     await user.click(nextButton);
 
     expect(screen.getByText('Item 11')).toBeInTheDocument();
@@ -99,7 +99,7 @@ describe('DataTable', () => {
   it('displays empty state when no data', () => {
     render(<DataTable columns={mockColumns} data={[]} />);
 
-    expect(screen.getByText(/no data available/i)).toBeInTheDocument();
+    expect(screen.getByText(/暂无数据/i)).toBeInTheDocument();
   });
 
   it('displays search filter when enabled', () => {

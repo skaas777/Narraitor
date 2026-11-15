@@ -39,7 +39,7 @@ describe('useSessionPacing', () => {
       rerender({ count: 5 });
     });
     expect(mockToast.info).toHaveBeenCalledTimes(1);
-    expect(mockToast.info).toHaveBeenCalledWith('5 story beats in');
+    expect(mockToast.info).toHaveBeenCalledWith("还有 5 个故事节拍");
 
     // Re-render at 5 should not re-fire
     act(() => {
@@ -58,7 +58,7 @@ describe('useSessionPacing', () => {
       rerender({ count: 10 });
     });
     expect(mockToast.info).toHaveBeenCalledTimes(2);
-    expect(mockToast.info).toHaveBeenLastCalledWith('10 story beats in');
+    expect(mockToast.info).toHaveBeenLastCalledWith("还有 10 个故事节拍");
   });
 
   it('triggers soft break prompt at time threshold', () => {

@@ -46,26 +46,24 @@ export function CustomProviderForm({
   return (
     <div className={clsx('component-custom-provider-form', className)}>
       <p className="form-help-text" id="custom-provider-endpoint-help">
-        Any service that accepts OpenAI-style chat completions works here. The endpoint must be an
-        https URL on a public host — the request is made by the server, so a local address is not
-        reachable.
+        任何接受 OpenAI 风格聊天补全的服务都可以在这里使用。端点必须是公共主机上的 https URL——请求由服务器发出，因此本地地址无法访问。
       </p>
 
       <div className="form-group">
         <Label htmlFor="custom-provider-name">
-          Name
+          名称
         </Label>
         <Input
           id="custom-provider-name"
           value={value.name}
-          placeholder="My provider"
+          placeholder="我的模型服务"
           onChange={(e) => onChange({ name: e.target.value })}
         />
       </div>
 
       <div className="form-group">
         <Label htmlFor="custom-provider-endpoint">
-          Endpoint URL
+          端点 URL
         </Label>
         <Input
           id="custom-provider-endpoint"
@@ -80,12 +78,12 @@ export function CustomProviderForm({
 
       <div className="form-group">
         <Label htmlFor="custom-provider-model">
-          Model
+          模型
         </Label>
         <Input
           id="custom-provider-model"
           value={value.model}
-          placeholder="model-name"
+          placeholder="输入模型名称"
           onChange={(e) => onChange({ model: e.target.value })}
         />
       </div>

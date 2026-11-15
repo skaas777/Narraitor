@@ -125,13 +125,13 @@ describe('NarrativeGenerator - Skill Context Integration', () => {
     expect(calledPrompt).toContain('The player IS Test Hero');
 
     // Every skill the player invested in, named and rated.
-    expect(calledPrompt).toContain('Athletics (Master)');
-    expect(calledPrompt).toContain('Magic (Expert)');
-    expect(calledPrompt).toContain('Stealth (Competent)');
+    expect(calledPrompt).toContain("Athletics (大师)");
+    expect(calledPrompt).toContain('Magic (专家)');
+    expect(calledPrompt).toContain("Stealth (熟练)");
 
     // Notable attributes only. Dexterity sits at 4 and stays out.
-    expect(calledPrompt).toContain('Strength (Exceptional)');
-    expect(calledPrompt).toContain('Intelligence (High)');
+    expect(calledPrompt).toContain('Strength (卓越)');
+    expect(calledPrompt).toContain('Intelligence (高)');
     expect(calledPrompt).not.toContain('Dexterity (');
   });
 });

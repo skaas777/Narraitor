@@ -72,67 +72,67 @@ describe('attributeSkillFormatter - MVP Tests', () => {
 
   describe('getAttributeDescriptor', () => {
     test('returns "Exceptional" for values 9-10', () => {
-      expect(getAttributeDescriptor(9)).toBe('Exceptional');
-      expect(getAttributeDescriptor(10)).toBe('Exceptional');
+      expect(getAttributeDescriptor(9)).toBe("卓越");
+      expect(getAttributeDescriptor(10)).toBe("卓越");
     });
 
     test('returns "High" for values 7-8', () => {
-      expect(getAttributeDescriptor(7)).toBe('High');
-      expect(getAttributeDescriptor(8)).toBe('High');
+      expect(getAttributeDescriptor(7)).toBe("高");
+      expect(getAttributeDescriptor(8)).toBe("高");
     });
 
     test('returns "Moderate" for values 4-6', () => {
-      expect(getAttributeDescriptor(4)).toBe('Moderate');
-      expect(getAttributeDescriptor(5)).toBe('Moderate');
-      expect(getAttributeDescriptor(6)).toBe('Moderate');
+      expect(getAttributeDescriptor(4)).toBe('中等');
+      expect(getAttributeDescriptor(5)).toBe('中等');
+      expect(getAttributeDescriptor(6)).toBe('中等');
     });
 
     test('returns "Low" for values 2-3', () => {
-      expect(getAttributeDescriptor(2)).toBe('Low');
-      expect(getAttributeDescriptor(3)).toBe('Low');
+      expect(getAttributeDescriptor(2)).toBe("低");
+      expect(getAttributeDescriptor(3)).toBe("低");
     });
 
     test('returns "Very Low" for value 1', () => {
-      expect(getAttributeDescriptor(1)).toBe('Very Low');
+      expect(getAttributeDescriptor(1)).toBe("极低");
     });
 
     test('handles edge cases with default', () => {
-      expect(getAttributeDescriptor(0)).toBe('Moderate');
-      expect(getAttributeDescriptor(11)).toBe('Moderate');
-      expect(getAttributeDescriptor(-1)).toBe('Moderate');
+      expect(getAttributeDescriptor(0)).toBe('中等');
+      expect(getAttributeDescriptor(11)).toBe('中等');
+      expect(getAttributeDescriptor(-1)).toBe('中等');
     });
   });
 
   describe('getSkillDescriptor', () => {
     test('returns "Master" for level 5', () => {
-      expect(getSkillDescriptor(5)).toBe('Master');
+      expect(getSkillDescriptor(5)).toBe("大师");
     });
 
     test('returns "Expert" for level 4', () => {
-      expect(getSkillDescriptor(4)).toBe('Expert');
+      expect(getSkillDescriptor(4)).toBe("专家");
     });
 
     test('returns "Competent" for level 3', () => {
-      expect(getSkillDescriptor(3)).toBe('Competent');
+      expect(getSkillDescriptor(3)).toBe("熟练");
     });
 
     test('returns "Apprentice" for level 2', () => {
-      expect(getSkillDescriptor(2)).toBe('Apprentice');
+      expect(getSkillDescriptor(2)).toBe("学徒");
     });
 
     test('returns "Novice" for level 1', () => {
-      expect(getSkillDescriptor(1)).toBe('Novice');
+      expect(getSkillDescriptor(1)).toBe("新手");
     });
 
     test('clamps out-of-range values to 1-5', () => {
-      expect(getSkillDescriptor(0)).toBe('Novice'); // Clamps to 1
-      expect(getSkillDescriptor(10)).toBe('Master'); // Clamps to 5
-      expect(getSkillDescriptor(-1)).toBe('Novice'); // Clamps to 1
+      expect(getSkillDescriptor(0)).toBe("新手"); // Clamps to 1
+      expect(getSkillDescriptor(10)).toBe("大师"); // Clamps to 5
+      expect(getSkillDescriptor(-1)).toBe("新手"); // Clamps to 1
     });
 
     test('rounds fractional values', () => {
-      expect(getSkillDescriptor(3.4)).toBe('Competent'); // Rounds to 3
-      expect(getSkillDescriptor(3.6)).toBe('Expert'); // Rounds to 4
+      expect(getSkillDescriptor(3.4)).toBe("熟练"); // Rounds to 3
+      expect(getSkillDescriptor(3.6)).toBe("专家"); // Rounds to 4
     });
   });
 
@@ -147,8 +147,8 @@ describe('attributeSkillFormatter - MVP Tests', () => {
       const result = formatAttributesForNarrative(attributes);
 
       // Should only include notable attributes (not moderate)
-      expect(result).toContain('intelligence (Exceptional)');
-      expect(result).toContain('strength (Low)');
+      expect(result).toContain('intelligence (卓越)');
+      expect(result).toContain('strength (低)');
       expect(result).not.toContain('dexterity');
     });
 
@@ -170,8 +170,8 @@ describe('attributeSkillFormatter - MVP Tests', () => {
       const attributes = { intelligence: 9, strength: 3 };
       const result = formatAttributesForNarrative(attributes);
 
-      expect(result).toContain('intelligence (Exceptional)');
-      expect(result).toContain('strength (Low)');
+      expect(result).toContain('intelligence (卓越)');
+      expect(result).toContain('strength (低)');
     });
   });
 
@@ -184,8 +184,8 @@ describe('attributeSkillFormatter - MVP Tests', () => {
 
       const result = formatSkillsForNarrative(skills);
 
-      expect(result).toContain('lockpicking (Expert)');
-      expect(result).toContain('stealth (Apprentice)');
+      expect(result).toContain('lockpicking (专家)');
+      expect(result).toContain('stealth (学徒)');
     });
 
     test('includes all skills regardless of level', () => {
@@ -197,8 +197,8 @@ describe('attributeSkillFormatter - MVP Tests', () => {
       const result = formatSkillsForNarrative(skills);
 
       // Both should be included, even low-level skills
-      expect(result).toContain('lockpicking (Master)');
-      expect(result).toContain('stealth (Novice)');
+      expect(result).toContain('lockpicking (大师)');
+      expect(result).toContain('stealth (新手)');
     });
 
     test('handles empty skills', () => {
@@ -213,8 +213,8 @@ describe('attributeSkillFormatter - MVP Tests', () => {
 
       const result = formatSkillsForNarrative(skills);
 
-      expect(result).toContain('Lockpicking (Expert)');
-      expect(result).toContain('Stealth (Competent)');
+      expect(result).toContain('Lockpicking (专家)');
+      expect(result).toContain("Stealth (熟练)");
     });
   });
 });

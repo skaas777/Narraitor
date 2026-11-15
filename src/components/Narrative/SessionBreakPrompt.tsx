@@ -108,12 +108,12 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
       >
         <div className="session-break-prompt-content">
           <h2 id="session-break-prompt-title" className="session-break-prompt-title">
-            {chapterNumber !== undefined ? `Chapter ${chapterNumber} complete` : 'Good stopping point'}
+            {chapterNumber !== undefined ? `第${chapterNumber}章完成` : "适合暂停的时机"}
           </h2>
           <p id="session-break-prompt-desc" className="session-break-prompt-description">
             {chapterNumber !== undefined
-              ? isPreparingChapter ? 'Preparing the recap for your next chapter...' : 'Your game continues from this recap.'
-              : 'You have reached a natural pause in the story. Take a breather, step away, or keep reading whenever you are ready.'}
+              ? isPreparingChapter ? "正在准备下一章的回顾..." : "你的游戏将从这段回顾继续。"
+              : "故事已到一个自然的停顿点。你可以稍作休息、暂时离开，或准备好后继续阅读。"}
           </p>
 
           {chapterRecap && <p className="session-break-prompt-description">{chapterRecap.split('\n').map((line, index) => <React.Fragment key={line}>{index > 0 && <br />}{line}</React.Fragment>)}</p>}
@@ -121,19 +121,19 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
             <div className="session-break-prompt-metrics">
               {elapsedMinutes > 0 && (
                 <div className="session-break-prompt-metric-item">
-                  <span className="session-break-prompt-metric-label">Time elapsed</span>
-                  <span className="session-break-prompt-metric-value">{elapsedMinutes} min</span>
+                  <span className="session-break-prompt-metric-label">已用时间</span>
+                  <span className="session-break-prompt-metric-value">{elapsedMinutes} 分钟</span>
                 </div>
               )}
               {segmentCount !== undefined && segmentCount > 0 && (
                 <div className="session-break-prompt-metric-item">
-                  <span className="session-break-prompt-metric-label">Story beats</span>
+                  <span className="session-break-prompt-metric-label">故事节拍</span>
                   <span className="session-break-prompt-metric-value">{segmentCount}</span>
                 </div>
               )}
               {decisionCount !== undefined && decisionCount > 0 && (
                 <div className="session-break-prompt-metric-item">
-                  <span className="session-break-prompt-metric-label">Decisions made</span>
+                  <span className="session-break-prompt-metric-label">已做决定</span>
                   <span className="session-break-prompt-metric-value">{decisionCount}</span>
                 </div>
               )}
@@ -149,7 +149,7 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
             onClick={dismiss}
             aria-disabled={isPreparingChapter || undefined}
           >
-            {chapterNumber !== undefined ? isPreparingChapter ? 'Preparing recap' : 'Continue next chapter' : 'Dismiss'}
+            {chapterNumber !== undefined ? isPreparingChapter ? "正在准备回顾" : "继续下一章" : "关闭"}
           </button>
           {chapterNumber === undefined && <button
             ref={continueButtonRef}
@@ -157,7 +157,7 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
             className="session-break-prompt-continue-button"
             onClick={handleContinue}
           >
-            Continue reading
+            继续阅读
           </button>}
         </div>
       </div>

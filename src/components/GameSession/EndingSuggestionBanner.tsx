@@ -16,15 +16,15 @@ export function EndingSuggestionBanner({
   return (
     <Alert variant="warning" className="ending-suggestion-banner">
       <AlertTitle>
-        Your story could end here
+        你的故事可以在此结束
       </AlertTitle>
       <AlertDescription>{reason}</AlertDescription>
       <div className="ending-suggestion-banner-actions">
         <Button size="sm" onClick={onAccept}>
-          View Ending
+          查看结局
         </Button>
         <Button size="sm" variant="secondary" onClick={onDismiss}>
-          Continue Playing
+          继续游玩
         </Button>
       </div>
     </Alert>

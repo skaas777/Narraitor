@@ -46,22 +46,22 @@ export default function BasicInfoStep({
           data-testid="provider-key-disclosure"
         >
           <AlertDescription>
-            Narraitor runs on your own provider key (Google Gemini, OpenAI, OpenRouter, or a model you host yourself). It&apos;s stored only in your browser, and there&apos;s no account needed.{' '}
-            <Link href="/settings/providers">Set up a provider</Link>.
+            Narraitor 使用你自己的模型服务密钥运行（Google Gemini、OpenAI、OpenRouter，或你自己托管的模型）。密钥仅存储在浏览器中，无需账户。{' '}
+            <Link href="/settings/providers">设置模型服务</Link>.
           </AlertDescription>
         </Alert>
       )}
 
-      <WizardFormSection title="World Details">
+      <WizardFormSection title="世界详情">
         <WizardFormGroup
-          label="World Name (optional)"
+          label="世界名称（可选）"
           error={combinedErrors.name}
-          helpText={guidance.nameExamples.length ? `Examples: ${guidance.nameExamples.slice(0, 3).join(', ')}` : 'Choose a genre below to see name examples'}
+          helpText={guidance.nameExamples.length ? `示例：${guidance.nameExamples.slice(0, 3).join(', ')}` : "选择下方类型以查看名称示例"}
         >
           <WizardTextField
             value={worldData.name || ''}
             onChange={(value) => onUpdate({ ...worldData, name: value })}
-            placeholder="Enter your world's name"
+            placeholder="输入你的世界名称"
             error={combinedErrors.name}
             testId="world-name-input"
             dataTutorial="world-name"
@@ -69,7 +69,7 @@ export default function BasicInfoStep({
         </WizardFormGroup>
 
         <WizardFormGroup
-          label="Genre"
+          label="题材"
           required
           helpText={guidance.tagline}
         >
@@ -77,7 +77,7 @@ export default function BasicInfoStep({
             value={worldData.genre || ''}
             onChange={(value) => onUpdate({ ...worldData, genre: value as GenreValue })}
             options={GENRE_OPTIONS}
-            placeholder="Choose a genre..."
+            placeholder="选择题材..."
             testId="world-genre-select"
             dataTutorial="genre-picker"
           />
@@ -85,9 +85,9 @@ export default function BasicInfoStep({
 
         <div data-tutorial="world-type">
           <WizardFormGroup
-            label="World Type"
+            label="世界类型"
             error={combinedErrors.relationship}
-            helpText="Pick how closely this world should follow an existing setting."
+            helpText="选择此世界应在多大程度上遵循现有设定。"
           >
             <RadioGroup
               name="world-type"
@@ -108,9 +108,9 @@ export default function BasicInfoStep({
                   data-testid="relationship-none-radio"
                 />
                 <div className="wizard-radio-option-text">
-                  <span className="wizard-radio-option-title">Original World</span>
+                  <span className="wizard-radio-option-title">原创世界</span>
                   <p className="wizard-radio-option-desc">
-                    Create a completely original world from your imagination
+                    完全凭借想象创造一个原创世界
                   </p>
                 </div>
               </label>
@@ -122,9 +122,9 @@ export default function BasicInfoStep({
                   data-testid="relationship-based-on-radio"
                 />
                 <div className="wizard-radio-option-text">
-                  <span className="wizard-radio-option-title">Inspired By</span>
+                  <span className="wizard-radio-option-title">灵感来源</span>
                   <p className="wizard-radio-option-desc">
-                    Create an original world inspired by an existing fictional universe or real setting
+                    受现有虚构宇宙或真实背景启发，创作一个原创世界
                   </p>
                 </div>
               </label>
@@ -136,9 +136,9 @@ export default function BasicInfoStep({
                   data-testid="relationship-set-in-radio"
                 />
                 <div className="wizard-radio-option-text">
-                  <span className="wizard-radio-option-title">Set Within</span>
+                  <span className="wizard-radio-option-title">衍生世界</span>
                   <p className="wizard-radio-option-desc">
-                    Place your world directly within an existing fictional universe or real setting
+                    将你的世界直接置于现有虚构宇宙或真实背景之中
                   </p>
                 </div>
               </label>
@@ -148,23 +148,23 @@ export default function BasicInfoStep({
 
         {worldData.relationship && (
           <WizardFormGroup
-            label="Existing Setting"
+            label="现有设定"
             error={combinedErrors.reference}
             required
-            helpText="Name the fictional universe (e.g., Star Wars, Forgotten Realms), era (e.g., Victorian London, Ancient Rome), or reference material. This helps produce examples that match the tone and canon."
+            helpText="填写虚构宇宙（例如《星球大战》《被遗忘的国度》）、时代（例如维多利亚时代的伦敦、古罗马）或参考素材。这有助于生成符合叙事风格与正典设定的示例。"
           >
             <WizardTextField
               value={worldData.reference || ''}
               onChange={(value) => onUpdate({ ...worldData, reference: value })}
-              placeholder="e.g., Star Wars, Victorian London, Ancient Rome, 1960s New York"
+              placeholder="例如：Star Wars、维多利亚时代的伦敦、古罗马、20世纪60年代的纽约"
               error={combinedErrors.reference}
               testId="world-reference-input"
               dataTutorial="world-reference"
             />
             <div>
               {worldData.relationship === 'set_within'
-                ? 'Enter the fictional universe or real setting where your world exists. Characters and locations will come from this setting.'
-                : 'Enter the fictional universe or real setting that will inspire your world. Your world will have original characters and locations with similar themes.'
+                ? "输入你的世界所在的虚构宇宙或真实背景。角色和地点将来自这一设定。"
+                : "输入将为你的世界提供灵感的虚构宇宙或真实背景。你的世界将拥有主题相似的原创角色和地点。"
               }
             </div>
           </WizardFormGroup>
@@ -172,8 +172,8 @@ export default function BasicInfoStep({
       </WizardFormSection>
 
       <WizardFormSection
-        title="Narrative Settings"
-        description="Configure how stories will be told in your world."
+        title="叙事设置"
+        description="配置你的世界中故事的讲述方式。"
       >
         <ToneSettingsForm
           toneSettings={worldData.toneSettings || DEFAULT_TONE_SETTINGS}

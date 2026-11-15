@@ -249,36 +249,35 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
   return (
     <div className="component-skills-step">
       <WizardFormSection
-        title="Allocate Skill Points"
-        description={`Choose up to ${maxSelectable} starting skills and distribute ${totalSkillPoints} skill points across them.`}
+        title="分配技能点"
+        description={`最多选择 ${maxSelectable} 个初始技能，并在它们之间分配 ${totalSkillPoints} 点技能点。`}
       >
       <div className="wizard-skill-intro">
         <p>
-          Each selected skill starts at its minimum level. Increase levels to invest skill points.
-          Unspent points are allowed if you want to create a less experienced character.
+          每个已选技能从其最低等级开始。提升等级即可投入技能点。如果你想创建一个经验较少的角色，也可以保留未使用的技能点。
         </p>
       </div>
 
       <div className={`${wizardStyles.card.base} wizard-skill-ledger`}>
         <div className="wizard-skill-ledger-section">
-          <h3 className={wizardStyles.subheading}>Skill Selection</h3>
+          <h3 className={wizardStyles.subheading}>技能选择</h3>
           <div className="wizard-badge-row">
-            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.primary}`}>Selected: {selectedSkills.length}</span>
-            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>Maximum: {maxSelectable}</span>
+            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.primary}`}>已选： {selectedSkills.length}</span>
+            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>上限： {maxSelectable}</span>
           </div>
         </div>
 
         <div className="wizard-skill-ledger-section">
-          <h3 className={wizardStyles.subheading}>Skill Points</h3>
+          <h3 className={wizardStyles.subheading}>技能点</h3>
           <div className="wizard-badge-row">
-            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>Total: {totalSkillPoints}</span>
-            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.primary}`}>Spent: {Math.max(spentPoints, 0)}</span>
+            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>总计： {totalSkillPoints}</span>
+            <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.primary}`}>已用： {Math.max(spentPoints, 0)}</span>
             <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>
-              Remaining: {Math.max(remainingPoints, 0)}
+              剩余： {Math.max(remainingPoints, 0)}
             </span>
             {totalSkillPoints > totalCapacity && (
               <span className={`${wizardStyles.badge.base} ${wizardStyles.badge.secondary}`}>
-                Cap: {totalCapacity}
+                容量： {totalCapacity}
               </span>
             )}
           </div>
@@ -310,11 +309,11 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
                   )}
                   {skill.attributeIds && skill.attributeIds.length > 0 && worldConfig?.attributes && (
                     <div className="wizard-skill-card-linked">
-                      Linked to:{' '}
+                      关联属性：{' '}
                       {skill.attributeIds
-                        .map(attrId => worldConfig.attributes?.find(attr => attr.id === attrId)?.name || 'Unknown')
+                        .map(attrId => worldConfig.attributes?.find(attr => attr.id === attrId)?.name || "未知")
                         .filter(name => name !== 'Unknown')
-                        .join(', ') || 'Unknown attributes'}
+                        .join(', ') || "未知属性"}
                     </div>
                   )}
                   {isLocked && (
@@ -329,9 +328,9 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
                 </div>
                 <ToggleButton
                   isActive={skill.isSelected}
-                  activeLabel="Selected"
-                  inactiveLabel={isLocked ? 'Locked' : 'Not Selected'}
-                  ariaLabel={`${skill.name}, ${isLocked ? 'locked' : skill.isSelected ? 'selected' : 'not selected'}`}
+                  activeLabel="已选择"
+                  inactiveLabel={isLocked ? "已锁定" : "未选择"}
+                  ariaLabel={`${skill.name}，${isLocked ? "已锁定" : skill.isSelected ? "已选择" : "未选择"}`}
                   onClick={() => handleSkillToggle(skill.skillId)}
                   testId={`skill-toggle-${safeKey}`}
                   disabled={isLocked}
@@ -342,8 +341,8 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
               {skill.isSelected && (
                 <div className="wizard-skill-level">
                   <div className="wizard-skill-level-row">
-                    <span>Level: {skill.level}</span>
-                    <span>Allocated Points: {cost}</span>
+                    <span>等级： {skill.level}</span>
+                    <span>已分配点数： {cost}</span>
                   </div>
                   <RangeSlider
                     value={skill.level}
@@ -368,8 +367,8 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
         <div className={`${wizardStyles.card.base}`}>
           <p>
             {totalSkillPoints > totalCapacity
-              ? 'You have more skill points than your skills can hold. Max out your skills or leave the extra unspent — both work.'
-              : `You have ${remainingPoints} skill points left to spend. Add them to sharpen your character's skills, or continue as you are.`}
+              ? "你的技能点超过了技能可容纳的上限。把技能点满，或保留多余的点数不分配——两种做法都可以。"
+              : `你还有 ${remainingPoints} 点技能点可分配。用它们强化角色的技能，或保持现状继续。`}
           </p>
         </div>
       )}
@@ -377,7 +376,7 @@ export const SkillsStep: React.FC<SkillsStepProps> = ({
       {remainingPoints < 0 && (
         <div className={wizardStyles.errorContainer}>
           <p className={wizardStyles.form.error}>
-            You have allocated more skill points than available. Reduce one or more skill levels.
+            你分配的技能点超过了可用点数。请降低一个或多个技能的等级。
           </p>
         </div>
       )}

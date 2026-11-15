@@ -59,7 +59,7 @@ jest.mock('@/components/DeleteConfirmationDialog/DeleteConfirmationDialog', () =
         <p>{description}</p>
         <p>{itemName}</p>
         <button onClick={onClose} disabled={isDeleting}>
-          Cancel
+          取消
         </button>
         <button onClick={onConfirm} disabled={isDeleting}>
           {confirmButtonText || 'Delete'}
@@ -111,9 +111,9 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /remove/i }));
+    await user.click(screen.getByRole('button', { name: /移除/i }));
 
-    expect(screen.getByRole('dialog', { name: /remove provider/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /移除模型服务/i })).toBeInTheDocument();
     expect(removeSpy).not.toHaveBeenCalled();
     expect(useProviderStore.getState().providers['p1']).toBeDefined();
   });
@@ -123,8 +123,8 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /remove/i }));
-    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    await user.click(screen.getByRole('button', { name: /移除/i }));
+    await user.click(screen.getByRole('button', { name: /取消/i }));
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(removeSpy).not.toHaveBeenCalled();
@@ -137,14 +137,14 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /remove/i }));
-    const dialog = screen.getByRole('dialog', { name: /remove provider/i });
-    expect(within(dialog).getByText(/clears the encryption key/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /移除/i }));
+    const dialog = screen.getByRole('dialog', { name: /移除模型服务/i });
+    expect(within(dialog).getByText(/清除存储在此浏览器中的加密密钥/i)).toBeInTheDocument();
 
-    await user.click(within(dialog).getByRole('button', { name: /^remove$/i }));
+    await user.click(within(dialog).getByRole('button', { name: /^移除$/i }));
 
     await waitFor(() => expect(removeSpy).toHaveBeenCalledWith('p1'));
-    await screen.findByText(/no provider yet/i);
+    await screen.findByText(/尚无模型服务/i);
     expect(useProviderStore.getState().providers['p1']).toBeUndefined();
     await waitFor(() => expect(clearEncryptionKey).toHaveBeenCalled());
   });
@@ -155,12 +155,12 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     render(<ProvidersSettingsPage />);
 
     const card = screen.getByText('Primary').closest('.component-provider-card') as HTMLElement;
-    await user.click(within(card).getByRole('button', { name: /remove/i }));
+    await user.click(within(card).getByRole('button', { name: /移除/i }));
 
-    const dialog = screen.getByRole('dialog', { name: /remove provider/i });
-    expect(within(dialog).getByText(/currently in use/i)).toBeInTheDocument();
+    const dialog = screen.getByRole('dialog', { name: /移除模型服务/i });
+    expect(within(dialog).getByText(/当前正在使用/i)).toBeInTheDocument();
 
-    await user.click(within(dialog).getByRole('button', { name: /^remove$/i }));
+    await user.click(within(dialog).getByRole('button', { name: /^移除$/i }));
 
     await waitFor(() => expect(removeSpy).toHaveBeenCalledWith('p1'));
     expect(useProviderStore.getState().providers['p1']).toBeUndefined();
@@ -178,9 +178,9 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /remove/i }));
-    const dialog = screen.getByRole('dialog', { name: /remove provider/i });
-    const confirmButton = within(dialog).getByRole('button', { name: /^remove$/i });
+    await user.click(screen.getByRole('button', { name: /移除/i }));
+    const dialog = screen.getByRole('dialog', { name: /移除模型服务/i });
+    const confirmButton = within(dialog).getByRole('button', { name: /^移除$/i });
 
     await user.click(confirmButton);
     await user.click(confirmButton);
@@ -202,16 +202,16 @@ describe('ProvidersSettingsPage — remove confirmation', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /remove/i }));
-    const dialog = screen.getByRole('dialog', { name: /remove provider/i });
-    await user.click(within(dialog).getByRole('button', { name: /^remove$/i }));
+    await user.click(screen.getByRole('button', { name: /移除/i }));
+    const dialog = screen.getByRole('dialog', { name: /移除模型服务/i });
+    await user.click(within(dialog).getByRole('button', { name: /^移除$/i }));
 
     // Once confirmed, removal runs to completion: cancel must neither close
     // the dialog early nor stop the removal.
-    const cancelButton = within(dialog).getByRole('button', { name: /cancel/i });
+    const cancelButton = within(dialog).getByRole('button', { name: /取消/i });
     expect(cancelButton).toBeDisabled();
     await user.click(cancelButton);
-    expect(screen.getByRole('dialog', { name: /remove provider/i })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /移除模型服务/i })).toBeInTheDocument();
 
     await act(async () => resolveRemoval());
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
@@ -225,8 +225,8 @@ describe('ProvidersSettingsPage — advanced settings', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /expand advanced/i }));
-    const maxTokens = screen.getByLabelText(/max response length/i);
+    await user.click(screen.getByRole('button', { name: /展开.*高级/i }));
+    const maxTokens = screen.getByLabelText(/最大回复长度（token 数）/i);
     await user.type(maxTokens, '2048');
     await user.tab();
 
@@ -241,8 +241,8 @@ describe('ProvidersSettingsPage — advanced settings', () => {
     const user = userEvent.setup();
     render(<ProvidersSettingsPage />);
 
-    await user.click(screen.getByRole('button', { name: /expand advanced/i }));
-    await user.click(screen.getByRole('button', { name: /reset to defaults/i }));
+    await user.click(screen.getByRole('button', { name: /展开.*高级/i }));
+    await user.click(screen.getByRole('button', { name: /恢复默认值/i }));
 
     expect(useProviderStore.getState().providers['p1'].advancedSettings).toBeUndefined();
   });

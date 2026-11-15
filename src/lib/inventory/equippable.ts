@@ -36,6 +36,6 @@ export function canEquipItem(item: InventoryItem): EquipEligibility {
   const label = getCategoryMetadata(item.categoryId)?.name ?? item.categoryId;
   return {
     allowed: false,
-    reason: `${item.name} can't be equipped — ${label} items are carried, not worn or wielded.`,
+    reason: `${item.name}无法装备——${label}类物品只能携带，不能穿戴或挥舞。`,
   };
 }

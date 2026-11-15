@@ -28,14 +28,14 @@ const WorldSettingsForm: React.FC<WorldSettingsFormProps> = ({
   return (
     <div className="component-world-settings-form">
       <section>
-        <h3>World Settings</h3>
+        <h3>世界设置</h3>
 
         <div>
           <div className="form-group">
             <Label htmlFor="maxAttributes">
-              Maximum Attributes
+              最大属性数
             </Label>
-            <p id="maxAttributes-description">Maximum number of attributes characters can have</p>
+            <p id="maxAttributes-description">角色可拥有的最大属性数量</p>
             <Input
               id="maxAttributes"
               type="number"
@@ -48,9 +48,9 @@ const WorldSettingsForm: React.FC<WorldSettingsFormProps> = ({
 
           <div className="form-group">
             <Label htmlFor="maxSkills">
-              Maximum Skills
+              最大技能数
             </Label>
-            <p id="maxSkills-description">Maximum number of skills characters can have</p>
+            <p id="maxSkills-description">角色可拥有的最大技能数量</p>
             <Input
               id="maxSkills"
               type="number"
@@ -63,9 +63,9 @@ const WorldSettingsForm: React.FC<WorldSettingsFormProps> = ({
 
           <div className="form-group">
             <Label htmlFor="attributePointPool">
-              Attribute Point Pool
+              属性点池
             </Label>
-            <p id="attributePointPool-description">Total points available to distribute among attributes</p>
+            <p id="attributePointPool-description">可用于分配到属性上的总点数</p>
             <Input
               id="attributePointPool"
               type="number"
@@ -78,9 +78,9 @@ const WorldSettingsForm: React.FC<WorldSettingsFormProps> = ({
 
           <div className="form-group">
             <Label htmlFor="skillPointPool">
-              Skill Point Pool
+              技能点池
             </Label>
-            <p id="skillPointPool-description">Total points available to distribute among skills</p>
+            <p id="skillPointPool-description">可用于分配到技能上的总点数</p>
             <Input
               id="skillPointPool"
               type="number"

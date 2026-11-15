@@ -111,7 +111,7 @@ describe('DashboardHome', () => {
       render(<DashboardHome />);
 
       // Should show metrics heading
-      expect(screen.getByRole('heading', { name: /your progress/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /你的进度/i })).toBeInTheDocument();
     });
 
     it('renders exactly one page-level h1 (#1530)', () => {
@@ -119,20 +119,20 @@ describe('DashboardHome', () => {
 
       const h1s = screen.getAllByRole('heading', { level: 1 });
       expect(h1s).toHaveLength(1);
-      expect(h1s[0]).toHaveTextContent('Dashboard');
+      expect(h1s[0]).toHaveTextContent("主页");
     });
 
     it('shows recent worlds section', () => {
       render(<DashboardHome />);
 
-      expect(screen.getByRole('heading', { name: /recent worlds/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /最近的世界/i })).toBeInTheDocument();
       expect(screen.getAllByText('Fantasy Realm').length).toBeGreaterThan(0);
     });
 
     it('shows recent characters section', () => {
       render(<DashboardHome />);
 
-      expect(screen.getByRole('heading', { name: /recent characters/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /最近角色/i })).toBeInTheDocument();
       expect(screen.getAllByText('Aragorn').length).toBeGreaterThan(0);
     });
 
@@ -140,7 +140,7 @@ describe('DashboardHome', () => {
       render(<DashboardHome />);
 
       // Should show next steps
-      expect(screen.getByRole('button', { name: /start playing/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /开始游玩/i })).toBeInTheDocument();
     });
 
     // One filled ink-blue CTA per rendered state. The recent-worlds and
@@ -155,7 +155,7 @@ describe('DashboardHome', () => {
 
       expect(container.querySelectorAll('.button-default')).toHaveLength(1);
       expect(
-        screen.getByRole('button', { name: /create a character/i })
+        screen.getByRole('button', { name: /创建角色/i })
       ).toHaveClass('button-default');
     });
 
@@ -168,7 +168,7 @@ describe('DashboardHome', () => {
 
       expect(container.querySelectorAll('.button-default')).toHaveLength(1);
       expect(
-        screen.getByRole('button', { name: /create your world/i })
+        screen.getByRole('button', { name: /创建你的世界/i })
       ).toHaveClass('button-default');
     });
   });
@@ -196,7 +196,7 @@ describe('DashboardHome', () => {
       const { container } = render(<DashboardHome />);
 
       expect(
-        screen.getByRole('button', { name: /continue last session/i })
+        screen.getByRole('button', { name: /继续上次冒险/i })
       ).toHaveClass('button-default');
       expect(container.querySelectorAll('.button-default')).toHaveLength(1);
     });
@@ -205,8 +205,8 @@ describe('DashboardHome', () => {
       render(<DashboardHome />);
 
       // "Start Playing" / "Create Your World" only appear in the getting-started guide
-      expect(screen.queryByRole('button', { name: /start playing/i })).not.toBeInTheDocument();
-      expect(screen.queryByRole('heading', { name: /getting started/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /开始游玩/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('heading', { name: /开始使用/i })).not.toBeInTheDocument();
     });
 
     it('renders exactly one page-level h1 (#1530)', () => {
@@ -214,7 +214,7 @@ describe('DashboardHome', () => {
 
       const h1s = screen.getAllByRole('heading', { level: 1 });
       expect(h1s).toHaveLength(1);
-      expect(h1s[0]).toHaveTextContent('Dashboard');
+      expect(h1s[0]).toHaveTextContent("主页");
     });
 
     it('shows progress card with session metrics', () => {
@@ -222,7 +222,7 @@ describe('DashboardHome', () => {
 
       // The entries count is surfaced by the progress card's labeled stat,
       // not the continue card.
-      const entriesStat = screen.getByText('Entries').closest('.dashboard-progress-stat');
+      const entriesStat = screen.getByText("条目").closest('.dashboard-progress-stat');
       expect(entriesStat).toHaveTextContent('15');
     });
 

@@ -31,6 +31,6 @@ describe('route error boundary reporting (#1641)', () => {
     render(<RouteErrorBoundary error={new Error('boom')} reset={() => {}} />);
 
     expect(screen.queryByText(/boom/)).not.toBeInTheDocument();
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    expect(screen.getByText(/出错了/i)).toBeInTheDocument();
   });
 });

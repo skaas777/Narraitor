@@ -1,3 +1,5 @@
+import { displayLabel, UI_LOCALE } from '@/lib/i18n/zhCN';
+
 /**
  * Formatting utilities for consistent data presentation across the application
  * Provides date, string, and number formatting with locale support
@@ -87,37 +89,19 @@ function validateAndParseDate(date: Date | string): Date | null {
  * @returns Human-readable relative time string
  */
 export function formatRelativeTime(date: Date | string): string {
-  try {
-    const targetDate = validateAndParseDate(date);
-    if (!targetDate) return 'Invalid date';
-
-    const now = new Date();
-    const diffInMilliseconds = targetDate.getTime() - now.getTime();
-    const diffInMinutes = Math.floor(Math.abs(diffInMilliseconds) / (1000 * 60));
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    const diffInDays = Math.floor(diffInHours / 24);
-    const isPast = diffInMilliseconds < 0;
-
-    if (diffInMinutes < 1) {
-      return 'just now';
-    } else if (diffInMinutes < 60) {
-      const unit = diffInMinutes === 1 ? 'minute' : 'minutes';
-      return isPast ? `${diffInMinutes} ${unit} ago` : `in ${diffInMinutes} ${unit}`;
-    } else if (diffInHours < 24) {
-      const unit = diffInHours === 1 ? 'hour' : 'hours';
-      return isPast ? `${diffInHours} ${unit} ago` : `in ${diffInHours} ${unit}`;
-    } else if (diffInDays === 1) {
-      return isPast ? 'yesterday' : 'tomorrow';
-    } else if (diffInDays < 7) {
-      const unit = 'days';
-      return isPast ? `${diffInDays} ${unit} ago` : `in ${diffInDays} ${unit}`;
-    } else {
-      // For dates more than a week away, show the actual date
-      return targetDate.toLocaleDateString();
-    }
-  } catch {
-    return 'Invalid date';
-  }
+  const targetDate = validateAndParseDate(date);
+  if (!targetDate) return '无效日期';
+  const difference = targetDate.getTime() - Date.now();
+  const minutes = Math.floor(Math.abs(difference) / 60_000);
+  if (minutes < 1) return '刚刚';
+  const sign = difference < 0 ? -1 : 1;
+  const relative = new Intl.RelativeTimeFormat(UI_LOCALE, { numeric: 'auto' });
+  if (minutes < 60) return relative.format(sign * minutes, 'minute');
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return relative.format(sign * hours, 'hour');
+  const days = Math.floor(hours / 24);
+  if (days < 7) return relative.format(sign * days, 'day');
+  return targetDate.toLocaleDateString(UI_LOCALE);
 }
 
 /**
@@ -159,7 +143,7 @@ export function formatRelativeTime(date: Date | string): string {
 export function formatDate(date: Date | string, options: DateFormatOptions = {}): string {
   try {
     const targetDate = validateAndParseDate(date);
-    if (!targetDate) return 'Invalid date';
+    if (!targetDate) return "无效日期";
 
     const defaultOptions: DateFormatOptions = {
       year: 'numeric',
@@ -168,9 +152,9 @@ export function formatDate(date: Date | string, options: DateFormatOptions = {})
       ...options
     };
 
-    return targetDate.toLocaleDateString(undefined, defaultOptions);
+    return targetDate.toLocaleDateString(UI_LOCALE, defaultOptions);
   } catch {
-    return 'Invalid date';
+    return "无效日期";
   }
 }
 
@@ -200,7 +184,7 @@ export function formatDate(date: Date | string, options: DateFormatOptions = {})
 export function formatTime(date: Date | string, includeSeconds: boolean = false): string {
   try {
     const targetDate = validateAndParseDate(date);
-    if (!targetDate) return 'Invalid time';
+    if (!targetDate) return "无效时间";
 
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
@@ -208,9 +192,9 @@ export function formatTime(date: Date | string, includeSeconds: boolean = false)
       ...(includeSeconds && { second: '2-digit' })
     };
 
-    return targetDate.toLocaleTimeString(undefined, options);
+    return targetDate.toLocaleTimeString(UI_LOCALE, options);
   } catch {
-    return 'Invalid time';
+    return "无效时间";
   }
 }
 
@@ -255,7 +239,7 @@ export function formatTime(date: Date | string, includeSeconds: boolean = false)
 export function formatDateTime(date: Date | string, options: DateTimeFormatOptions = {}): string {
   try {
     const targetDate = validateAndParseDate(date);
-    if (!targetDate) return 'Invalid date';
+    if (!targetDate) return "无效日期";
 
     const defaultOptions: DateTimeFormatOptions = {
       year: 'numeric',
@@ -266,9 +250,9 @@ export function formatDateTime(date: Date | string, options: DateTimeFormatOptio
       ...options
     };
 
-    return targetDate.toLocaleString(undefined, defaultOptions);
+    return targetDate.toLocaleString(UI_LOCALE, defaultOptions);
   } catch {
-    return 'Invalid date';
+    return "无效日期";
   }
 }
 
@@ -332,6 +316,8 @@ export function truncate(text: string, maxLength: number, suffix: string = '...'
  * @see {@link sentenceCase} for sentence-style capitalization
  */
 export function capitalize(text: string): string {
+  const localized = displayLabel(text);
+  if (localized !== text) return localized;
   if (!text) return '';
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
@@ -386,6 +372,8 @@ export function initialOf(name: string): string {
  * @see {@link sentenceCase} for sentence-style capitalization
  */
 export function titleCase(text: string): string {
+  const localized = displayLabel(text);
+  if (localized !== text) return localized;
   if (!text) return '';
   
   return text
@@ -469,7 +457,7 @@ export function sanitizeForSerialization(obj: unknown, options?: {
   function sanitizeRecursive(value: unknown, depth = 0): unknown {
     // Prevent infinite recursion and stack overflow
     if (depth > maxDepth) {
-      return '[Max Depth Exceeded]';
+      return "[超出最大深度]";
     }
     
     // Handle primitive types and null/undefined
@@ -491,7 +479,7 @@ export function sanitizeForSerialization(obj: unknown, options?: {
     
     // Handle circular references
     if (circularRefs.has(value as object)) {
-      return '[Circular Reference]';
+      return "[循环引用]";
     }
     
     circularRefs.add(value as object);

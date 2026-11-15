@@ -43,7 +43,7 @@ describe('BasicInfoStep - Physical Description', () => {
       />
     );
 
-    const field = screen.getByLabelText('Physical Description (optional)');
+    const field = screen.getByLabelText("外貌描述（可选）");
     expect(field).toBeInTheDocument();
     expect(field).not.toHaveAttribute('required');
   });
@@ -69,7 +69,7 @@ describe('BasicInfoStep - Physical Description', () => {
       />
     );
 
-    expect(screen.getByLabelText('Physical Description (optional)')).toHaveValue(
+    expect(screen.getByLabelText("外貌描述（可选）")).toHaveValue(
       'Tall with dark hair and piercing blue eyes'
     );
   });
@@ -84,7 +84,7 @@ describe('BasicInfoStep - Physical Description', () => {
       />
     );
 
-    fireEvent.change(screen.getByLabelText('Physical Description (optional)'), {
+    fireEvent.change(screen.getByLabelText("外貌描述（可选）"), {
       target: { value: 'A mysterious figure with a hooded cloak' },
     });
 

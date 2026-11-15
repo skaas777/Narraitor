@@ -32,7 +32,7 @@ it('automatically prepares one recap, resumes from persistence, and dismisses on
     sessionSegments: { 'session-ui': [boundary.id] },
   });
   const recap =
-    'Previously: Reached the gate.\nWhere it stopped: Gate.\nCast: None recorded.\nHolding: None.\nOpen threads: Cross the bridge.';
+    '前情提要: Reached the gate.\n上次停下的地方: Gate.\n登场角色: None recorded.\n持有物品: None.\n未解线索: Cross the bridge.';
   let resolveRequest!: (response: Response) => void;
   mockFetch.mockReturnValue(
     new Promise((resolve) => {
@@ -42,7 +42,7 @@ it('automatically prepares one recap, resumes from persistence, and dismisses on
   const props = { worldId: 'world-ui', sessionId: 'session-ui' };
   const view = render(<ChapterHandoffPrompt {...props} />);
   expect(
-    screen.getByRole('button', { name: 'Preparing recap' })
+    screen.getByRole('button', { name: "正在准备回顾" })
   ).toHaveAttribute('aria-disabled', 'true');
   await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
   await act(async () => {
@@ -51,12 +51,12 @@ it('automatically prepares one recap, resumes from persistence, and dismisses on
       json: async () => ({ chapterRecap: recap }),
     } as Response);
   });
-  expect(screen.getByText(/Previously: Reached the gate/)).toBeInTheDocument();
+  expect(screen.getByText(/前情提要: Reached the gate/)).toBeInTheDocument();
   view.unmount();
   render(<ChapterHandoffPrompt {...props} />);
   expect(mockFetch).toHaveBeenCalledTimes(1);
   fireEvent.click(
-    screen.getByRole('button', { name: 'Continue next chapter' })
+    screen.getByRole('button', { name: "继续下一章" })
   );
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   expect(

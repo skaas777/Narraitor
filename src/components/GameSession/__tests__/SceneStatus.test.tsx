@@ -31,7 +31,7 @@ describe('SceneStatus', () => {
   it('renders participants from the latest segment', () => {
     render(<SceneStatus segment={makeSegment({ characterIds: ['npc-guard'] })} />);
 
-    expect(screen.getByText('Characters Present')).toBeInTheDocument();
+    expect(screen.getByText("在场角色")).toBeInTheDocument();
     expect(screen.getByText('Sergeant Reyes')).toBeInTheDocument();
   });
 
@@ -42,7 +42,7 @@ describe('SceneStatus', () => {
       />
     );
 
-    expect(screen.getByText('Location')).toBeInTheDocument();
+    expect(screen.getByText("位置")).toBeInTheDocument();
     expect(screen.getByText('The Alibi Room')).toBeInTheDocument();
   });
 

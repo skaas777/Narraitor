@@ -19,10 +19,10 @@ describe('GameSessionResume action hierarchy', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Continue Adventure' })
+      screen.getByRole('button', { name: "继续冒险" })
     ).toHaveClass('button-default');
     expect(
-      screen.getByRole('button', { name: 'Start New Adventure' })
+      screen.getByRole('button', { name: "开始新冒险" })
     ).toHaveClass('button-secondary');
     expect(container.querySelectorAll('.button-default')).toHaveLength(1);
   });

@@ -24,12 +24,12 @@ describe('ErrorDisplay', () => {
         variant="section"
         title="Connection Problem"
         message="Unable to connect."
-        suggestion="Make sure you are online, then try again."
+        suggestion="确认网络正常后，再试一次。"
       />
     );
 
     expect(
-      screen.getByText('Make sure you are online, then try again.')
+      screen.getByText('确认网络正常后，再试一次。')
     ).toBeInTheDocument();
   });
 
@@ -46,12 +46,12 @@ describe('ErrorDisplay', () => {
     const { rerender } = render(
       <ErrorDisplay variant="section" message="Non-recoverable." />
     );
-    expect(screen.queryByRole('button', { name: /try again/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /重试/i })).toBeNull();
 
     rerender(
       <ErrorDisplay variant="section" message="Recoverable." showRetry onRetry={jest.fn()} />
     );
-    expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /重试/i })).toBeInTheDocument();
   });
 
   it('invokes the retry callback when the retry button is clicked', async () => {
@@ -61,7 +61,7 @@ describe('ErrorDisplay', () => {
     );
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+      fireEvent.click(screen.getByRole('button', { name: /重试/i }));
     });
 
     expect(onRetry).toHaveBeenCalledTimes(1);
@@ -77,19 +77,19 @@ describe('ErrorDisplay', () => {
       <ErrorDisplay variant="section" message="Recoverable." showRetry onRetry={onRetry} />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+    fireEvent.click(screen.getByRole('button', { name: /重试/i }));
 
-    const retrying = await screen.findByRole('button', { name: /retrying/i });
+    const retrying = await screen.findByRole('button', { name: /正在重试/i });
     expect(retrying).toBeDisabled();
     expect(retrying).toHaveAttribute('aria-busy', 'true');
-    expect(screen.getByRole('status')).toHaveTextContent(/retrying/i);
+    expect(screen.getByRole('status')).toHaveTextContent(/正在重试/i);
 
     await act(async () => {
       resolveRetry();
     });
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: /try again/i })).toBeEnabled()
+      expect(screen.getByRole('button', { name: /重试/i })).toBeEnabled()
     );
   });
 
@@ -99,12 +99,12 @@ describe('ErrorDisplay', () => {
       <ErrorDisplay variant="section" message="Recoverable." showRetry onRetry={onRetry} />
     );
 
-    const button = screen.getByRole('button', { name: /try again/i });
+    const button = screen.getByRole('button', { name: /重试/i });
     await act(async () => { fireEvent.click(button); });
     await act(async () => { fireEvent.click(button); });
 
     expect(onRetry).toHaveBeenCalledTimes(2);
-    expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /重试/i })).toBeInTheDocument();
   });
 
   it('degrades to a fallback action once retries are exhausted', async () => {
@@ -118,22 +118,22 @@ describe('ErrorDisplay', () => {
         showRetry
         onRetry={onRetry}
         maxRetries={1}
-        fallbackMessage="Still stuck. Head back to your worlds."
-        fallbackLabel="Back to Worlds"
+        fallbackMessage="仍无法继续，请返回世界列表。"
+        fallbackLabel="返回世界列表"
         onFallback={onFallback}
       />
     );
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+      fireEvent.click(screen.getByRole('button', { name: /重试/i }));
     });
 
     await waitFor(() =>
-      expect(screen.queryByRole('button', { name: /try again/i })).toBeNull()
+      expect(screen.queryByRole('button', { name: /重试/i })).toBeNull()
     );
-    expect(screen.getByText('Still stuck. Head back to your worlds.')).toBeInTheDocument();
+    expect(screen.getByText('仍无法继续，请返回世界列表。')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /back to worlds/i }));
+    fireEvent.click(screen.getByRole('button', { name: /返回世界列表/i }));
     expect(onFallback).toHaveBeenCalledTimes(1);
     expect(onRetry).toHaveBeenCalledTimes(1);
   });
@@ -151,21 +151,21 @@ describe('ErrorDisplay', () => {
         showRetry
         onRetry={onRetry}
         maxRetries={1}
-        fallbackMessage="Still stuck. Head back to your worlds."
-        fallbackLabel="Back to Worlds"
+        fallbackMessage="仍无法继续，请返回世界列表。"
+        fallbackLabel="返回世界列表"
         onFallback={onFallback}
       />
     );
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /try again/i }));
+      fireEvent.click(screen.getByRole('button', { name: /重试/i }));
     });
 
     await waitFor(() =>
-      expect(screen.queryByRole('button', { name: /try again/i })).toBeNull()
+      expect(screen.queryByRole('button', { name: /重试/i })).toBeNull()
     );
     expect(onRetry).toHaveBeenCalledTimes(1);
-    expect(screen.getByText('Still stuck. Head back to your worlds.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /back to worlds/i })).toBeInTheDocument();
+    expect(screen.getByText('仍无法继续，请返回世界列表。')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /返回世界列表/i })).toBeInTheDocument();
   });
 });

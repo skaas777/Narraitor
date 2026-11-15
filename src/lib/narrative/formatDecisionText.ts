@@ -16,7 +16,7 @@ const formatOfferedOption = (text: string): string => {
     ? `${firstChar.toLowerCase()}${withoutTo.slice(1)}`
     : withoutTo;
 
-  return `You choose to ${normalized}`.trim();
+  return `你选择${normalized}`.trim();
 };
 
 /**

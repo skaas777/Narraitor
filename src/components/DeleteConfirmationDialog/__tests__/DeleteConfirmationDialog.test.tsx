@@ -23,8 +23,8 @@ describe('DeleteConfirmationDialog', () => {
       expect(screen.getByText('Delete World')).toBeInTheDocument();
       expect(screen.getByText('Are you sure you want to delete this world? This action cannot be undone.')).toBeInTheDocument();
       expect(screen.getByText('Test World')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /delete/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /取消/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /删除/i })).toBeInTheDocument();
     });
 
     test('does not render when isOpen is false', () => {
@@ -51,7 +51,7 @@ describe('DeleteConfirmationDialog', () => {
     test('calls onClose when cancel button is clicked', () => {
       render(<DeleteConfirmationDialog {...defaultProps} />);
       
-      fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
+      fireEvent.click(screen.getByRole('button', { name: /取消/i }));
       
       expect(defaultProps.onClose).toHaveBeenCalledTimes(1);
       expect(defaultProps.onConfirm).not.toHaveBeenCalled();
@@ -60,7 +60,7 @@ describe('DeleteConfirmationDialog', () => {
     test('calls onConfirm when delete button is clicked', () => {
       render(<DeleteConfirmationDialog {...defaultProps} />);
       
-      fireEvent.click(screen.getByRole('button', { name: /delete/i }));
+      fireEvent.click(screen.getByRole('button', { name: /删除/i }));
       
       expect(defaultProps.onConfirm).toHaveBeenCalledTimes(1);
       expect(defaultProps.onClose).not.toHaveBeenCalled();
@@ -81,12 +81,12 @@ describe('DeleteConfirmationDialog', () => {
     test('disables buttons and shows loading text when isDeleting is true', () => {
       render(<DeleteConfirmationDialog {...defaultProps} isDeleting={true} />);
       
-      const deleteButton = screen.getByRole('button', { name: /Delete Test World/i });
-      const cancelButton = screen.getByRole('button', { name: /Cancel/i });
+      const deleteButton = screen.getByRole('button', { name: /删除Test World/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       
       expect(deleteButton).toBeDisabled();
       expect(cancelButton).toBeDisabled();
-      expect(screen.getByText(/deleting/i)).toBeInTheDocument();
+      expect(screen.getByText(/正在删除/i)).toBeInTheDocument();
     });
   });
 

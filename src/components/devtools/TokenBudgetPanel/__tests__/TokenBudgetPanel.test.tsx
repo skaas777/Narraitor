@@ -33,7 +33,7 @@ describe('TokenBudgetPanel', () => {
     render(<TokenBudgetPanel />);
 
     expect(screen.getByTestId('devtools-token-budget-panel')).toBeInTheDocument();
-    expect(screen.getByTestId('token-budget-status')).toHaveTextContent('Latest request');
+    expect(screen.getByTestId('token-budget-status')).toHaveTextContent("最新请求");
     expect(screen.getByTestId('token-budget-row-request-total')).toHaveTextContent(
       '40,000 / 80,000'
     );
@@ -80,7 +80,7 @@ describe('TokenBudgetPanel', () => {
     render(<TokenBudgetPanel />);
 
     expect(screen.getByTestId('token-budget-status')).toHaveTextContent(
-      /No request captured yet/i
+      /尚未捕获任何请求/i
     );
     expect(screen.getByTestId('token-budget-calibration-empty')).toBeInTheDocument();
     expect(screen.queryByTestId('token-budget-accuracy')).not.toBeInTheDocument();

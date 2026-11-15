@@ -71,7 +71,7 @@ export function useDraftAutoSave<TDraft extends DraftWithTimestamp, TPreview>({
       try {
         const parsed: unknown = JSON.parse(saved);
         if (!isValidDraft(parsed)) {
-          throw new Error('Saved draft does not match the expected shape');
+          throw new Error("已保存的草稿格式不符合预期");
         }
         setHasRecoveryData(true);
         setRecoveryPreview(analyzeRecovery(parsed));

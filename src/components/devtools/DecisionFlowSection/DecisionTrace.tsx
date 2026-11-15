@@ -9,6 +9,7 @@ import { normalizeForTrackerMatch } from '../shared/decisionSnapshot';
 import type { DecisionInspectorSnapshot } from '../shared/decisionSnapshot';
 import type { Decision, NarrativeSegment, DecisionWeight } from '@/types/narrative.types';
 import type { PlayerDecision } from '@/types/personalization.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 const WEIGHT_BADGE_VARIANTS: Record<DecisionWeight, 'outline-static' | 'warning-static' | 'destructive-static'> = {
   minor: 'outline-static',
@@ -20,9 +21,9 @@ const excerpt = (text: string, maxLength: number = 160): string =>
   text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
 
 const formatDate = (value: Date | string | undefined): string => {
-  if (!value) return 'not selected yet';
+  if (!value) return "尚未选择";
   const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? String(value) : parsed.toLocaleString();
+  return Number.isNaN(parsed.getTime()) ? String(value) : parsed.toLocaleString('zh-CN');
 };
 
 /**
@@ -61,7 +62,7 @@ const SegmentExcerpt = ({ label, segment }: { label: string; segment: NarrativeS
   <div className="devtools-decision-flow-segment">
     <span className="devtools-decision-flow-step-label">{label}</span>
     <Badge variant="outline-static" size="sm">
-      {segment.type}
+      {displayLabel(segment.type)}
     </Badge>
     {segment.metadata.decisionOutcome && (
       <Badge variant="info-static" size="sm">
@@ -77,8 +78,7 @@ const PromptDebugBlock = ({ segment }: { segment: NarrativeSegment }) => {
   if (!debugInfo) {
     return (
       <p className="devtools-decision-flow-empty">
-        No prompt debug info on this segment. Enable &quot;Show Prompts&quot; in the DevTools
-        header before generating to capture it.
+        此段没有提示词调试信息。生成前请在开发者工具顶栏启用“显示提示词”以捕获。
       </p>
     );
   }
@@ -92,15 +92,15 @@ const PromptDebugBlock = ({ segment }: { segment: NarrativeSegment }) => {
         <span>{debugInfo.modelUsed}</span>
         {debugInfo.tokenUsage && (
           <span>
-            {debugInfo.tokenUsage.promptTokens} prompt / {debugInfo.tokenUsage.completionTokens}{' '}
-            completion tokens
+            {debugInfo.tokenUsage.promptTokens} 提示词 / {debugInfo.tokenUsage.completionTokens}{' '}
+            补全 token
           </span>
         )}
       </div>
-      <CollapsibleSection title="Full prompt" initialCollapsed={true}>
+      <CollapsibleSection title="完整提示词" initialCollapsed={true}>
         <pre className="devtools-decision-flow-prompt">{debugInfo.fullPrompt}</pre>
       </CollapsibleSection>
-      <CollapsibleSection title="Prompt context detail" initialCollapsed={true}>
+      <CollapsibleSection title="提示词上下文详情" initialCollapsed={true}>
         <JsonViewer data={debugInfo} />
       </CollapsibleSection>
     </div>
@@ -144,15 +144,15 @@ export const DecisionTrace = ({
         <span className="devtools-decision-flow-trace-time">{formatDate(decision.selectedAt)}</span>
       </div>
 
-      {originSegment && <SegmentExcerpt label="Presented after" segment={originSegment} />}
+      {originSegment && <SegmentExcerpt label="呈现于其后" segment={originSegment} />}
 
       <div className="devtools-decision-flow-step">
-        <span className="devtools-decision-flow-step-label">Decision prompt</span>
+        <span className="devtools-decision-flow-step-label">决策提示词</span>
         <p className="devtools-decision-flow-prompt-text">{decision.prompt}</p>
       </div>
 
       <div className="devtools-decision-flow-step">
-        <span className="devtools-decision-flow-step-label">Generated options</span>
+        <span className="devtools-decision-flow-step-label">生成的选项</span>
         <ul className="devtools-decision-flow-options">
           {decision.options.map((option) => {
             const isSelected = option.id === decision.selectedOptionId;
@@ -168,17 +168,17 @@ export const DecisionTrace = ({
                 </span>
                 {option.alignment && (
                   <Badge variant="outline-static" size="sm">
-                    {option.alignment}
+                    {displayLabel(option.alignment)}
                   </Badge>
                 )}
                 {option.isCustomInput && (
                   <Badge variant="secondary-static" size="sm">
-                    custom input
+                    自定义输入
                   </Badge>
                 )}
                 {isSelected && (
                   <Badge variant="success-static" size="sm">
-                    selected
+                    已选中
                   </Badge>
                 )}
                 {option.hint && (
@@ -191,43 +191,42 @@ export const DecisionTrace = ({
       </div>
 
       <div className="devtools-decision-flow-step">
-        <span className="devtools-decision-flow-step-label">Recorded in tracker</span>
+        <span className="devtools-decision-flow-step-label">已记录到追踪器</span>
         {trackerRecord ? (
           <div className="devtools-decision-flow-tracker" data-testid="decision-flow-tracker-record">
             <Badge variant="info-static" size="sm">
               {trackerRecord.choiceType}
             </Badge>
             <span>{formatDate(trackerRecord.timestamp)}</span>
-            <CollapsibleSection title="Tracker record" initialCollapsed={true}>
+            <CollapsibleSection title="追踪器记录" initialCollapsed={true}>
               <JsonViewer data={trackerRecord} />
             </CollapsibleSection>
           </div>
         ) : (
           <p className="devtools-decision-flow-empty">
             {decision.selectedOptionId
-              ? 'No matching tracker record found for this selection.'
-              : 'Awaiting player selection — nothing recorded yet.'}
+              ? "未找到与该选择匹配的追踪器记录。"
+              : "等待玩家选择——尚未记录任何内容。"}
           </p>
         )}
       </div>
 
       {outcomeSegments.map((segment) => (
-        <SegmentExcerpt key={segment.id} label="Narrative outcome" segment={segment} />
+        <SegmentExcerpt key={segment.id} label="叙事结果" segment={segment} />
       ))}
 
       <div className="devtools-decision-flow-step">
-        <span className="devtools-decision-flow-step-label">Prompt debug info</span>
+        <span className="devtools-decision-flow-step-label">提示词调试信息</span>
         {debugSegment ? (
           <PromptDebugBlock segment={debugSegment} />
         ) : (
           <p className="devtools-decision-flow-empty">
-            No prompt debug info captured for this decision&apos;s segments. Enable &quot;Show
-            Prompts&quot; in the DevTools header before generating to capture it.
+            未捕获此决策各片段的提示词调试信息。生成前请在开发者工具顶栏启用“显示提示词”以捕获。
           </p>
         )}
       </div>
 
-      <CollapsibleSection title="Raw decision object" initialCollapsed={true}>
+      <CollapsibleSection title="原始决策对象" initialCollapsed={true}>
         <JsonViewer data={decision} />
       </CollapsibleSection>
     </div>

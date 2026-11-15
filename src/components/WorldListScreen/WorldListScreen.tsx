@@ -68,8 +68,8 @@ const WorldListScreen: React.FC = () => {
         err instanceof Error
           ? getUserFriendlyError(err)
           : ({
-              title: 'Failed to Load Worlds',
-              message: 'Try refreshing the page.',
+              title: "加载世界失败",
+              message: "请尝试刷新页面。",
               retryable: false,
               type: ErrorType.UNKNOWN,
               severity: 'error',
@@ -99,12 +99,12 @@ const WorldListScreen: React.FC = () => {
 
   const worldToDelete = worlds.find((world) => world.id === worldToDeleteId);
   const deleteMessage =
-    'Removes all characters and saved sessions for this world. This action cannot be undone.';
+    "将删除此世界中的所有角色和已保存的冒险记录。此操作无法撤销。";
 
   if (loading) {
     return (
       <section data-testid="world-list-screen-loading-indicator">
-        <LoadingPulse message="Loading your worlds..." skeletonLines={3} />
+        <LoadingPulse message="正在加载你的世界……" skeletonLines={3} />
       </section>
     );
   }
@@ -114,7 +114,7 @@ const WorldListScreen: React.FC = () => {
       <section data-testid="world-list-screen-error-message">
         <ErrorDisplay
           variant="section"
-          title={error.title || 'Error Loading Worlds'}
+          title={error.title || "加载世界出错"}
           message={error.message}
           severity="error"
           showRetry={Boolean(error.retryable)}
@@ -151,9 +151,9 @@ const WorldListScreen: React.FC = () => {
         isOpen={isDeleteDialogOpen}
         onClose={handleCloseDeleteDialog}
         onConfirm={handleConfirmDelete}
-        title="Delete World"
+        title="删除世界"
         description={deleteMessage}
-        itemName={worldToDelete?.name || 'this world'}
+        itemName={worldToDelete?.name || '这个世界'}
       />
     </div>
   );

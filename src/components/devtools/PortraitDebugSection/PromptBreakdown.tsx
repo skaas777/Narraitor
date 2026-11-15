@@ -3,6 +3,7 @@
 import React from 'react';
 import { Character } from '@/types/character.types';
 import { World } from '@/types/world.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface PromptBreakdownProps {
   characterData: Partial<Character> | null | undefined;
@@ -52,26 +53,26 @@ export function PromptBreakdown({ characterData, worldConfig, prompt }: PromptBr
     <div>
       {/* Logic Flow Diagram */}
       <div>
-        <h4>Prompt Construction Logic Flow</h4>
+        <h4>提示词构建逻辑流程</h4>
         
         <div>
           {/* Decision Tree */}
           <div>
-            <div>1. Automatic Character Detection</div>
+            <div>1. 自动角色检测</div>
             <div>
-              <div>AI analyzes &quot;{characterData?.name || 'Unknown'}&quot;</div>
+              <div>AI 分析 “{characterData?.name || "未知"}&quot;</div>
               {isPhotorealisticPrompt ? (
-                <div>→ Detected as known figure (photorealistic approach)</div>
+                <div>→ 检测为已知人物（照片写实方式）</div>
               ) : isFantasyPrompt ? (
-                <div>→ Detected as original character (fantasy art approach)</div>
+                <div>→ 检测为原创角色（奇幻艺术风格）</div>
               ) : (
-                <div>→ Detection pending...</div>
+                <div>→ 检测待定...</div>
               )}
             </div>
           </div>
           
           <div>
-            <div>2. Opening Statement</div>
+            <div>2. 开头陈述</div>
             <div>
               {isPhotorealisticPrompt ? 
                 '&quot;A portrait photograph of&quot;' : 
@@ -81,54 +82,54 @@ export function PromptBreakdown({ characterData, worldConfig, prompt }: PromptBr
           </div>
           
           <div>
-            <div>3. Subject Details</div>
+            <div>3. 主体细节</div>
             <div>
-              <div>Name: &quot;{characterData?.name || 'Unknown'}&quot;</div>
+              <div>姓名：&quot;{characterData?.name || "未知"}&quot;</div>
               {physicalDescription && (
-                <div>Physical: &quot;{physicalDescription}&quot;</div>
+                <div>外貌：&quot;{physicalDescription}&quot;</div>
               )}
               {isFantasyPrompt && personalityTraits && (
-                <div>Traits: &quot;{personalityTraits}&quot;</div>
+                <div>特征：&quot;{personalityTraits}&quot;</div>
               )}
               {isFantasyPrompt && profession && (
-                <div>Class: &quot;{profession} class&quot;</div>
+                <div>职业：&quot;{profession} 职业&quot;</div>
               )}
             </div>
           </div>
           
           <div>
-            <div>4. Context/Background</div>
+            <div>4. 上下文/背景</div>
             <div>
               {isPhotorealisticPrompt ? (
                 <>
-                  <div>• professional headshot</div>
-                  <div>• studio lighting</div>
+                  <div>• 专业半身像</div>
+                  <div>• 棚拍灯光</div>
                 </>
               ) : (
                 <>
-                  <div>• {worldConfig?.genre || 'mystical'} setting</div>
-                  <div>• dramatic lighting</div>
+                  <div>• {worldConfig?.genre || 'mystical'} 场景</div>
+                  <div>• 戏剧化灯光</div>
                 </>
               )}
             </div>
           </div>
           
           <div>
-            <div>5. Style Elements</div>
+            <div>5. 风格元素</div>
             <div>
               {isPhotorealisticPrompt ? (
                 <>
-                  <div>• 85mm lens</div>
-                  <div>• shallow depth of field</div>
-                  <div>• photorealistic</div>
-                  <div>• professional photography</div>
+                  <div>• 85毫米镜头</div>
+                  <div>• 浅景深</div>
+                  <div>• 写实风格</div>
+                  <div>• 专业摄影</div>
                 </>
               ) : (
                 <>
-                  <div>• digital painting</div>
-                  <div>• concept art style</div>
-                  <div>• highly detailed</div>
-                  <div>• artstation quality</div>
+                  <div>• 数字绘画</div>
+                  <div>• 概念艺术风格</div>
+                  <div>• 细节丰富</div>
+                  <div>• 专业作品质量</div>
                 </>
               )}
             </div>
@@ -138,7 +139,7 @@ export function PromptBreakdown({ characterData, worldConfig, prompt }: PromptBr
       
       {/* Prompt Breakdown */}
       <div>
-        <h4>Prompt Component Breakdown</h4>
+        <h4>提示词组件分解</h4>
         <div>
           {promptParts.map((part, index) => {
             const trimmedPart = part.trim();
@@ -169,7 +170,7 @@ export function PromptBreakdown({ characterData, worldConfig, prompt }: PromptBr
             return (
               <div key={index} >
                 <span className={`${color}`}>
-                  {category}
+                  {displayLabel(category)}
                 </span>
                 <span>{trimmedPart}</span>
               </div>
@@ -180,38 +181,38 @@ export function PromptBreakdown({ characterData, worldConfig, prompt }: PromptBr
       
       {/* Data Analysis */}
       <div>
-        <h4>Input Data Analysis</h4>
+        <h4>输入数据分析</h4>
         <div>
           <div>
             <div>
-              <span>Character Name:</span>
-              <span>{characterData?.name || 'Not set'}</span>
+              <span>角色名称：</span>
+              <span>{characterData?.name || "未设置"}</span>
             </div>
             <div>
-              <span>Portrait Type:</span>
+              <span>肖像类型：</span>
               <span>
-                {isPhotorealisticPrompt ? 'Photorealistic' : isFantasyPrompt ? 'Fantasy Art' : 'Auto-detected'}
+                {isPhotorealisticPrompt ? "照片级写实" : isFantasyPrompt ? "奇幻艺术" : "自动检测"}
               </span>
             </div>
             <div>
-              <span>Physical Description:</span>
-            <span>{physicalDescription ? `${physicalDescription.length} chars` : 'None'}</span>
+              <span>外貌描述：</span>
+            <span>{physicalDescription ? `${physicalDescription.length} 个字符` : 'None'}</span>
             </div>
             <div>
-              <span>Personality Length:</span>
-              <span>{characterData?.background?.personality?.length || 0} chars</span>
+              <span>性格描述长度：</span>
+              <span>{characterData?.background?.personality?.length || 0} 个字符</span>
             </div>
             <div>
-              <span>Extracted Traits:</span>
+              <span>提取的特征：</span>
               <span>{personalityTraits || 'None'}</span>
             </div>
             <div>
-              <span>History Contains Class:</span>
-              <span>{profession || 'No'}</span>
+              <span>历史记录包含职业：</span>
+              <span>{profession || "否"}</span>
             </div>
             <div>
-              <span>World Genre:</span>
-              <span>{worldConfig?.genre || 'Not set'}</span>
+              <span>世界类型：</span>
+              <span>{worldConfig?.genre || "未设置"}</span>
             </div>
           </div>
         </div>

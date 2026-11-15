@@ -82,15 +82,15 @@ describe('CharacterSuggestions', () => {
     renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
 
     await waitFor(() => {
-      expect(screen.getByRole('article', { name: 'Description suggestion' })).toBeInTheDocument();
+      expect(screen.getByRole('article', { name: "描述建议" })).toBeInTheDocument();
     });
-    expect(screen.getByRole('article', { name: 'Background suggestion' })).toBeInTheDocument();
-    expect(screen.getByRole('article', { name: 'Attributes suggestion' })).toBeInTheDocument();
-    expect(screen.getByRole('article', { name: 'Skills suggestion' })).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: "背景建议" })).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: "属性建议" })).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: "技能建议" })).toBeInTheDocument();
 
     expect(global.fetch).toHaveBeenCalledWith(
       '/api/generate-character',
@@ -103,12 +103,12 @@ describe('CharacterSuggestions', () => {
     const onAdopt = renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Description suggestion' });
+    await screen.findByRole('article', { name: "描述建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Adopt Description suggestion' })
+      screen.getByRole('button', { name: "采纳描述建议" })
     );
 
     expect(onAdopt).toHaveBeenCalledWith({
@@ -121,16 +121,16 @@ describe('CharacterSuggestions', () => {
     renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Description suggestion' });
+    await screen.findByRole('article', { name: "描述建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Dismiss Description suggestion' })
+      screen.getByRole('button', { name: "忽略描述建议" })
     );
 
     expect(
-      screen.queryByRole('article', { name: 'Description suggestion' })
+      screen.queryByRole('article', { name: "描述建议" })
     ).not.toBeInTheDocument();
   });
 
@@ -139,20 +139,20 @@ describe('CharacterSuggestions', () => {
     const onAdopt = renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Description suggestion' });
+    await screen.findByRole('article', { name: "描述建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Edit Description suggestion' })
+      screen.getByRole('button', { name: "编辑描述建议" })
     );
 
-    const textarea = screen.getByLabelText('Description');
+    const textarea = screen.getByLabelText("描述");
     await userEvent.clear(textarea);
     await userEvent.type(textarea, 'My edited description');
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Adopt Description suggestion' })
+      screen.getByRole('button', { name: "采纳描述建议" })
     );
 
     expect(onAdopt).toHaveBeenCalledWith({ description: 'My edited description' });
@@ -163,19 +163,19 @@ describe('CharacterSuggestions', () => {
     const onAdopt = renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Attributes suggestion' });
+    await screen.findByRole('article', { name: "属性建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Edit Attributes suggestion' })
+      screen.getByRole('button', { name: "编辑属性建议" })
     );
 
     // Clear the Strength number input (transient state — empty string parses to NaN).
-    await userEvent.clear(screen.getByLabelText('Strength value'));
+    await userEvent.clear(screen.getByLabelText('Strength 值'));
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Adopt Attributes suggestion' })
+      screen.getByRole('button', { name: "采纳属性建议" })
     );
 
     const call = onAdopt.mock.calls.find((c) => c[0]?.attributes);
@@ -193,11 +193,11 @@ describe('CharacterSuggestions', () => {
     renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent('Generation exploded');
+      expect(screen.getByRole('alert')).toHaveTextContent('操作未能完成，请稍后重试。');
     });
   });
 
@@ -215,20 +215,20 @@ describe('CharacterSuggestions', () => {
     renderPanel(jest.fn(), smallPoolWorld);
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Attributes suggestion' });
+    await screen.findByRole('article', { name: "属性建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Edit Attributes suggestion' })
+      screen.getByRole('button', { name: "编辑属性建议" })
     );
 
     // Check for warning message immediately since 8 > 5 budget
     await waitFor(() => {
-      expect(screen.getByText(/Over budget by/)).toBeInTheDocument();
+      expect(screen.getByText(/超出预算/)).toBeInTheDocument();
     });
 
-    const adoptBtn = screen.getByRole('button', { name: 'Adopt Attributes suggestion' });
+    const adoptBtn = screen.getByRole('button', { name: "采纳属性建议" });
     expect(adoptBtn).toBeDisabled();
   });
 
@@ -237,22 +237,22 @@ describe('CharacterSuggestions', () => {
     const onAdopt = renderPanel();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Suggest character details' })
+      screen.getByRole('button', { name: "推荐角色细节" })
     );
-    await screen.findByRole('article', { name: 'Attributes suggestion' });
+    await screen.findByRole('article', { name: "属性建议" });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Edit Attributes suggestion' })
+      screen.getByRole('button', { name: "编辑属性建议" })
     );
 
-    const input = screen.getByLabelText('Strength value');
+    const input = screen.getByLabelText('Strength 值');
     await userEvent.clear(input);
     await userEvent.type(input, '10'); // Within the pool budget of 30
 
     // Should not have the warning
-    expect(screen.queryByText(/Over budget by/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/超出预算/)).not.toBeInTheDocument();
 
-    const adoptBtn = screen.getByRole('button', { name: 'Adopt Attributes suggestion' });
+    const adoptBtn = screen.getByRole('button', { name: "采纳属性建议" });
     expect(adoptBtn).not.toBeDisabled();
 
     await userEvent.click(adoptBtn);

@@ -58,7 +58,7 @@ class ItemImageService {
       inventoryStore.setGeneratingImage(itemId, false);
       inventoryStore.setImageGenerationError(
         itemId,
-        error instanceof Error ? error.message : 'Unknown error'
+        error instanceof Error ? error.message : "未知错误"
       );
       throw error;
     }

@@ -114,7 +114,7 @@ export const TestDataGeneratorSection: React.FC = () => {
     } catch (error) {
       logger.error('[DevTools] Error generating test world:', error);
       alert(
-        `Error generating test world: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `生成测试世界时出错：${error instanceof Error ? error.message : "未知错误"}`
       );
     }
   };
@@ -151,11 +151,11 @@ export const TestDataGeneratorSection: React.FC = () => {
       }
 
       const worldNames = createdWorlds.map((w) => w.name).join(', ');
-      alert(`Successfully generated 5 test worlds with images: ${worldNames}`);
+      alert(`已成功生成 5 个带图片的测试世界：${worldNames}`);
     } catch (error) {
       logger.error('[DevTools] Error generating test worlds:', error);
       alert(
-        `Error generating test worlds: ${error instanceof Error ? error.message : 'Unknown error'}\\n\\nGenerated ${createdWorlds.length} worlds before error.`
+        `生成测试世界时出错：${error instanceof Error ? error.message : "未知错误"}\\n\\n出错前已生成 ${createdWorlds.length} 个世界。`
       );
     }
   };
@@ -163,7 +163,7 @@ export const TestDataGeneratorSection: React.FC = () => {
   const handleDebugStorage = () => {
     const currentWorld = effectiveWorldId ? worlds[effectiveWorldId] : null;
     if (!currentWorld) {
-      alert('Please select a world first');
+      alert("请先选择一个世界");
       return;
     }
 
@@ -177,14 +177,14 @@ export const TestDataGeneratorSection: React.FC = () => {
         JSON.parse(storedData)
       );
       alert(
-        `Data found in sessionStorage for key: ${storageKey}. Check console for details.`
+        `在 sessionStorage 中找到键为 ${storageKey} 的数据。详情请查看控制台。`
       );
     } else {
       console.log(
         '[TestDataGenerator] No data found in sessionStorage for key:',
         storageKey
       );
-      alert(`No data found in sessionStorage for key: ${storageKey}`);
+      alert(`在 sessionStorage 中未找到键为 ${storageKey} 的数据`);
     }
   };
 
@@ -196,7 +196,7 @@ export const TestDataGeneratorSection: React.FC = () => {
   const handleGenerate5Characters = async () => {
     const currentWorld = effectiveWorldId ? worlds[effectiveWorldId] : null;
     if (!currentWorld) {
-      alert('Please select a world first');
+      alert("请先选择一个世界");
       return;
     }
 
@@ -225,7 +225,7 @@ export const TestDataGeneratorSection: React.FC = () => {
         // Convert AI-generated data to character store format
         const characterData = {
           name: aiCharacterData.name,
-          description: `A character from ${currentWorld.name}`,
+          description: `来自 ${currentWorld.name} 的角色`,
           worldId: currentWorld.id,
           level: aiCharacterData.level || 1,
           isPlayer: true,
@@ -237,7 +237,7 @@ export const TestDataGeneratorSection: React.FC = () => {
               return {
                 id: generateUniqueId('attr'),
                 characterId: '', // Will be set by store
-                name: worldAttr?.name || 'Unknown',
+                name: worldAttr?.name || "未知",
                 baseValue: attr.value,
                 modifiedValue: attr.value,
                 category: worldAttr?.category,
@@ -252,7 +252,7 @@ export const TestDataGeneratorSection: React.FC = () => {
               return {
                 id: generateUniqueId('skill'),
                 characterId: '', // Will be set by store
-                name: worldSkill?.name || 'Unknown',
+                name: worldSkill?.name || "未知",
                 level: skill.level,
                 category: worldSkill?.category,
               };
@@ -320,12 +320,12 @@ export const TestDataGeneratorSection: React.FC = () => {
 
       const characterNames = createdCharacters.map((c) => c.name).join(', ');
       alert(
-        `Successfully generated 5 AI characters (random type selection) with portraits: ${characterNames}`
+        `已成功生成 5 个带头像的 AI 角色（随机类型选择）：${characterNames}`
       );
     } catch (error) {
       logger.error('[DevTools] Error generating AI characters:', error);
       alert(
-        `Error generating characters: ${error instanceof Error ? error.message : 'Unknown error'}\\n\\nGenerated ${createdCharacters.length} characters before error.`
+        `生成角色时出错：${error instanceof Error ? error.message : "未知错误"}\\n\\n出错前已生成 ${createdCharacters.length} 个角色。`
       );
     }
   };
@@ -333,12 +333,12 @@ export const TestDataGeneratorSection: React.FC = () => {
   const handleDeleteAllWorlds = async () => {
     const worldCount = Object.keys(worlds).length;
     if (worldCount === 0) {
-      alert('No worlds to delete');
+      alert("没有可删除的世界");
       return;
     }
 
     const confirmed = confirm(
-      `DELETE ALL WORLDS?\\n\\nThis will permanently delete all ${worldCount} worlds and their characters.\\n\\nThis action cannot be undone!`
+      `删除所有世界？\\n\\n这将永久删除所有 ${worldCount} 个世界及其角色。\\n\\n此操作无法撤销！`
     );
     if (!confirmed) return;
 
@@ -367,12 +367,12 @@ export const TestDataGeneratorSection: React.FC = () => {
       }
 
       alert(
-        `Successfully deleted all ${worldCount} worlds and their characters`
+        `已成功删除所有 ${worldCount} 个世界及其角色`
       );
     } catch (error) {
       logger.error('[DevTools] Error deleting all worlds:', error);
       alert(
-        `Error during deletion: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `删除时出错：${error instanceof Error ? error.message : "未知错误"}`
       );
     }
   };
@@ -380,7 +380,7 @@ export const TestDataGeneratorSection: React.FC = () => {
   const handleDeleteAllCharactersInWorld = async () => {
     const currentWorld = effectiveWorldId ? worlds[effectiveWorldId] : null;
     if (!currentWorld) {
-      alert('Please select a world first');
+      alert("请先选择一个世界");
       return;
     }
 
@@ -390,12 +390,12 @@ export const TestDataGeneratorSection: React.FC = () => {
     );
 
     if (worldCharacters.length === 0) {
-      alert(`No characters found in world "${currentWorld.name}"`);
+      alert(`在世界“${currentWorld.name}”中未找到角色`);
       return;
     }
 
     const confirmed = confirm(
-      `DELETE ALL CHARACTERS IN "${currentWorld.name}"?\\n\\nThis will permanently delete ${worldCharacters.length} characters.\\n\\nThis action cannot be undone!`
+      `删除”${currentWorld.name}”中的所有角色？\\n\\n这将永久删除 ${worldCharacters.length} 个角色。\\n\\n此操作无法撤销！`
     );
     if (!confirmed) return;
 
@@ -408,12 +408,12 @@ export const TestDataGeneratorSection: React.FC = () => {
       }
 
       alert(
-        `Successfully deleted ${worldCharacters.length} characters from "${currentWorld.name}"`
+        `已成功删除 ${worldCharacters.length} 个角色（来自“${currentWorld.name}”）`
       );
     } catch (error) {
       logger.error('[DevTools] Error deleting characters:', error);
       alert(
-        `Error during deletion: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `删除时出错：${error instanceof Error ? error.message : "未知错误"}`
       );
     }
   };
@@ -425,17 +425,17 @@ export const TestDataGeneratorSection: React.FC = () => {
     const totalItems = worldCount + characterCount;
 
     if (totalItems === 0) {
-      alert('Nothing to delete - database is already empty');
+      alert("无可删除内容——数据库已为空");
       return;
     }
 
     const confirmed = confirm(
-      `NUCLEAR OPTION - DELETE EVERYTHING?\\n\\nThis will permanently delete:\\n• ${worldCount} worlds\\n• ${characterCount} characters\\n• All associated data\\n\\nTHIS CANNOT BE UNDONE!\\n\\nAre you absolutely sure?`
+      `核选项——删除所有内容？\\n\\n这将永久删除：\\n• ${worldCount} 个世界\\n• ${characterCount} 个角色\\n• 所有关联数据\\n\\n此操作无法撤销！\\n\\n你确定吗？`
     );
     if (!confirmed) return;
 
     const doubleConfirmed = confirm(
-      `FINAL WARNING\\n\\nYou are about to delete EVERYTHING.\\n\\nClick OK to proceed with total data destruction.`
+      "最终警告\\n\\n你即将删除所有内容。\\n\\n点击”确定”以继续彻底销毁数据。"
     );
     if (!doubleConfirmed) return;
 
@@ -464,7 +464,7 @@ export const TestDataGeneratorSection: React.FC = () => {
       }
 
       alert(
-        `NUCLEAR OPTION COMPLETE\\n\\nDeleted ${worldCount} worlds and ${characterCount} characters.\\n\\nDatabase is now empty.`
+        `核选项已完成\\n\\n已删除 ${worldCount} 个世界和 ${characterCount} 个角色。\\n\\n数据库现已为空。`
       );
 
       // Force a small delay before allowing any other operations
@@ -472,7 +472,7 @@ export const TestDataGeneratorSection: React.FC = () => {
     } catch (error) {
       logger.error('[DevTools] Error during nuclear deletion:', error);
       alert(
-        `Error during deletion: ${error instanceof Error ? error.message : 'Unknown error'}\\n\\nSome data may not have been deleted. Check console for details.`
+        `删除过程中出错：${error instanceof Error ? error.message : "未知错误"}\\n\\n部分数据可能未被删除。请查看控制台了解详情。`
       );
     }
   };
@@ -502,12 +502,12 @@ export const TestDataGeneratorSection: React.FC = () => {
       console.log('worlds (legacy):', localStorage.getItem('worlds'));
     }
 
-    alert('Debug info logged to console. Check browser developer tools.');
+    alert("调试信息已输出到控制台。请查看浏览器开发者工具。");
   };
 
   return (
     <div>
-      <h3>Test Data Generators</h3>
+      <h3>测试数据生成器</h3>
 
       <div>
         <Button
@@ -515,9 +515,9 @@ export const TestDataGeneratorSection: React.FC = () => {
           
           size="sm"
           variant="info"
-          title="Creates diverse AI worlds: 33% original, 33% set in existing universes, 34% based on existing universes"
+          title="生成多样化的 AI 世界：33% 原创，33% 设定于既有宇宙，34% 基于既有宇宙"
         >
-          Generate Diverse AI World
+          生成多样化 AI 世界
         </Button>
 
         <Button
@@ -525,9 +525,9 @@ export const TestDataGeneratorSection: React.FC = () => {
           
           size="sm"
           variant="info"
-          title="Creates 5 diverse AI worlds with a mix of original, 'set in', and 'based on' types"
+          title="生成 5 个多样化的 AI 世界，混合原创、“设定于”和”基于”类型"
         >
-          Generate 5 Diverse AI Worlds
+          生成 5 个多样化 AI 世界
         </Button>
 
         <Button
@@ -536,9 +536,9 @@ export const TestDataGeneratorSection: React.FC = () => {
           size="sm"
           variant="success"
           disabled={!effectiveWorldId}
-          title="Creates 5 AI-generated characters directly in the selected world with random character type selection (50/50 known/original)"
+          title="在所选世界中直接生成 5 个 AI 角色，并随机选择角色类型（50/50 已知/原创）"
         >
-          Generate 5 AI Characters for World
+          为世界生成 5 个 AI 角色
         </Button>
 
         <Button
@@ -547,9 +547,9 @@ export const TestDataGeneratorSection: React.FC = () => {
           size="sm"
           variant="secondary"
           disabled={!effectiveWorldId}
-          title="Navigate to empty character creation form"
+          title="跳转到空白角色创建表单"
         >
-          Go to Empty Form
+          前往空白表单
         </Button>
 
         <Button
@@ -558,19 +558,18 @@ export const TestDataGeneratorSection: React.FC = () => {
           size="sm"
           variant="default"
           disabled={!effectiveWorldId}
-          title="Check if test data exists in sessionStorage"
+          title="检查 sessionStorage 中是否存在测试数据"
         >
-          Debug: Check Storage
+          调试：检查存储
         </Button>
       </div>
 
       <p>
-        AI generators create diverse content for testing: original worlds,
-        &quot;set in&quot; universes, and &quot;based on&quot; worlds.
-        {!effectiveWorldId && 'Select a world to enable character generation.'}
+        AI 生成器会创建多样化的测试内容：原创世界、“设定于”宇宙，以及“基于”世界。
+        {!effectiveWorldId && "选择一个世界以启用角色生成。"}
         {worldIdFromUrl && (
           <span>
-            Using world from current page: {worlds[worldIdFromUrl]?.name}
+            正在使用当前页面的世界： {worlds[worldIdFromUrl]?.name}
           </span>
         )}
       </p>
@@ -578,7 +577,7 @@ export const TestDataGeneratorSection: React.FC = () => {
       {/* Destructive Operations Section */}
       <div>
         <h4>
-          Destructive Operations
+          破坏性操作
         </h4>
         <div>
           <Button
@@ -587,10 +586,10 @@ export const TestDataGeneratorSection: React.FC = () => {
             size="sm"
             variant="warning"
             disabled={!effectiveWorldId}
-            title={`Deletes all characters in ${effectiveWorldId ? worlds[effectiveWorldId]?.name : 'the selected world'}`}
+            title={`删除 ${effectiveWorldId ? worlds[effectiveWorldId]?.name : "所选世界"} 中的所有角色`}
           >
-            Delete All Characters in{' '}
-            {effectiveWorldId ? worlds[effectiveWorldId]?.name : 'World'}
+            删除所有角色：{' '}
+            {effectiveWorldId ? worlds[effectiveWorldId]?.name : "世界"}
           </Button>
 
           <Button
@@ -598,9 +597,9 @@ export const TestDataGeneratorSection: React.FC = () => {
             
             size="sm"
             variant="destructive"
-            title="Deletes all worlds and their characters"
+            title="删除所有世界及其角色"
           >
-            Delete All Worlds
+            删除所有世界
           </Button>
 
           <Button
@@ -608,13 +607,13 @@ export const TestDataGeneratorSection: React.FC = () => {
             
             size="sm"
             variant="destructive"
-            title="NUCLEAR OPTION: Deletes absolutely everything"
+            title="核选项：删除所有内容"
           >
-            NUKE EVERYTHING
+            彻底删除一切
           </Button>
         </div>
         <p>
-          WARNING: These operations are permanent and cannot be undone!
+          警告：这些操作是永久性的，无法撤销！
         </p>
 
         <Button
@@ -622,24 +621,24 @@ export const TestDataGeneratorSection: React.FC = () => {
           
           size="sm"
           variant="default"
-          title="Debug current store state and persistence"
+          title="调试当前存储状态与持久化"
         >
-          Debug Persistence State
+          调试持久化状态
         </Button>
       </div>
 
       <div>
-        <strong>Troubleshooting:</strong>
+        <strong>故障排查：</strong>
         <ul>
           <li>
-            If form isn&apos;t pre-filled, try the debug page at{' '}
+            如果表单未预填，请尝试访问调试页面：{' '}
             <code>/dev/test-character-form</code>
           </li>
           <li>
-            Check browser console for <code>[TestDataGenerator]</code> and{' '}
-            <code>[CharacterCreationWizard]</code> logs
+            请在浏览器控制台中查看 <code>[TestDataGenerator]</code> 和{' '}
+            <code>[CharacterCreationWizard]</code> 日志
           </li>
-          <li>Clear cache and hard refresh if needed (Cmd+Shift+R)</li>
+          <li>如有需要，请清除缓存并强制刷新（Cmd+Shift+R）</li>
         </ul>
       </div>
     </div>

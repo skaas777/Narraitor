@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useSkillPointPool } from '@/hooks/usePointPoolManager';
 import { PointPoolDisplay } from './PointPoolDisplay';
 import { getSkillBounds } from '@/components/CharacterCreationWizard/utils/skillAllocation';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface CharacterSkill {
   skillId: string;
@@ -61,7 +62,7 @@ export const SkillsForm: React.FC<SkillsFormProps> = ({
   return (
     <div className="component-skills-form">
       <div className="skills-form-header">
-        <PointPoolDisplay pool={pool} label="Skill Points" />
+        <PointPoolDisplay pool={pool} label="技能点" />
       </div>
 
       <div className="skills-form-list">
@@ -83,11 +84,11 @@ export const SkillsForm: React.FC<SkillsFormProps> = ({
             >
               <div className="skills-form-label-row">
                 <Label>
-                {worldSkill?.name || `Skill ${index + 1}`}
+                {worldSkill?.name || `技能 ${index + 1}`}
                 </Label>
                 {worldSkill?.difficulty && (
                   <span className="skills-form-difficulty">
-                    {worldSkill.difficulty}
+                    {displayLabel(worldSkill.difficulty)}
                   </span>
                 )}
               </div>
@@ -98,7 +99,7 @@ export const SkillsForm: React.FC<SkillsFormProps> = ({
               )}
               {cannotIncrease && currentValue < skill.maxValue && (
                 <p className="skills-form-constraint">
-                  No points remaining. Reduce other skills to increase this one.
+                  点数已用完。请减少其他技能的点数来提升此技能。
                 </p>
               )}
               <RangeSlider
@@ -110,21 +111,21 @@ export const SkillsForm: React.FC<SkillsFormProps> = ({
                 onChange={newValue => handleValueChange(skill.id, newValue)}
                 disabled={false}
                 showLabel={false}
-                ariaLabel={`${worldSkill?.name || `Skill ${index + 1}`} skill level`}
+                ariaLabel={`${worldSkill?.name || `技能 ${index + 1}`}的技能等级`}
                 testId={`skill-${skill.id}`}
               />
               <div className="skills-form-meta">
-                Range: {skill.minValue} - {skill.maxValue}
+                范围： {skill.minValue} - {skill.maxValue}
                 {worldSkill?.attributeIds &&
                   worldSkill.attributeIds.length > 0 && (
                     <span>
-                    • Linked to:{' '}
+                    • 关联至：{' '}
                       {worldSkill.attributeIds
                         .map(
                           id => world.attributes.find(a => a.id === id)?.name
                         )
                         .filter(Boolean)
-                        .join(', ') || 'Unknown'}
+                        .join(', ') || "未知"}
                     </span>
                   )}
               </div>

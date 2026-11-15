@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { isPlaywrightEnv } from '@/lib/utils/isPlaywrightEnv';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 
 /**
  * About — the marketing/explainer page for Narraitor. Token-driven, server
@@ -15,19 +16,19 @@ import { isPlaywrightEnv } from '@/lib/utils/isPlaywrightEnv';
 
 const STEPS: { title: string; description: string }[] = [
   {
-    title: 'Build a world',
+    title: "构建世界",
     description:
-      'Define a setting: Middle Earth, a noir city, a space opera, the beaches of Normandy. Real or invented, the world is yours to describe.',
+      "定义一个背景设定：中土世界、黑色电影风格的城市、太空歌剧、诺曼底海滩。无论真实还是虚构，世界都由你来描述。",
   },
   {
-    title: 'Create characters',
+    title: "创建角色",
     description:
-      'Shape who you play: their traits, their history, what they want. They have real skills, and the story leans on them.',
+      "塑造你所扮演的角色：他们的特质、经历和渴望。他们拥有真实的技能，故事会依赖这些技能展开。",
   },
   {
-    title: 'Play the story',
+    title: "体验故事",
     description:
-      'Step in and make choices. The story responds to what you do, so no two playthroughs unfold the same way.',
+      "进入故事并做出选择。故事会回应你的行动，因此没有两次游玩会以相同方式展开。",
   },
 ];
 
@@ -36,20 +37,16 @@ export default function About() {
     <div className="component-about">
       <section className="component-about-hero" aria-labelledby="about-hero-heading">
         <h1 id="about-hero-heading" className="component-about-title">
-          About Narraitor
+          关于 Narraitor
         </h1>
         <p className="component-about-lead">
-          Narraitor is a solo role-playing game where the story answers to the
-          world you built. Define a setting, create a character with real
-          strengths and weaknesses, and make the choices that steer the story.
-          It adapts to what you do, and your character’s skills decide how far
-          you get.
+          Narraitor 是一款单人角色扮演游戏，故事会回应你所构建的世界。定义背景，创建拥有真实优势与弱点的角色，并做出推动故事的选择。故事会适应你的行动，而你角色的技能决定你能走多远。
         </p>
         <div className="component-about-hero-visual">
           <Image
             className="component-about-hero-image"
             src="/visual-assets/world-cyberpunk.png"
-            alt="A neon-lit city skyline from one of Narraitor's worlds"
+            alt="Narraitor 某个世界中霓虹灯映照的城市天际线"
             width={1024}
             height={426}
             priority
@@ -60,29 +57,21 @@ export default function About() {
 
       <section className="component-about-section" aria-labelledby="about-what-heading">
         <h2 id="about-what-heading" className="component-about-section-title">
-          What it is
+          它是什么
         </h2>
         <div className="component-about-prose">
           <p>
-            It’s a structured RPG, not a chat. You set the world and your
-            character, then play through a story that keeps track of what
-            you’ve done and what it cost you. Walk a rain-soaked detective
-            city, command a starship at the edge of known space, or live a
-            quiet story somewhere of your own making. You set the stage, and
-            the choices you make shape where it goes.
+            这是一款结构化的角色扮演游戏，而非闲聊。你设定世界与角色，然后经历一段会记录你所做之事及其代价的故事。你可以行走在雨水浸透的侦探之城，指挥一艘位于已知空间边缘的星舰，或在自创的某处体验一段宁静的故事。你搭好舞台，而你的选择会塑造故事走向。
           </p>
           <p>
-            Skill checks carry real stakes. Some choices ask more of your
-            character than others, and a failed roll bends the story instead
-            of handing you a win. There’s no fixed script, and the world
-            remembers the path you took.
+            技能检定事关重大。有些选择对角色要求更高，而检定失败会令故事转折，而不是直接让你获胜。故事没有固定剧本，世界会记住你走过的道路。
           </p>
         </div>
       </section>
 
       <section className="component-about-section" aria-labelledby="about-how-heading">
         <h2 id="about-how-heading" className="component-about-section-title">
-          How it works
+          运作方式
         </h2>
         <ol className="component-about-steps">
           {STEPS.map((step, index) => (
@@ -99,38 +88,37 @@ export default function About() {
 
       <section className="component-about-section" aria-labelledby="about-free-heading">
         <h2 id="about-free-heading" className="component-about-section-title">
-          Your own key
+          {PERSONAL_CLOUD_ENABLED ? '模型已为你配置好' : '自备密钥'}
         </h2>
         <div className="component-about-prose">
           <p>
-            Narraitor runs on a key you get from a model provider, set up once
-            and kept in your browser, so the stories you generate run on your
-            own account.
+            {PERSONAL_CLOUD_ENABLED
+              ? '登录后即可使用已在后台配置的模型，无需填写密钥。所有设备使用同一份模型配置，新故事默认使用简体中文。'
+              : 'Narraitor 依靠你从模型服务获取的密钥运行；该密钥只需设置一次并保存在你的浏览器中，因此你生成的故事会运行在你自己的账户下。'}
           </p>
         </div>
       </section>
 
       <section className="component-about-section" aria-labelledby="about-privacy-heading">
         <h2 id="about-privacy-heading" className="component-about-section-title">
-          Your stories stay with you
+          你的故事始终属于你
         </h2>
         <div className="component-about-prose">
           <p>
-            Your worlds, characters, and saved stories live right in your
-            browser, on your own device, with no account to sign up for. Come
-            back any time and pick up where you left off.
+            {PERSONAL_CLOUD_ENABLED
+              ? '你的世界、角色和故事会自动保存在私人云端。使用自己的账号登录，即可在不同设备上继续冒险。'
+              : '你的世界、角色和已保存的故事都保存在你自己的设备上的浏览器中，无需注册账户。随时回来，从上次中断处继续。'}
           </p>
         </div>
       </section>
 
       <section className="component-about-section" aria-labelledby="about-credit-heading">
         <h2 id="about-credit-heading" className="component-about-section-title">
-          Who made it
+          制作团队
         </h2>
         <div className="component-about-prose component-about-credit">
           <p>
-            Narraitor is an open-source project. You can read the code, file an
-            issue, or help shape where it goes next on{' '}
+            Narraitor 是一个开源项目。你可以阅读代码、提交问题，或帮助塑造它未来的发展方向，详情见{' '}
             <a
               href="https://github.com/jerseycheese/Narraitor"
               target="_blank"
@@ -145,25 +133,25 @@ export default function About() {
 
       <section className="component-about-cta" aria-labelledby="about-cta-heading">
         <h2 id="about-cta-heading" className="component-about-section-title">
-          Ready to begin?
+          准备开始了吗？
         </h2>
         <Link href="/worlds" className="component-about-cta-link">
-          Create your first world
+          创建你的第一个世界
         </Link>
       </section>
 
-      <nav className="component-about-footer" aria-label="Site information">
+      <nav className="component-about-footer" aria-label="站点信息">
         <Link href="/about" className="component-about-footer-link">
-          About
+          关于
         </Link>
         <Link href="/faq" className="component-about-footer-link">
-          FAQ
+          常见问题
         </Link>
         <Link href="/privacy" className="component-about-footer-link">
-          Privacy
+          隐私
         </Link>
         <Link href="/terms" className="component-about-footer-link">
-          Terms
+          条款
         </Link>
       </nav>
     </div>

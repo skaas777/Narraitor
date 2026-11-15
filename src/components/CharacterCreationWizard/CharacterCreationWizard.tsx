@@ -325,11 +325,11 @@ export const CharacterCreationWizard: React.FC<CharacterCreationWizardProps> = (
   if (!world) {
     return (
       <div>
-        <p>World not found</p>
+        <p>未找到世界</p>
         <button
           onClick={() => router.push('/worlds')}
         >
-          Go to Worlds
+          前往世界
         </button>
       </div>
     );
@@ -393,8 +393,8 @@ export const CharacterCreationWizard: React.FC<CharacterCreationWizardProps> = (
   return (
     <>
       <WizardContainer
-        title="Create Character"
-        subtitle={<span className="wizard-world-context">in {world.name}</span>}
+        title="创建角色"
+        subtitle={<span className="wizard-world-context">在 {world.name}</span>}
         headerMeta={
           <SaveIndicator
             status={saveStatus}
@@ -422,7 +422,7 @@ export const CharacterCreationWizard: React.FC<CharacterCreationWizardProps> = (
               onComplete={wizard.isLastStep ? handleCreate : undefined}
               currentStep={wizard.state.currentStep}
               totalSteps={steps.length}
-              completeLabel="Create Character"
+              completeLabel="创建角色"
               disabled={wizard.state.isProcessing}
             />
           </div>

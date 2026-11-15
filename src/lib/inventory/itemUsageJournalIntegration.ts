@@ -20,7 +20,7 @@ export function createItemUsageJournalEntry(
     worldId,
     characterId,
     type: 'item_usage',
-    title: `Used ${item.name}`,
+    title: `使用了 ${item.name}`,
     content: narrative,
     significance: 'minor',
     isRead: false,

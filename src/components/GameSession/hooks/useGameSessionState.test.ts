@@ -184,7 +184,7 @@ describe('useGameSessionState', () => {
 
     // Check that an error was set
     expect(result.current.error).toBeTruthy();
-    expect(result.current.error?.message).toBe('Please create a character for this world before starting the game');
+    expect(result.current.error?.message).toBe("开始游戏前，请先为这个世界创建一个角色");
     expect(mockSessionStoreState.initializeSession).not.toHaveBeenCalled();
   });
 

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { getTimestamp } from '@/lib/utils';
 import { GENRES, normalizeGenre } from '@/lib/constants/genres';
 import Logger from '@/lib/utils/logger';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 const logger = new Logger('AITestingPanel');
 
@@ -31,8 +32,8 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
   // Mock base data for testing
   const mockWorld: World = {
     id: 'test-world',
-    name: 'Test World',
-    description: 'A world for testing',
+    name: '测试世界',
+    description: "用于测试的世界",
     genre: 'fantasy',
     attributes: [],
     skills: [],
@@ -48,17 +49,17 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
 
   const mockCharacter: Character = {
     id: 'test-character',
-    name: 'Test Character',
-    description: 'A test character',
+    name: '测试角色',
+    description: "一个测试角色",
     worldId: 'test-world',
     attributes: [],
     skills: [],
     derivedStats: [],
     background: {
-      history: 'A test character with no history',
-      personality: 'Adventurous',
-      goals: ['Test the system'],
-      fears: ['Nothing'],
+      history: "一个没有历史记录的测试角色",
+      personality: "爱冒险",
+      goals: ["测试系统"],
+      fears: ["无"],
       relationships: [],
     },
     inventory: {
@@ -70,7 +71,7 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
     },
     status: {
       conditions: [],
-      location: 'Test Area',
+      location: "测试区域",
     },
     createdAt: getTimestamp(),
     updatedAt: getTimestamp(),
@@ -79,7 +80,7 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
   const mockNarrativeContext = {
     recentSegments: [],
     activeCharacters: ['test-character'],
-    currentLocation: 'Test Area',
+    currentLocation: "测试区域",
     activeQuests: [],
     mood: 'neutral',
   };
@@ -141,36 +142,36 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
       const worldTheme = testContext.world.genre;
       const characterName = testContext.character.name;
 
-      const narrativeText = `In the ${worldTheme?.toLowerCase() || 'mysterious'} realm of ${worldName}, ${characterName} stands at a crossroads. The air thrums with potential as ancient forces stir around you. Your journey has led you to this pivotal moment where every decision will shape the path ahead.`;
+      const narrativeText = `在${worldTheme?.toLowerCase() || 'mysterious'}的${worldName}世界中，${characterName}站在十字路口。空气中涌动着潜能，古老的力量在你周围蠢动。你的旅程将你引至这个关键时刻，此后每一个决定都会塑造前方的道路。`;
 
       // Generate context-aware choices based on genre
       const generateChoices = (genre: string = 'Fantasy'): string[] => {
         const baseChoices = [
-          `Explore the ${genre.toLowerCase()} landscape ahead`,
-          `Study the ${worldName} surroundings more carefully`,
-          `Call upon ${characterName}'s inner strength`,
+          `探索前方${genre.toLowerCase()}的景观`,
+          `更仔细地观察${worldName}周围的环境`,
+          `唤起${characterName}的内在力量`,
         ];
 
         if (genre.toLowerCase().includes('fantasy')) {
           return [
-            'Venture deeper into the magical forest',
-            'Seek out the ancient temple ruins',
-            'Cast a spell to reveal paths',
+            "深入魔法森林",
+            "寻找古代神庙遗迹",
+            "施放法术显现路径",
           ];
         } else if (
           genre.toLowerCase().includes('sci-fi') ||
           genre.toLowerCase().includes('space')
         ) {
           return [
-            'Scan the area with your tech equipment',
-            'Attempt to contact the orbital station',
-            'Investigate the strange energy readings',
+            "用你的科技设备扫描该区域",
+            "尝试联系轨道站",
+            "调查异常的能量读数",
           ];
         } else if (genre.toLowerCase().includes('steampunk')) {
           return [
-            'Fire up your mechanical contraption',
-            'Navigate using the brass compass',
-            'Repair the damaged airship engine',
+            "启动你的机械装置",
+            "使用黄铜罗盘导航",
+            "修理受损的飞艇引擎",
           ];
         } else {
           return baseChoices;
@@ -191,7 +192,7 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
       setResult(response);
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Unknown error occurred';
+        err instanceof Error ? err.message : "发生未知错误";
       setError(errorMessage);
     } finally {
       setIsGenerating(false);
@@ -201,13 +202,13 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
   return (
     <div className={`${className}`}>
       <h3>
-        AI Testing Panel
+        AI 测试面板
       </h3>
 
       {/* World Override Section */}
       <div>
         <h4>
-          World Override
+          世界覆盖
         </h4>
         <div>
           <div>
@@ -215,14 +216,14 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
               htmlFor="world-name"
               
             >
-              World Name:
+              世界名称：
             </label>
             <Input
               id="world-name"
               type="text"
               value={testConfig.worldOverride?.name || ''}
               onChange={handleWorldNameChange}
-              placeholder="Enter world name"
+              placeholder="输入世界名称"
               
             />
           </div>
@@ -231,14 +232,14 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
               htmlFor="world-genre"
               
             >
-              World Genre:
+              世界类型：
             </label>
             <Input
               id="world-genre"
               type="text"
               value={testConfig.worldOverride?.genre || ''}
               onChange={handleWorldGenreChange}
-              placeholder="Enter world genre"
+              placeholder="输入世界类型"
               
             />
           </div>
@@ -248,21 +249,21 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
       {/* Character Override Section */}
       <div>
         <h4>
-          Character Override
+          角色覆盖
         </h4>
         <div>
           <label
             htmlFor="character-name"
             
           >
-            Character Name:
+            角色名称：
           </label>
           <Input
             id="character-name"
             type="text"
             value={testConfig.characterOverride?.name || ''}
             onChange={handleCharacterNameChange}
-            placeholder="Enter character name"
+            placeholder="输入角色名称"
             
           />
         </div>
@@ -276,27 +277,27 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
           
           variant="default"
         >
-          {isGenerating ? 'Generating...' : 'Generate Narrative'}
+          {isGenerating ? "正在生成……" : "生成叙事"}
         </Button>
       </div>
 
       {/* Results Section */}
       {isGenerating && (
         <div>
-          <p>Generating narrative...</p>
+          <p>正在生成叙事...</p>
         </div>
       )}
 
       {error && (
         <div>
-          <p>Error: {error}</p>
+          <p>错误： {localizeErrorMessage(error)}</p>
         </div>
       )}
 
       {result && (
         <div>
           <h4>
-            Generated Results
+            生成结果
           </h4>
           <div>
             <p>{result.text}</p>
@@ -304,7 +305,7 @@ export function AITestingPanel({ className = '' }: AITestingPanelProps) {
           {result.choices && result.choices.length > 0 && (
             <div>
               <h5>
-                Choices:
+                选项：
               </h5>
               <ul>
                 {result.choices.map((choice, index) => (

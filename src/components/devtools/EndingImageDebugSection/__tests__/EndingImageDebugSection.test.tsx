@@ -47,7 +47,7 @@ describe('EndingImageDebugSection', () => {
     mockGenerateEndingImagePrompt.mockResolvedValue({ prompt: 'A hopeful vista at dawn' });
 
     renderExpanded();
-    fireEvent.click(screen.getByRole('button', { name: 'Generate Prompt Preview' }));
+    fireEvent.click(screen.getByRole('button', { name: "生成提示词预览" }));
 
     expect(await screen.findByText('A hopeful vista at dawn')).toBeInTheDocument();
     expect(mockGenerateEndingImagePrompt).toHaveBeenCalledTimes(1);
@@ -58,19 +58,19 @@ describe('EndingImageDebugSection', () => {
     mockGenerateEndingImagePrompt.mockRejectedValue(new Error('prompt route down'));
 
     renderExpanded();
-    fireEvent.click(screen.getByRole('button', { name: 'Generate Prompt Preview' }));
+    fireEvent.click(screen.getByRole('button', { name: "生成提示词预览" }));
 
-    expect(await screen.findByText(/Error generating prompt: prompt route down/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Generate Prompt Preview' })).toBeEnabled();
+    expect(await screen.findByText(/生成提示词时出错：prompt route down/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "生成提示词预览" })).toBeEnabled();
   });
 
   it('surfaces a failed full generation and re-enables the buttons', async () => {
     mockGenerateEndingImage.mockRejectedValue(new Error('image route down'));
 
     renderExpanded();
-    fireEvent.click(screen.getByRole('button', { name: 'Test Full Generation' }));
+    fireEvent.click(screen.getByRole('button', { name: "测试完整生成" }));
 
-    expect(await screen.findByText(/Generation failed: image route down/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Test Full Generation' })).toBeEnabled();
+    expect(await screen.findByText(/生成失败：image route down/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "测试完整生成" })).toBeEnabled();
   });
 });

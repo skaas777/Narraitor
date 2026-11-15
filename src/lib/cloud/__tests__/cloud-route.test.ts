@@ -89,3 +89,14 @@ test('unchanged cloud saves can be checked without downloading the whole adventu
   const result = await GET(new Request(url, { headers: { 'If-None-Match': first.etag } }));
   expect(result.status).toBe(304);
 });
+
+
+test('the private provider supplies Chinese output guidance and enough room for complete character JSON', () => {
+  const result = resolveProvider(new NextRequest(url));
+  expect(result.ok).toBe(true);
+  if (!result.ok) throw new Error('Expected configured provider');
+  const provider = result.descriptor;
+  expect(provider?.customSystemPromptOverride).toContain('简体中文');
+  expect(provider?.customSystemPromptOverride).toContain('保留请求所要求的 JSON 字段名');
+  expect(provider?.maxTokensOverride).toBeGreaterThanOrEqual(8192);
+});

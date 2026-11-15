@@ -40,7 +40,7 @@ export interface LoadingOverlayProps {
 export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   isVisible,
   variant = 'spinner',
-  message = 'Loading...',
+  message = "加载中…",
   onCancel,
   className,
 }) => {
@@ -48,7 +48,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
     <SimpleModal
       isOpen={isVisible}
       onClose={() => onCancel?.()}
-      title="Please wait"
+      title="请稍候"
       description={message}
       showCloseButton={false}
       closeOnBackdropClick={false}
@@ -57,12 +57,12 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
       footer={
         onCancel ? (
           <Button variant="outline" onClick={onCancel}>
-            Cancel
+            取消
           </Button>
         ) : undefined
       }
     >
-      <div aria-live="polite" aria-label="Loading">
+      <div aria-live="polite" aria-label="加载中">
         <LoadingState
           variant={variant}
           size="lg"

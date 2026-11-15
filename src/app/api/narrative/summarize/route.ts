@@ -181,8 +181,8 @@ Do not include any explanatory text, code fences, markdown, or additional prose.
       // Clean up the summary
       let summary = parsed.summary.trim();
       summary = summary.replace(/^Summary:\s*/i, '');
-      if (!summary.match(/[.!?]$/)) {
-        summary += '.';
+      if (!summary.match(/[.!?。！？]$/)) {
+        summary += /[\u3400-\u9fff]/.test(summary) ? '。' : '.';
       }
       
       return NextResponse.json({
@@ -197,8 +197,8 @@ Do not include any explanatory text, code fences, markdown, or additional prose.
       // Fallback to text-only response
       let summary = response.content.trim();
       summary = summary.replace(/^Summary:\s*/i, '');
-      if (!summary.match(/[.!?]$/)) {
-        summary += '.';
+      if (!summary.match(/[.!?。！？]$/)) {
+        summary += /[\u3400-\u9fff]/.test(summary) ? '。' : '.';
       }
       
       // Use decision weight as significance fallback instead of hardcoding 'minor'

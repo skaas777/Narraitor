@@ -19,7 +19,7 @@ export function TutorialContent({ children, example }: TutorialContentProps) {
       <p>{children}</p>
       {example && (
         <p>
-          Example: {example}
+          示例： {example}
         </p>
       )}
     </div>

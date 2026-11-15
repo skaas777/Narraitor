@@ -33,7 +33,7 @@ describe('WizardProgress', () => {
     expect(mobileContainer).not.toHaveAttribute('aria-hidden');
 
     const mobileCount = container.querySelector('.wizard-progress-mobile-count');
-    expect(mobileCount).toHaveTextContent('Step 2 of 5');
+    expect(mobileCount).toHaveTextContent("步骤 2 / 5");
 
     const mobileCurrent = container.querySelector('.wizard-progress-mobile-current');
     expect(mobileCurrent).toHaveTextContent('Description');

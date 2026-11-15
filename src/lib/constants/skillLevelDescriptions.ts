@@ -22,27 +22,27 @@ export const SKILL_DEFAULT_VALUE = 3;
 export const SKILL_LEVEL_DESCRIPTIONS: SkillLevelDescription[] = [
   { 
     value: 1, 
-    label: 'Novice', 
-    description: 'Beginner understanding with limited skill'
+    label: "新手",
+    description: "初学者水平，技能有限"
   },
   { 
     value: 2, 
-    label: 'Apprentice', 
-    description: 'Basic proficiency with room for improvement'
+    label: "学徒",
+    description: "基本熟练，仍有提升空间"
   },
   { 
     value: 3, 
-    label: 'Competent', 
-    description: 'Solid performance in most situations'
+    label: "熟练",
+    description: "在大多数情况下表现稳定"
   },
   { 
     value: 4, 
-    label: 'Expert', 
-    description: 'Advanced mastery with consistent results'
+    label: "专家",
+    description: "具备高级精通，表现稳定"
   },
   { 
     value: 5, 
-    label: 'Master', 
-    description: 'Complete mastery at professional level'
+    label: "大师",
+    description: "达到专业水平的完全精通"
   },
 ];

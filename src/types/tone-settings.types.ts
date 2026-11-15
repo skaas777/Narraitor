@@ -52,34 +52,34 @@ export const DEFAULT_TONE_SETTINGS: ToneSettings = {
  * Content rating descriptions for UI guidance
  */
 export const CONTENT_RATING_DESCRIPTIONS: Record<ContentRating, string> = {
-  'G': 'General audiences - No mature content',
-  'PG': 'Parental guidance - Mild themes and language',
-  'PG-13': 'Parents strongly cautioned - Moderate themes, some violence',
-  'R': 'Restricted - Strong themes, violence, adult language',
-  'NC-17': 'Adults only - Explicit content, graphic themes'
+  'G': "大众级——无成人内容",
+  'PG': "家长指导级——轻度主题与语言",
+  'PG-13': "家长强烈警示级——中度主题，含部分暴力内容",
+  'R': "限制级——强烈主题、暴力、成人语言",
+  'NC-17': "仅限成人——露骨内容、直观主题"
 };
 
 /**
  * Narrative style descriptions for UI guidance
  */
 export const NARRATIVE_STYLE_DESCRIPTIONS: Record<NarrativeStyle, string> = {
-  'serious': 'Mature, thoughtful tone with gravitas',
-  'humorous': 'Light-hearted with comedic elements',
-  'dramatic': 'Intense, emotional storytelling',
-  'lighthearted': 'Cheerful and optimistic approach',
-  'mysterious': 'Suspenseful with hidden elements',
-  'action-packed': 'Fast-paced with exciting sequences',
-  'contemplative': 'Reflective and philosophical',
-  'epic': 'Grand scale with heroic themes',
-  'balanced': 'Moderate tone adapting to context'
+  'serious': "成熟、深思且庄重的叙事风格",
+  'humorous': "轻松愉快，带有喜剧元素",
+  'dramatic': "紧张激烈、富有情感的故事叙述",
+  'lighthearted': "欢快乐观的基调",
+  'mysterious': "充满悬念，暗藏隐藏元素",
+  'action-packed': "节奏明快，充满刺激桥段",
+  'contemplative': "引人反思，富有哲思",
+  'epic': "宏大格局，充满英雄主题",
+  'balanced': "稳健的叙事风格，随情境调整"
 };
 
 /**
  * Language complexity descriptions for UI guidance
  */
 export const LANGUAGE_COMPLEXITY_DESCRIPTIONS: Record<LanguageComplexity, string> = {
-  'simple': 'Clear, accessible language for all readers',
-  'moderate': 'Standard vocabulary with some complexity',
-  'advanced': 'Rich vocabulary and complex sentence structures',
-  'literary': 'Sophisticated language with artistic expression'
+  'simple': "清晰易懂，适合所有读者",
+  'moderate': "标准词汇，带有一定复杂度",
+  'advanced': "丰富词汇与复杂句式",
+  'literary': "精妙语言，富有艺术表达"
 };

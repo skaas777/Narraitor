@@ -114,7 +114,7 @@ describe('EndingGenerator - Error Handling and Retry', () => {
       );
 
       await expect(generateEnding(mockRequest)).rejects.toThrow(
-        'Failed to create ending'
+        "创建结局失败"
       );
     });
   });
@@ -140,7 +140,7 @@ describe('EndingGenerator - Error Handling and Retry', () => {
       mockBuildEndingContext.mockResolvedValue(mockContext);
       mockGeminiClient.generateContent.mockRejectedValueOnce(new Error('API error'));
 
-      await expect(generateEnding(mockRequest)).rejects.toThrow('Failed to create ending: API error');
+      await expect(generateEnding(mockRequest)).rejects.toThrow("创建结局失败：API error");
       expect(mockGeminiClient.generateContent).toHaveBeenCalledTimes(1);
     });
   });

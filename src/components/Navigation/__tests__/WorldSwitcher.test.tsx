@@ -37,7 +37,7 @@ describe('WorldSwitcher', () => {
     const trigger = openSwitcher();
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText('Create a world')).toBeInTheDocument();
+    expect(screen.getByText("创建世界")).toBeInTheDocument();
   });
 
   it('closes on Escape and returns focus to the trigger', () => {
@@ -47,7 +47,7 @@ describe('WorldSwitcher', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
 
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByText('Create a world')).not.toBeInTheDocument();
+    expect(screen.queryByText("创建世界")).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
   });
 });

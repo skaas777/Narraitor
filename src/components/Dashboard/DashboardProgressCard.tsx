@@ -9,10 +9,10 @@ interface DashboardProgressCardProps {
 
 export function DashboardProgressCard({ metrics }: DashboardProgressCardProps) {
   const stats = [
-    { label: 'Worlds', value: metrics.worldsCreated },
-    { label: 'Characters', value: metrics.charactersCreated },
-    { label: 'Sessions', value: metrics.sessionsPlayed },
-    { label: 'Entries', value: metrics.narrativeSegments },
+    { label: "世界", value: metrics.worldsCreated },
+    { label: "角色", value: metrics.charactersCreated },
+    { label: "冒险记录", value: metrics.sessionsPlayed },
+    { label: "条目", value: metrics.narrativeSegments },
   ];
 
   return (
@@ -21,7 +21,7 @@ export function DashboardProgressCard({ metrics }: DashboardProgressCardProps) {
       aria-labelledby="progress-heading"
       role="region"
     >
-      <h2 id="progress-heading">Your Progress</h2>
+      <h2 id="progress-heading">你的进度</h2>
 
       <div className="dashboard-progress-stats">
         {stats.map((stat) => (

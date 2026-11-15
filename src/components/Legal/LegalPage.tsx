@@ -23,23 +23,23 @@ export function LegalPage({ title, lead, updated, children }: LegalPageProps) {
       <header className="component-legal-hero">
         <h1 className="component-legal-title">{title}</h1>
         <p className="component-legal-lead">{lead}</p>
-        <p className="component-legal-updated">Last updated {updated}</p>
+        <p className="component-legal-updated">最后更新于 {updated}</p>
       </header>
 
       {children}
 
-      <nav className="component-legal-footer" aria-label="More information">
+      <nav className="component-legal-footer" aria-label="更多信息">
         <Link href="/about" className="component-legal-footer-link">
-          About
+          关于
         </Link>
         <Link href="/faq" className="component-legal-footer-link">
-          FAQ
+          常见问题
         </Link>
         <Link href="/privacy" className="component-legal-footer-link">
-          Privacy
+          隐私
         </Link>
         <Link href="/terms" className="component-legal-footer-link">
-          Terms
+          条款
         </Link>
       </nav>
     </div>

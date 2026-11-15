@@ -60,20 +60,20 @@ describe('NarrativeHistory keyboard navigation at the newest beat', () => {
     pressKeyThenAddSegment('End');
 
     expect(scrollToSpy).toHaveBeenCalled();
-    expect(screen.queryByRole('button', { name: /jump to latest/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /跳到最新/i })).not.toBeInTheDocument();
   });
 
   it('keeps following after a downward key that had nowhere to go', () => {
     pressKeyThenAddSegment('PageDown');
 
     expect(scrollToSpy).toHaveBeenCalled();
-    expect(screen.queryByRole('button', { name: /jump to latest/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /跳到最新/i })).not.toBeInTheDocument();
   });
 
   it('stops following after the reader pages back up to re-read', () => {
     pressKeyThenAddSegment('PageUp');
 
     expect(scrollToSpy).not.toHaveBeenCalled();
-    expect(screen.getByRole('button', { name: /jump to latest/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /跳到最新/i })).toBeInTheDocument();
   });
 });

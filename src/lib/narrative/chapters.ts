@@ -22,12 +22,14 @@ export function getChapterContext(
 }
 
 const RECAP_FIELDS = [
-  ['previously', 'Previously'],
-  ['whereItStopped', 'Where it stopped'],
-  ['cast', 'Cast'],
-  ['holding', 'Holding'],
-  ['openThreads', 'Open threads'],
+  ['previously', "前情提要"],
+  ['whereItStopped', "上次停下的地方"],
+  ['cast', "登场角色"],
+  ['holding', "持有物品"],
+  ['openThreads', "未解线索"],
 ] as const;
+
+export const CHAPTER_RECAP_LABELS = RECAP_FIELDS.map(([, label]) => `${label}:`);
 
 /** Keeps every label and line even when a provider exceeds the recap budget. */
 export function formatChapterRecap(recap: Record<string, unknown>): string {
@@ -41,7 +43,7 @@ export function formatChapterRecap(recap: Record<string, unknown>): string {
       typeof recap[key] === 'string'
         ? recap[key].trim().replace(/\s+/g, ' ')
         : '';
-    return `${label}: ${(value || 'Not recorded.').slice(0, fieldLimit)}`;
+    return `${label}: ${(value || "未记录。").slice(0, fieldLimit)}`;
   }).join('\n');
 }
 
@@ -55,7 +57,7 @@ export function fallbackChapterRecap(
       .filter(Boolean)
       .join(': '),
     cast: payload.cast?.join('; ') || payload.characterName,
-    holding: payload.holding?.join('; ') || 'None recorded.',
-    openThreads: payload.openThreads?.join('; ') || 'None recorded.',
+    holding: payload.holding?.join('; ') || "无记录。",
+    openThreads: payload.openThreads?.join('; ') || "无记录。",
   });
 }

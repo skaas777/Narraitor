@@ -18,7 +18,7 @@ const GameSession = dynamic(() => import('@/components/GameSession/GameSession')
   ssr: false,
   loading: () => (
     <div className="manuscript-play-page-loading">
-      <p>Creating your game...</p>
+      <p>正在创建你的游戏……</p>
     </div>
   ),
 });
@@ -137,7 +137,7 @@ export default function PlayPage() {
   if (!isClient) {
     return (
       <div className="manuscript-play-page-loading">
-        <p>Creating your game...</p>
+        <p>正在创建你的游戏……</p>
       </div>
     );
   }
@@ -148,10 +148,10 @@ export default function PlayPage() {
   }
 
   const pageHeading = currentEnding
-    ? 'Story Complete'
+    ? "故事完结"
     : worldName
-      ? `Playing in ${worldName}`
-      : 'Game Session';
+      ? `正在 ${worldName} 中进行冒险`
+      : "冒险记录";
 
   return (
     <div className="manuscript-play-page">

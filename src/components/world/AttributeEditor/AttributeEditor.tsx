@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 
 export interface AttributeEditorProps {
@@ -79,7 +80,7 @@ export function AttributeEditor({
     
     // Basic validation
     if (!formData.name?.trim()) {
-      validationErrors.push('Attribute name is required');
+      validationErrors.push("属性名称为必填项");
     }
     
     // Check for duplicate names
@@ -87,18 +88,18 @@ export function AttributeEditor({
       attr => attr.name.toLowerCase() === formData.name?.toLowerCase() && attr.id !== attributeId
     );
     if (isDuplicate) {
-      validationErrors.push('An attribute with this name already exists');
+      validationErrors.push("已存在同名属性");
     }
     
     // Range validation
     if (formData.minValue !== undefined && formData.maxValue !== undefined && 
         formData.minValue >= formData.maxValue) {
-      validationErrors.push('Maximum value must be greater than minimum value');
+      validationErrors.push("最大值必须大于最小值");
     }
     
     // Check maxAttributes limit in create mode
     if (mode === 'create' && maxAttributes !== undefined && existingAttributes.length >= maxAttributes) {
-      validationErrors.push(`Cannot create more attributes. Maximum of ${maxAttributes} attributes allowed.`);
+      validationErrors.push(`无法创建更多属性。最多允许 ${maxAttributes} 个属性。`);
     }
 
     if (validationErrors.length > 0) {
@@ -129,8 +130,8 @@ export function AttributeEditor({
     const skillsLinked = linkedSkills.filter(skill => skill.attributeIds?.includes(attributeId));
     if (skillsLinked.length > 0) {
       setDeleteWarnings([
-        `This attribute is linked to ${skillsLinked.length} skill${skillsLinked.length > 1 ? 's' : ''}`,
-        'Deleting this attribute will affect these skills'
+        `此属性已关联 ${skillsLinked.length} 个技能${''}`,
+        "删除此属性将影响这些技能"
       ]);
     }
     setShowDeleteDialog(true);
@@ -147,21 +148,21 @@ export function AttributeEditor({
     <>
       <div>
         <h2>
-          {mode === 'create' ? 'Create New Attribute' : 'Edit Attribute'}
+          {mode === 'create' ? "创建新属性" : "编辑属性"}
         </h2>
       </div>
 
       <div>
         <div>
           <Label htmlFor="attribute-name">
-            Attribute Name <span>*</span>
+            属性名称 <span>*</span>
           </Label>
           <Input
             id="attribute-name"
             type="text"
             value={formData.name}
             onChange={(e) => handleChange('name', e.target.value)}
-            placeholder="e.g., Strength, Intelligence"
+            placeholder="例如：力量、智力"
             aria-describedby={errors.length > 0 ? "attribute-errors" : undefined}
             aria-invalid={errors.length > 0}
           />
@@ -169,20 +170,20 @@ export function AttributeEditor({
 
         <div>
           <Label htmlFor="attribute-description">
-            Description
+            描述
           </Label>
           <Textarea
             id="attribute-description"
             value={formData.description}
             onChange={(e) => handleChange('description', e.target.value)}
-            placeholder="Describe what this attribute represents"
+            placeholder="描述此属性的含义"
           />
         </div>
 
         <div>
           <div>
             <Label htmlFor="min-value">
-              Minimum Value
+              最小值
             </Label>
             <Input
               id="min-value"
@@ -196,7 +197,7 @@ export function AttributeEditor({
 
           <div>
             <Label htmlFor="max-value">
-              Maximum Value
+              最大值
             </Label>
             <Input
               id="max-value"
@@ -218,7 +219,7 @@ export function AttributeEditor({
           >
             {errors.map((error, index) => (
               <p key={index} >
-                {error}
+                {localizeErrorMessage(error)}
               </p>
             ))}
           </div>
@@ -231,9 +232,9 @@ export function AttributeEditor({
             <Button
               onClick={handleDeleteClick}
               variant="destructive"
-              aria-label="Delete attribute"
+              aria-label="删除属性"
             >
-              Delete Attribute
+              删除属性
             </Button>
           )}
         </div>
@@ -243,13 +244,13 @@ export function AttributeEditor({
             onClick={onCancel}
             variant="outline"
           >
-            Cancel
+            取消
           </Button>
           <Button
             onClick={handleSave}
             variant="default"
           >
-            {mode === 'create' ? 'Create Attribute' : 'Save Changes'}
+            {mode === 'create' ? "创建属性" : "保存更改"}
           </Button>
         </div>
       </div>
@@ -259,15 +260,15 @@ export function AttributeEditor({
           isOpen={showDeleteDialog}
           onClose={() => setShowDeleteDialog(false)}
           onConfirm={handleDeleteConfirm}
-          title="Delete Attribute"
+          title="删除属性"
           description={
             deleteWarnings.length > 0 
-              ? deleteWarnings.join('. ') + '. This action cannot be undone.'
-              : 'This action cannot be undone.'
+              ? deleteWarnings.join('. ') + "。此操作无法撤销。"
+              : "此操作无法撤销。"
           }
-          itemName={formData.name || 'this attribute'}
-          confirmButtonText="Delete Attribute"
-          cancelButtonText="Cancel"
+          itemName={formData.name || '此属性'}
+          confirmButtonText="删除属性"
+          cancelButtonText="取消"
           isDeleting={false}
         />
       )}

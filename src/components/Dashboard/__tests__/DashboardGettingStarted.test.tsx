@@ -21,7 +21,7 @@ describe('DashboardGettingStarted', () => {
     );
 
     // Should show create world as next step
-    expect(screen.getByRole('button', { name: /create.*world/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*世界/i })).toBeInTheDocument();
   });
 
   it('shows checked step when world created', () => {
@@ -35,7 +35,7 @@ describe('DashboardGettingStarted', () => {
     );
 
     // Should show create character as next step
-    expect(screen.getByRole('button', { name: /create.*character/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*角色/i })).toBeInTheDocument();
   });
 
   it('calls onNavigate with correct path when CTA clicked', async () => {
@@ -50,7 +50,7 @@ describe('DashboardGettingStarted', () => {
       />
     );
 
-    const createWorldButton = screen.getByRole('button', { name: /create.*world/i });
+    const createWorldButton = screen.getByRole('button', { name: /创建.*世界/i });
     await user.click(createWorldButton);
 
     expect(mockOnNavigate).toHaveBeenCalledWith('/worlds');
@@ -67,7 +67,7 @@ describe('DashboardGettingStarted', () => {
     );
 
     // Step 1: Create World
-    expect(screen.getByRole('button', { name: /create.*world/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*世界/i })).toBeInTheDocument();
 
     // User creates world
     rerender(
@@ -80,7 +80,7 @@ describe('DashboardGettingStarted', () => {
     );
 
     // Step 2: Create Character
-    expect(screen.getByRole('button', { name: /create.*character/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*角色/i })).toBeInTheDocument();
 
     // User creates character
     rerender(
@@ -93,6 +93,6 @@ describe('DashboardGettingStarted', () => {
     );
 
     // Step 3: Start Playing
-    expect(screen.getByRole('button', { name: /start playing/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /开始游玩/i })).toBeInTheDocument();
   });
 });

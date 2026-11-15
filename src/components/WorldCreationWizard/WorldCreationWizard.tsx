@@ -130,12 +130,12 @@ export default function WorldCreationWizard({
   const stepValidators = useMemo((): Record<number, Validator<WorldCreationData>> => {
     return {
       0: validateFields<WorldCreationData>({
-        genre: [createValidationRules.required('World genre is required')],
+        genre: [createValidationRules.required("世界类型为必填项")],
       }),
       1: validateFields<WorldCreationData>({
         description: [
-          createValidationRules.required<string | undefined>('World description is required'),
-          createValidationRules.minLength(50, 'Description must be at least 50 characters'),
+          createValidationRules.required<string | undefined>("世界描述不能为空"),
+          createValidationRules.minLength(50, "描述至少需要 50 个字符"),
         ],
       }),
       2: alwaysValid, // Attributes step — suggestions are optional
@@ -354,7 +354,7 @@ export default function WorldCreationWizard({
   const generateAISuggestions = useCallback(async () => {
     const description = wizard.state.data.description;
     if (!description || description.trim().length < 50) {
-      setError('ai', 'Add at least a short paragraph (50+ characters) so the system understands your world.');
+      setError('ai', "请至少填写一小段描述（50 个字符以上），以便系统理解你的世界。");
       return;
     }
 
@@ -387,8 +387,8 @@ export default function WorldCreationWizard({
       setError(
         'ai',
         hasConfiguredKey
-          ? 'We had trouble reaching the generation service, so we loaded starter suggestions. You can generate again once the service recovers.'
-          : 'Generating suggestions needs a provider key. Add one in Settings, then regenerate — starter suggestions are loaded for now.'
+          ? "我们无法连接到生成服务，已为你加载初始建议。服务恢复后你可以再次生成。"
+          : "生成建议需要模型服务密钥。请在设置中添加，然后重新生成——目前将使用初始建议。"
       );
     } finally {
       setProcessing(false);
@@ -445,14 +445,14 @@ export default function WorldCreationWizard({
 
   const getDefaultSuggestions = () => ({
     attributes: [
-      { name: 'Strength', description: 'Physical power and endurance', minValue: 1, maxValue: 10, baseValue: 5, category: 'Physical', accepted: true },
-      { name: 'Intelligence', description: 'Mental acuity and reasoning', minValue: 1, maxValue: 10, baseValue: 7, category: 'Mental', accepted: true },
-      { name: 'Agility', description: 'Speed and dexterity', minValue: 1, maxValue: 10, baseValue: 6, category: 'Physical', accepted: true },
+      { name: "力量", description: "身体力量与耐力", minValue: 1, maxValue: 10, baseValue: 5, category: 'Physical', accepted: true },
+      { name: "智力", description: "思维敏锐度与推理能力", minValue: 1, maxValue: 10, baseValue: 7, category: 'Mental', accepted: true },
+      { name: "敏捷", description: "速度与灵巧", minValue: 1, maxValue: 10, baseValue: 6, category: 'Physical', accepted: true },
     ],
     skills: [
-      { name: 'Combat', description: 'Ability to fight effectively', difficulty: 'medium' as const, category: 'Combat', linkedAttributeNames: ['Strength'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
-      { name: 'Stealth', description: 'Moving unseen and unheard', difficulty: 'hard' as const, category: 'Physical', linkedAttributeNames: ['Agility'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
-      { name: 'Perception', description: 'Noticing details and dangers', difficulty: 'easy' as const, category: 'Mental', linkedAttributeNames: ['Intelligence'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
+      { name: "战斗", description: "有效作战的能力", difficulty: 'medium' as const, category: 'Combat', linkedAttributeNames: ['力量'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
+      { name: "潜行", description: "无声无息地行动", difficulty: 'hard' as const, category: 'Physical', linkedAttributeNames: ['敏捷'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
+      { name: "察觉", description: "察觉细节与危险", difficulty: 'easy' as const, category: 'Mental', linkedAttributeNames: ['智力'], accepted: true, baseValue: 5, minValue: 1, maxValue: 10 },
     ],
   });
 
@@ -512,7 +512,7 @@ export default function WorldCreationWizard({
     try {
       // Create the world first
       const worldId = createWorld({
-        name: data.name || 'Untitled World',
+        name: data.name || "未命名世界",
         description: data.description!,
         genre: data.genre!,
         attributes: data.attributes || [],
@@ -557,7 +557,7 @@ export default function WorldCreationWizard({
     } catch (error) {
       // Stay on this step with the draft intact so the player can retry.
       logger.error('[WorldCreationWizard] createWorld failed:', error);
-      setCreateError("We couldn't create this world. Your progress is saved here, so try Create World again.");
+      setCreateError("无法创建此世界。你的进度已保存在此处，请再次尝试创建世界。");
     }
   }, [
     wizard.state.data,
@@ -657,7 +657,7 @@ export default function WorldCreationWizard({
   );
 
   return (
-    <WizardContainer title="Create New World">
+    <WizardContainer title="创建新世界">
       <div className="component-world-creation-wizard" data-testid="wizard-container">
         <WizardProgress 
           steps={steps} 
@@ -678,7 +678,7 @@ export default function WorldCreationWizard({
             onComplete={wizard.isLastStep ? handleComplete : undefined}
             currentStep={wizard.state.currentStep}
             totalSteps={WIZARD_STEPS.length}
-            completeLabel="Create World"
+            completeLabel="创建世界"
             completeTestId="step-complete-button"
             completeDataTutorial="finalize-world"
             // Only Create is gated on validity; handleComplete doesn't re-validate.
@@ -693,11 +693,11 @@ export default function WorldCreationWizard({
         isOpen={showCancelConfirmation}
         onClose={handleRejectCancel}
         onConfirm={handleConfirmCancel}
-        title="Cancel World Creation?"
-        message="Your progress will be lost. Are you sure you want to cancel?"
+        title="取消世界创建？"
+        message="你的进度将丢失。确定要取消吗？"
         variant="warning"
-        confirmText="Yes, Cancel"
-        cancelText="Continue Editing"
+        confirmText="是的，取消"
+        cancelText="继续编辑"
       />
 
       {/* Recovery Notification Dialog */}
@@ -706,13 +706,13 @@ export default function WorldCreationWizard({
         lastSaved={recoveryPreview?.lastSaved}
         recoveryData={recoveryPreview}
         hasCurrentData={autoSaveHasCurrentData}
-        title="World Creation Progress Found"
+        title="发现世界创建进度"
         stepNames={[
-          'Basic Information',
-          'World Description',
-          'Review Attributes',
-          'Review Skills',
-          'Finalize',
+          '基本信息',
+          '世界描述',
+          '查看属性',
+          '查看技能',
+          '完成',
         ]}
         onRecover={handleRecoverProgress}
         onDismiss={handleDismissRecovery}

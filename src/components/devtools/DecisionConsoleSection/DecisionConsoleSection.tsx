@@ -16,7 +16,7 @@ const ALL = 'all';
 
 const formatTimestamp = (iso: string): string => {
   const parsed = new Date(iso);
-  return Number.isNaN(parsed.getTime()) ? iso : parsed.toLocaleString();
+  return Number.isNaN(parsed.getTime()) ? iso : parsed.toLocaleString('zh-CN');
 };
 
 const matchesSearch = (decision: PlayerDecision, query: string): boolean => {
@@ -86,19 +86,19 @@ export const DecisionConsoleSection = () => {
       <div className="devtools-decision-console-controls">
         <Input
           type="search"
-          placeholder="Search prompt or choice text"
-          aria-label="Search decisions"
+          placeholder="搜索提示或选项文本"
+          aria-label="搜索决策"
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
           data-testid="decision-console-search"
         />
         <Select
-          aria-label="Filter by choice type"
+          aria-label="按选项类型筛选"
           value={choiceTypeFilter}
           onChange={(event) => setChoiceTypeFilter(event.target.value)}
           data-testid="decision-console-choice-type-filter"
         >
-          <option value={ALL}>All choice types</option>
+          <option value={ALL}>所有选项类型</option>
           {choiceTypes.map((choiceType) => (
             <option key={choiceType} value={choiceType}>
               {choiceType}
@@ -106,12 +106,12 @@ export const DecisionConsoleSection = () => {
           ))}
         </Select>
         <Select
-          aria-label="Filter by world"
+          aria-label="按世界筛选"
           value={worldFilter}
           onChange={(event) => setWorldFilter(event.target.value)}
           data-testid="decision-console-world-filter"
         >
-          <option value={ALL}>All worlds</option>
+          <option value={ALL}>所有世界</option>
           {worldIds.map((worldId) => (
             <option key={worldId} value={worldId}>
               {worldId}
@@ -119,7 +119,7 @@ export const DecisionConsoleSection = () => {
           ))}
         </Select>
         <Button variant="ghost" size="sm" onClick={handleRefresh} data-testid="decision-console-refresh">
-          Refresh
+          刷新
         </Button>
         <Button
           variant="ghost"
@@ -128,13 +128,13 @@ export const DecisionConsoleSection = () => {
           disabled={filteredDecisions.length === 0}
           data-testid="decision-console-export"
         >
-          Export JSON
+          导出 JSON
         </Button>
       </div>
 
-      <DevToolsSection title="Choice patterns">
+      <DevToolsSection title="选项模式">
         {trackerDecisions.length === 0 ? (
-          <p className="devtools-decision-console-empty">No decisions tracked yet.</p>
+          <p className="devtools-decision-console-empty">尚未跟踪任何决策。</p>
         ) : (
           <div className="devtools-decision-console-patterns" data-testid="decision-console-patterns">
             <div className="devtools-decision-console-pattern-badges">
@@ -149,23 +149,23 @@ export const DecisionConsoleSection = () => {
               ))}
             </div>
             <span className="devtools-decision-console-pattern-strength">
-              Pattern strength {Math.round(patterns.patternStrength)}%
+              模式强度 {Math.round(patterns.patternStrength)}%
             </span>
           </div>
         )}
       </DevToolsSection>
 
       <div className="devtools-decision-console-meta">
-        Showing {filteredDecisions.length} of {trackerDecisions.length} tracked decisions
+        显示 {filteredDecisions.length} / {trackerDecisions.length} 条已跟踪的决策
       </div>
 
       <div className="devtools-decision-console-list">
         {trackerDecisions.length === 0 ? (
           <p className="devtools-decision-console-empty">
-            Play a session and make choices to populate the tracker, then hit Refresh.
+            进行一次冒险并做出选择以填充跟踪器，然后点击刷新。
           </p>
         ) : filteredDecisions.length === 0 ? (
-          <p className="devtools-decision-console-empty">No decisions match the current filters.</p>
+          <p className="devtools-decision-console-empty">没有决策符合当前筛选条件。</p>
         ) : (
           filteredDecisions.map((decision) => (
             <div
@@ -183,7 +183,7 @@ export const DecisionConsoleSection = () => {
               </div>
               <p className="devtools-decision-console-entry-prompt">{decision.prompt}</p>
               <p className="devtools-decision-console-entry-choice">→ {decision.choiceText}</p>
-              <CollapsibleSection title="Metadata" initialCollapsed={true}>
+              <CollapsibleSection title="元数据" initialCollapsed={true}>
                 <JsonViewer data={decision} />
               </CollapsibleSection>
             </div>

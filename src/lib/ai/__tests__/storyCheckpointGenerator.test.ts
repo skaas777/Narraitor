@@ -97,7 +97,7 @@ describe('chapter recap', () => {
     } }) });
     const result = await generateStoryCheckpointSummary({ ...basePayload, mode: 'chapter' });
     expect(result.chapterRecap?.split('\n').map(line => line.split(':')[0])).toEqual([
-      'Previously', 'Where it stopped', 'Cast', 'Holding', 'Open threads',
+      "前情提要", "上次停下的地方", "登场角色", "持有物品", "未解线索",
     ]);
     expect(result.chapterRecap?.length).toBeLessThanOrEqual(850);
     expect(generateContent).toHaveBeenCalledTimes(1);
@@ -106,8 +106,8 @@ describe('chapter recap', () => {
   it('uses canon for a malformed response without making a second request', async () => {
     generateContent.mockResolvedValue({ content: 'not json' });
     const result = await generateStoryCheckpointSummary({ ...basePayload, mode: 'chapter', holding: ['Council seal'] });
-    expect(result.chapterRecap).toContain('Previously: Maera dissolved the council');
-    expect(result.chapterRecap).toContain('Holding: Council seal');
+    expect(result.chapterRecap).toContain("前情提要: Maera dissolved the council");
+    expect(result.chapterRecap).toContain("持有物品: Council seal");
     expect(generateContent).toHaveBeenCalledTimes(1);
   });
 });

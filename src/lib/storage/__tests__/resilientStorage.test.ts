@@ -67,7 +67,7 @@ describe('ResilientStorageMiddleware', () => {
       expect(mockNotificationCallback).toHaveBeenCalledWith(
         StorageStatus.UNAVAILABLE,
         expect.objectContaining({
-          message: expect.stringContaining('IndexedDB initialization failed'),
+          message: expect.stringContaining("IndexedDB 初始化失败"),
         })
       );
       expect(errorSpy).toHaveBeenCalledWith(
@@ -94,7 +94,7 @@ describe('ResilientStorageMiddleware', () => {
       expect(mockNotificationCallback).toHaveBeenCalledWith(
         StorageStatus.UNAVAILABLE,
         expect.objectContaining({
-          message: 'IndexedDB not available in this environment',
+          message: "此环境中无法使用 IndexedDB",
         })
       );
       expect(errorSpy).toHaveBeenCalledWith(
@@ -135,7 +135,7 @@ describe('ResilientStorageMiddleware', () => {
       expect(mockNotificationCallback).toHaveBeenCalledWith(
         StorageStatus.UNAVAILABLE,
         expect.objectContaining({
-          message: expect.stringContaining('IndexedDB write failed'),
+          message: expect.stringContaining("IndexedDB 写入失败"),
         })
       );
       expect(errorSpy).toHaveBeenCalledWith(
@@ -163,7 +163,7 @@ describe('ResilientStorageMiddleware', () => {
       expect(mockNotificationCallback).toHaveBeenCalledWith(
         StorageStatus.UNAVAILABLE,
         expect.objectContaining({
-          message: expect.stringContaining('IndexedDB read failed'),
+          message: expect.stringContaining("IndexedDB 读取失败"),
         })
       );
       expect(errorSpy).toHaveBeenCalledWith(

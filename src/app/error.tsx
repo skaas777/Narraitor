@@ -31,7 +31,7 @@ export default function Error({
       )}
       <ActionButtonGroup
         actions={[{
-          label: friendly.actionLabel ?? 'Try again',
+          label: friendly.actionLabel ?? "重试",
           onClick: reset,
           variant: 'primary'
         }]}

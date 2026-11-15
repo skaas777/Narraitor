@@ -86,14 +86,14 @@ export function JournalTable({
     () => [
       {
         accessorKey: 'createdAt',
-        header: 'Date',
+        header: "日期",
         cell: ({ row }) => <div>{formatDate(row.getValue('createdAt'))}</div>,
         enableSorting: true,
       },
       {
         accessorFn: (row) => row.title || entryTypeLabel(row.type),
         id: 'title',
-        header: 'Title',
+        header: "标题",
         cell: ({ row }) => (
           <div
             className="component-journal-table-title"
@@ -107,7 +107,7 @@ export function JournalTable({
       {
         accessorFn: (row) => entryTypeLabel(row.type),
         id: 'type',
-        header: 'Type',
+        header: "类型",
         cell: ({ row }) => (
           <Badge variant="default-static">{row.getValue('type') as string}</Badge>
         ),
@@ -115,7 +115,7 @@ export function JournalTable({
       },
       {
         accessorKey: 'significance',
-        header: 'Significance',
+        header: "重要性",
         cell: ({ row }) => (
           <Badge
             variant={getSignificanceBadgeVariant(row.original.significance)}
@@ -128,13 +128,13 @@ export function JournalTable({
       },
       {
         accessorKey: 'content',
-        header: 'Summary',
+        header: "摘要",
         cell: ({ row }) => <div>{truncate(row.original.content, 80)}</div>,
         enableSorting: false,
       },
       {
         id: 'actions',
-        header: 'Actions',
+        header: "操作",
         cell: ({ row }) => (
           <Button
             variant="ghost"
@@ -143,8 +143,8 @@ export function JournalTable({
               e.stopPropagation();
               handleSelect(row.original);
             }}
-            aria-label={`View ${row.original.title || entryTypeLabel(row.original.type)}`}
-            title="View entry"
+            aria-label={`查看 ${row.original.title || entryTypeLabel(row.original.type)}`}
+            title="查看条目"
           >
             <Eye />
           </Button>
@@ -169,16 +169,16 @@ export function JournalTable({
   return (
     <div className="component-journal-table">
       <div className="component-journal-table-toolbar">
-        <label htmlFor="journal-table-type-filter">Entry type</label>
+        <label htmlFor="journal-table-type-filter">条目类型</label>
         <Select
           id="journal-table-type-filter"
           value={typeFilter}
           onChange={(e) =>
             setTypeFilter(e.target.value as JournalEntryType | 'all')
           }
-          aria-label="Filter by entry type"
+          aria-label="按条目类型筛选"
         >
-          <option value="all">All types</option>
+          <option value="all">全部类型</option>
           {availableTypes.map((type) => (
             <option key={type} value={type}>
               {entryTypeLabel(type)}
@@ -195,9 +195,9 @@ export function JournalTable({
         }}
         searchable={{
           enabled: true,
-          placeholder: 'Search entries...',
+          placeholder: "搜索条目……",
         }}
-        ariaLabel="Journal entries table"
+        ariaLabel="日志条目表格"
         customRowRenderer={customRowRenderer}
       />
     </div>

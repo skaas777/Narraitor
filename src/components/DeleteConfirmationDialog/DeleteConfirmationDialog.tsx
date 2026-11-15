@@ -20,8 +20,8 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   title,
   description,
   itemName,
-  confirmButtonText = 'Delete',
-  cancelButtonText = 'Cancel',
+  confirmButtonText = "删除",
+  cancelButtonText = "取消",
   isDeleting = false,
 }) => {
   return (
@@ -39,10 +39,10 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
       }
       confirmText={confirmButtonText}
       cancelText={cancelButtonText}
-      confirmAriaLabel={`${confirmButtonText} ${itemName}`}
-      cancelAriaLabel={`${cancelButtonText} deletion`}
+      confirmAriaLabel={`${confirmButtonText}${itemName}`}
+      cancelAriaLabel={cancelButtonText}
       isLoading={isDeleting}
-      loadingText="Deleting..."
+      loadingText="正在删除…"
     />
   );
 };

@@ -666,12 +666,12 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
           const fallbackSegment: NarrativeSegment = {
             id: segmentId,
             content:
-              'The adventure begins. You find yourself at the edge of a new journey. What will you do next?',
+              "冒险开始了。你发现自己站在一段新旅程的边缘。接下来你要做什么？",
             type: 'scene',
             characterIds: [],
             metadata: {
               characterIds: [],
-              location: 'Starting Location',
+              location: "起始地点",
               tags: ['intro', 'fallback'],
             },
             sessionId,
@@ -876,7 +876,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
       // play surface can surface inline error + Retry copy. Keep the local
       // string error for the (hidden) NarrativeHistory path too.
       setError(
-        'Unable to generate narrative. Please check your connection and try again.'
+        "无法生成叙事。请检查网络连接并重试。"
       );
       setGenerationError(getNarrativeError(err as Error));
     } finally {
@@ -940,7 +940,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
       {!hideHistory && process.env.NODE_ENV !== 'production' && npcRoster.length > 0 && (
         <div>
           <p>
-            NPC roster (debug)
+            NPC 名单（调试）
           </p>
           <ul>
             {npcRoster.map((npc) => (

@@ -17,7 +17,7 @@ export function enrichCharacterAttributes(character: StoreCharacter, world: Worl
       name: charAttr.name,
       baseValue: charAttr.baseValue,
       modifiedValue: charAttr.modifiedValue,
-      category: charAttr.category || worldAttr?.category || 'General',
+      category: charAttr.category || worldAttr?.category || "通用",
       description: worldAttr?.description
     };
   });
@@ -35,7 +35,7 @@ export function enrichCharacterSkills(character: StoreCharacter, world: World) {
       characterId: character.id,
       name: charSkill.name,
       level: charSkill.level,
-      category: charSkill.category || worldSkill?.category || 'General',
+      category: charSkill.category || worldSkill?.category || "通用",
       difficulty: worldSkill?.difficulty || 'medium' as const,
       description: worldSkill?.description
     };

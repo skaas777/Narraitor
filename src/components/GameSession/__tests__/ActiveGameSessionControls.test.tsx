@@ -59,9 +59,9 @@ describe('ActiveGameSessionControls', () => {
     expect(screen.getByTestId('inventory-list')).toBeInTheDocument();
     expect(screen.getByTestId('story-summary')).toBeInTheDocument();
     expect(screen.getByTestId('choice-history')).toBeInTheDocument();
-    expect(screen.queryByRole('dialog', { name: /end story/i })).toBeNull();
+    expect(screen.queryByRole('dialog', { name: /结束故事/i })).toBeNull();
 
-    const journalButton = screen.getByRole('button', { name: /Open Journal/i });
+    const journalButton = screen.getByRole('button', { name: /打开日志/i });
     fireEvent.click(journalButton);
     expect(baseProps.onOpenJournal).toHaveBeenCalled();
   });
@@ -77,7 +77,7 @@ describe('ActiveGameSessionControls', () => {
 
     expect(screen.queryByTestId('character-summary')).toBeNull();
     expect(screen.queryByTestId('inventory-list')).toBeNull();
-    expect(screen.queryByRole('button', { name: /Open Journal/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /打开日志/i })).toBeNull();
     expect(screen.getByTestId('story-summary')).toBeInTheDocument();
   });
 
@@ -91,11 +91,11 @@ describe('ActiveGameSessionControls', () => {
       />
     );
 
-    const dialog = screen.getByRole('dialog', { name: /end story/i });
+    const dialog = screen.getByRole('dialog', { name: /结束故事/i });
     expect(dialog).toHaveClass('manuscript-end-story-dialog');
 
-    const cancelButton = screen.getByRole('button', { name: /cancel/i });
-    const confirmButton = screen.getByRole('button', { name: /confirm end story/i });
+    const cancelButton = screen.getByRole('button', { name: /取消/i });
+    const confirmButton = screen.getByRole('button', { name: /确认结束故事/i });
 
     expect(cancelButton).toHaveClass('manuscript-end-story-cancel');
     expect(confirmButton).toHaveClass('manuscript-end-story-confirm');
@@ -130,6 +130,6 @@ describe('ActiveGameSessionControls', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /cancel/i })).toHaveFocus();
+    expect(screen.getByRole('button', { name: /取消/i })).toHaveFocus();
   });
 });

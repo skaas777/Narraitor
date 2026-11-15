@@ -50,13 +50,12 @@ const SkillPrerequisitesEditor: React.FC<SkillPrerequisitesEditorProps> = ({
 
   return (
     <div className="component-skill-prerequisites-editor">
-      <Label>Attribute Prerequisites</Label>
+      <Label>属性前置条件</Label>
       <p className="skill-prerequisites-hint">
-        Set a minimum attribute value a character needs before this skill can be
-        selected. Leave blank for no requirement.
+        设置角色选择此技能前所需的最低属性值。无要求请留空。
       </p>
       {attributes.length === 0 ? (
-        <p>No attributes available</p>
+        <p>没有可用属性</p>
       ) : (
         <div>
           {attributes.map((attribute) => {
@@ -64,14 +63,14 @@ const SkillPrerequisitesEditor: React.FC<SkillPrerequisitesEditorProps> = ({
             const value = getRequirement(attribute.id);
             return (
               <div key={attribute.id} className="skill-prerequisite-row">
-                <Label htmlFor={inputId}>Minimum {attribute.name}</Label>
+                <Label htmlFor={inputId}>最低 {attribute.name}</Label>
                 <Input
                   id={inputId}
                   type="number"
                   min={0}
                   max={attribute.maxValue}
                   value={value ?? ''}
-                  placeholder="None"
+                  placeholder="无"
                   disabled={disabled}
                   onChange={(e) => handleChange(attribute, e.target.value)}
                 />

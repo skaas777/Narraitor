@@ -10,6 +10,7 @@ import {
   validatePortraitFile,
 } from '@/lib/portraits/portraitUpload';
 import './ImageUploadPicker.css';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface ImageUploadPickerProps {
   onPreview: (portrait: GeneratedImage) => void;
@@ -44,7 +45,7 @@ export function ImageUploadPicker({
       setError(
         readError instanceof Error
           ? readError.message
-          : "That image couldn't be read. Try picking it again."
+          : "无法读取该图片。请重新选择。"
       );
       setFileName(null);
     }
@@ -81,10 +82,10 @@ export function ImageUploadPicker({
       >
         <Upload aria-hidden="true" />
         <p className="image-upload-picker-instructions">
-          Drag an image here, or
+          将图片拖拽到此处，或
         </p>
         <label htmlFor={inputId} className="image-upload-picker-trigger">
-          Choose an image file
+          选择图片文件
         </label>
         <input
           id={inputId}
@@ -93,16 +94,16 @@ export function ImageUploadPicker({
           accept={PORTRAIT_UPLOAD_ACCEPT}
           onChange={handleInputChange}
         />
-        <p className="image-upload-picker-hint">JPG, PNG or WebP, up to 5MB.</p>
+        <p className="image-upload-picker-hint">JPG、PNG 或 WebP，最大 5MB。</p>
       </div>
 
       {fileName && !error && (
-        <p className="image-upload-picker-filename">Ready to use: {fileName}</p>
+        <p className="image-upload-picker-filename">已就绪： {fileName}</p>
       )}
 
       {error && (
         <p className="image-upload-picker-error" role="alert">
-          {error}
+          {localizeErrorMessage(error)}
         </p>
       )}
     </div>

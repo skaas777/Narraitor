@@ -35,12 +35,12 @@ function determineAcquisitionSignificance(
 
 function describeAcquisitionMethod(method: InventoryAcquisitionMethod): string {
   switch (method) {
-    case 'loot': return 'as loot';
-    case 'quest': return 'from a quest';
-    case 'purchase': return 'through purchase';
-    case 'craft': return 'by crafting';
-    case 'reward': return 'as a reward';
-    case 'gift': return 'as a gift';
+    case 'loot': return "作为战利品";
+    case 'quest': return "来自任务";
+    case 'purchase': return "通过购买";
+    case 'craft': return "通过制作";
+    case 'reward': return "作为奖励";
+    case 'gift': return "作为礼物";
     case 'manual':
     case 'unknown':
     default:
@@ -56,15 +56,15 @@ function formatAcquisitionContext(item: InventoryItem): string {
   const latestAcquisition = item.acquisitionHistory[item.acquisitionHistory.length - 1];
 
   const subject = item.quantity > 1
-    ? `Acquired ${item.quantity}x ${item.name}`
-    : `Acquired ${item.name}`;
+    ? `获得 ${item.quantity}x ${item.name}`
+    : `获得 ${item.name}`;
 
   if (!latestAcquisition) {
-    return `${subject}.`;
+    return `${subject}。`;
   }
 
   const methodPhrase = describeAcquisitionMethod(latestAcquisition.method);
-  const opener = methodPhrase ? `${subject} ${methodPhrase}.` : `${subject}.`;
+  const opener = methodPhrase ? `${subject} ${methodPhrase}。` : `${subject}。`;
 
   return latestAcquisition.description
     ? `${opener} ${latestAcquisition.description}`
@@ -97,7 +97,7 @@ export function createAcquisitionJournalEntry(
     worldId,
     characterId,
     type: 'item_acquisition',
-    title: `Acquired: ${item.name}`,
+    title: `获得：${item.name}`,
     content,
     significance,
     isRead: false,
@@ -187,36 +187,36 @@ function formatLossTitle(
 
   switch (reason) {
     case 'consumed':
-      return `Used: ${item.name}`;
+      return `使用：${item.name}`;
     case 'delivered':
-      return `Delivered: ${item.name}`;
+      return `交付：${item.name}`;
     case 'stolen':
-      return `Stolen: ${item.name}`;
+      return `被盗：${item.name}`;
     case 'destroyed':
-      return `Destroyed: ${item.name}`;
+      return `被毁：${item.name}`;
     case 'dropped':
-      return `Abandoned: ${item.name}`;
+      return `被丢弃：${item.name}`;
     case 'sold':
-      return `Sold: ${item.name}`;
+      return `已售出：${item.name}`;
     case 'gifted':
-      return `Gifted: ${item.name}`;
+      return `已赠出：${item.name}`;
     case 'sacrificed':
-      return `Sacrificed: ${item.name}`;
+      return `已献祭：${item.name}`;
     default:
-      return `Lost: ${item.name}`;
+      return `已丢失：${item.name}`;
   }
 }
 
 function describeLossReason(reason: string | undefined): string {
   switch (reason) {
-    case 'consumed': return 'after using it';
-    case 'delivered': return 'after delivering it';
-    case 'stolen': return 'after it was stolen';
-    case 'destroyed': return 'after it was destroyed';
-    case 'dropped': return 'after dropping it';
-    case 'sold': return 'after selling it';
-    case 'gifted': return 'after gifting it';
-    case 'sacrificed': return 'after sacrificing it';
+    case 'consumed': return "使用后";
+    case 'delivered': return "交付后";
+    case 'stolen': return "被盗后";
+    case 'destroyed': return "被毁后";
+    case 'dropped': return "丢弃后";
+    case 'sold': return "售出后";
+    case 'gifted': return "赠出后";
+    case 'sacrificed': return "献祭后";
     default: return '';
   }
 }
@@ -226,11 +226,11 @@ function formatLossContext(
   lossMetadata: LostItemMetadata
 ): string {
   const subject = lossMetadata.quantity && lossMetadata.quantity > 1
-    ? `Lost ${lossMetadata.quantity}x ${item.name}`
-    : `Lost ${item.name}`;
+    ? `丢失 ${lossMetadata.quantity} 个 ${item.name}`
+    : `丢失 ${item.name}`;
 
   const reasonPhrase = describeLossReason(lossMetadata.lossReason);
-  const opener = reasonPhrase ? `${subject} ${reasonPhrase}.` : `${subject}.`;
+  const opener = reasonPhrase ? `${subject} ${reasonPhrase}。` : `${subject}。`;
 
   return lossMetadata.lossContext
     ? `${opener} ${lossMetadata.lossContext}`

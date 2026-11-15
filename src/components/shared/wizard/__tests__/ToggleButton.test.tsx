@@ -7,7 +7,7 @@ describe('ToggleButton', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('aria-pressed', 'true');
-    expect(button).toHaveTextContent('Selected');
+    expect(button).toHaveTextContent("已选择");
     expect(button).toHaveClass('wizard-toggle-active');
     expect(button).toHaveClass('component-toggle-button');
   });
@@ -17,7 +17,7 @@ describe('ToggleButton', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('aria-pressed', 'false');
-    expect(button).toHaveTextContent('Excluded');
+    expect(button).toHaveTextContent("已排除");
     expect(button).toHaveClass('wizard-toggle-inactive');
   });
 

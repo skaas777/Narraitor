@@ -75,7 +75,7 @@ const ChoiceSelector: React.FC<ChoiceSelectorProps> = ({
   hideCustomInput = false,
   enableCustomInput = false,
   onCustomSubmit,
-  customInputPlaceholder = 'Or write your own action...',
+  customInputPlaceholder = "描述你的行动……",
   maxCustomLength = 250,
   inputActions,
   worldSkills = [],
@@ -142,7 +142,7 @@ const ChoiceSelector: React.FC<ChoiceSelectorProps> = ({
     () =>
       allOptions.slice(0, 9).map((option, index) => ({
         key: String(index + 1),
-        description: `Select "${option.text}"`,
+        description: `选择“${option.text}”`,
         ignoreInputs: isComposerAwaitingFirstKey,
         action: () =>
           handleOptionSelect(option.id, option.isDisabledByRequirements ?? false),
@@ -288,10 +288,10 @@ const ChoiceSelector: React.FC<ChoiceSelectorProps> = ({
               placeholder={
                 customInputPlaceholder !== 'Or write your own action...'
                   ? customInputPlaceholder
-                  : 'Describe your action...'
+                  : "描述你的行动……"
               }
               disabled={isDisabled}
-              aria-label="Custom response input"
+              aria-label="自定义回复输入"
               className="manuscript-custom-input"
             />
             <span className="manuscript-input-counter">
@@ -303,7 +303,7 @@ const ChoiceSelector: React.FC<ChoiceSelectorProps> = ({
               onClick={handleCustomSubmit}
               disabled={isDisabled || !safeTrim(customInputText)}
               className="manuscript-send-button"
-              aria-label="Send"
+              aria-label="发送"
             >
               <ArrowUp size={18} aria-hidden="true" />
             </button>

@@ -45,7 +45,7 @@ describe('ManuscriptDrawerPanels', () => {
 
   it('renders empty state when no journal entries exist for the session', () => {
     render(<JournalSnapshotDrawerContent sessionId="session-1" />);
-    expect(screen.getByText(/no journal entries found for this session/i)).toBeInTheDocument();
+    expect(screen.getByText(/本次冒险记录中未找到日志条目/i)).toBeInTheDocument();
   });
 
   it('renders at most five journal entries in snapshot cards', () => {

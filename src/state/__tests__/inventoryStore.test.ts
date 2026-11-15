@@ -174,8 +174,8 @@ describe('useInventoryStore', () => {
       const state = useInventoryStore.getState();
 
       expect(state.error).toMatchObject({
-        title: 'Stack Limit Exceeded',
-        message: 'Quantity cannot exceed maximum stack size of 2.',
+        title: "超出堆叠上限",
+        message: "数量不能超过最大堆叠数 2。",
         type: ErrorType.VALIDATION,
       });
       expect(state.items[itemId].quantity).toBe(1);

@@ -61,7 +61,7 @@ describe('DecisionConsoleSection', () => {
     expect(screen.getByText('A guard blocks the gate')).toBeInTheDocument();
     expect(screen.getByText('The merchant offers a deal')).toBeInTheDocument();
     expect(screen.getByTestId('decision-console-patterns')).toBeInTheDocument();
-    expect(screen.getByText(/Pattern strength 50%/)).toBeInTheDocument();
+    expect(screen.getByText(/模式强度 50%/)).toBeInTheDocument();
   });
 
   it('filters decisions by search text', () => {
@@ -73,7 +73,7 @@ describe('DecisionConsoleSection', () => {
 
     expect(screen.getByText('The merchant offers a deal')).toBeInTheDocument();
     expect(screen.queryByText('A guard blocks the gate')).not.toBeInTheDocument();
-    expect(screen.getByText(/Showing 1 of 2/)).toBeInTheDocument();
+    expect(screen.getByText(/显示 1 \/ 2/)).toBeInTheDocument();
   });
 
   it('filters decisions by world', () => {

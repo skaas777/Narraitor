@@ -81,6 +81,6 @@ export function getContentRatingGuidance(rating: ContentRating | null): string {
  */
 export function describeContentRatingEnforcement(nativeSafetySettings: boolean): string {
   return nativeSafetySettings
-    ? "Your world's content rating is sent to Google as a safety-filter setting. The provider still applies its own core safety layer, which no setting turns off."
-    : "This provider has no safety-filter setting, so your world's content rating is sent as guidance in the prompt. It asks the model to write to that rating — it does not enforce one, and the provider may still refuse content of its own accord.";
+    ? "你世界的内容分级会作为安全过滤设置发送给 Google。模型服务仍会应用其自身的核心安全层，该安全层无法通过任何设置关闭。"
+    : "此模型服务没有安全过滤设置，因此你世界的内容分级会作为提示中的指导发送。它要求模型按该分级进行写作——并不会强制执行，且模型服务仍可能自行拒绝某些内容。";
 }

@@ -65,7 +65,7 @@ export class ResilientStorageMiddleware {
         logger.error('[Storage] IndexedDB not available, using memory storage');
         this.adapter = null;
         this.onStatusChange(StorageStatus.UNAVAILABLE, {
-          message: 'IndexedDB not available in this environment',
+          message: "此环境中无法使用 IndexedDB",
         });
         return;
       }
@@ -78,7 +78,7 @@ export class ResilientStorageMiddleware {
       logger.error('[Storage] IndexedDB unavailable, using memory storage:', error);
       this.adapter = null;
       this.onStatusChange(StorageStatus.UNAVAILABLE, {
-        message: `IndexedDB initialization failed: ${error}`,
+        message: `IndexedDB 初始化失败：${error}`,
       });
     }
   }
@@ -96,7 +96,7 @@ export class ResilientStorageMiddleware {
         logger.error('[Storage] IndexedDB read failed, switching to memory:', error);
         this.adapter = null;
         this.onStatusChange(StorageStatus.UNAVAILABLE, {
-          message: `IndexedDB read failed: ${error}`,
+          message: `IndexedDB 读取失败：${error}`,
         });
       }
     }
@@ -121,7 +121,7 @@ export class ResilientStorageMiddleware {
         logger.error('[Storage] IndexedDB write failed, switching to memory:', error);
         this.adapter = null;
         this.onStatusChange(StorageStatus.UNAVAILABLE, {
-          message: `IndexedDB write failed: ${error}`,
+          message: `IndexedDB 写入失败：${error}`,
         });
       }
     }

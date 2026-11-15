@@ -18,9 +18,9 @@ export default function DevLayout({
       <div>
         <header>
           <Link href="/dev">
-            <h1>Narraitor Development</h1>
+            <h1>Narraitor 开发</h1>
           </Link>
-          <p>Test environments for component development</p>
+          <p>用于组件开发的测试环境</p>
         </header>
         {children}
       </div>

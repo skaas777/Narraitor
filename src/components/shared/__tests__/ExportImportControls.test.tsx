@@ -32,20 +32,20 @@ describe('ExportImportControls', () => {
     test('shows progress indicator during export', async () => {
       render(<ExportImportControls />);
 
-      const exportButton = screen.getByRole('button', { name: /export game/i });
+      const exportButton = screen.getByRole('button', { name: /导出游戏数据/i });
       fireEvent.click(exportButton);
 
-      expect(screen.getByText(/exporting/i)).toBeInTheDocument();
+      expect(screen.getByText(/正在导出/i)).toBeInTheDocument();
     });
 
     test('shows success message after successful export', async () => {
       render(<ExportImportControls />);
 
-      const exportButton = screen.getByRole('button', { name: /export game/i });
+      const exportButton = screen.getByRole('button', { name: /导出游戏数据/i });
       fireEvent.click(exportButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/export completed/i)).toBeInTheDocument();
+        expect(screen.getByText(/导出成功/i)).toBeInTheDocument();
       });
     });
 
@@ -54,11 +54,11 @@ describe('ExportImportControls', () => {
 
       render(<ExportImportControls />);
 
-      const exportButton = screen.getByRole('button', { name: /export game/i });
+      const exportButton = screen.getByRole('button', { name: /导出游戏数据/i });
       fireEvent.click(exportButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/couldn't export your data/i)).toBeInTheDocument();
+        expect(screen.getByText(/无法导出你的数据/i)).toBeInTheDocument();
       });
     });
   });
@@ -67,26 +67,26 @@ describe('ExportImportControls', () => {
     test('handles file selection', async () => {
       render(<ExportImportControls />);
 
-      const fileInput = screen.getByLabelText(/import game/i);
+      const fileInput = screen.getByLabelText(/导入游戏/i);
       const mockFile = new File(['{"test": "data"}'], 'save.json', { type: 'application/json' });
 
       fireEvent.change(fileInput, { target: { files: [mockFile] } });
 
       await waitFor(() => {
-        expect(screen.getByText(/importing/i)).toBeInTheDocument();
+        expect(screen.getByText(/正在导入/i)).toBeInTheDocument();
       });
     });
 
     test('shows import success message', async () => {
       render(<ExportImportControls />);
 
-      const fileInput = screen.getByLabelText(/import game/i);
+      const fileInput = screen.getByLabelText(/导入游戏/i);
       const mockFile = new File(['{"test": "data"}'], 'save.json', { type: 'application/json' });
 
       fireEvent.change(fileInput, { target: { files: [mockFile] } });
 
       await waitFor(() => {
-        expect(screen.getByText(/import successful/i)).toBeInTheDocument();
+        expect(screen.getByText(/操作未能完成，请稍后重试。/i)).toBeInTheDocument();
       });
     });
 
@@ -95,13 +95,13 @@ describe('ExportImportControls', () => {
 
       render(<ExportImportControls />);
 
-      const fileInput = screen.getByLabelText(/import game/i);
+      const fileInput = screen.getByLabelText(/导入游戏/i);
       const mockFile = new File(['invalid'], 'save.json', { type: 'application/json' });
 
       fireEvent.change(fileInput, { target: { files: [mockFile] } });
 
       await waitFor(() => {
-        expect(screen.getByText(/invalid file/i)).toBeInTheDocument();
+        expect(screen.getByText(/操作未能完成，请稍后重试。/i)).toBeInTheDocument();
       });
     });
   });
@@ -110,7 +110,7 @@ describe('ExportImportControls', () => {
     test('disables buttons during operations', async () => {
       render(<ExportImportControls />);
 
-      const exportButton = screen.getByRole('button', { name: /export game/i });
+      const exportButton = screen.getByRole('button', { name: /导出游戏数据/i });
       fireEvent.click(exportButton);
 
       expect(exportButton).toBeDisabled();
@@ -121,17 +121,17 @@ describe('ExportImportControls', () => {
 
       render(<ExportImportControls />);
 
-      const exportButton = screen.getByRole('button', { name: /export game/i });
+      const exportButton = screen.getByRole('button', { name: /导出游戏数据/i });
       fireEvent.click(exportButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/export completed/i)).toBeInTheDocument();
+        expect(screen.getByText(/导出成功/i)).toBeInTheDocument();
       });
 
       jest.advanceTimersByTime(5000);
 
       await waitFor(() => {
-        expect(screen.queryByText(/export completed/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/导出成功/i)).not.toBeInTheDocument();
       });
 
       jest.useRealTimers();

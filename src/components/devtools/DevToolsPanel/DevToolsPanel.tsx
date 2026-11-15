@@ -41,11 +41,11 @@ const EnvironmentInfo = () => {
   const isDev = process.env.NODE_ENV === 'development';
 
   return (
-    <DevToolsSection title="Environment Info:" >
-      <div>NODE_ENV: {nodeEnv}</div>
-      <div>Is Client: {String(mounted)}</div>
-      <div>Is Development: {String(isDev)}</div>
-      <div>Window Location: {location}</div>
+    <DevToolsSection title="环境信息：" >
+      <div>运行环境： {nodeEnv}</div>
+      <div>是否客户端： {String(mounted)}</div>
+      <div>是否开发环境： {String(isDev)}</div>
+      <div>窗口位置： {location}</div>
     </DevToolsSection>
   );
 };
@@ -118,8 +118,8 @@ export const DevToolsPanel = () => {
       {/* Header with toggle button */}
       <div className="devtools-panel-header" data-testid="devtools-panel-header">
         <div className="devtools-panel-title">
-          Narraitor DevTools
-          {isTestPage && '(Test Page Mode)'}
+          Narraitor 开发者工具
+          {isTestPage && "（测试页面模式）"}
         </div>
         <div className="devtools-panel-controls">
           {isOpen && (
@@ -130,9 +130,9 @@ export const DevToolsPanel = () => {
                   type="checkbox"
                   checked={settings.showPromptDebugInfo}
                   onChange={(e) => updateSetting('showPromptDebugInfo', e.target.checked)}
-                  title="Toggle prompt debug information in narrative segments"
+                  title="切换叙事片段中的提示词调试信息"
                 />
-                <span>Show Prompts</span>
+                <span>显示提示词</span>
               </label>
               <SectionVisibilityControls />
             </>
@@ -143,7 +143,7 @@ export const DevToolsPanel = () => {
             variant="ghost"
             size="sm"
           >
-            {isOpen ? 'Hide DevTools' : 'Show DevTools'}
+            {isOpen ? "隐藏开发者工具" : "显示开发者工具"}
           </Button>
         </div>
       </div>
@@ -160,7 +160,7 @@ export const DevToolsPanel = () => {
               {/* State Management Group - only show if any child sections are visible */}
               {isSectionVisible(SectionId.STATE_SECTION) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">State Management</h3>
+                  <h3 className="devtools-panel-group-title">状态管理</h3>
                   <StateSection defaultCollapsed={true} />
                 </div>
               )}
@@ -169,16 +169,16 @@ export const DevToolsPanel = () => {
               {(isSectionVisible(SectionId.DECISION_CONSOLE) ||
                 isSectionVisible(SectionId.DECISION_FLOW)) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">Decisions</h3>
+                  <h3 className="devtools-panel-group-title">决策</h3>
                   <div className="devtools-panel-subgroup">
                     {isSectionVisible(SectionId.DECISION_CONSOLE) && (
-                      <CollapsibleSection title="Decision Console" initialCollapsed={true}>
+                      <CollapsibleSection title="决策控制台" initialCollapsed={true}>
                         <DecisionConsoleSection />
                       </CollapsibleSection>
                     )}
 
                     {isSectionVisible(SectionId.DECISION_FLOW) && (
-                      <CollapsibleSection title="Decision Creation Flow" initialCollapsed={true}>
+                      <CollapsibleSection title="决策创建流程" initialCollapsed={true}>
                         <DecisionFlowSection />
                       </CollapsibleSection>
                     )}
@@ -189,8 +189,8 @@ export const DevToolsPanel = () => {
               {/* Error Tracking Group */}
               {isSectionVisible(SectionId.ERROR_SECTION) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">Error Tracking</h3>
-                  <CollapsibleSection title="Runtime Errors" initialCollapsed={true}>
+                  <h3 className="devtools-panel-group-title">错误跟踪</h3>
+                  <CollapsibleSection title="运行时错误" initialCollapsed={true}>
                     <ErrorSection />
                   </CollapsibleSection>
                 </div>
@@ -206,34 +206,34 @@ export const DevToolsPanel = () => {
                 isSectionVisible(SectionId.WORLD_CLOCK) ||
                 isSectionVisible(SectionId.LORE_MANAGEMENT)) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">AI Tools &amp; Validation</h3>
+                  <h3 className="devtools-panel-group-title">AI 工具与验证</h3>
                   <div className="devtools-panel-subgroup">
                     {isSectionVisible(SectionId.AI_TESTING) && (
-                      <CollapsibleSection title="AI Testing" initialCollapsed={true}>
+                      <CollapsibleSection title="AI 测试" initialCollapsed={true}>
                         <AITestingPanel />
                       </CollapsibleSection>
                     )}
 
                     {isSectionVisible(SectionId.CONSISTENCY_VALIDATION) && (
-                      <CollapsibleSection title="Consistency Validation" initialCollapsed={true}>
+                      <CollapsibleSection title="一致性验证" initialCollapsed={true}>
                         <ConsistencyValidationSection />
                       </CollapsibleSection>
                     )}
 
                     {isSectionVisible(SectionId.LORE_MANAGEMENT) && (
-                      <CollapsibleSection title="Lore Management" initialCollapsed={true}>
+                      <CollapsibleSection title="设定管理" initialCollapsed={true}>
                         <LoreManagementSection />
                       </CollapsibleSection>
                     )}
 
                     {isSectionVisible(SectionId.TOKEN_BUDGET) && (
-                      <CollapsibleSection title="Token Budget" initialCollapsed={true}>
+                      <CollapsibleSection title="Token 预算" initialCollapsed={true}>
                         <TokenBudgetPanel />
                       </CollapsibleSection>
                     )}
 
                     {isSectionVisible(SectionId.WORLD_CLOCK) && (
-                      <CollapsibleSection title="World Clock" initialCollapsed={true}>
+                      <CollapsibleSection title="世界时钟" initialCollapsed={true}>
                         <WorldClockSection />
                       </CollapsibleSection>
                     )}
@@ -243,8 +243,8 @@ export const DevToolsPanel = () => {
 
               {isSectionVisible(SectionId.TEST_DATA_GENERATOR) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">Test Data &amp; Generators</h3>
-                  <CollapsibleSection title="Test Data Generators" initialCollapsed={true}>
+                  <h3 className="devtools-panel-group-title">测试数据与生成器</h3>
+                  <CollapsibleSection title="测试数据生成器" initialCollapsed={true}>
                     <TestDataGeneratorSection />
                   </CollapsibleSection>
                 </div>
@@ -253,7 +253,7 @@ export const DevToolsPanel = () => {
               {/* Content Generation Group - only show if any child sections are visible */}
               {(isSectionVisible(SectionId.PORTRAIT_DEBUG) || isSectionVisible(SectionId.ENDING_IMAGE_DEBUG)) && (
                 <div className="devtools-panel-group">
-                  <h3 className="devtools-panel-group-title">Content Generation</h3>
+                  <h3 className="devtools-panel-group-title">内容生成</h3>
                   <div className="devtools-panel-subgroup">
                     {isSectionVisible(SectionId.PORTRAIT_DEBUG) && <PortraitDebugSection />}
 

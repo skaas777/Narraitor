@@ -89,7 +89,7 @@ function renderPage() {
 async function confirmDelete(user: ReturnType<typeof userEvent.setup>) {
   await user.click(await screen.findByRole('button', { name: 'Delete Aria' }));
   await user.click(
-    await screen.findByRole('button', { name: 'Delete Character Aria' })
+    await screen.findByRole('button', { name: "删除角色Aria" })
   );
 }
 
@@ -110,13 +110,13 @@ describe('CharactersPage delete notifications', () => {
     const portal = document.getElementById('toast-container');
     expect(portal).not.toBeNull();
     await waitFor(() => {
-      expect(within(portal!).getByText('Character Deleted')).toBeInTheDocument();
+      expect(within(portal!).getByText("角色已删除")).toBeInTheDocument();
     });
     expect(
-      within(portal!).getByText('Aria has been permanently deleted')
+      within(portal!).getByText("Aria 已被永久删除")
     ).toBeInTheDocument();
     expect(
-      within(portal!).getByText('Character Deleted').closest('.toast')
+      within(portal!).getByText("角色已删除").closest('.toast')
     ).toHaveAttribute('data-variant', 'success');
 
     // The page must not render a second toast of its own in document flow.

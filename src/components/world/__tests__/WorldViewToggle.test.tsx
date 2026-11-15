@@ -16,15 +16,15 @@ describe('WorldViewToggle', () => {
   it('renders both grid and table view buttons', () => {
     render(<WorldViewToggle mode="grid" onModeChange={mockOnModeChange} />);
 
-    expect(screen.getByRole('button', { name: 'Grid view' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Table view' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "网格视图" })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "表格视图" })).toBeInTheDocument();
   });
 
   it('sets aria-pressed correctly for grid mode', () => {
     render(<WorldViewToggle mode="grid" onModeChange={mockOnModeChange} />);
 
-    const gridBtn = screen.getByRole('button', { name: 'Grid view' });
-    const tableBtn = screen.getByRole('button', { name: 'Table view' });
+    const gridBtn = screen.getByRole('button', { name: "网格视图" });
+    const tableBtn = screen.getByRole('button', { name: "表格视图" });
 
     expect(gridBtn).toHaveAttribute('aria-pressed', 'true');
     expect(tableBtn).toHaveAttribute('aria-pressed', 'false');
@@ -33,8 +33,8 @@ describe('WorldViewToggle', () => {
   it('sets aria-pressed correctly for table mode', () => {
     render(<WorldViewToggle mode="table" onModeChange={mockOnModeChange} />);
 
-    const gridBtn = screen.getByRole('button', { name: 'Grid view' });
-    const tableBtn = screen.getByRole('button', { name: 'Table view' });
+    const gridBtn = screen.getByRole('button', { name: "网格视图" });
+    const tableBtn = screen.getByRole('button', { name: "表格视图" });
 
     expect(gridBtn).toHaveAttribute('aria-pressed', 'false');
     expect(tableBtn).toHaveAttribute('aria-pressed', 'true');
@@ -43,7 +43,7 @@ describe('WorldViewToggle', () => {
   it('calls onModeChange with "grid" when grid button clicked', () => {
     render(<WorldViewToggle mode="table" onModeChange={mockOnModeChange} />);
 
-    const gridBtn = screen.getByRole('button', { name: 'Grid view' });
+    const gridBtn = screen.getByRole('button', { name: "网格视图" });
     fireEvent.click(gridBtn);
 
     expect(mockOnModeChange).toHaveBeenCalledTimes(1);
@@ -53,7 +53,7 @@ describe('WorldViewToggle', () => {
   it('calls onModeChange with "table" when table button clicked', () => {
     render(<WorldViewToggle mode="grid" onModeChange={mockOnModeChange} />);
 
-    const tableBtn = screen.getByRole('button', { name: 'Table view' });
+    const tableBtn = screen.getByRole('button', { name: "表格视图" });
     fireEvent.click(tableBtn);
 
     expect(mockOnModeChange).toHaveBeenCalledTimes(1);
@@ -63,8 +63,8 @@ describe('WorldViewToggle', () => {
   it('applies correct variant to active button', () => {
     const { rerender } = render(<WorldViewToggle mode="grid" onModeChange={mockOnModeChange} />);
 
-    const gridBtn = screen.getByRole('button', { name: 'Grid view' });
-    const tableBtn = screen.getByRole('button', { name: 'Table view' });
+    const gridBtn = screen.getByRole('button', { name: "网格视图" });
+    const tableBtn = screen.getByRole('button', { name: "表格视图" });
 
     // Grid is active - should have 'default' variant styling
     expect(gridBtn).not.toHaveClass('border-input');
@@ -79,7 +79,7 @@ describe('WorldViewToggle', () => {
   it('has proper role group with aria-label', () => {
     render(<WorldViewToggle mode="grid" onModeChange={mockOnModeChange} />);
 
-    const group = screen.getByRole('group', { name: 'View mode toggle' });
+    const group = screen.getByRole('group', { name: "切换视图模式" });
     expect(group).toBeInTheDocument();
   });
 

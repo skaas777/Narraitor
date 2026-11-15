@@ -103,7 +103,7 @@ export function getVisibleStepError(
 }
 
 export const createValidationRules = {
-  required: <T>(message: string = 'This field is required'): ValidationRule<T> => ({
+  required: <T>(message: string = "此字段为必填项"): ValidationRule<T> => ({
     // Whitespace-only strings count as missing: persisted wizard state is
     // untrusted, and a blank-looking value must not advance a step.
     validate: (value: T) =>
@@ -119,12 +119,12 @@ export const createValidationRules = {
   // `string | undefined` rule arrays without a cast at the call site.
   minLength: (min: number, message?: string): ValidationRule<string | undefined> => ({
     validate: (value) => !value || value.length >= min,
-    message: message || `Must be at least ${min} characters`,
+    message: message || `至少需要 ${min} 个字符`,
   }),
 
   maxLength: (max: number, message?: string): ValidationRule<string | undefined> => ({
     validate: (value) => !value || value.length <= max,
-    message: message || `Must be at most ${max} characters`,
+    message: message || `不能超过 ${max} 个字符`,
   }),
 
   custom: <T>(

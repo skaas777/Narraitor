@@ -6,7 +6,7 @@ describe('SessionBreakPrompt', () => {
   it('holds the chapter dialog until its recap arrives, with focus kept inside', () => {
     const onDismiss = jest.fn();
     const { rerender } = render(<SessionBreakPrompt isOpen chapterNumber={1} onDismiss={onDismiss} />);
-    const waiting = screen.getByRole('button', { name: 'Preparing recap' });
+    const waiting = screen.getByRole('button', { name: "正在准备回顾" });
     expect(waiting).toHaveFocus();
     fireEvent.click(waiting);
     fireEvent.keyDown(window, { key: 'Escape' });
@@ -14,7 +14,7 @@ describe('SessionBreakPrompt', () => {
     expect(onDismiss).not.toHaveBeenCalled();
     expect(waiting).toHaveFocus();
     rerender(<SessionBreakPrompt isOpen chapterNumber={1} chapterRecap="Previously: Reached the gate." onDismiss={onDismiss} />);
-    const proceed = screen.getByRole('button', { name: 'Continue next chapter' });
+    const proceed = screen.getByRole('button', { name: "继续下一章" });
     expect(proceed).toHaveFocus();
     fireEvent.click(proceed);
     expect(onDismiss).toHaveBeenCalledTimes(1);
@@ -41,19 +41,19 @@ describe('SessionBreakPrompt', () => {
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
     expect(dialog).toHaveAttribute('aria-modal', 'true');
-    expect(screen.getByText('Good stopping point')).toBeInTheDocument();
-    expect(screen.getByText('15 min')).toBeInTheDocument();
+    expect(screen.getByText("适合暂停的时机")).toBeInTheDocument();
+    expect(screen.getByText("15 分钟")).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /continue reading/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /dismiss/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /继续阅读/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /关闭/i })).toBeInTheDocument();
   });
 
   it('calls onDismiss when dismiss button is clicked', () => {
     const handleDismiss = jest.fn();
     render(<SessionBreakPrompt isOpen={true} onDismiss={handleDismiss} />);
 
-    fireEvent.click(screen.getByRole('button', { name: /dismiss/i }));
+    fireEvent.click(screen.getByRole('button', { name: /关闭/i }));
     expect(handleDismiss).toHaveBeenCalledTimes(1);
   });
 
@@ -67,7 +67,7 @@ describe('SessionBreakPrompt', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /continue reading/i }));
+    fireEvent.click(screen.getByRole('button', { name: /继续阅读/i }));
     expect(handleContinue).toHaveBeenCalledTimes(1);
   });
 
@@ -82,8 +82,8 @@ describe('SessionBreakPrompt', () => {
   it('traps focus between action buttons on Tab and Shift+Tab', () => {
     render(<SessionBreakPrompt isOpen={true} onDismiss={jest.fn()} />);
 
-    const continueBtn = screen.getByRole('button', { name: /continue reading/i });
-    const dismissBtn = screen.getByRole('button', { name: /dismiss/i });
+    const continueBtn = screen.getByRole('button', { name: /继续阅读/i });
+    const dismissBtn = screen.getByRole('button', { name: /关闭/i });
 
     // Focus starts on continue button
     expect(continueBtn).toHaveFocus();

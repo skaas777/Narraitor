@@ -31,7 +31,7 @@ export default function GlobalError({
   const friendly = getUserFriendlyError(error);
 
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body>
         <div className="app-global-error">
           <h1 className="app-global-error-title">{friendly.title}</h1>
@@ -40,7 +40,7 @@ export default function GlobalError({
             <p className="app-global-error-suggestion">{friendly.suggestion}</p>
           )}
           <button type="button" className="app-global-error-action" onClick={reset}>
-            {friendly.actionLabel ?? 'Try again'}
+            {friendly.actionLabel ?? "重试"}
           </button>
         </div>
       </body>

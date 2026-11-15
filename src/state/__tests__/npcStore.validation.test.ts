@@ -42,8 +42,8 @@ describe('npcStore - Validation and Error Handling', () => {
     test('should handle invalid NPC updates', () => {
       useNPCStore.getState().updateNPC('nonexistent-id', { name: 'New Name' });
       const state = useNPCStore.getState();
-      expect(state.error?.title).toBe('NPC Not Found');
-      expect(state.error?.message).toBe('The specified NPC could not be found.');
+      expect(state.error?.title).toBe("未找到非玩家角色");
+      expect(state.error?.message).toBe("找不到指定的非玩家角色。");
     });
 
     test('should reject updates with empty name after normalization', () => {
@@ -55,8 +55,8 @@ describe('npcStore - Validation and Error Handling', () => {
       useNPCStore.getState().updateNPC(npcId, { name: '   ' });
 
       const state = useNPCStore.getState();
-      expect(state.error?.title).toBe('Invalid Name');
-      expect(state.error?.message).toBe('NPC name cannot be empty.');
+      expect(state.error?.title).toBe("名称无效");
+      expect(state.error?.message).toBe("非玩家角色名称不能为空。");
       // NPC should not be updated
       expect(state.npcs[npcId].name).toBe('Test NPC');
     });
@@ -70,8 +70,8 @@ describe('npcStore - Validation and Error Handling', () => {
       useNPCStore.getState().updateNPC(npcId, { description: '   ' });
 
       const state = useNPCStore.getState();
-      expect(state.error?.title).toBe('Invalid Description');
-      expect(state.error?.message).toBe('NPC description cannot be empty.');
+      expect(state.error?.title).toBe("描述无效");
+      expect(state.error?.message).toBe("非玩家角色描述不能为空。");
       // NPC should not be updated
       expect(state.npcs[npcId].description).toBe('A test NPC for testing');
     });
@@ -85,8 +85,8 @@ describe('npcStore - Validation and Error Handling', () => {
       useNPCStore.getState().updateNPC(npcId, { worldId: '' });
 
       const state = useNPCStore.getState();
-      expect(state.error?.title).toBe('Invalid World ID');
-      expect(state.error?.message).toBe('World ID is required.');
+      expect(state.error?.title).toBe("世界 ID 无效");
+      expect(state.error?.message).toBe("世界 ID 为必填项。");
       // NPC should not be updated
       expect(state.npcs[npcId].worldId).toBe('world-123');
     });

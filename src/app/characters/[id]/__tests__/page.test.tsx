@@ -97,8 +97,8 @@ describe('CharacterViewPage', () => {
     // The page h1 carries the name once; no lower heading repeats it (#1542)
     expect(screen.getByRole('heading', { level: 1, name: 'Test Character' })).toBeInTheDocument();
     expect(screen.getAllByRole('heading', { name: 'Test Character' })).toHaveLength(1);
-    expect(screen.getByText('Level 5')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'WORLD: Test World' })).toHaveAttribute('href', '/worlds/world-1');
+    expect(screen.getByText("等级 5")).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: "世界： Test World" })).toHaveAttribute('href', '/worlds/world-1');
     
     // Should display character attributes 
     expect(screen.getByText('Strength')).toBeInTheDocument();
@@ -121,22 +121,22 @@ describe('CharacterViewPage', () => {
     render(<CharacterViewPage />);
     
     // Should show not found message
-    expect(screen.getByText('Character Not Found')).toBeInTheDocument();
-    expect(screen.getByText(/doesn't exist or has been deleted/)).toBeInTheDocument();
+    expect(screen.getByText("未找到角色")).toBeInTheDocument();
+    expect(screen.getByText(/不存在或已被删除/)).toBeInTheDocument();
     
     // Should show back button
-    expect(screen.getByText('Back to Characters')).toBeInTheDocument();
+    expect(screen.getByText("返回角色列表")).toBeInTheDocument();
   });
 
   test('provides navigation options for valid character', () => {
     render(<CharacterViewPage />);
     
     // Should show action buttons
-    expect(screen.getByText('Edit Character')).toBeInTheDocument();
-    expect(screen.getByText('Play with Character')).toBeInTheDocument();
-    expect(screen.getByText('Delete Character')).toBeInTheDocument();
+    expect(screen.getByText("编辑角色")).toBeInTheDocument();
+    expect(screen.getByText("以该角色游玩")).toBeInTheDocument();
+    expect(screen.getByText("删除角色")).toBeInTheDocument();
     
     // Should show back navigation
-    expect(screen.getByText('Back to Characters')).toBeInTheDocument();
+    expect(screen.getByText("返回角色列表")).toBeInTheDocument();
   });
 });

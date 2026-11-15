@@ -86,12 +86,12 @@ export const BackgroundStep: React.FC<BackgroundStepProps> = ({
   return (
     <div className="component-background-step">
       <WizardFormSection
-        title="Character Background"
-        description="Provide details about your character's history, personality, and motivations."
+        title="角色背景"
+        description="填写角色的身世、性格和动机等细节。"
       >
       <div>
         <Label htmlFor="character-history">
-          Character History <span>*</span>
+          角色经历 <span>*</span>
         </Label>
         <Textarea
           id="character-history"
@@ -100,16 +100,16 @@ export const BackgroundStep: React.FC<BackgroundStepProps> = ({
           onChange={handleHistoryChange}
           onBlur={() => handleFieldBlur('history')}
           rows={6}
-          placeholder="Describe your character's background and history... (minimum 50 characters)"
+          placeholder="描述你的角色背景与经历……（至少 50 个字符）"
         />
         <p className="form-help-text">
-          {data.characterData.background.history.length} / 50 characters minimum
+          {data.characterData.background.history.length} / 至少 50 个字符
         </p>
       </div>
 
       <div>
         <Label htmlFor="character-personality">
-          Personality <span>*</span>
+          性格 <span>*</span>
         </Label>
         <Textarea
           id="character-personality"
@@ -117,16 +117,16 @@ export const BackgroundStep: React.FC<BackgroundStepProps> = ({
           onChange={handlePersonalityChange}
           onBlur={() => handleFieldBlur('personality')}
           rows={4}
-          placeholder="Describe your character's personality traits... (minimum 20 characters)"
+          placeholder="描述你角色的性格特点……（至少 20 个字符）"
         />
         <p className="form-help-text">
-          {data.characterData.background.personality.length} / 20 characters minimum
+          {data.characterData.background.personality.length} / 至少 20 个字符
         </p>
       </div>
 
       <div>
         <Label htmlFor="character-motivation">
-          Motivation (optional)
+          动机（可选）
         </Label>
         <Input
           id="character-motivation"
@@ -134,16 +134,16 @@ export const BackgroundStep: React.FC<BackgroundStepProps> = ({
           value={data.characterData.background.motivation}
           onChange={handleMotivationChange}
           onBlur={() => handleFieldBlur('motivation')}
-          placeholder="What drives your character?"
+          placeholder="是什么驱动着你的角色？"
         />
         <p className="form-help-text">
-          Optional field to help define your character&apos;s driving force
+          可选字段，用于帮助定义你角色的驱动力
         </p>
       </div>
 
       <div>
         <Label htmlFor="character-goals">
-          Goals (Optional)
+          目标（可选）
         </Label>
         <Textarea
           id="character-goals"
@@ -151,7 +151,7 @@ export const BackgroundStep: React.FC<BackgroundStepProps> = ({
           onChange={handleGoalsChange}
           onBlur={() => handleFieldBlur('goals')}
           rows={3}
-          placeholder="Enter your character's goals, one per line"
+          placeholder="输入你角色的目标，每行一个"
         />
       </div>
 

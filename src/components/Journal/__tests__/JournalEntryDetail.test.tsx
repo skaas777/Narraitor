@@ -34,15 +34,15 @@ describe('JournalEntryDetail', () => {
 
     expect(screen.getByText('A Turning Point')).toBeInTheDocument();
     expect(screen.getByText('Full details of the event.')).toBeInTheDocument();
-    expect(screen.getByText('Related')).toBeInTheDocument();
-    expect(screen.getByText('Tags')).toBeInTheDocument();
+    expect(screen.getByText("相关")).toBeInTheDocument();
+    expect(screen.getByText("标签")).toBeInTheDocument();
   });
 
   it('puts the significance badge and date in a spaced meta row (#2082)', () => {
     const entry = createEntry();
     render(<JournalEntryDetail entry={entry} />);
 
-    const badge = screen.getByText('Major');
+    const badge = screen.getByText("重要");
     expect(badge.closest('.journal-entry-meta')).toBeInTheDocument();
   });
 
@@ -70,8 +70,8 @@ describe('JournalEntryDetail', () => {
 
     render(<JournalEntryDetail entry={entry} />);
 
-    expect(screen.getByText(/Duration:/i)).toBeInTheDocument();
-    expect(screen.getByText('Session End')).toBeInTheDocument();
+    expect(screen.getByText(/时长：/i)).toBeInTheDocument();
+    expect(screen.getByText("冒险结束")).toBeInTheDocument();
   });
 
   it('renders back button when enabled', () => {
@@ -86,7 +86,7 @@ describe('JournalEntryDetail', () => {
       />
     );
 
-    const backButton = screen.getByRole('button', { name: /back to entries/i });
+    const backButton = screen.getByRole('button', { name: /返回条目/i });
     fireEvent.click(backButton);
 
     expect(onBack).toHaveBeenCalledTimes(1);

@@ -88,7 +88,7 @@ export function CharacterTable({
     () => [
       {
         accessorKey: 'name',
-        header: 'Name',
+        header: "名称",
         cell: ({ row }) => (
           <div
             className="component-character-table-name"
@@ -114,13 +114,13 @@ export function CharacterTable({
       },
       {
         accessorKey: 'level',
-        header: 'Level',
-        cell: ({ row }) => <div>Level {row.getValue('level')}</div>,
+        header: "等级",
+        cell: ({ row }) => <div>等级 {row.getValue('level')}</div>,
         enableSorting: true,
       },
       {
         id: 'type',
-        header: 'Type',
+        header: "类型",
         accessorFn: (row) =>
           row.background?.isKnownFigure ? 'known' : 'original',
         cell: ({ row }) => {
@@ -136,7 +136,7 @@ export function CharacterTable({
               }
               variant={isKnownFigure ? 'warning-static' : 'default-static'}
             >
-              {isKnownFigure ? 'Known Figure' : 'Original'}
+              {isKnownFigure ? "知名人物" : "原创"}
             </Badge>
           );
         },
@@ -144,13 +144,13 @@ export function CharacterTable({
       },
       {
         accessorKey: 'createdAt',
-        header: 'Created',
+        header: "创建时间",
         cell: ({ row }) => <div>{formatDate(row.getValue('createdAt'))}</div>,
         enableSorting: true,
       },
       {
         id: 'actions',
-        header: 'Actions',
+        header: "操作",
         cell: ({ row }) => {
           return (
             <div>
@@ -158,8 +158,8 @@ export function CharacterTable({
                 variant="ghost"
                 size="icon"
                 onClick={(e) => handlePlayCharacter(row.original.id, e)}
-                aria-label={`Play as ${row.original.name}`}
-                title="Play"
+                aria-label={`扮演 ${row.original.name}`}
+                title="开始游戏"
               >
                 <Play />
               </Button>
@@ -167,8 +167,8 @@ export function CharacterTable({
                 variant="ghost"
                 size="icon"
                 onClick={() => handleViewCharacter(row.original.id)}
-                aria-label={`View ${row.original.name}`}
-                title="View"
+                aria-label={`查看 ${row.original.name}`}
+                title="查看"
               >
                 <Eye />
               </Button>
@@ -176,8 +176,8 @@ export function CharacterTable({
                 variant="ghost"
                 size="icon"
                 onClick={(e) => handleEditCharacter(row.original.id, e)}
-                aria-label={`Edit ${row.original.name}`}
-                title="Edit"
+                aria-label={`编辑 ${row.original.name}`}
+                title="编辑"
               >
                 <Pencil />
               </Button>
@@ -185,8 +185,8 @@ export function CharacterTable({
                 variant="ghost"
                 size="icon"
                 onClick={(e) => handleDeleteCharacter(row.original.id, e)}
-                aria-label={`Delete ${row.original.name}`}
-                title="Delete"
+                aria-label={`删除 ${row.original.name}`}
+                title="删除"
               >
                 <Trash2 />
               </Button>
@@ -208,7 +208,7 @@ export function CharacterTable({
   if (characters.length === 0) {
     return (
       <div>
-        <p>No characters yet. Create one to get started.</p>
+        <p>还没有角色。创建一个角色即可开始。</p>
       </div>
     );
   }
@@ -223,9 +223,9 @@ export function CharacterTable({
       }}
       searchable={{
         enabled: true,
-        placeholder: 'Search characters...',
+        placeholder: "搜索角色……",
       }}
-      ariaLabel="Characters table"
+      ariaLabel="角色表格"
     />
   );
 }

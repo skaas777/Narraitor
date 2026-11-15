@@ -4,6 +4,7 @@ import { errorStyles } from '@/styles/errorStyles';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 // Associates a WizardFormGroup's visible label with the wizard control it
 // wraps. The group generates an id, points its Label at it, and the
@@ -46,7 +47,7 @@ export const WizardFormGroup: React.FC<WizardFormGroupProps> = ({
       <WizardFieldIdContext.Provider value={fieldId}>
         {children}
       </WizardFieldIdContext.Provider>
-      {error && <p className={errorStyles.message}>{error}</p>}
+      {error && <p className={errorStyles.message}>{localizeErrorMessage(error)}</p>}
     </div>
   );
 };
@@ -157,7 +158,7 @@ export const WizardSelect: React.FC<WizardSelectProps> = ({
   onChange,
   onBlur,
   options,
-  placeholder = 'Select an option',
+  placeholder = "选择一个选项",
   error,
   disabled = false,
   testId,

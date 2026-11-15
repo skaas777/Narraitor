@@ -92,7 +92,7 @@ describe('First segment checkpoint creation', () => {
     const worldState = useWorldStore.getState().worldStates[worldId];
     expect(worldState?.majorEvents).toHaveLength(1);
     expect(worldState?.majorEvents?.[0]?.description).toBe(
-      'Story begins at The Prancing Pony Tavern'
+      "故事从The Prancing Pony Tavern开始"
     );
     // Verify validation API was NOT called for first segment
     expect(global.fetch).not.toHaveBeenCalled();
@@ -270,7 +270,7 @@ describe('First segment checkpoint creation', () => {
     const worldState = useWorldStore.getState().worldStates[worldId];
     expect(worldState?.majorEvents).toHaveLength(1);
     expect(worldState?.majorEvents?.[0]?.description).toBe(
-      'Your adventure begins'
+      "你的冒险开始了"
     );
   });
 });

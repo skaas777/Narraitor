@@ -45,9 +45,9 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     capabilities: { text: true, images: false, streaming: true },
     helpUrl: 'https://openrouter.ai/keys',
     available: true,
-    note: 'recommended: DeepSeek flash',
+    note: "推荐：DeepSeek flash",
     privacyNote:
-      'OpenRouter routes your prompts to whichever upstream model you pick, and each of those has its own data-retention terms. Their free models in particular may allow training on your prompts.',
+      "OpenRouter 会将你的提示词路由到你选择的任一上游模型，而每个上游模型都有自己的数据保留条款。尤其是它们的免费模型，可能允许使用你的提示词进行训练。",
   },
   {
     id: 'gemini',
@@ -61,11 +61,11 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     helpUrl: 'https://aistudio.google.com/apikey',
     available: true,
     privacyNote:
-      "Google's free tier allows your prompts and the model's output to be used to improve their models, and reviewed by human raters. Their paid tiers do not. If you are writing anything personal, use a paid-tier key.",
+      "Google 的免费层级允许将你的提示词和模型输出用于改进其模型，并由人工评分员审阅。其付费层级不会这样做。如果你要撰写任何个人内容，请使用付费层级的密钥。",
   },
   {
     id: 'ollama',
-    name: 'Ollama (self-hosted)',
+    name: "Ollama（自托管）",
     type: 'ollama',
     // Ollama serves an OpenAI-shaped route alongside its own /api/chat, which
     // is why this shares the openai-compatible adapter (see adapterRegistry).
@@ -90,13 +90,13 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     // Not "runs on your own machine": that describes the case this preset
     // cannot serve. Ollama on the player's laptop is unreachable from a
     // server-side route and is its own piece of work.
-    note: 'a server you host yourself',
+    note: "你自己托管的服务器",
     // Careful with the privacy claim here, because the tempting one is false.
     // The model runs on the player's hardware, but the prompt still travels
     // browser -> our route -> their server, because our route is what makes the
     // request. What they avoid is a third-party AI service, not a hop.
     privacyNote:
-      'The model runs on hardware you control, so no AI company sees your story. The prompt does pass through Narraitor\'s own server on the way there, because that server makes the request rather than your browser. Note also that the content rating travels as guidance in the prompt, and many local models have no refusal layer at all.',
+      "模型运行在你控制的硬件上，因此没有任何 AI 公司能看到你的故事。提示词在前往模型途中确实会经过 Narraitor 自己的服务器，因为发起请求的是该服务器，而不是你的浏览器。另请注意，内容分级会作为指导信息随提示词一并传输，而许多本地模型根本没有拒答层。",
   },
   {
     id: 'openai',
@@ -118,7 +118,7 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     helpUrl: 'https://platform.openai.com/api-keys',
     available: true,
     privacyNote:
-      'OpenAI states that API inputs and outputs are not used to train their models by default, and are retained for up to 30 days for abuse monitoring.',
+      "OpenAI 表示，默认情况下 API 输入和输出不会用于训练其模型，并会为滥用监控保留最多 30 天。",
   },
   {
     id: 'claude',
@@ -138,7 +138,7 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     // see the module-level TODO above for what flipping this needs.
     available: false,
     privacyNote:
-      'Anthropic states that API inputs and outputs are not used to train their models by default, and are retained for up to 30 days for abuse monitoring.',
+      "Anthropic 表示，默认情况下 API 输入和输出不会用于训练其模型，并会为滥用监控保留最多 30 天。",
   },
   {
     id: 'deepseek',
@@ -152,7 +152,7 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     helpUrl: 'https://platform.deepseek.com/api_keys',
     available: false,
     privacyNote:
-      'Deepseek stores API data on servers in China and reserves the right to use it to improve their services. Check their current terms before sending anything personal.',
+      "Deepseek 将 API 数据存储在中国的服务器上，并保留将其用于改进服务的权利。在发送任何个人内容之前，请查看其当前条款。",
   },
   {
     id: 'mistral',
@@ -212,7 +212,7 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     helpUrl: 'https://console.perplexity.ai/group/keys',
     available: false,
     privacyNote:
-      'Perplexity states that it keeps no record of prompts or responses sent to its chat completions API, and does not use them for training. It retains billing metrics only.',
+      "Perplexity 表示，不会记录发送到其聊天补全 API 的提示词或响应，也不会将其用于训练。它仅保留计费指标。",
   },
 ];
 

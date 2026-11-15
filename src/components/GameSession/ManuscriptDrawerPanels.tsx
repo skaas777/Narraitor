@@ -99,7 +99,7 @@ const formatEntryTimestamp = (createdAt: string): string => {
   if (Number.isNaN(parsedDate.getTime())) {
     return createdAt;
   }
-  return parsedDate.toLocaleString();
+  return parsedDate.toLocaleString('zh-CN');
 };
 
 export const JournalSnapshotDrawerContent: React.FC<JournalSnapshotDrawerContentProps> = ({
@@ -112,7 +112,7 @@ export const JournalSnapshotDrawerContent: React.FC<JournalSnapshotDrawerContent
     <div className="manuscript-drawer-panel-section">
       {snapshotEntries.length === 0 ? (
         <p className="manuscript-journal-snapshot-empty">
-          No journal entries found for this session.
+          本次冒险记录中未找到日志条目。
         </p>
       ) : (
         <div className="manuscript-journal-snapshot-list">
@@ -131,7 +131,7 @@ export const JournalSnapshotDrawerContent: React.FC<JournalSnapshotDrawerContent
                   <div className="manuscript-journal-snapshot-badges">
                     {!entry.isRead && (
                       <span className="manuscript-journal-snapshot-badge manuscript-journal-snapshot-badge-new">
-                        New
+                        新
                       </span>
                     )}
                     <span className="manuscript-journal-snapshot-badge">

@@ -107,7 +107,7 @@ export async function validateEventSignificance(
     // Fail open: if validation fails, accept the event rather than blocking it
     return {
       isSignificant: true,
-      reason: `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      reason: `Validation error: ${error instanceof Error ? error.message : "未知错误"}`,
     };
   }
 }
@@ -204,7 +204,7 @@ function parseValidationResponse(responseText: string): SignificanceValidationRe
     // If we can't parse the response, default to accepting the event
     return {
       isSignificant: true,
-      reason: 'Parse error: Could not parse validation response',
+      reason: "解析错误：无法解析验证响应",
     };
   }
 }

@@ -21,7 +21,7 @@ describe('validatePortraitFile', () => {
 
   it('rejects an unsupported file type with a message naming the allowed formats', () => {
     const error = validatePortraitFile(makeFile('a.gif', 'image/gif', 1024));
-    expect(error).toMatch(/JPG, PNG or WebP/i);
+    expect(error).toMatch(/JPG、PNG 或 WebP/i);
   });
 
   it('rejects a file over 5MB with a message naming the limit', () => {

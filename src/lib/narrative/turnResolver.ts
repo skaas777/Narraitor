@@ -409,7 +409,7 @@ async function resolveTurnInner(
           (isFatalRepair) => generateSegment(isStallRetry, isFatalRepair),
           {
             playerCharacterName: preTurnSnapshot.character?.name,
-            draftLabel: 'draft on protected turn',
+            draftLabel: "受保护回合的草稿",
             logContext: { sessionId, turnIndex: currentTurn },
             repairBudget: fatalRepairBudget,
           }
@@ -428,7 +428,7 @@ async function resolveTurnInner(
           sceneState?.location,
           recentSegments[recentSegments.length - 1]?.metadata.location,
           result.metadata.location,
-        ].find((place) => place?.trim() && place.trim() !== FIRST_SEGMENT_LOCATION)?.trim() ?? 'Current scene';
+        ].find((place) => place?.trim() && place.trim() !== FIRST_SEGMENT_LOCATION)?.trim() ?? "当前场景";
         result = {
           ...result,
           metadata: { ...result.metadata, sceneTransition: { to: currentPlace } },
@@ -529,7 +529,7 @@ async function resolveInitialTurnInner(
         command.signal
       );
     },
-    { playerCharacterName, draftLabel: 'initial scene draft', logContext: { sessionId } }
+    { playerCharacterName, draftLabel: "初始场景草稿", logContext: { sessionId } }
   );
 
   flushProtectedChunks(
@@ -574,15 +574,15 @@ async function resolveItemUseTurnInner(
 
   if (!world) {
     return validationFailure(
-      'World Not Found',
-      'The world for this item-use turn could not be found.'
+      "未找到世界",
+      "无法找到此物品使用回合所属的世界。"
     );
   }
 
   if (!character || character.worldId !== worldId) {
     return validationFailure(
-      'Character Not Found',
-      'The character for this item-use turn could not be found in this world.'
+      "未找到角色",
+      "无法在当前世界找到本次物品使用回合对应的角色。"
     );
   }
 
@@ -602,8 +602,8 @@ async function resolveItemUseTurnInner(
       success: false,
       error: usage.error ?? {
         type: 'VALIDATION',
-        title: 'Item Not Found',
-        message: 'The specified item could not be found.',
+        title: "未找到物品",
+        message: "无法找到指定的物品。",
       },
     };
   }
@@ -662,7 +662,7 @@ async function resolveItemUseTurnInner(
         },
         generator
       ),
-      { playerCharacterName: character.name, draftLabel: 'item-use draft', logContext: { sessionId, itemId } }
+      { playerCharacterName: character.name, draftLabel: "物品使用草稿", logContext: { sessionId, itemId } }
     );
   } catch (error) {
     rollbackItemUsage();

@@ -136,7 +136,7 @@ export const MobileNavigationMenu = React.memo(function MobileNavigationMenu({
       className="mobile-nav-menu"
       role="dialog"
       aria-modal="true"
-      aria-label="Navigation menu"
+      aria-label="导航菜单"
       ref={menuRef}
       onKeyDown={handleTabKey}
       onTouchStart={handleTouchStart}
@@ -157,7 +157,7 @@ export const MobileNavigationMenu = React.memo(function MobileNavigationMenu({
             onClick={onClose}
             variant="ghost"
             size="icon"
-            aria-label="Close menu"
+            aria-label="关闭菜单"
           >
             <X aria-hidden="true" />
           </Button>
@@ -166,28 +166,28 @@ export const MobileNavigationMenu = React.memo(function MobileNavigationMenu({
 
       {/* Main navigation items. Kept as a landmark of its own: the wrapper is a
           dialog now, so the nav role would otherwise be lost. */}
-      <nav className="mobile-nav-links" aria-label="Mobile navigation">
+      <nav className="mobile-nav-links" aria-label="移动端导航">
         <Button onClick={() => handleNavigation('/worlds')} variant="ghost">
           <Globe aria-hidden="true" />
-          Worlds
+          世界
         </Button>
 
         {/* Only show Characters nav when worlds exist */}
         {/* Always render Characters nav item to keep markup consistent between SSR and client */}
         <Button onClick={() => handleNavigation('/characters')} variant="ghost">
           <User aria-hidden="true" />
-          Characters
+          角色
         </Button>
 
         <Button onClick={() => handleNavigation('/settings')} variant="ghost">
           <Settings aria-hidden="true" />
-          Settings
+          设置
         </Button>
 
         {/* World switcher section */}
         {Object.keys(worlds).length > 0 && (
           <div className="mobile-nav-section">
-            <h3 className="mobile-nav-section-title">Worlds</h3>
+            <h3 className="mobile-nav-section-title">世界</h3>
             <div className="mobile-nav-world-list">
               {Object.values(worlds).map((world) => {
                 const worldCharacters = (
@@ -227,17 +227,17 @@ export const MobileNavigationMenu = React.memo(function MobileNavigationMenu({
               variant="outline"
             >
               <Play aria-hidden="true" />
-              Play {currentWorld.name}
+              开始游戏 {currentWorld.name}
             </Button>
           ) : Object.keys(worlds).length === 0 ? (
             <Button onClick={() => handleNavigation('/worlds/create')}>
               <Plus aria-hidden="true" />
-              Create Your First World
+              创建你的第一个世界
             </Button>
           ) : (
             <Button onClick={() => handleNavigation('/worlds/create')}>
               <Plus aria-hidden="true" />
-              Create New World
+              创建新世界
             </Button>
           )}
         </div>

@@ -9,7 +9,7 @@ describe('PresetAvatarPicker', () => {
     render(<PresetAvatarPicker onPreview={jest.fn()} />);
 
     expect(
-      screen.getAllByRole('button', { name: /avatar$/i }).length
+      screen.getAllByRole('button', { name: / 头像$/i }).length
     ).toBe(PRESET_AVATARS.length);
   });
 
@@ -17,9 +17,9 @@ describe('PresetAvatarPicker', () => {
     const user = userEvent.setup();
     render(<PresetAvatarPicker onPreview={jest.fn()} />);
 
-    await user.type(screen.getByLabelText(/search avatars/i), 'zzzznotathing');
+    await user.type(screen.getByLabelText(/搜索头像/i), 'zzzznotathing');
 
-    expect(screen.getByText(/no avatars match/i)).toBeInTheDocument();
+    expect(screen.getByText(/没有头像匹配该搜索。试试其他关键词或类别。/i)).toBeInTheDocument();
   });
 
   it('previews an avatar as a preset portrait when picked', async () => {
@@ -28,7 +28,7 @@ describe('PresetAvatarPicker', () => {
     render(<PresetAvatarPicker onPreview={onPreview} />);
 
     const first = PRESET_AVATARS[0];
-    await user.click(screen.getByRole('button', { name: `${first.name} avatar` }));
+    await user.click(screen.getByRole('button', { name: `${first.name} 头像` }));
 
     expect(onPreview).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'preset', url: first.url })
@@ -40,7 +40,7 @@ describe('PresetAvatarPicker', () => {
     render(<PresetAvatarPicker onPreview={jest.fn()} selectedUrl={first.url} />);
 
     expect(
-      screen.getByRole('button', { name: `${first.name} avatar` })
+      screen.getByRole('button', { name: `${first.name} 头像` })
     ).toHaveAttribute('aria-pressed', 'true');
   });
 });

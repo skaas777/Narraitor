@@ -48,13 +48,13 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
 
       <div className="component-landing-exchange">
         <h2 className="component-landing-heading">
-          From a premise to a living world.
+          从一个设定，到一个鲜活的世界。
         </h2>
         <div className="component-landing-pipeline">
           {/* Workbench: Setting + Rules */}
           <div className="component-landing-workbench">
             <div className="component-landing-stage-block">
-              <span className="component-landing-stage-label">Your Premise</span>
+              <span className="component-landing-stage-label">你的设定</span>
               <div className="component-landing-typed">
                 <p className="component-landing-typed-text">{world.typed}</p>
               </div>
@@ -64,15 +64,15 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
               <span className="component-landing-flow-split-line" />
               <div className="component-landing-flow-split-badge">
                 <ArrowDown className="component-landing-flow-icon" size={14} strokeWidth={2} />
-                <span>Generates</span>
+                <span>生成</span>
               </div>
               <span className="component-landing-flow-split-line" />
             </div>
 
             <div className="component-landing-stage-block">
-              <span className="component-landing-stage-label">World Rules</span>
+              <span className="component-landing-stage-label">世界规则</span>
               <dl className="component-landing-traits">
-                <dt className="component-landing-trait-term">Attributes</dt>
+                <dt className="component-landing-trait-term">属性</dt>
                 <dd className="component-landing-trait-list">
                   {world.attributeNames.map((name) => (
                     <span key={name} className="component-landing-trait">
@@ -80,7 +80,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
                     </span>
                   ))}
                 </dd>
-                <dt className="component-landing-trait-term">Skills</dt>
+                <dt className="component-landing-trait-term">技能</dt>
                 <dd className="component-landing-trait-list">
                   {world.skillNames.map((name) => (
                     <span key={name} className="component-landing-trait">
@@ -99,7 +99,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
 
           {/* Manuscript Stage */}
           <div className="component-landing-manuscript-stage">
-            <span className="component-landing-stage-label">The Opening Scene</span>
+            <span className="component-landing-stage-label">开场场景</span>
             <p className="component-landing-prose component-landing-prose-illuminated">{world.opening}</p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
 
 
       <div className="component-landing-decision">
-        <h2 className="component-landing-heading">And then you have to decide.</h2>
+        <h2 className="component-landing-heading">然后，你必须做出决定。</h2>
 
         {/* The block below is four options, a stat line, and prose that answers
             a check the visitor never saw start. Naming the sequence first is
@@ -116,8 +116,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
             narrates itself with labels, and this is the same device in prose
             because there are three beats to connect, not one to name. */}
         <p className="component-landing-decision-note">
-          The option you take is checked against one of those skills. Miss the
-          number, and the story bends to the failure instead of ignoring it.
+          你所选的选项会对照其中一项技能进行检定。若未达到数值要求，故事会顺应这次失败，而不是将其忽略。
         </p>
 
         {/* world.situation is captured but not rendered. It was the passage the
@@ -135,7 +134,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
             >
               <span className="component-landing-choice-text">{option.text}</span>
               {option.taken && (
-                <span className="component-landing-choice-mark">You chose this</span>
+                <span className="component-landing-choice-mark">你选择了此项</span>
               )}
             </li>
           ))}
@@ -143,7 +142,7 @@ export default function LandingWorldPane({ world }: { world: ShowcaseWorld }) {
 
         <p className="component-landing-check">
           <span className="component-landing-check-skill">{world.check.skillName}</span>
-          <span className="component-landing-check-verdict">Failed</span>
+          <span className="component-landing-check-verdict">失败</span>
         </p>
 
         <p className="component-landing-prose component-landing-consequence">

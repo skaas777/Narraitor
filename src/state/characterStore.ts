@@ -270,8 +270,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;
@@ -396,8 +396,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (id && !get().characters[id]) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
                 currentCharacterId: null,
                 currentEntityId: null,
@@ -553,8 +553,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;
@@ -580,8 +580,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;
@@ -605,8 +605,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;
@@ -630,8 +630,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;
@@ -640,8 +640,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if ((character.skills?.length || 0) >= 2) {
               set({
                 error: createStoreError(
-                  'Maximum Skills Reached',
-                  'This character has reached its maximum number of skills'
+                  "技能数量已达上限",
+                  "该角色的技能数量已达上限"
                 ),
               });
               return;
@@ -665,8 +665,8 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             if (!character) {
               set({
                 error: createStoreError(
-                  'Character Not Found',
-                  'The specified character could not be found'
+                  "未找到角色",
+                  "未找到指定的角色"
                 ),
               });
               return;

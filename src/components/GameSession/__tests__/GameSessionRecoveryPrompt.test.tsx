@@ -35,10 +35,10 @@ describe('GameSessionRecoveryPrompt (issue #221)', () => {
     expect(screen.getByText('Kael')).toBeInTheDocument();
     expect(screen.getByText('4 scenes')).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /continue your recovered adventure/i })
+      screen.getByRole('button', { name: /继续已恢复的冒险/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /dismiss recovery and start fresh/i })
+      screen.getByRole('button', { name: /关闭恢复提示并重新开始/i })
     ).toBeInTheDocument();
   });
 
@@ -47,7 +47,7 @@ describe('GameSessionRecoveryPrompt (issue #221)', () => {
     render(<GameSessionRecoveryPrompt {...baseProps} />);
 
     await user.click(
-      screen.getByRole('button', { name: /continue your recovered adventure/i })
+      screen.getByRole('button', { name: /继续已恢复的冒险/i })
     );
 
     expect(baseProps.onRestore).toHaveBeenCalledTimes(1);
@@ -59,7 +59,7 @@ describe('GameSessionRecoveryPrompt (issue #221)', () => {
     render(<GameSessionRecoveryPrompt {...baseProps} />);
 
     await user.click(
-      screen.getByRole('button', { name: /dismiss recovery and start fresh/i })
+      screen.getByRole('button', { name: /关闭恢复提示并重新开始/i })
     );
 
     expect(baseProps.onDismiss).toHaveBeenCalledTimes(1);
@@ -68,6 +68,6 @@ describe('GameSessionRecoveryPrompt (issue #221)', () => {
 
   it('omits the progress row when no scenes were recorded', () => {
     render(<GameSessionRecoveryPrompt {...baseProps} narrativeCount={0} />);
-    expect(screen.queryByText(/scene/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/场景状态/)).not.toBeInTheDocument();
   });
 });

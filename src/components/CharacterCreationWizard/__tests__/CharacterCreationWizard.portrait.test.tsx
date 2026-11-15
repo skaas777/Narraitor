@@ -108,8 +108,8 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    expect(screen.getByText('Character Portrait')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /generate portrait/i })).toBeInTheDocument();
+    expect(screen.getByText("角色肖像")).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /生成肖像/i })).toBeInTheDocument();
   });
 
   it('calls generatePortrait() and stores the returned portrait', async () => {
@@ -141,7 +141,7 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    const generateButton = screen.getByRole('button', { name: /generate portrait/i });
+    const generateButton = screen.getByRole('button', { name: /生成肖像/i });
     
     // Initially should show placeholder portrait
     expect(screen.getByTestId('character-portrait')).toBeInTheDocument();
@@ -188,13 +188,13 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    const generateButton = screen.getByRole('button', { name: /generate portrait/i });
+    const generateButton = screen.getByRole('button', { name: /生成肖像/i });
     await user.click(generateButton);
 
     await waitFor(() => {
       // Plain language message with actionable step instead of raw server string "Payload too large"
-      expect(screen.getByText(/input is too large/i)).toBeInTheDocument();
-      expect(screen.getByText(/shortening your physical description/i)).toBeInTheDocument();
+      expect(screen.getByText(/输入内容过大/i)).toBeInTheDocument();
+      expect(screen.getByText(/缩短外貌描述/i)).toBeInTheDocument();
     });
 
     expect(generatePortraitSpy).toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    expect(screen.getByText(/you can skip this step/i)).toBeInTheDocument();
+    expect(screen.getByText(/可以跳过此步骤/i)).toBeInTheDocument();
   });
 
   it('offers preset avatars and upload alongside generation', async () => {
@@ -233,11 +233,11 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    expect(screen.getByLabelText(/search avatars/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    expect(screen.getByLabelText(/搜索头像/i)).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Upload' }));
-    expect(screen.getByLabelText(/choose an image file/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: "上传" }));
+    expect(screen.getByLabelText(/选择图片文件/i)).toBeInTheDocument();
   });
 
   it('previews a preset avatar without saving it until confirmed', async () => {
@@ -251,13 +251,13 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
 
-    expect(screen.getByText(/just a preview/i)).toBeInTheDocument();
+    expect(screen.getByText(/只是预览/i)).toBeInTheDocument();
     expect(mockOnUpdate).not.toHaveBeenCalled();
 
-    await user.click(screen.getByRole('button', { name: /use this portrait/i }));
+    await user.click(screen.getByRole('button', { name: /使用此肖像/i }));
 
     expect(mockOnUpdate).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -284,21 +284,21 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: 'Upload' }));
+    await user.click(screen.getByRole('button', { name: "上传" }));
     await user.upload(
-      screen.getByLabelText(/choose an image file/i),
+      screen.getByLabelText(/选择图片文件/i),
       new File(['bytes'], 'hero.png', { type: 'image/png' })
     );
 
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
 
     await act(async () => {
       resolveRead({ type: 'uploaded', url: 'data:image/webp;base64,late' });
     });
 
     // The abandoned upload must not land on top of the avatar preview.
-    await user.click(screen.getByRole('button', { name: /use this portrait/i }));
+    await user.click(screen.getByRole('button', { name: /使用此肖像/i }));
     expect(mockOnUpdate).toHaveBeenCalledWith(
       expect.objectContaining({
         portrait: expect.objectContaining({ type: 'preset' }),
@@ -317,11 +317,11 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
-    await user.click(screen.getByRole('button', { name: 'Upload' }));
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
+    await user.click(screen.getByRole('button', { name: "上传" }));
 
-    expect(screen.queryByText(/just a preview/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/只是预览/i)).not.toBeInTheDocument();
     expect(mockOnUpdate).not.toHaveBeenCalled();
   });
 
@@ -343,10 +343,10 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /generate portrait/i }));
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
-    await user.click(screen.getByRole('button', { name: /use this portrait/i }));
+    await user.click(screen.getByRole('button', { name: /生成肖像/i }));
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
+    await user.click(screen.getByRole('button', { name: /使用此肖像/i }));
 
     expect(mockOnUpdate).toHaveBeenCalledTimes(1);
     expect(mockOnUpdate).toHaveBeenCalledWith(
@@ -391,17 +391,17 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /generate portrait/i }));
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
+    await user.click(screen.getByRole('button', { name: /生成肖像/i }));
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
 
     await act(async () => {
       rejectFetch(new Error('API error'));
     });
 
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
 
     expect(screen.queryByText(/didn't work/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/just a preview/i)).toBeInTheDocument();
+    expect(screen.getByText(/只是预览/i)).toBeInTheDocument();
   });
 
   it('drops the preview when the player cancels', async () => {
@@ -415,11 +415,11 @@ describe('PortraitStep Component', () => {
       />
     );
 
-    await user.click(screen.getByRole('button', { name: 'Preset avatars' }));
-    await user.click(screen.getAllByRole('button', { name: /avatar$/i })[0]);
-    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    await user.click(screen.getByRole('button', { name: "预设头像" }));
+    await user.click(screen.getAllByRole('button', { name: / 头像$/i })[0]);
+    await user.click(screen.getByRole('button', { name: /取消/i }));
 
-    expect(screen.queryByText(/just a preview/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/只是预览/i)).not.toBeInTheDocument();
     expect(mockOnUpdate).not.toHaveBeenCalled();
   });
 
@@ -457,7 +457,7 @@ describe('PortraitStep Component', () => {
     );
 
     const generateButton = screen.getByRole('button', {
-      name: /generate portrait/i,
+      name: /生成肖像/i,
     });
     await user.click(generateButton);
 
@@ -550,7 +550,7 @@ describe('Character Creation Wizard with Portrait Integration', () => {
     );
 
     // Check that Portrait step is in the progress bar
-    const steps = screen.getAllByText(/Portrait/i);
+    const steps = screen.getAllByText(/肖像/i);
     expect(steps.length).toBeGreaterThan(0);
   });
 
@@ -562,6 +562,6 @@ describe('Character Creation Wizard with Portrait Integration', () => {
     );
 
     // The portrait step should be visible
-    expect(screen.getByText('Character Portrait')).toBeInTheDocument();
+    expect(screen.getByText("角色肖像")).toBeInTheDocument();
   });
 });

@@ -17,8 +17,8 @@ export function HudCloseButton({ onBack }: HudCloseButtonProps) {
     <button
       type="button"
       onClick={onBack}
-      title="Close"
-      aria-label="Close"
+      title="关闭"
+      aria-label="关闭"
       className="manuscript-hud-icon-button manuscript-hud-close-button"
     >
       <X size={16} aria-hidden="true" />

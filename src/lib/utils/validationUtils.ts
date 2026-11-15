@@ -23,20 +23,20 @@ export function validateText(text: string, options?: {
     minLength = 0,
     maxLength = 1000,
     required = true,
-    fieldName = 'Field'
+    fieldName = "字段"
   } = options || {};
 
   const errors: string[] = [];
   const trimmedText = text?.trim() || '';
 
   if (required && !trimmedText) {
-    errors.push(`${fieldName} is required`);
+    errors.push(`${fieldName}为必填项`);
   } else if (trimmedText) {
     if (minLength > 0 && trimmedText.length < minLength) {
-      errors.push(`${fieldName} must be at least ${minLength} characters`);
+      errors.push(`${fieldName}至少需要 ${minLength} 个字符`);
     }
     if (trimmedText.length > maxLength) {
-      errors.push(`${fieldName} must be less than ${maxLength} characters`);
+      errors.push(`${fieldName}必须少于 ${maxLength} 个字符`);
     }
   }
 
@@ -67,10 +67,10 @@ export function validateSelectionCount(
   const selectedCount = selections.filter(Boolean).length;
 
   if (selectedCount < minSelections) {
-    errors.push(`Select at least ${minSelections} ${fieldName}`);
+    errors.push(`请至少选择 ${minSelections} 个${fieldName}`);
   }
   if (maxSelections !== Infinity && selectedCount > maxSelections) {
-    errors.push(`Maximum ${maxSelections} ${fieldName} allowed`);
+    errors.push(`最多只能选择 ${maxSelections} 个${fieldName}`);
   }
 
   return {

@@ -66,7 +66,7 @@ export function PortraitDebugSection({
    */
   const createMockCharacter = (id: string): StoreCharacter => {
     if (!effectiveCharacterData) {
-      throw new Error('No character data available');
+      throw new Error("没有可用的角色数据");
     }
 
     // Handle the different attribute/skill formats between store and types
@@ -106,7 +106,7 @@ export function PortraitDebugSection({
 
     return {
       id,
-      name: effectiveCharacterData.name || 'Test Character',
+      name: effectiveCharacterData.name || "测试角色",
       description: '',
       worldId: effectiveCharacterData.worldId || 'world-1',
       level: effectiveCharacterData.level || 1,
@@ -141,7 +141,7 @@ export function PortraitDebugSection({
     if (!effectiveCharacterData) {
       logger.debug('No effective character data');
       setGeneratedPrompt(
-        'No character data available. Please select a character or provide character data.'
+        "没有可用的角色数据。请选择角色或提供角色数据。"
       );
       return;
     }
@@ -172,7 +172,7 @@ export function PortraitDebugSection({
       logger.debug('Prompt set successfully');
     } catch (error) {
       setGeneratedPrompt(
-        `Error generating prompt: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `生成提示词时出错：${error instanceof Error ? error.message : "未知错误"}`
       );
     }
   };
@@ -191,10 +191,10 @@ export function PortraitDebugSection({
       });
 
       setLastGeneratedImage(portrait?.url ?? null);
-      setGeneratedPrompt(portrait?.prompt || 'No prompt returned');
+      setGeneratedPrompt(portrait?.prompt || "未返回提示词");
     } catch (error) {
       setGeneratedPrompt(
-        `Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `生成失败：${error instanceof Error ? error.message : "未知错误"}`
       );
     } finally {
       setIsGenerating(false);
@@ -207,7 +207,7 @@ export function PortraitDebugSection({
 
   return (
     <CollapsibleSection
-      title="Portrait Generation Debug"
+      title="肖像生成调试"
       initialCollapsed={true}
     >
       <div>
@@ -215,17 +215,17 @@ export function PortraitDebugSection({
         {charactersArray.length > 0 && (
           <div>
             <label>
-              Select Character:
+              选择角色：
             </label>
             <Select
               value={selectedCharacterId}
               onChange={(e) => setSelectedCharacterId(e.target.value)}
               
             >
-              <option value="">-- Select a character --</option>
+              <option value="">-- 选择一个角色 --</option>
               {charactersArray.map((char) => (
                 <option key={char.id} value={char.id}>
-                  {char.name} (Level{' '}
+                  {char.name} （等级{' '}
                   {'level' in char
                     ? (char as { level?: number }).level || 1
                     : 1}
@@ -240,23 +240,23 @@ export function PortraitDebugSection({
         {effectiveCharacterData && (
           <div>
             <h4>
-              Character Summary
+              角色概要
             </h4>
             <div>
               <div>
-                <strong>Name:</strong>{' '}
-                {effectiveCharacterData.name || 'Not set'}
+                <strong>名称：</strong>{' '}
+                {effectiveCharacterData.name || "未设置"}
               </div>
               <div>
-                <strong>World Genre:</strong>{' '}
-                {effectiveWorldConfig?.genre || 'Not set'}
+                <strong>世界类型：</strong>{' '}
+                {effectiveWorldConfig?.genre || "未设置"}
               </div>
               <div>
-                <strong>Attributes:</strong>{' '}
+                <strong>属性：</strong>{' '}
                 {effectiveCharacterData.attributes?.length || 0}
               </div>
               <div>
-                <strong>Skills:</strong>{' '}
+                <strong>技能：</strong>{' '}
                 {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   effectiveCharacterData.skills?.filter((s: any) =>
@@ -267,10 +267,10 @@ export function PortraitDebugSection({
                 }
               </div>
               <div>
-                <strong>Background:</strong>{' '}
+                <strong>背景：</strong>{' '}
                 {effectiveCharacterData.background?.personality
-                  ? 'Set'
-                  : 'Not set'}
+                  ? "已设置"
+                  : "未设置"}
               </div>
             </div>
           </div>
@@ -286,7 +286,7 @@ export function PortraitDebugSection({
               variant="default"
               disabled={!effectiveCharacterData}
             >
-              Generate Prompt Preview
+              生成提示词预览
             </Button>
             <Button
               onClick={testPromptGeneration}
@@ -295,7 +295,7 @@ export function PortraitDebugSection({
               variant="default"
               disabled={!effectiveCharacterData || isGenerating}
             >
-              {isGenerating ? 'Generating...' : 'Test Full Generation'}
+              {isGenerating ? "正在生成……" : "测试完整生成"}
             </Button>
             {generatedPrompt && (
               <>
@@ -305,7 +305,7 @@ export function PortraitDebugSection({
                   size="sm"
                   variant="default"
                 >
-                  Copy Prompt
+                  复制提示词
                 </Button>
                 <Button
                   onClick={() => setShowBreakdown(!showBreakdown)}
@@ -313,7 +313,7 @@ export function PortraitDebugSection({
                   size="sm"
                   variant="default"
                 >
-                  {showBreakdown ? 'Hide' : 'Show'} Breakdown
+                  {showBreakdown ? "隐藏" : "显示"} 详情
                 </Button>
               </>
             )}
@@ -322,7 +322,7 @@ export function PortraitDebugSection({
           {generatedPrompt && (
             <div>
               <h4>
-                Generated Prompt:
+                生成的提示词：
               </h4>
               <pre>
                 {generatedPrompt}
@@ -346,12 +346,12 @@ export function PortraitDebugSection({
         {lastGeneratedImage && (
           <div>
             <h4>
-              Last Generated Image:
+              上次生成的图像：
             </h4>
             <div>
               <Image
                 src={lastGeneratedImage}
-                alt="Generated portrait"
+                alt="生成的头像"
                 fill
                 
                 unoptimized // For base64 data URLs
@@ -363,29 +363,29 @@ export function PortraitDebugSection({
         {/* Prompt Building Tips */}
         <div>
           <h4>
-            Prompt Building Tips:
+            提示词构建技巧：
           </h4>
           <ul>
-            <li>Character name is included automatically</li>
-            <li>Personality traits influence appearance description</li>
-            <li>Skills determine character class (warrior, mage, etc.)</li>
-            <li>World theme affects art style</li>
-            <li>Background history adds context</li>
+            <li>角色名称会自动包含</li>
+            <li>性格特征会影响外貌描述</li>
+            <li>技能决定角色职业（战士、法师等）</li>
+            <li>世界主题会影响艺术风格</li>
+            <li>背景历史会补充上下文</li>
           </ul>
         </div>
 
         {/* API Debug Info */}
         <div>
-          <h4>API Debug Info:</h4>
+          <h4>API 调试信息：</h4>
           <div>
             <div>
-              <strong>Endpoint:</strong> /api/generate-portrait
+              <strong>接口地址：</strong> /api/generate-portrait
             </div>
             <div>
-              <strong>Model:</strong> gemini-2.0-flash-preview-image-generation
+              <strong>模型：</strong> gemini-2.0-flash-preview-image-generation
             </div>
             <div>
-              <strong>Security:</strong> Server-side API key (secure)
+              <strong>安全性：</strong> 服务端 API 密钥（安全）
             </div>
           </div>
         </div>

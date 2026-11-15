@@ -28,7 +28,7 @@ export function finalizeCharacterCreation(
         id: generateUniqueId('attr'),
         characterId: '', // Will be set by store
         worldAttributeId: attr.attributeId, // Store reference to world attribute ID
-        name: worldAttr?.name || 'Unknown',
+        name: worldAttr?.name || "未知",
         baseValue: attr.value,
         modifiedValue: attr.value,
         category: worldAttr?.category,
@@ -42,7 +42,7 @@ export function finalizeCharacterCreation(
           id: generateUniqueId('skill'),
           characterId: '', // Will be set by store
           worldSkillId: skill.skillId, // Store reference to world skill ID
-          name: worldSkill?.name || 'Unknown',
+          name: worldSkill?.name || "未知",
           level: skill.level,
           category: worldSkill?.category,
         };

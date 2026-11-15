@@ -1,4 +1,5 @@
 // src/lib/ai/userFriendlyErrors.ts
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 import { 
   getUserFriendlyError as getUserFriendlyErrorUtil,
@@ -46,33 +47,33 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
 
   // Add AI-specific context with sanitized error details
   const message = error.message.toLowerCase();
-  const sanitizedDetail = sanitizeErrorMessage(error.message);
+  const sanitizedDetail = localizeErrorMessage(sanitizeErrorMessage(error.message));
 
   if (message.includes('network')) {
     return {
       ...baseError,
-      message: `Unable to reach the model provider: ${sanitizedDetail}`
+      message: `无法连接模型服务：${sanitizedDetail}`
     };
   }
 
   if (message.includes('timeout')) {
     return {
       ...baseError,
-      message: `The model provider timed out: ${sanitizedDetail}`
+      message: `模型服务响应超时：${sanitizedDetail}`
     };
   }
 
   if (message.includes('429') || message.includes('rate limit')) {
     return {
       ...baseError,
-      message: `The model provider's rate limit was exceeded: ${sanitizedDetail}`
+      message: `模型服务的请求频率超出限制：${sanitizedDetail}`
     };
   }
 
   if (message.includes('401') || message.includes('unauthorized')) {
     return {
       ...baseError,
-      message: `The model provider rejected your key: ${sanitizedDetail}`
+      message: `模型服务拒绝了你的密钥：${sanitizedDetail}`
     };
   }
 
@@ -86,7 +87,7 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   if (baseError.type === 'service' || baseError.type === 'unknown') {
     return {
       ...baseError,
-      message: `${baseError.message} (${sanitizedDetail})`
+      message: `${baseError.message}（${sanitizedDetail}）`
     };
   }
 

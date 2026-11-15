@@ -94,8 +94,8 @@ describe('ErrorSection', () => {
 
     render(<ErrorSection />);
 
-    expect(screen.getByText('No runtime errors captured')).toBeInTheDocument();
-    expect(screen.getByText('Total: 0')).toBeInTheDocument();
+    expect(screen.getByText("未捕获到运行时错误")).toBeInTheDocument();
+    expect(screen.getByText("总计： 0")).toBeInTheDocument();
   });
 
   it('should display error statistics', () => {
@@ -127,10 +127,10 @@ describe('ErrorSection', () => {
 
     render(<ErrorSection />);
 
-    expect(screen.getByText('Total: 2')).toBeInTheDocument();
-    expect(screen.getByText('Recent: 2')).toBeInTheDocument();
-    expect(screen.getByText(/high.*: 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/medium.*: 1/i)).toBeInTheDocument();
+    expect(screen.getByText("总计： 2")).toBeInTheDocument();
+    expect(screen.getByText('最近： 2')).toBeInTheDocument();
+    expect(screen.getByText(/高.*: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/中等.*: 1/i)).toBeInTheDocument();
   });
 
   it('should display error list with key information', () => {
@@ -143,14 +143,14 @@ describe('ErrorSection', () => {
 
     render(<ErrorSection />);
 
-    expect(screen.getByText('React error message')).toBeInTheDocument();
-    expect(screen.getByText('Network error message')).toBeInTheDocument();
-    expect(screen.getByText('HIGH')).toBeInTheDocument();
-    expect(screen.getByText('MEDIUM')).toBeInTheDocument();
+    expect(screen.getAllByText("操作未能完成，请稍后重试。")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("操作未能完成，请稍后重试。")[1]).toBeInTheDocument();
+    expect(screen.getAllByText("高")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("中等")[0]).toBeInTheDocument();
     
     // Check that category information is displayed (allowing for multiple matches)
     expect(screen.getAllByText(/react/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/network/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/网络/i).length).toBeGreaterThan(0);
   });
 
   it('should allow filtering by severity', async () => {
@@ -172,11 +172,11 @@ describe('ErrorSection', () => {
     await user.click(filtersToggle);
 
     // Select only HIGH severity
-    const highCheckbox = screen.getByLabelText('Filter by High severity errors');
+    const highCheckbox = screen.getByLabelText("按 High 严重程度筛选错误");
     await user.click(highCheckbox);
 
     // Apply filter
-    const applyButton = screen.getByText('Apply Filters');
+    const applyButton = screen.getByText("应用筛选");
     await user.click(applyButton);
 
     // Verify filter was applied
@@ -202,11 +202,11 @@ describe('ErrorSection', () => {
     await user.click(filtersToggle);
 
     // Select only REACT category
-    const reactCheckbox = screen.getByLabelText('Filter by React category errors');
+    const reactCheckbox = screen.getByLabelText("按 React 类别筛选错误");
     await user.click(reactCheckbox);
 
     // Apply filter
-    const applyButton = screen.getByText('Apply Filters');
+    const applyButton = screen.getByText("应用筛选");
     await user.click(applyButton);
 
     // Verify filter was applied
@@ -229,7 +229,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection />);
 
     // Find and click dismiss button
-    const dismissButton = screen.getByLabelText('Dismiss error');
+    const dismissButton = screen.getByLabelText("忽略错误");
     await user.click(dismissButton);
 
     expect(mockDismissError).toHaveBeenCalledWith('error-1');
@@ -248,7 +248,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection />);
 
     // Find and click clear all button
-    const clearButton = screen.getByText('Clear All');
+    const clearButton = screen.getByText("全部清除");
     await user.click(clearButton);
 
     expect(mockClearErrors).toHaveBeenCalled();
@@ -262,7 +262,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection />);
 
     // Find the show dismissed toggle
-    const showDismissedToggle = screen.getByLabelText('Show dismissed errors');
+    const showDismissedToggle = screen.getByLabelText("显示已忽略的错误");
     expect(showDismissedToggle).not.toBeChecked();
 
     // Toggle it
@@ -285,7 +285,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection />);
 
     // Find and click the expand button
-    const expandButton = screen.getByLabelText('View error details');
+    const expandButton = screen.getByLabelText("查看错误详情");
     await user.click(expandButton);
 
     // Should show stack trace and component info

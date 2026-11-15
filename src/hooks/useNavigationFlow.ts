@@ -37,14 +37,14 @@ export function useNavigationFlow() {
     if (!currentWorldId) {
       if (Object.keys(worlds).length === 0) {
         return {
-          label: 'Create Your First World',
+          label: "创建你的第一个世界",
           href: '/worlds/create',
           action: 'create-world',
           isEnabled: true,
         };
       }
       return {
-        label: 'Select a World',
+        label: "选择一个世界",
         href: '/worlds',
         action: 'select-world',
         isEnabled: true,
@@ -60,7 +60,7 @@ export function useNavigationFlow() {
     if (pathname.startsWith('/characters/') && pathname !== '/characters/create') {
       const characterId = pathname.split('/').pop();
       return {
-        label: 'Start Playing',
+        label: "开始游戏",
         href: '/play',
         action: 'start-game',
         isEnabled: true,
@@ -71,7 +71,7 @@ export function useNavigationFlow() {
     // No characters for this world yet
     if (worldCharacters.length === 0) {
       return {
-        label: 'Create a Character',
+        label: "创建角色",
         href: '/characters/create',
         action: 'create-character',
         isEnabled: true,
@@ -80,7 +80,7 @@ export function useNavigationFlow() {
 
     // Characters exist but none selected
     return {
-      label: 'Select a Character',
+      label: "选择角色",
       href: '/characters',
       action: 'select-character',
       isEnabled: true,

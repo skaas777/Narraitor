@@ -41,7 +41,7 @@ describe('npcStore - World Management and State', () => {
       useNPCStore.getState().setCurrent('nonexistent-id');
       const state = useNPCStore.getState();
       expect(state.currentEntityId).toBeNull();
-      expect(state.error?.title).toBe('NPC Not Found');
+      expect(state.error?.title).toBe("未找到非玩家角色");
     });
   });
 });

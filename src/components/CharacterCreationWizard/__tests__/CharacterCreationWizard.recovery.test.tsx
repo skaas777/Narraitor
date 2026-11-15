@@ -206,7 +206,7 @@ describe('CharacterCreationWizard recovery modal', () => {
     const user = userEvent.setup();
     render(<CharacterCreationWizard worldId="world-1" />);
 
-    const dismissButton = await screen.findByRole('button', { name: 'Start Fresh' });
+    const dismissButton = await screen.findByRole('button', { name: "重新开始" });
     await user.click(dismissButton);
 
     await waitFor(() => {
@@ -222,7 +222,7 @@ describe('CharacterCreationWizard recovery modal', () => {
     render(<CharacterCreationWizard worldId="world-1" />);
 
     // Before clicking recover, dialog is visible
-    const recoverButton = await screen.findByRole('button', { name: 'Recover Progress' });
+    const recoverButton = await screen.findByRole('button', { name: "恢复进度" });
     await user.click(recoverButton);
 
     // Wizard should restore to step 1 (Attributes) with saved draft name and attributes
@@ -233,7 +233,7 @@ describe('CharacterCreationWizard recovery modal', () => {
     expect(screen.getByTestId('attributes-count')).toHaveTextContent('1');
 
     // Navigating back to step 0 should show restored Basic Info values
-    const backButton = screen.getByRole('button', { name: 'Back' });
+    const backButton = screen.getByRole('button', { name: "返回" });
     await user.click(backButton);
 
     await waitFor(() => {
@@ -256,7 +256,7 @@ describe('CharacterCreationWizard recovery modal', () => {
     const user = userEvent.setup();
     render(<CharacterCreationWizard worldId="world-1" />);
 
-    const recoverButton = await screen.findByRole('button', { name: 'Recover Progress' });
+    const recoverButton = await screen.findByRole('button', { name: "恢复进度" });
     await user.click(recoverButton);
 
     await waitFor(() => {

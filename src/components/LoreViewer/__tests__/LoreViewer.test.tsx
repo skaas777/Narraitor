@@ -81,10 +81,10 @@ describe('LoreViewer Component', () => {
     render(<LoreViewer worldId="world-1" />);
 
     // Check category headings are present
-    expect(screen.getByText('Characters')).toBeInTheDocument();
-    expect(screen.getByText('Locations')).toBeInTheDocument();
-    expect(screen.getByText('Events')).toBeInTheDocument();
-    expect(screen.getByText('World Rules')).toBeInTheDocument();
+    expect(screen.getByText("角色")).toBeInTheDocument();
+    expect(screen.getByText("地点")).toBeInTheDocument();
+    expect(screen.getByText("事件")).toBeInTheDocument();
+    expect(screen.getByText("世界规则")).toBeInTheDocument();
 
     // Check facts are displayed
     expect(screen.getByText('Lyra Starweaver')).toBeInTheDocument();
@@ -96,8 +96,8 @@ describe('LoreViewer Component', () => {
     
     render(<LoreViewer worldId="world-1" />);
 
-    expect(screen.getByText('No lore facts recorded yet.')).toBeInTheDocument();
-    expect(screen.getByText('Facts will appear here as the story unfolds.')).toBeInTheDocument();
+    expect(screen.getByText("尚未记录任何设定事实。")).toBeInTheDocument();
+    expect(screen.getByText("随着故事展开，设定事实将显示在这里。")).toBeInTheDocument();
   });
 
   test('filters facts by session when sessionId is provided', () => {
@@ -122,7 +122,7 @@ describe('LoreViewer Component', () => {
     
     render(<LoreViewer worldId="world-1" />);
 
-    expect(screen.getByText('Total facts: 4')).toBeInTheDocument();
+    expect(screen.getByText("事实总数： 4")).toBeInTheDocument();
   });
 
   test('applies custom className when provided', () => {
@@ -140,10 +140,10 @@ describe('LoreViewer Component', () => {
     
     render(<LoreViewer worldId="world-1" />);
 
-    expect(screen.getByText('Characters')).toBeInTheDocument();
-    expect(screen.getByText('Locations')).toBeInTheDocument();
-    expect(screen.queryByText('Events')).not.toBeInTheDocument();
-    expect(screen.queryByText('World Rules')).not.toBeInTheDocument();
+    expect(screen.getByText("角色")).toBeInTheDocument();
+    expect(screen.getByText("地点")).toBeInTheDocument();
+    expect(screen.queryByText("事件")).not.toBeInTheDocument();
+    expect(screen.queryByText("世界规则")).not.toBeInTheDocument();
   });
 
   test('applies correct category colors', () => {

@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { formatDate } from '@/lib/utils';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface ImageGenerationSectionProps {
   title: string;
@@ -39,12 +40,12 @@ export const ImageGenerationSection: React.FC<ImageGenerationSectionProps> = ({
   isGenerating,
   onGenerate,
   onRemove,
-  customPromptLabel = "Customize description for generation",
-  customPromptPlaceholder = "Describe specific visual details...",
-  customPromptHelpText = "This will override the auto-generated prompt for this generation only",
-  generateButtonText = "Generate Image",
-  regenerateButtonText = "Regenerate Image",
-  removeButtonText = "Remove Image",
+  customPromptLabel = "自定义生成描述",
+  customPromptPlaceholder = "描述具体的视觉细节……",
+  customPromptHelpText = "这只会覆盖本次生成的自动提示词",
+  generateButtonText = "生成图片",
+  regenerateButtonText = "重新生成图片",
+  removeButtonText = "移除图片",
   imageComponent,
   className = "",
   defaultCustomPromptChecked = !!currentPrompt,
@@ -90,7 +91,7 @@ export const ImageGenerationSection: React.FC<ImageGenerationSectionProps> = ({
         </div>
         <div>
           <p>
-            {hasImage ? description : `No ${title.toLowerCase()} has been generated yet.`}
+            {hasImage ? description : `尚未生成${title || '图片'}。`}
           </p>
           
           {/* Custom prompt toggle */}
@@ -109,7 +110,7 @@ export const ImageGenerationSection: React.FC<ImageGenerationSectionProps> = ({
                   onClick={handleUndoCustomization}
                   
                 >
-                  Undo customizations
+                  撤销自定义
                 </Button>
               )}
             </div>
@@ -140,7 +141,7 @@ export const ImageGenerationSection: React.FC<ImageGenerationSectionProps> = ({
               {isGenerating ? (
                 <>
                   <div />
-                  Generating...
+                  正在生成……
                 </>
               ) : (
                 <>
@@ -164,13 +165,13 @@ export const ImageGenerationSection: React.FC<ImageGenerationSectionProps> = ({
           {/* Error display */}
           {error && (
             <div>
-              <p>{error}</p>
+              <p>{localizeErrorMessage(error)}</p>
             </div>
           )}
 
           {generatedAt && (
             <p className="image-generation-generated-at">
-              Generated: {formatDate(generatedAt)}
+              生成于： {formatDate(generatedAt)}
             </p>
           )}
         </div>

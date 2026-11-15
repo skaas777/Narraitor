@@ -127,7 +127,7 @@ describe('inventoryStore journal integration', () => {
     await waitFor(() => {
       const entries = journalResult.current.getSessionEntries(sessionId);
       expect(entries[0].content).toContain('Received from the village elder');
-      expect(entries[0].content).toContain('quest');
+      expect(entries[0].content).toContain('任务');
     });
   });
 

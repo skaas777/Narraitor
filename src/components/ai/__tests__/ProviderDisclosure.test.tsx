@@ -9,29 +9,29 @@ describe('ProviderDisclosure', () => {
       <ProviderDisclosure type="gemini" privacyNote={getPresetById('gemini')?.privacyNote} />
     );
 
-    const privacy = screen.getByText(/free tier/i);
-    expect(privacy).toHaveTextContent(/improve their models/i);
-    expect(privacy).toHaveTextContent(/human raters/i);
-    expect(privacy).toHaveTextContent(/paid tiers do not/i);
+    const privacy = screen.getByText(/免费层级/i);
+    expect(privacy).toHaveTextContent(/改进其模型/i);
+    expect(privacy).toHaveTextContent(/人工评分员/i);
+    expect(privacy).toHaveTextContent(/付费层级不会/i);
   });
 
   test('says a content rating is a safety-filter setting on Gemini', () => {
     render(<ProviderDisclosure type="gemini" />);
 
-    expect(screen.getByText(/safety-filter setting/i)).toBeInTheDocument();
+    expect(screen.getByText(/安全过滤设置/i)).toBeInTheDocument();
   });
 
   test('says plainly that a rating is guidance, not a filter, everywhere else', () => {
     render(<ProviderDisclosure type="openai-compatible" />);
 
-    const rating = screen.getByText(/no safety-filter setting/i);
-    expect(rating).toHaveTextContent(/guidance/i);
-    expect(rating).toHaveTextContent(/does not enforce/i);
+    const rating = screen.getByText(/没有安全过滤设置/i);
+    expect(rating).toHaveTextContent(/指导/i);
+    expect(rating).toHaveTextContent(/不会强制执行/i);
   });
 
   test('shows only the rating line when a provider has no privacy note', () => {
     render(<ProviderDisclosure type="openai-compatible" />);
 
-    expect(screen.queryByText(/^Privacy$/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^隐私$/)).not.toBeInTheDocument();
   });
 });

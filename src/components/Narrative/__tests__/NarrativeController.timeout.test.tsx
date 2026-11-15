@@ -184,7 +184,7 @@ describe('NarrativeController — per-choice segment timeout (#1429)', () => {
     // The error message from the catch block must appear
     const errorEl = screen.getByTestId('error-message');
     expect(errorEl).toBeTruthy();
-    expect(errorEl.textContent).toContain('Unable to generate narrative');
+    expect(errorEl.textContent).toContain("无法生成叙事");
 
     // Loading state must have cleared — we should NOT see the loading indicator
     expect(screen.queryByTestId('loading-indicator')).toBeNull();

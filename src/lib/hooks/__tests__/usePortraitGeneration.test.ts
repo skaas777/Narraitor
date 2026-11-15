@@ -79,7 +79,7 @@ describe('usePortraitGeneration', () => {
 
     expect(result.current.isGenerating).toBe(false);
     expect(result.current.error).toBe(
-      "Couldn't generate this content because the input is too large. Try shortening your physical description or prompt and try again."
+      "输入内容过大，无法生成此内容。 请缩短外貌描述或提示词后重试。"
     );
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining('[usePortraitGeneration]'),

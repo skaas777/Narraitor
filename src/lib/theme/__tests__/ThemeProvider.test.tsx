@@ -136,7 +136,7 @@ describe('ThemeProvider', () => {
     expect(() => {
       function Bare() { useTheme(); return null; }
       render(<Bare />);
-    }).toThrow('useTheme must be used within a ThemeProvider');
+    }).toThrow('useTheme 必须在 ThemeProvider 内使用');
 
     consoleSpy.mockRestore();
   });

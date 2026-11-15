@@ -107,6 +107,6 @@ describe('ClientAIClient.generateContent', () => {
     } as unknown as Response);
 
     const client = new ClientAIClient();
-    await expect(client.generateContent('a prompt')).rejects.toThrow(/rate limit/i);
+    await expect(client.generateContent('a prompt')).rejects.toThrow(/请求频率超出限制/i);
   });
 });

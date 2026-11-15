@@ -127,7 +127,7 @@ describe('OpenRouter reasoning budgets through narrative routes', () => {
     const response = await choices(openRouterRequest('/api/narrative/choices', 'Offer choices.', model, 1024));
 
     expect(response.status).toBe(500);
-    expect((await response.json()).error).toBe("That didn't work.");
+    expect((await response.json()).error).toBe("操作未成功。");
   });
 
   it('does not apply OpenRouter reasoning policy or metadata calls to unrelated endpoints', async () => {

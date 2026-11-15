@@ -12,6 +12,7 @@ import { getTimestamp } from '@/lib/utils';
 import { getGenreLabel } from '@/lib/constants/genres';
 
 import Logger from '@/lib/utils/logger';
+import { displayLabel } from '@/lib/i18n/zhCN';
 const logger = new Logger('FinalizeStep');
 
 interface FinalizeStepProps {
@@ -28,7 +29,7 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
     try {
       const tempWorld = {
         id: 'temp',
-        name: worldData.name || 'Untitled World',
+        name: worldData.name || "未命名世界",
         description: worldData.description || '',
         genre: worldData.genre || 'fantasy',
         ...worldData
@@ -71,26 +72,26 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
   return (
     <div data-testid="finalize-step">
       <WizardFormSection
-        title="Review Your World"
-        description="Review your world configuration before creating it."
+        title="检查你的世界"
+        description="创建前请检查你的世界配置。"
       >
 
       <div className="wizard-review-summary">
         <div data-tutorial="finalize-review">
-          <h3 className={wizardStyles.subheading}>Basic Information</h3>
+          <h3 className={wizardStyles.subheading}>基本信息</h3>
           <div className="wizard-review-fields">
             <DataField
-              label="Name"
+              label="名称"
               value={<span data-testid="review-world-name">{worldData.name}</span>}
               variant="outline"
             />
             <DataField
-              label="Genre"
-              value={<span data-testid="review-world-genre">{worldData.genre ? getGenreLabel(worldData.genre) : 'Unknown'}</span>}
+              label="题材"
+              value={<span data-testid="review-world-genre">{worldData.genre ? getGenreLabel(worldData.genre) : "未知"}</span>}
               variant="outline"
             />
             <DataField
-              label="Description"
+              label="描述"
               value={<p data-testid="review-world-description">{worldData.description}</p>}
               variant="stacked"
             />
@@ -102,10 +103,10 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
           className={`${wizardStyles.divider} wizard-image-section`}
           data-tutorial="finalize-image"
         >
-          <h3 className={wizardStyles.subheading}>World Image</h3>
+          <h3 className={wizardStyles.subheading}>世界图片</h3>
           <ImageGenerationSection
             title=""
-            description="Shown on world cards and as the hero image on the world details page."
+            description="显示在世界卡片上，并作为世界详情页的主图。"
             currentImageUrl={worldData.image?.url}
             currentImageType={worldData.image?.type}
             generatedAt={worldData.image?.generatedAt}
@@ -113,17 +114,17 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
             isGenerating={isGeneratingImage}
             onGenerate={handleGenerateImage}
             onRemove={handleRemoveImage}
-            customPromptLabel="Customize world image description"
-            customPromptPlaceholder="Describe the specific visual elements you want in the world image (landscape, architecture, atmosphere, etc.)"
-            customPromptHelpText="This will override the auto-generated prompt based on world details for this generation only"
-            generateButtonText="Generate World Image"
-            regenerateButtonText="Regenerate World Image"
-            removeButtonText="Remove World Image"
+            customPromptLabel="自定义世界图像描述"
+            customPromptPlaceholder="描述世界图片中的具体元素，例如景观、建筑和氛围。"
+            customPromptHelpText="这将覆盖基于世界详情自动生成的提示词，仅对本次生成生效"
+            generateButtonText="生成世界图像"
+            regenerateButtonText="重新生成世界图像"
+            removeButtonText="移除世界图像"
             generateButtonVariant="outline"
             imageComponent={
               <WorldImageComponent
                 image={worldData.image || { type: 'placeholder', url: null }}
-                worldName={worldData.name || 'Untitled World'}
+                worldName={worldData.name || '未命名世界'}
                 size="medium"
               />
             }
@@ -131,7 +132,7 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
         </div>
 
         <div className={wizardStyles.divider} data-testid="review-attributes-section" data-tutorial="finalize-attributes">
-          <h3 className={wizardStyles.subheading}>Attributes ({worldData.attributes?.length || 0})</h3>
+          <h3 className={wizardStyles.subheading}>属性（{worldData.attributes?.length || 0}）</h3>
         {worldData.attributes && worldData.attributes.length > 0 ? (
           <div className="wizard-review-custom-list">
             {worldData.attributes.map((attr, index) => (
@@ -139,20 +140,20 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
                 <div className="wizard-review-card-meta">{attr.name}</div>
                 <div className="wizard-review-card-detail">{attr.description}</div>
                 <div className="wizard-review-card-range">
-                  Range: {attr.minValue} - {attr.maxValue}
+                  范围： {attr.minValue} - {attr.maxValue}
                 </div>
               </div>
             ))}
           </div>
         ) : (
           <div className="wizard-empty-state">
-            <p>No attributes selected</p>
+            <p>未选择属性</p>
           </div>
         )}
         </div>
 
         <div className={wizardStyles.divider} data-testid="review-skills-section" data-tutorial="finalize-skills">
-          <h3 className={wizardStyles.subheading}>Skills ({worldData.skills?.length || 0})</h3>
+          <h3 className={wizardStyles.subheading}>技能（{worldData.skills?.length || 0}）</h3>
         {worldData.skills && worldData.skills.length > 0 ? (
           <div className="wizard-review-custom-list">
             {worldData.skills.map((skill, index) => (
@@ -164,16 +165,16 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
                     skill.difficulty === 'medium' ? wizardStyles.badge.warning :
                     wizardStyles.badge.danger
                   }`}>
-                    {skill.difficulty}
+                    {displayLabel(skill.difficulty)}
                   </span>
                 </div>
                 <div className="wizard-review-card-detail">{skill.description}</div>
                 {skill.attributeIds && skill.attributeIds.length > 0 && (
                   <div className="wizard-review-card-range">
-                    Linked to: {skill.attributeIds
+                    关联属性： {skill.attributeIds
                       .map(id => worldData.attributes?.find(a => a.id === id)?.name)
                       .filter(Boolean)
-                      .join(', ') || 'Unknown'}
+                      .join(', ') || "未知"}
                   </div>
                 )}
               </div>
@@ -181,7 +182,7 @@ export default function FinalizeStep({ worldData, onUpdate }: FinalizeStepProps)
           </div>
         ) : (
           <div className="wizard-empty-state">
-            <p>No skills selected</p>
+            <p>未选择技能</p>
           </div>
         )}
         </div>

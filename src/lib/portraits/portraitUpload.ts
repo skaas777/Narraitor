@@ -16,11 +16,11 @@ export const PORTRAIT_UPLOAD_ACCEPT = ACCEPTED_PORTRAIT_MIME_TYPES.join(',');
  */
 export function validatePortraitFile(file: File): string | null {
   if (!(ACCEPTED_PORTRAIT_MIME_TYPES as readonly string[]).includes(file.type)) {
-    return 'That file type is not supported. Pick a JPG, PNG or WebP image.';
+    return "不支持该文件类型。请选择 JPG、PNG 或 WebP 图片。";
   }
 
   if (file.size > MAX_PORTRAIT_UPLOAD_BYTES) {
-    return 'That image is larger than 5MB. Pick a smaller file or resize it first.';
+    return "该图片超过 5MB。请选择更小的文件或先调整尺寸。";
   }
 
   return null;
@@ -37,7 +37,7 @@ export const MAX_PORTRAIT_EDGE_PX = 512;
 const DOWNSCALED_PORTRAIT_QUALITY = 0.85;
 
 const READ_FAILURE_MESSAGE =
-  "That image couldn't be read. Try picking it again.";
+  "无法读取该图片。请重新选择。";
 
 function readAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {

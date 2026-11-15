@@ -84,10 +84,10 @@ describe('WorldCreationWizard AI-generation error messaging', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('ai-warning')).toHaveTextContent(
-        /generating suggestions needs a provider key/i
+        /生成建议需要模型服务密钥/i
       );
     });
-    expect(screen.getByTestId('ai-warning')).not.toHaveTextContent(/service recovers/i);
+    expect(screen.getByTestId('ai-warning')).not.toHaveTextContent(/服务恢复后/i);
   });
 
   it('keeps the generic service-trouble message when a key is configured', async () => {
@@ -113,7 +113,7 @@ describe('WorldCreationWizard AI-generation error messaging', () => {
     await user.click(screen.getByTestId('generate-ai-suggestions'));
 
     await waitFor(() => {
-      expect(screen.getByTestId('ai-warning')).toHaveTextContent(/service recovers/i);
+      expect(screen.getByTestId('ai-warning')).toHaveTextContent(/服务恢复后/i);
     });
     expect(screen.getByTestId('ai-warning')).not.toHaveTextContent(/provider key/i);
   });

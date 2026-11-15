@@ -32,15 +32,15 @@ describe('WorldBasicInfoForm - MVP Level Tests', () => {
     render(<WorldBasicInfoForm world={mockWorld} onChange={mockOnChange} />);
 
     // Check if name field is displayed with current value
-    const nameInput = screen.getByLabelText(/name/i);
+    const nameInput = screen.getByLabelText(/名称/i);
     expect(nameInput).toHaveValue(mockWorld.name);
 
     // Check if description field is displayed with current value
-    const descriptionInput = screen.getByLabelText(/description/i);
+    const descriptionInput = screen.getByLabelText(/描述/i);
     expect(descriptionInput).toHaveValue(mockWorld.description);
 
     // Check if genre field is displayed with current value
-    const genreSelect = screen.getByLabelText(/genre/i);
+    const genreSelect = screen.getByLabelText(/题材/i);
     expect(genreSelect).toHaveValue(mockWorld.genre);
   });
 
@@ -48,7 +48,7 @@ describe('WorldBasicInfoForm - MVP Level Tests', () => {
   test('calls onChange when name is updated', () => {
     render(<WorldBasicInfoForm world={mockWorld} onChange={mockOnChange} />);
 
-    const nameInput = screen.getByLabelText(/name/i);
+    const nameInput = screen.getByLabelText(/名称/i);
     fireEvent.change(nameInput, { target: { value: 'Updated World Name' } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
@@ -60,7 +60,7 @@ describe('WorldBasicInfoForm - MVP Level Tests', () => {
   test('calls onChange when description is updated', () => {
     render(<WorldBasicInfoForm world={mockWorld} onChange={mockOnChange} />);
 
-    const descriptionInput = screen.getByLabelText(/description/i);
+    const descriptionInput = screen.getByLabelText(/描述/i);
     fireEvent.change(descriptionInput, { target: { value: 'Updated description' } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
@@ -72,7 +72,7 @@ describe('WorldBasicInfoForm - MVP Level Tests', () => {
   test('calls onChange when genre is updated', () => {
     render(<WorldBasicInfoForm world={mockWorld} onChange={mockOnChange} />);
 
-    const genreSelect = screen.getByLabelText(/genre/i);
+    const genreSelect = screen.getByLabelText(/题材/i);
     fireEvent.change(genreSelect, { target: { value: 'sci-fi' } });
 
     expect(mockOnChange).toHaveBeenCalledWith({

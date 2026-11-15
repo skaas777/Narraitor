@@ -34,7 +34,7 @@ describe('TermDefinition', () => {
       />
     );
 
-    expect(screen.getByText('characters')).toBeInTheDocument();
+    expect(screen.getByText('角色')).toBeInTheDocument();
   });
 
   it('renders type when provided', () => {
@@ -119,7 +119,7 @@ describe('TermDefinition', () => {
     );
 
     const aside = screen.getByRole('complementary');
-    expect(aside).toHaveAttribute('aria-label', 'Definition: Aria');
+    expect(aside).toHaveAttribute('aria-label', "定义：Aria");
   });
 
   it('has tabIndex -1 for programmatic focus', () => {

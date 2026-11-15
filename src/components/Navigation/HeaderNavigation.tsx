@@ -79,7 +79,7 @@ export function HeaderNavigation() {
             closeMenu();
           }
         },
-        description: 'Close the navigation drawer',
+        description: "关闭导航抽屉",
       },
     ],
     true
@@ -106,24 +106,24 @@ export function HeaderNavigation() {
         onClick={() =>
           navigateWithLoading(
             `/worlds/${currentWorld.id}/play`,
-            `Starting ${currentWorld.name}...`
+            `正在进入 ${currentWorld.name}……`
           )
         }
         variant="outline"
       >
         <Play aria-hidden="true" />
-        Play
+        开始游戏
       </Button>
     )
   ) : !hasWorldsStore ? (
     <Button
       type="button"
       onClick={() =>
-        navigateWithLoading('/worlds/create', 'Setting up world creation...')
+        navigateWithLoading('/worlds/create', "正在准备创建世界……")
       }
     >
       <Plus aria-hidden="true" />
-      Create Your First World
+      创建你的第一个世界
     </Button>
   ) : null;
 
@@ -134,7 +134,7 @@ export function HeaderNavigation() {
   return (
     <>
       <header className="header-nav" role="banner">
-        <nav role="navigation" aria-label="Main">
+        <nav role="navigation" aria-label="主导航">
           {/* Both edges are anchored by an element whose ink sits on the content
               gutter: the logo at the leading edge, and a control box at the
               trailing edge, matching how the page below aligns text left and
@@ -153,17 +153,17 @@ export function HeaderNavigation() {
                 data-testid="desktop-navigation"
               >
                 <Link href="/worlds" data-navigation>
-                  Worlds
+                  世界
                 </Link>
                 <Link
                   href="/characters"
                   data-navigation
                   aria-disabled={!hasWorlds}
                 >
-                  Characters
+                  角色
                 </Link>
                 <Link href="/settings" data-navigation>
-                  Settings
+                  设置
                 </Link>
               </div>
             </div>
@@ -193,7 +193,7 @@ export function HeaderNavigation() {
                 onClick={toggleMenu}
                 variant="ghost"
                 size="icon"
-                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-label={isMenuOpen ? "关闭菜单" : "打开菜单"}
                 aria-expanded={isMenuOpen}
               >
                 {isMenuOpen ? (

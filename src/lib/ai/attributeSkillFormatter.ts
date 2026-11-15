@@ -101,13 +101,13 @@ export function normalizeSkillArray(skills: SkillInput): NormalizedSkill[] {
  */
 export function getAttributeDescriptor(value: number): string {
   // Handle invalid/out of range values
-  if (value < 1 || value > 10) return 'Moderate';
+  if (value < 1 || value > 10) return "中等";
 
-  if (value >= 9) return 'Exceptional';
-  if (value >= 7) return 'High';
-  if (value >= 4) return 'Moderate';
-  if (value >= 2) return 'Low';
-  return 'Very Low';
+  if (value >= 9) return "卓越";
+  if (value >= 7) return "高";
+  if (value >= 4) return "中等";
+  if (value >= 2) return "低";
+  return "极低";
 }
 
 /**
@@ -129,7 +129,7 @@ export function getSkillDescriptor(level: number): string {
     (desc) => desc.value === clampedLevel
   );
 
-  return description?.label || 'Novice';
+  return description?.label || "新手";
 }
 
 /**
@@ -144,11 +144,11 @@ export function formatAttributesForNarrative(
   const normalized = normalizeAttributeArray(attributes);
 
   const notableAttributes = normalized
+    .filter((attr) => attr.value >= 1 && attr.value <= 10 && (attr.value < 4 || attr.value >= 7))
     .map((attr) => ({
       id: attr.attributeId,
       descriptor: getAttributeDescriptor(attr.value),
     }))
-    .filter((attr) => attr.descriptor !== 'Moderate') // Filter out moderate attributes
     .map((attr) => `${attr.id} (${attr.descriptor})`)
     .join(', ');
 

@@ -5,6 +5,7 @@ import { AttributeEditor } from '@/components/world/AttributeEditor';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog';
 import { Button } from '@/components/ui/button';
 import { SimpleModal } from '@/components/shared/SimpleModal';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 
 /**
@@ -117,23 +118,23 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
    */
   const deleteDescription = useMemo(() => {
     if (!attributeToDelete) {
-      return "Are you sure you want to delete this attribute? This action cannot be undone.";
+      return "确定要删除此属性吗？此操作无法撤销。";
     }
     
     const linkedSkills = getLinkedSkills(attributeToDelete.id);
     if (linkedSkills.length === 0) {
-      return "Are you sure you want to delete this attribute? This action cannot be undone.";
+      return "确定要删除此属性吗？此操作无法撤销。";
     }
     
     const skillNames = linkedSkills.map(s => s.name).join(', ');
-    const skillText = linkedSkills.length > 1 ? 's' : '';
-    return `WARNING: This attribute is linked to ${linkedSkills.length} skill${skillText}: ${skillNames}. Deleting this attribute will affect these skills. This action cannot be undone.`;
+    const skillText = '';
+    return `警告：此属性已关联 ${linkedSkills.length} 个技能${skillText}：${skillNames}。删除此属性将影响这些技能。此操作无法撤销。`;
   }, [attributeToDelete, getLinkedSkills]);
   
   return (
     <section className="component-world-attributes-form">
       <div>
-        <h3>Attributes</h3>
+        <h3>属性</h3>
         <div>
           <Button
             onClick={() => setShowCreateModal(true)}
@@ -142,22 +143,22 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
             size="sm"
             aria-label={
               isLimitReached 
-                ? `Cannot add more attributes. Maximum of ${maxAttributes} reached.` 
-                : 'Add new attribute'
+                ? `无法添加更多属性。已达到 ${maxAttributes} 个的上限。`
+                : "添加新属性"
             }
           >
-            Add Attribute
+            添加属性
           </Button>
           {isLimitReached && (
             <p>
-              Maximum {maxAttributes} attributes reached
+              最多 {maxAttributes} 属性已达上限
             </p>
           )}
         </div>
       </div>
       
       {attributes.length === 0 ? (
-        <p>No attributes defined yet.</p>
+        <p>尚未定义任何属性。</p>
       ) : (
         <div>
           {attributes.map((attribute, index) => (
@@ -170,14 +171,14 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
                     variant="secondary"
                     size="sm"
                   >
-                    Edit
+                    编辑
                   </Button>
                   <Button
                     onClick={() => handleDeleteClick(attribute)}
                     variant="destructive"
                     size="sm"
                   >
-                    Delete
+                    删除
                   </Button>
                 </div>
               </div>
@@ -186,11 +187,11 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
                 <p>{attribute.description}</p>
                 <div>
                   <div>
-                    <span>Range:</span> {attribute.minValue} - {attribute.maxValue}
+                    <span>范围：</span> {attribute.minValue} - {attribute.maxValue}
                   </div>
                   {attribute.category && (
                     <div>
-                      <span>Category:</span> {attribute.category}
+                      <span>类别：</span> {displayLabel(attribute.category)}
                     </div>
                   )}
                 </div>
@@ -204,10 +205,10 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
       <SimpleModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        title="Create Attribute"
+        title="创建属性"
       >
         <div>
-          Create a new custom attribute for this world.
+          为此世界创建一个新的自定义属性。
         </div>
         <AttributeEditor
           worldId={worldId as EntityID}
@@ -224,10 +225,10 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
       <SimpleModal
         isOpen={!!editingAttribute}
         onClose={() => setEditingAttribute(null)}
-        title="Edit Attribute"
+        title="编辑属性"
       >
         <div>
-          Modify the details of this world attribute.
+          修改此世界属性的详细信息。
         </div>
         {editingAttribute && (
           <AttributeEditor
@@ -251,11 +252,11 @@ const WorldAttributesForm: React.FC<WorldAttributesFormProps> = ({
           setAttributeToDelete(null);
         }}
         onConfirm={handleDeleteConfirm}
-        title="Delete Attribute"
+        title="删除属性"
         description={deleteDescription}
-        itemName={attributeToDelete?.name || 'this attribute'}
-        confirmButtonText="Delete Attribute"
-        cancelButtonText="Cancel"
+        itemName={attributeToDelete?.name || "此属性"}
+        confirmButtonText="删除属性"
+        cancelButtonText="取消"
       />
     </section>
   );

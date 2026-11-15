@@ -29,32 +29,32 @@ export interface CategoryMetadata {
  */
 const CATEGORY_METADATA: Record<StandardInventoryCategory, CategoryMetadata> = {
   equipment: {
-    name: 'Equipment',
-    description: 'Items used for tasks or carried regularly (tools, devices, gear)',
+    name: "装备",
+    description: "用于执行任务或日常携带的物品（工具、装置、装备）",
   },
   valuables: {
-    name: 'Valuables',
-    description: 'Currency, treasures, collectibles of monetary or sentimental value',
+    name: "贵重物品",
+    description: "具有金钱或情感价值的货币、宝物与收藏品",
   },
   consumables: {
-    name: 'Consumables',
-    description: 'Single-use items that are depleted when used (food, medicine, fuel)',
+    name: "消耗品",
+    description: "使用后会被消耗的一次性物品（食物、药品、燃料）",
   },
   documents: {
-    name: 'Documents',
-    description: 'Written materials, data, maps, records, correspondence',
+    name: "文件",
+    description: "书面材料、数据、地图、记录与信件",
   },
   personal: {
-    name: 'Personal',
-    description: 'Clothing, accessories, personal effects, mementos',
+    name: "个人物品",
+    description: "衣物、饰品、随身物品、纪念品",
   },
   'quest-items': {
-    name: 'Quest Items',
-    description: 'Story-critical items that drive narrative forward',
+    name: "任务物品",
+    description: "推动故事发展的关键物品",
   },
   miscellaneous: {
-    name: 'Miscellaneous',
-    description: 'Items that don\'t fit other categories',
+    name: "杂项",
+    description: "不属于其他分类的物品",
   },
 };
 

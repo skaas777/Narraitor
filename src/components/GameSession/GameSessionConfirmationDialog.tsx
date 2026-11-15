@@ -18,25 +18,25 @@ const copyConfig: Record<GameSessionConfirmationDialogProps['type'], {
   cancelText: string;
 }> = {
   'start-new': {
-    title: 'Start New Session?',
+    title: "开始新的冒险记录？",
     description:
-      'Starting fresh will end your current story session and begin a brand new one. Your progress is saved but you\'ll lose your current place in the narrative.',
-    confirmText: 'Start New Session',
-    cancelText: 'Keep Current Session',
+      "重新开始将结束当前的冒险记录，并开启一段全新的冒险。你的进度已保存，但你会失去当前在故事中的位置。",
+    confirmText: "开始新的冒险记录",
+    cancelText: "保留当前冒险记录",
   },
   'character-switch': {
-    title: 'Switch Characters?',
+    title: "切换角色？",
     description:
-      'Switching characters ends the current session and starts a new one with the selected character. Your existing progress is saved so you can return later.',
-    confirmText: 'Switch Characters',
-    cancelText: 'Stay with Current Character',
+      "切换角色将结束当前冒险记录，并以所选角色开始新的冒险。你现有的进度已保存，之后可以返回继续。",
+    confirmText: "切换角色",
+    cancelText: "继续使用当前角色",
   },
   'exit': {
-    title: 'Leave the Story?',
+    title: "离开故事？",
     description:
-      'Your progress is saved automatically, so you can resume from this exact spot any time. Are you sure you want to step away now?',
-    confirmText: 'Leave Story',
-    cancelText: 'Keep Playing',
+      "你的进度会自动保存，因此你可以随时从当前位置继续。确定现在要离开吗？",
+    confirmText: "离开故事",
+    cancelText: "继续游玩",
   },
 };
 
@@ -53,14 +53,14 @@ export function GameSessionConfirmationDialog({
 
   const descriptionWithContext =
     type === 'start-new'
-      ? `${config.description}${currentProgress > 0 ? ` (${currentProgress} story segments so far).` : ''}`
-      : `${config.description.replace('the selected character', characterName || 'the selected character')}${
-          currentProgress > 0 ? ` (${currentProgress} story segments so far).` : ''
+      ? `${config.description}${currentProgress > 0 ? `（目前已有 ${currentProgress} 个故事片段）。` : ''}`
+      : `${config.description.replace('所选角色', characterName || '所选角色')}${
+          currentProgress > 0 ? `（目前已有 ${currentProgress} 个故事片段）。` : ''
         }`;
 
   const confirmText =
     type === 'character-switch' && characterName
-      ? `Play as ${characterName}`
+      ? `扮演 ${characterName}`
       : config.confirmText;
 
   return (

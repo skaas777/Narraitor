@@ -107,7 +107,7 @@ export const generateStoryCheckpointSummary = async (
       .join('. ');
 
     return {
-      segment: eventText || 'Recent events logged, but no summary was generated.',
+      segment: eventText || "已记录近期事件，但未生成摘要。",
       highlights: sanitizeArray(payload.events.map((event) => event.description).slice(0, 3)),
       majorEvents: sanitizeArray(payload.events.map((event) => event.description)),
       includedEvents: payload.events.length,

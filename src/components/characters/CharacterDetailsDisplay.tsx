@@ -43,7 +43,7 @@ export function CharacterDetailsDisplay({
     <div className="character-detail-sections">
       {showAttributes && (
         <section className="character-detail-section">
-          <h2>Attributes</h2>
+          <h2>属性</h2>
           <CharacterAttributeDisplay
             attributes={enrichedAttributes}
             showCategories={showCategories}
@@ -55,7 +55,7 @@ export function CharacterDetailsDisplay({
         character.derivedStats &&
         character.derivedStats.length > 0 && (
           <section className="character-detail-section">
-            <h2>Derived Stats</h2>
+            <h2>衍生属性</h2>
             <CharacterDerivedStatsDisplay
               derivedStats={character.derivedStats}
             />
@@ -64,7 +64,7 @@ export function CharacterDetailsDisplay({
 
       {showSkills && (
         <section className="character-detail-section">
-          <h2>Skills</h2>
+          <h2>技能</h2>
           <CharacterSkillDisplay
             skills={enrichedSkills}
             showCategories={showCategories}
@@ -74,7 +74,7 @@ export function CharacterDetailsDisplay({
 
       {showBackground && (
         <section className="character-detail-section">
-          <h2>Background</h2>
+          <h2>背景</h2>
           <CharacterBackgroundDisplay
             background={character.background}
             showPersonality={false}

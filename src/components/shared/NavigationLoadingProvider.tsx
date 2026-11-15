@@ -59,11 +59,11 @@ export const NavigationLoadingProvider: React.FC<NavigationLoadingProviderProps>
 
     switch (navigationLoading.loadingState.loadingType) {
       case 'data':
-        return 'Loading data...';
+        return "正在加载数据……";
       case 'error':
-        return 'Something went wrong loading this page.';
+        return "加载此页面时出错。";
       default:
-        return 'Loading...';
+        return "加载中…";
     }
   };
 

@@ -51,12 +51,12 @@ export const ManuscriptSessionShell: React.FC<ManuscriptSessionShellProps> = ({
           {/* Main Narrative Stage. A section, not a <main>: AppSurfaceShell
               already wraps the play route in the page's one main landmark, and
               nesting a second one breaks landmark navigation. */}
-          <section aria-label="Story" className="manuscript-overlay-main">
+          <section aria-label="故事" className="manuscript-overlay-main">
             <div className={clsx("manuscript-main-stage", !marginContent && "manuscript-no-rail")}>
               {marginContent && (
                 <aside
                   className="manuscript-characters-rail"
-                  aria-label="Scene status"
+                  aria-label="场景状态"
                 >
                   {marginContent}
                 </aside>

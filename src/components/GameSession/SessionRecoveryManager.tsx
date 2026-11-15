@@ -32,8 +32,8 @@ export function SessionRecoveryManager() {
   return (
     <GameSessionRecoveryPrompt
       isOpen
-      worldName={worldName ?? 'your world'}
-      characterName={characterName ?? 'your character'}
+      worldName={worldName ?? '你的世界'}
+      characterName={characterName ?? '你的角色'}
       lastActivity={recovery.lastActivity}
       narrativeCount={recovery.narrativeCount}
       onRestore={restore}

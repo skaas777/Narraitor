@@ -193,7 +193,7 @@ export const createFallbackContextSummary = (
       const contextText =
         firstSentence.length > 100
           ? truncate(firstSentence, 100)
-          : `${firstSentence}.`;
+          : `${firstSentence}。`;
 
       return contextText;
     }
@@ -203,13 +203,13 @@ export const createFallbackContextSummary = (
     return narrativeContext.currentSituation;
   }
 
-  return `You find yourself at ${location}, considering your next move.`;
+  return `你发现自己身处${location}，正在考虑下一步行动。`;
 };
 
 const createDefaultOptions = (): DecisionOption[] => [
-  { id: generateUniqueId('option'), text: 'Continue', alignment: 'neutral' },
-  { id: generateUniqueId('option'), text: 'Look around', alignment: 'neutral' },
-  { id: generateUniqueId('option'), text: 'Wait', alignment: 'neutral' },
+  { id: generateUniqueId('option'), text: "继续", alignment: 'neutral' },
+  { id: generateUniqueId('option'), text: "环顾四周", alignment: 'neutral' },
+  { id: generateUniqueId('option'), text: "等待", alignment: 'neutral' },
 ];
 
 const finalizeOption = (
@@ -223,7 +223,7 @@ const finalizeOption = (
     }[];
   }
 ): DecisionOption => {
-  const normalizedText = normalizeText(option.text || 'Unknown option', NORM_NAME);
+  const normalizedText = normalizeText(option.text || "未知选项", NORM_NAME);
 
   const finalOption: DecisionOption = {
     id: option.id || generateUniqueId('option'),

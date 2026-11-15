@@ -24,12 +24,12 @@ export const BasicInfoForm: React.FC<BasicInfoFormProps> = ({
     <div className="component-basic-info-form">
       <div className="form-group">
         <Label htmlFor="character-name">
-          Character Name <span>*</span>
+          角色名称 <span>*</span>
         </Label>
         <Input
           id="character-name"
           type="text"
-          placeholder="Enter character name..."
+          placeholder="输入角色名称……"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
         />
@@ -37,7 +37,7 @@ export const BasicInfoForm: React.FC<BasicInfoFormProps> = ({
 
       <div className="form-group">
         <Label htmlFor="character-level">
-          Level
+          等级
         </Label>
         <Select
           id="character-level"
@@ -45,22 +45,22 @@ export const BasicInfoForm: React.FC<BasicInfoFormProps> = ({
           onChange={(e) => onLevelChange(parseInt(e.target.value))}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
-            <option key={level} value={level}>Level {level}</option>
+            <option key={level} value={level}>等级 {level}</option>
           ))}
         </Select>
       </div>
 
       <div className="form-group">
         <Label htmlFor="character-type">
-          Character Type
+          角色类型
         </Label>
         <Select
           id="character-type"
           value={isPlayer ? 'player' : 'npc'}
           onChange={(e) => onPlayerTypeChange(e.target.value === 'player')}
         >
-          <option value="player">Player Character</option>
-          <option value="npc">Non-Player Character (NPC)</option>
+          <option value="player">玩家角色</option>
+          <option value="npc">非玩家角色（NPC）</option>
         </Select>
       </div>
     </div>

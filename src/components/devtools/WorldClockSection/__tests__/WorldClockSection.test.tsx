@@ -62,7 +62,7 @@ describe('WorldClockSection', () => {
     render(<WorldClockSection />);
 
     expect(screen.getByTestId('devtools-world-clock-section')).toBeInTheDocument();
-    expect(screen.getByTestId('world-clock-empty')).toHaveTextContent('No ledger for this session yet.');
+    expect(screen.getByTestId('world-clock-empty')).toHaveTextContent("本次冒险记录还没有世界时钟账本。");
   });
 
   it('renders the summary line and marks overdue threads', () => {
@@ -80,10 +80,10 @@ describe('WorldClockSection', () => {
     render(<WorldClockSection />);
 
     expect(screen.getByTestId('world-clock-summary')).toHaveTextContent(
-      'Turn 6: 2 open, 1 overdue, world last moved 2 turns ago'
+      "回合 6: 2 未完结， 1 已逾期，世界上次推进于 2 回合前"
     );
     expect(screen.getAllByTestId('world-clock-open-thread')).toHaveLength(2);
     expect(screen.getByText('The tide turns at dawn').closest('li')).toHaveAttribute('data-overdue', 'true');
-    expect(screen.getByTestId('world-clock-closed-thread')).toHaveTextContent('resolved t2: She arrived');
+    expect(screen.getByTestId('world-clock-closed-thread')).toHaveTextContent("已解决 第 2 回合：She arrived");
   });
 });

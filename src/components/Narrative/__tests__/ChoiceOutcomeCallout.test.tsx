@@ -60,7 +60,7 @@ describe('ChoiceOutcomeCallout', () => {
       />
     );
 
-    expect(screen.getByText('Success')).toBeInTheDocument();
+    expect(screen.getByText("成功")).toBeInTheDocument();
   });
 
   it('should switch to attempt phrasing for failed outcomes', () => {
@@ -72,7 +72,7 @@ describe('ChoiceOutcomeCallout', () => {
     );
 
     expect(
-      screen.getByText(/You attempt to help the merchant/)
+      screen.getByText(/你尝试help the merchant/)
     ).toBeInTheDocument();
   });
 });
@@ -128,8 +128,8 @@ describe('ChoiceOutcomeCallout consequence chips', () => {
       <ChoiceOutcomeCallout decisionId="decision-1" decisionText="You choose to pocket the ledger" />
     );
 
-    expect(screen.getByText('Marta −15 trust')).toBeInTheDocument();
-    expect(screen.getByText('Chaos +8')).toBeInTheDocument();
+    expect(screen.getByText("Marta 信任 −15")).toBeInTheDocument();
+    expect(screen.getByText('混乱 +8')).toBeInTheDocument();
     expect(container.querySelectorAll('.choice-outcome-chip')).toHaveLength(2);
   });
 
@@ -160,7 +160,7 @@ describe('ChoiceOutcomeCallout consequence chips', () => {
     );
 
     expect(container.querySelectorAll('.choice-outcome-chip')).toHaveLength(1);
-    expect(screen.getByText('Order +4')).toBeInTheDocument();
+    expect(screen.getByText("秩序 +4")).toBeInTheDocument();
   });
 
   it('leaves a typed action alone on a failed outcome', () => {
@@ -253,8 +253,8 @@ describe('ChoiceOutcomeCallout consequence chips', () => {
       <ChoiceOutcomeCallout decisionId="decision-3" decisionText="You choose to swear the oath" />
     );
 
-    expect(screen.getByText('Order +4')).toBeInTheDocument();
-    expect(screen.getByText('Order +12')).toBeInTheDocument();
+    expect(screen.getByText("秩序 +4")).toBeInTheDocument();
+    expect(screen.getByText("秩序 +12")).toBeInTheDocument();
   });
 });
 
@@ -298,7 +298,7 @@ describe('ChoiceOutcomeCallout skill name in outcome label', () => {
       />
     );
 
-    expect(screen.getByText('Success · Stealth')).toBeInTheDocument();
+    expect(screen.getByText("成功 · Stealth")).toBeInTheDocument();
   });
 
   it('falls back to the bare outcome label when the skill cannot be resolved', () => {
@@ -329,8 +329,8 @@ describe('ChoiceOutcomeCallout skill name in outcome label', () => {
       />
     );
 
-    expect(screen.getByText('Success')).toBeInTheDocument();
-    expect(screen.queryByText(/·/)).not.toBeInTheDocument();
+    expect(screen.getByText("成功")).toBeInTheDocument();
+    expect(screen.queryByText(/· 提及：/)).not.toBeInTheDocument();
   });
 
   it('lists all contributing skills for multi-skill actions', () => {
@@ -374,7 +374,7 @@ describe('ChoiceOutcomeCallout skill name in outcome label', () => {
       />
     );
 
-    expect(screen.getByText('Mixed · Stealth, Hacking')).toBeInTheDocument();
+    expect(screen.getByText("混合 · Stealth, Hacking")).toBeInTheDocument();
   });
 });
 

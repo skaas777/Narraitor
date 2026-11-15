@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { NotFoundState } from '@/components/shared/NotFoundState';
 
 export const metadata: Metadata = {
-  title: 'Page Not Found',
+  title: "页面未找到",
   description:
-    'This path does not lead anywhere. Head back to your worlds and pick up the story.',
+    "这条路不通。返回你的世界，继续故事。",
 };
 
 /**
@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <NotFoundState
-      title="Page Not Found"
-      message="This path doesn't lead anywhere — the page may have moved, or the link is stale. Head back to your worlds and pick up the story."
+      title="页面未找到"
+      message="这条路不通——页面可能已移动，或者链接已失效。返回你的世界，继续故事。"
       backUrl="/worlds"
-      backLabel="Back to Worlds"
+      backLabel="返回世界列表"
     />
   );
 }

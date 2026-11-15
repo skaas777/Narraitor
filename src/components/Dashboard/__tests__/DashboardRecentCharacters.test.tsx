@@ -122,7 +122,7 @@ describe('DashboardRecentCharacters', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /create.*character/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*角色/i })).toBeInTheDocument();
   });
 
   it('displays world name for each character', () => {
@@ -151,7 +151,7 @@ describe('DashboardRecentCharacters', () => {
       />
     );
 
-    const createButton = screen.getByRole('button', { name: /create.*character/i });
+    const createButton = screen.getByRole('button', { name: /创建.*角色/i });
     await user.click(createButton);
 
     expect(mockOnNavigate).toHaveBeenCalledWith('/characters');
@@ -183,6 +183,6 @@ describe('DashboardRecentCharacters', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { name: /recent characters/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /最近角色/i })).toBeInTheDocument();
   });
 });

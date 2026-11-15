@@ -41,7 +41,7 @@ async function postEndingImage(body: Record<string, unknown>) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(
       (errorData as { error?: string }).error ||
-        `Failed to load ending image (${response.status})`
+        `加载结局图片失败（${response.status}）`
     );
   }
 

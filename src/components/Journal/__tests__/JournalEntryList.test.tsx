@@ -43,7 +43,7 @@ describe('JournalEntryList', () => {
     expect(screen.getByText('First Entry')).toBeInTheDocument();
     expect(screen.getByText('Second Entry')).toBeInTheDocument();
 
-    const firstCard = screen.getByRole('button', { name: /select entry: first entry/i });
+    const firstCard = screen.getByRole('button', { name: /选择条目：first entry/i });
     fireEvent.click(firstCard);
 
     expect(onEntrySelect).toHaveBeenCalledWith(entries[0]);
@@ -61,7 +61,7 @@ describe('JournalEntryList', () => {
       />
     );
 
-    const card = screen.getByRole('button', { name: /select entry: keyboard entry/i });
+    const card = screen.getByRole('button', { name: /选择条目：keyboard entry/i });
     fireEvent.keyDown(card, { key: 'Enter' });
 
     expect(onEntrySelect).toHaveBeenCalledWith(entry);
@@ -78,7 +78,7 @@ describe('JournalEntryList', () => {
       />
     );
 
-    const badge = screen.getByText('Minor');
+    const badge = screen.getByText("次要");
     expect(badge.closest('.journal-entry-meta')).toBeInTheDocument();
   });
 

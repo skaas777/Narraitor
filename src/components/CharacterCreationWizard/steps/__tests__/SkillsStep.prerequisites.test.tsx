@@ -96,11 +96,11 @@ describe('SkillsStep - attribute prerequisites', () => {
     renderStep(3);
 
     expect(screen.getByTestId('skill-toggle-skill-1')).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Heavy Lifting, locked' })).toHaveAccessibleName(
-      'Heavy Lifting, locked'
+    expect(screen.getByRole('button', { name: "Heavy Lifting，已锁定" })).toHaveAccessibleName(
+      "Heavy Lifting，已锁定"
     );
     expect(screen.getByTestId('skill-requirement-skill-1')).toHaveTextContent(
-      'Requires Strength 5 (you have 3)'
+      "需要 Strength 5（你当前为 3）"
     );
   });
 

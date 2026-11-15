@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { clsx } from 'clsx';
 import { GeneratedImage } from '@/types/common.types';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface CharacterPortraitProps {
   portrait: GeneratedImage;
@@ -59,7 +60,7 @@ export function CharacterPortrait({
       <div className={containerClasses} data-testid="character-portrait">
         <div>
           <div role="status">
-            <span>Generating portrait...</span>
+            <span>正在生成肖像……</span>
           </div>
         </div>
       </div>
@@ -70,7 +71,7 @@ export function CharacterPortrait({
     return (
       <div className={containerClasses} data-testid="character-portrait">
         <div className="component-character-portrait-error">
-          <span>{error}</span>
+          <span>{localizeErrorMessage(error)}</span>
         </div>
       </div>
     );
@@ -85,7 +86,7 @@ export function CharacterPortrait({
       >
         <Image
           src={portrait.url}
-          alt={`${characterName} portrait`}
+          alt={`${characterName}的肖像`}
           fill
           
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

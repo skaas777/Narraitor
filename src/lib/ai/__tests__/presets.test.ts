@@ -22,7 +22,7 @@ describe('PROVIDER_PRESETS', () => {
   it('recommends DeepSeek flash through OpenRouter', () => {
     const openrouter = PROVIDER_PRESETS.find((preset) => preset.id === 'openrouter');
     expect(PROVIDER_PRESETS[0]).toBe(openrouter);
-    expect(openrouter?.note).toBe('recommended: DeepSeek flash');
+    expect(openrouter?.note).toBe("推荐：DeepSeek flash");
   });
 
   it('asks OpenAI for max_completion_tokens, which is the only name it accepts', () => {

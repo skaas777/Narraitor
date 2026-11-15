@@ -50,15 +50,15 @@ const slugify = (value: string): string => {
 };
 
 const buildFallbackNpcSeeds = (world: World): GeneratedNPCResult[] => {
-  const baseName = safeTrim(world.name) || 'this world';
+  const baseName = safeTrim(world.name) || "这个世界";
 
   return Array.from({ length: 3 }).map((_, index) => {
     const ordinal = index + 1;
-    const name = `Resident ${ordinal} of ${baseName}`;
+    const name = `第${ordinal}位居民，来自${baseName}`;
     return {
       id: slugify(name),
       name,
-      description: `A supporting character from ${baseName}.`,
+      description: `来自${baseName}的配角。`,
     };
   });
 };
@@ -299,8 +299,8 @@ export const worldCreationService = {
       }
       used.add(finalId);
 
-      const name = safeTrim(npc.name) || `Companion ${index + 1}`;
-      const description = safeTrim(npc.description) || 'Supporting character for this world.';
+      const name = safeTrim(npc.name) || `同伴 ${index + 1}`;
+      const description = safeTrim(npc.description) || "这个世界的配角。";
 
       try {
         const payload: Parameters<typeof npcStore.createNPC>[0] = {

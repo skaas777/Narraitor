@@ -19,7 +19,7 @@ const logger = new Logger('Play');
 // the page's existing loading state so first paint stays light.
 const GameSession = dynamic(() => import('@/components/GameSession/GameSession'), {
   ssr: false,
-  loading: () => <LoadingPulse message="Preparing your adventure..." />,
+  loading: () => <LoadingPulse message="正在准备你的冒险……" />,
 });
 
 type PersistApi = {
@@ -102,7 +102,7 @@ export default function PlayPage() {
         setIsLoading(false);
       } catch (err) {
         logger.error('Failed to initialize game session:', err);
-        setError(err instanceof Error ? err.message : 'Failed to start game session');
+        setError(err instanceof Error ? err.message : "启动游戏会话失败");
         setIsLoading(false);
       }
     };
@@ -113,7 +113,7 @@ export default function PlayPage() {
   if (!hydrated || isLoading) {
     return (
       <main className="play-page play-page-loading">
-        <LoadingPulse message="Preparing your adventure..." />
+        <LoadingPulse message="正在准备你的冒险……" />
       </main>
     );
   }
@@ -121,10 +121,10 @@ export default function PlayPage() {
   if (error) {
     return (
       <div className="play-page play-page-shell play-page-shell-error">
-        <PageLayout title="Game Session Error">
+        <PageLayout title="游戏会话错误">
           <ErrorDisplay
             variant="section"
-            title="Failed to Start Game"
+            title="启动游戏失败"
             message={error}
             severity="error"
           />
@@ -133,13 +133,13 @@ export default function PlayPage() {
               variant="outline"
               onClick={() => router.push('/worlds')}
             >
-              Select World
+              选择世界
             </Button>
             <Button
               variant="outline"
               onClick={() => router.push('/characters')}
             >
-              Select Character
+              选择角色
             </Button>
           </div>
         </PageLayout>
@@ -150,11 +150,11 @@ export default function PlayPage() {
   if (!currentSessionId) {
     return (
       <div className="play-page play-page-shell play-page-shell-warning">
-        <PageLayout title="No Active Session">
+        <PageLayout title="没有进行中的冒险记录">
           <ErrorDisplay
             variant="section"
-            title="No Active Session"
-            message="Unable to create or resume a game session."
+            title="没有进行中的冒险记录"
+            message="无法创建或继续冒险记录。"
             severity="warning"
           />
         </PageLayout>
@@ -162,7 +162,7 @@ export default function PlayPage() {
     );
   }
 
-  const pageTitle = currentWorld ? `Playing in ${currentWorld.name}` : 'Game Session';
+  const pageTitle = currentWorld ? `正在 ${currentWorld.name} 中进行冒险` : "冒险记录";
   const pageDescription = currentWorld?.genre ? getGenreLabel(currentWorld.genre) : undefined;
 
   return (

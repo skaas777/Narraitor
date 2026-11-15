@@ -53,7 +53,7 @@ export function CharacterDerivedStatsDisplay({
             </div>
 
             {isDepleted && (
-              <p className="character-detail-derived-stat-warning">Depleted</p>
+              <p className="character-detail-derived-stat-warning">已耗尽</p>
             )}
           </div>
         );

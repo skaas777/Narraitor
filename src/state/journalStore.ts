@@ -98,7 +98,7 @@ export const useJournalStore = create<JournalStore>()(
 
   updateEntry: (entryId, updates) => set((state) => {
     if (!state.entries[entryId]) {
-      return { error: createStoreError('Entry Not Found', 'The specified journal entry could not be found') };
+      return { error: createStoreError("未找到条目", "找不到指定的日志条目") };
     }
 
     const updatedEntry: JournalEntry = {
@@ -140,7 +140,7 @@ export const useJournalStore = create<JournalStore>()(
 
   markAsRead: (entryId) => set((state) => {
     if (!state.entries[entryId]) {
-      return { error: createStoreError('Entry Not Found', 'The specified journal entry could not be found') };
+      return { error: createStoreError("未找到条目", "找不到指定的日志条目") };
     }
 
     const updatedEntry: JournalEntry = {

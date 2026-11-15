@@ -23,14 +23,14 @@ export function CharacterBackgroundDisplay({
     <div className="character-detail-background">
       {/* History Section */}
       <div className="character-detail-background-section">
-        <h3 className="character-detail-background-heading">History</h3>
+        <h3 className="character-detail-background-heading">历史</h3>
         <p className="character-detail-background-text">{background.history}</p>
       </div>
 
       {/* Personality Section (shown when not already in summary header) */}
       {showPersonality && background.personality && (
         <div className="character-detail-background-section">
-          <h3 className="character-detail-background-heading">Personality</h3>
+          <h3 className="character-detail-background-heading">性格</h3>
           <p className="character-detail-background-text">
             {background.personality}
           </p>
@@ -41,7 +41,7 @@ export function CharacterBackgroundDisplay({
       {background.goals && background.goals.length > 0 && (
         <div className="character-detail-background-section">
           <h3 className="character-detail-background-heading">
-            Goals & Motivations
+            目标与动机
           </h3>
           {background.goals.length === 1 ? (
             <p className="character-detail-background-text">
@@ -62,7 +62,7 @@ export function CharacterBackgroundDisplay({
       {/* Fears Section */}
       {background.fears && background.fears.length > 0 && (
         <div className="character-detail-background-section">
-          <h3 className="character-detail-background-heading">Fears</h3>
+          <h3 className="character-detail-background-heading">恐惧</h3>
           <ul className="character-detail-background-list">
             {background.fears.map((fear, index) => (
               <li key={index} className="character-detail-background-list-item">
@@ -77,7 +77,7 @@ export function CharacterBackgroundDisplay({
       {background.physicalDescription && (
         <div className="character-detail-background-section">
           <h3 className="character-detail-background-heading">
-            Physical Appearance
+            外貌
           </h3>
           <p className="character-detail-background-text">
             {background.physicalDescription}

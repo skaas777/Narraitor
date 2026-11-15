@@ -130,11 +130,11 @@ describe('NarrativeGenerator - Player Choices', () => {
       
       // Should return fallback choices
       expect(result).toBeDefined();
-      expect(result.prompt).toBe("What will you do next?");
+      expect(result.prompt).toBe("接下来你会怎么做？");
       expect(result.options).toHaveLength(3);
-      expect(result.options[0].text).toBe("Investigate further");
-      expect(result.options[1].text).toBe("Talk to nearby characters");
-      expect(result.options[2].text).toBe("Move to a new location");
+      expect(result.options[0].text).toBe("进一步调查");
+      expect(result.options[1].text).toBe("与附近的角色交谈");
+      expect(result.options[2].text).toBe("前往新地点");
       // The emergency fallback options are generic on purpose, so they carry no
       // skill check: a named check nothing in the option asked for is worse
       // than no roll at all.

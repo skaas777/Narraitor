@@ -28,13 +28,13 @@ export function JournalViewToggle({ mode, onModeChange }: JournalViewToggleProps
     <div
       className="journal-view-toggle view-mode-toggle"
       role="group"
-      aria-label="View mode toggle"
+      aria-label="切换视图模式"
     >
       <Button
         variant={mode === 'list' ? 'default' : 'outline'}
         size="icon"
         onClick={() => onModeChange('list')}
-        aria-label="List view"
+        aria-label="列表视图"
         aria-pressed={mode === 'list'}
         className={mode === 'list' ? 'active' : ''}
       >
@@ -44,7 +44,7 @@ export function JournalViewToggle({ mode, onModeChange }: JournalViewToggleProps
         variant={mode === 'table' ? 'default' : 'outline'}
         size="icon"
         onClick={() => onModeChange('table')}
-        aria-label="Table view"
+        aria-label="表格视图"
         aria-pressed={mode === 'table'}
         className={mode === 'table' ? 'active' : ''}
       >

@@ -51,9 +51,9 @@ export const useItemDropConfirmation = (characterId: EntityID): UseItemDropConfi
     if (!itemToDrop) return;
 
     if (quantity < 1) {
-      setQuantityError('Quantity must be at least 1');
+      setQuantityError("数量至少为 1");
     } else if (quantity > itemToDrop.quantity) {
-      setQuantityError(`Cannot drop more than ${itemToDrop.quantity} items`);
+      setQuantityError(`不能丢弃超过 ${itemToDrop.quantity} 个物品`);
     } else {
       setQuantityError(null);
     }

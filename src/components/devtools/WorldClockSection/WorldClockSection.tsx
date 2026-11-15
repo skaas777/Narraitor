@@ -9,13 +9,14 @@ import { countWorldClockTurns, isOverdue, turnsSinceWorldMoved } from '@/lib/nar
 import type { WorldThread } from '@/types/worldThread.types';
 import type { NarrativeSegment } from '@/types/narrative.types';
 import './WorldClockSection.css';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 const RECENT_CLOSED_LIMIT = 5;
 const EMPTY_IDS: string[] = [];
 
 const formatTurnSpan = (thread: WorldThread): string => {
-  const parts = [`opened t${thread.openedAtTurn}`, `moved t${thread.lastAdvancedAtTurn}`];
-  if (thread.dueByTurn !== undefined) parts.push(`due t${thread.dueByTurn}`);
+  const parts = [`开启于 t${thread.openedAtTurn}`, `推进于 t${thread.lastAdvancedAtTurn}`];
+  if (thread.dueByTurn !== undefined) parts.push(`截止 t${thread.dueByTurn}`);
   return parts.join(', ');
 };
 
@@ -27,21 +28,21 @@ const OpenThreadRow = ({ thread, currentTurn }: { thread: WorldThread; currentTu
       data-testid="world-clock-open-thread"
       data-overdue={overdue}
     >
-      <span className="world-clock-section-kind">[{thread.kind}]</span>{' '}
+      <span className="world-clock-section-kind">[{displayLabel(thread.kind)}]</span>{' '}
       <span className="world-clock-section-summary">{thread.summary}</span>{' '}
       <span className="world-clock-section-turns">({formatTurnSpan(thread)})</span>
-      {overdue && <span className="world-clock-section-overdue-mark"> overdue</span>}
+      {overdue && <span className="world-clock-section-overdue-mark"> 已逾期</span>}
     </li>
   );
 };
 
 const ClosedThreadRow = ({ thread }: { thread: WorldThread }) => (
   <li className="world-clock-section-thread is-closed" data-testid="world-clock-closed-thread">
-    <span className="world-clock-section-kind">[{thread.kind}]</span>{' '}
+    <span className="world-clock-section-kind">[{displayLabel(thread.kind)}]</span>{' '}
     <span className="world-clock-section-summary">{thread.summary}</span>{' '}
     <span className="world-clock-section-turns">
-      ({thread.status} t{thread.lastAdvancedAtTurn}
-      {thread.resolution ? `: ${thread.resolution}` : ''})
+      ({displayLabel(thread.status)} 第 {thread.lastAdvancedAtTurn} 回合
+      {thread.resolution ? `：${thread.resolution}` : ''})
     </span>
   </li>
 );
@@ -81,7 +82,7 @@ export const WorldClockSection = () => {
     return (
       <div className="world-clock-section" data-testid="devtools-world-clock-section">
         <p className="world-clock-section-empty" data-testid="world-clock-empty">
-          No ledger for this session yet.
+          本次冒险记录还没有世界时钟账本。
         </p>
       </div>
     );
@@ -101,11 +102,10 @@ export const WorldClockSection = () => {
   return (
     <div className="world-clock-section" data-testid="devtools-world-clock-section">
       <p className="world-clock-section-summary-line" data-testid="world-clock-summary">
-        Turn {currentTurn}: {openThreads.length} open, {overdueCount} overdue, world last
-        moved {sinceMoved} turns ago
+        回合 {currentTurn}: {openThreads.length} 未完结， {overdueCount} 已逾期，世界上次推进于 {sinceMoved} 回合前
       </p>
 
-      <h5 className="world-clock-section-subheading">Open threads</h5>
+      <h5 className="world-clock-section-subheading">未完结线索</h5>
       {openThreads.length > 0 ? (
         <ul className="world-clock-section-list" data-testid="world-clock-open-list">
           {openThreads.map((thread) => (
@@ -113,12 +113,12 @@ export const WorldClockSection = () => {
           ))}
         </ul>
       ) : (
-        <p className="world-clock-section-empty">Nothing open.</p>
+        <p className="world-clock-section-empty">没有未完结的线索。</p>
       )}
 
       {recentClosed.length > 0 && (
         <>
-          <h5 className="world-clock-section-subheading">Recently closed</h5>
+          <h5 className="world-clock-section-subheading">最近关闭</h5>
           <ul className="world-clock-section-list" data-testid="world-clock-closed-list">
             {recentClosed.map((thread) => (
               <ClosedThreadRow key={thread.id} thread={thread} />

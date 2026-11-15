@@ -17,8 +17,8 @@ export interface ToggleButtonProps {
 
 export const ToggleButton: React.FC<ToggleButtonProps> = ({
   isActive,
-  activeLabel = 'Selected',
-  inactiveLabel = 'Excluded',
+  activeLabel = "已选择",
+  inactiveLabel = "已排除",
   onClick,
   testId,
   className = '',

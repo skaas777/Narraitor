@@ -58,8 +58,8 @@ describe('useCharacterStore - Attribute and Skill Management', () => {
       const state = useCharacterStore.getState();
       expect(state.characters[characterId].skills).toHaveLength(maxSkills);
       expect(state.error).toMatchObject({
-        title: 'Maximum Skills Reached',
-        message: 'This character has reached its maximum number of skills',
+        title: "技能数量已达上限",
+        message: "该角色的技能数量已达上限",
         type: ErrorType.VALIDATION
       });
     });

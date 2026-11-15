@@ -54,7 +54,7 @@ export const ToneSettingsForm: React.FC<ToneSettingsFormProps> = ({
     <div>
       {showHeader && (
         <div>
-          <h3>Tone Settings</h3>
+          <h3>叙事风格设置</h3>
         </div>
       )}
       <div className="component-tone-settings-form">
@@ -62,7 +62,7 @@ export const ToneSettingsForm: React.FC<ToneSettingsFormProps> = ({
         <div className="component-tone-settings-form-grid">
           {/* Content Rating */}
           <div className="form-group">
-            <Label htmlFor="content-rating">Content Rating</Label>
+            <Label htmlFor="content-rating">内容分级</Label>
             <Select
               id="content-rating"
               value={toneSettings.contentRating}
@@ -79,7 +79,7 @@ export const ToneSettingsForm: React.FC<ToneSettingsFormProps> = ({
 
           {/* Narrative Style */}
           <div className="form-group">
-            <Label htmlFor="narrative-style">Narrative Style</Label>
+            <Label htmlFor="narrative-style">叙事风格</Label>
             <Select
               id="narrative-style"
               value={toneSettings.narrativeStyle}
@@ -96,7 +96,7 @@ export const ToneSettingsForm: React.FC<ToneSettingsFormProps> = ({
 
           {/* Language Complexity */}
           <div className="form-group">
-            <Label htmlFor="language-complexity">Language Complexity</Label>
+            <Label htmlFor="language-complexity">语言复杂度</Label>
             <Select
               id="language-complexity"
               value={toneSettings.languageComplexity}
@@ -113,11 +113,11 @@ export const ToneSettingsForm: React.FC<ToneSettingsFormProps> = ({
 
           {/* Custom Instructions */}
           <div className="form-group">
-            <Label htmlFor="custom-instructions">Custom Instructions (Optional)</Label>
-            <p id="custom-instructions-description" className="form-help-text">Add specific guidance for tone, style, or narrative elements</p>
+            <Label htmlFor="custom-instructions">自定义指令（可选）</Label>
+            <p id="custom-instructions-description" className="form-help-text">添加关于叙事风格、文风或叙事元素的具体说明</p>
             <Textarea
               id="custom-instructions"
-              placeholder="Enter specific tone or style instructions..."
+              placeholder="输入具体的叙事风格或文风说明……"
               value={toneSettings.customInstructions || ''}
               onChange={(e) => handleCustomInstructionsChange(e.target.value)}
               

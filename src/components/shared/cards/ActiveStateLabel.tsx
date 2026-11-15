@@ -24,6 +24,6 @@ export const ActiveStateLabel: React.FC<ActiveStateLabelProps> = ({
   isActive ? (
     <span className="active-state-label" data-testid={testId}>
       <CheckCircle aria-hidden="true" />
-      Active
+      活跃
     </span>
   ) : null;

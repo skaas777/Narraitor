@@ -32,7 +32,7 @@ export const WorldImage: React.FC<WorldImageProps> = ({
       <div className={clsx('component-world-image', aspectRatio, className)}>
         <div>
           <AlertCircle aria-hidden="true" />
-          <p>Error loading image</p>
+          <p>图片加载失败</p>
         </div>
       </div>
     );
@@ -45,7 +45,7 @@ export const WorldImage: React.FC<WorldImageProps> = ({
           <ImageOff aria-hidden="true" />
           {/* The provider is the likeliest reason there is nothing here, and
               saying so is the difference between a limit and a broken app. */}
-          <p>{imageSupport.reason ?? 'No image'}</p>
+          <p>{imageSupport.reason ?? "无图片"}</p>
         </div>
       </div>
     );
@@ -55,7 +55,7 @@ export const WorldImage: React.FC<WorldImageProps> = ({
     <div className={clsx('component-world-image', aspectRatio, className)}>
       <Image
         src={image.url}
-        alt={`${worldName} world image`}
+        alt={`${worldName} 世界图片`}
         width={400}
         height={300}
         onError={() => setLoadFailed(true)}

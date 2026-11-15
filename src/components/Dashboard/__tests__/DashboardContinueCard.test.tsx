@@ -81,7 +81,7 @@ describe('DashboardContinueCard', () => {
       />
     );
 
-    const continueButton = screen.getByRole('button', { name: /continue/i });
+    const continueButton = screen.getByRole('button', { name: /继续/i });
     await user.click(continueButton);
 
     expect(mockOnContinue).toHaveBeenCalledWith(mockSession.id);
@@ -98,7 +98,7 @@ describe('DashboardContinueCard', () => {
       />
     );
 
-    const continueButton = screen.getByRole('button', { name: /continue last session/i });
+    const continueButton = screen.getByRole('button', { name: /继续上次冒险/i });
     // ActionButtonGroup maps 'default' → button-default: the card owns the one
     // filled CTA in the active-session dashboard.
     expect(continueButton).toHaveClass('button-default');
@@ -116,13 +116,13 @@ describe('DashboardContinueCard', () => {
       />
     );
 
-    const heading = screen.getByRole('heading', { level: 2, name: 'Continue Your Session' });
+    const heading = screen.getByRole('heading', { level: 2, name: "继续你的冒险记录" });
     expect(heading).toHaveAttribute('id', 'continue-session-heading');
 
     const section = container.querySelector('section');
     expect(section).toHaveAttribute('aria-labelledby', 'continue-session-heading');
 
-    expect(screen.getByRole('button', { name: 'Continue Last Session' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "继续上次冒险" })).toBeInTheDocument();
     expect(screen.queryByText(/game/i)).not.toBeInTheDocument();
   });
 
@@ -139,11 +139,11 @@ describe('DashboardContinueCard', () => {
       />
     );
 
-    const deleteButton = screen.getByRole('button', { name: /delete/i });
+    const deleteButton = screen.getByRole('button', { name: /删除/i });
     await user.click(deleteButton);
 
     // Confirmation dialog should appear
-    expect(screen.getByText(/cannot be undone/i)).toBeInTheDocument();
+    expect(screen.getByText(/无法撤销/i)).toBeInTheDocument();
   });
 
   it('displays character portrait', () => {
@@ -172,6 +172,6 @@ describe('DashboardContinueCard', () => {
       />
     );
 
-    expect(screen.getByText(/last played/i)).toBeInTheDocument();
+    expect(screen.getByText(/上次游玩/i)).toBeInTheDocument();
   });
 });

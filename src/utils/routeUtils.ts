@@ -47,7 +47,7 @@ export function buildBreadcrumbSegments(
   
   // Start with Worlds for other pages
   segments.push({
-    label: 'Worlds',
+    label: "世界",
     href: '/worlds',
     isCurrentPage: false
   });
@@ -61,7 +61,7 @@ export function buildBreadcrumbSegments(
       // Skip adding breadcrumb for create page
       if (worldId === 'create') {
         segments.push({
-          label: 'Create World',
+          label: "创建世界",
           href: '/worlds/create',
           isCurrentPage: pathname === '/worlds/create'
         });
@@ -69,7 +69,7 @@ export function buildBreadcrumbSegments(
         // Individual world
         const world = worlds[worldId];
         segments.push({
-          label: world?.name || 'Loading...',
+          label: world?.name || "加载中…",
           href: `/worlds/${worldId}`,
           isCurrentPage: pathname === `/worlds/${worldId}`
         });
@@ -77,13 +77,13 @@ export function buildBreadcrumbSegments(
         // Handle sub-routes (edit, play)
         if (pathname.includes('/edit')) {
           segments.push({
-            label: 'Edit',
+            label: "编辑",
             href: `/worlds/${worldId}/edit`,
             isCurrentPage: pathname === `/worlds/${worldId}/edit`
           });
         } else if (pathname.includes('/play')) {
           segments.push({
-            label: 'Play',
+            label: "开始游戏",
             href: `/worlds/${worldId}/play`,
             isCurrentPage: pathname === `/worlds/${worldId}/play`
           });
@@ -118,7 +118,7 @@ export function buildBreadcrumbSegments(
     // Add characters list breadcrumb
     const isCharactersList = pathname === '/characters';
     segments.push({
-      label: 'Characters',
+      label: "角色",
       href: '/characters',
       isCurrentPage: isCharactersList || pathname === '/characters/create'
     });
@@ -128,7 +128,7 @@ export function buildBreadcrumbSegments(
       const charId = charIdMatch[1];
       const character = characters[charId];
       segments.push({
-        label: character?.name || 'Loading...',
+        label: character?.name || "加载中…",
         href: `/characters/${charId}`,
         isCurrentPage: pathname === `/characters/${charId}`
       });
@@ -138,14 +138,14 @@ export function buildBreadcrumbSegments(
   // Handle settings routes (Worlds stays the home crumb, as for every page)
   if (pathname.startsWith('/settings')) {
     segments.push({
-      label: 'Settings',
+      label: "设置",
       href: '/settings',
       isCurrentPage: pathname === '/settings'
     });
 
     if (pathname.startsWith('/settings/providers')) {
       segments.push({
-        label: 'Providers',
+        label: "模型服务",
         href: '/settings/providers',
         isCurrentPage: pathname === '/settings/providers'
       });

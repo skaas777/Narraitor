@@ -174,8 +174,8 @@ export async function applyWorldStateThreadUpdates({
     if (finalMetadata.majorEvent || isFirstSegment) {
       const eventDescription = finalMetadata.majorEvent ||
         (finalMetadata.location
-          ? `Story begins at ${finalMetadata.location}`
-          : 'Your adventure begins');
+          ? `故事从${finalMetadata.location}开始`
+          : "你的冒险开始了");
 
       if (isFirstSegment) {
         updatePayload.majorEvents = [{

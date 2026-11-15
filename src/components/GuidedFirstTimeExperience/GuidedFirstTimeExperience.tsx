@@ -26,12 +26,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import Logger from '@/lib/utils/logger';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 const logger = new Logger('GuidedFirstTimeExperience');
 
 const GUIDED_STEPS = [
-  { id: 'welcome', label: 'Welcome' },
-  { id: 'concept', label: 'World Concept' },
-  { id: 'details', label: 'World Details' },
+  { id: 'welcome', label: "欢迎" },
+  { id: 'concept', label: "世界概念" },
+  { id: 'details', label: "世界详情" },
 ];
 
 interface OnboardingData {
@@ -76,7 +77,7 @@ export function GuidedFirstTimeExperience() {
         const validateGenre = isGenreOptional
           ? alwaysValid
           : validateFields<OnboardingData>({
-              genre: [createValidationRules.required('Genre is required')],
+              genre: [createValidationRules.required("题材为必填项")],
             });
         return validateGenre(data);
       default:
@@ -168,7 +169,7 @@ export function GuidedFirstTimeExperience() {
         data-testid="guided-experience-container"
       >
         <div className="component-guided-first-time-welcome-lede">
-          <p>Create a world and start a story</p>
+          <p>创建一个世界并开始故事</p>
         </div>
 
         {/* How it Works */}
@@ -176,7 +177,7 @@ export function GuidedFirstTimeExperience() {
           <div
             className="component-guided-first-time-steps-list"
             role="list"
-            aria-label="Steps to get started"
+            aria-label="入门步骤"
           >
             <div
               className="component-guided-first-time-step-item"
@@ -189,10 +190,10 @@ export function GuidedFirstTimeExperience() {
                 1
               </div>
               <h4 className="component-guided-first-time-step-heading">
-                Build a world
+                构建世界
               </h4>
               <p className="component-guided-first-time-step-copy">
-                Describe a setting and its rules, or generate one to start from.
+                描述一个设定及其规则，或生成一个作为起点。
               </p>
             </div>
             <div
@@ -206,10 +207,10 @@ export function GuidedFirstTimeExperience() {
                 2
               </div>
               <h4 className="component-guided-first-time-step-heading">
-                Create a character
+                创建角色
               </h4>
               <p className="component-guided-first-time-step-copy">
-                Shape who you play, with real skills the story leans on.
+                塑造你扮演的角色，并赋予故事真正会用到的技能。
               </p>
             </div>
             <div
@@ -223,10 +224,10 @@ export function GuidedFirstTimeExperience() {
                 3
               </div>
               <h4 className="component-guided-first-time-step-heading">
-                Play the story
+                体验故事
               </h4>
               <p className="component-guided-first-time-step-copy">
-                Make choices and watch the story bend around them.
+                做出选择，看故事如何因它们而改变。
               </p>
             </div>
           </div>
@@ -241,10 +242,10 @@ export function GuidedFirstTimeExperience() {
       <div className="component-guided-first-time-concept">
         <div className="component-guided-first-time-step-header">
           <h2 className="component-guided-first-time-step-title">
-            World Concept
+            世界概念
           </h2>
           <p className="component-guided-first-time-step-description">
-            Create an RPG in any fictional universe or original setting
+            在任意虚构宇宙或原创设定中创建 RPG
           </p>
         </div>
 
@@ -274,7 +275,7 @@ export function GuidedFirstTimeExperience() {
         {wizard.stepValidation?.errors.length > 0 && (
           <div>
             {wizard.stepValidation.errors.map((error, index) => (
-              <p key={index}>{error}</p>
+              <p key={index}>{localizeErrorMessage(error)}</p>
             ))}
           </div>
         )}
@@ -299,22 +300,22 @@ export function GuidedFirstTimeExperience() {
       <div className="component-guided-first-time-details">
         <div className="component-guided-first-time-step-header">
           <h2 className="component-guided-first-time-step-title">
-            World Details
+            世界详情
           </h2>
           <p className="component-guided-first-time-step-description">
             {isGenreOptional
-              ? 'Give your world a name and optionally override the genre'
-              : 'Give your world a name and genre'}
+              ? "为你的世界命名，并可选覆盖题材"
+              : "为你的世界命名并选择题材"}
           </p>
         </div>
 
         <div>
           <div>
-            <Label htmlFor="world-name">World Name (optional)</Label>
+            <Label htmlFor="world-name">世界名称（可选）</Label>
             <Input
               id="world-name"
               type="text"
-              placeholder="E.g., Neo-Tokyo..."
+              placeholder="例如：新东京……"
               value={wizard.state.data.name}
               onChange={(e) =>
                 wizard.handlers.updateData({ name: e.target.value })
@@ -325,8 +326,8 @@ export function GuidedFirstTimeExperience() {
           {isGenreOptional ? (
             <div>
               <Label htmlFor="world-genre">
-                Genre{' '}
-                <span>(optional - picked from the setting you named)</span>
+                题材{' '}
+                <span>（可选——会根据你命名的设定自动选择）</span>
               </Label>
               <select
                 id="world-genre"
@@ -337,7 +338,7 @@ export function GuidedFirstTimeExperience() {
                   })
                 }
               >
-                <option value="">Auto-detect</option>
+                <option value="">自动识别</option>
                 {GENRES.map((genre) => (
                   <option key={genre.value} value={genre.value}>
                     {genre.label}
@@ -348,7 +349,7 @@ export function GuidedFirstTimeExperience() {
           ) : (
             <div>
               <Label htmlFor="world-genre">
-                Genre <span>*</span>
+                题材 <span>*</span>
               </Label>
               <select
                 id="world-genre"
@@ -359,7 +360,7 @@ export function GuidedFirstTimeExperience() {
                   })
                 }
               >
-                <option value="">Select a genre</option>
+                <option value="">选择题材</option>
                 {GENRES.map((genre) => (
                   <option key={genre.value} value={genre.value}>
                     {genre.label}
@@ -372,7 +373,7 @@ export function GuidedFirstTimeExperience() {
           {wizard.stepValidation?.errors.length > 0 && (
             <div>
               {wizard.stepValidation.errors.map((error, index) => (
-                <p key={index}>{error}</p>
+                <p key={index}>{localizeErrorMessage(error)}</p>
               ))}
             </div>
           )}
@@ -418,7 +419,7 @@ export function GuidedFirstTimeExperience() {
 
   return (
     <WizardContainer
-      title="First time?"
+      title="第一次来？"
       className="component-guided-first-time"
     >
       <div className="component-guided-first-time-wrapper">
@@ -430,7 +431,7 @@ export function GuidedFirstTimeExperience() {
           <div className="component-guided-first-time-nav-row">
             {!wizard.isFirstStep && (
               <Button onClick={wizard.handlers.handleBack} variant="outline">
-                Back
+                返回
               </Button>
             )}
 
@@ -443,15 +444,15 @@ export function GuidedFirstTimeExperience() {
                 variant="default"
               >
                 {wizard.state.isProcessing
-                  ? 'Creating world...'
-                  : 'Create world'}
+                  ? "正在创建世界……"
+                  : "创建世界"}
               </Button>
             ) : (
               <Button
                 onClick={wizard.handlers.handleNext}
                 disabled={!wizard.stepValidation?.valid}
               >
-                Next
+                下一步
               </Button>
             )}
           </div>
@@ -460,7 +461,7 @@ export function GuidedFirstTimeExperience() {
         {/* Skip option */}
         <div className="component-guided-first-time-skip">
           <Button onClick={wizard.handlers.handleCancel} variant="link">
-            Skip for now
+            暂时跳过
           </Button>
         </div>
 
@@ -476,10 +477,10 @@ export function GuidedFirstTimeExperience() {
             setConfirmationState({ isOpen: false, pendingData: null })
           }
           onConfirm={handleConfirmGenreChange}
-          title="Clear Genre?"
-          message="Changing the world type will clear your selected genre, since it comes from the existing setting you name. Do you want to continue?"
+          title="清除题材？"
+          message="更改世界类型会清除你已选择的题材，因为它来自你命名的现有设定。是否继续？"
           variant="warning"
-          confirmText="Yes, change type"
+          confirmText="是，更改类型"
         />
       </div>
     </WizardContainer>

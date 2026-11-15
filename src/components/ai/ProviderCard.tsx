@@ -52,7 +52,7 @@ export function ProviderCard({
         <div className="provider-card-badges">
           {isActive && (
             <Badge variant="default-static" size="sm">
-              In use
+              使用中
             </Badge>
           )}
           {validation && (
@@ -60,7 +60,7 @@ export function ProviderCard({
               variant={validation.valid ? 'success-static' : 'destructive-static'}
               size="sm"
             >
-              {validation.valid ? 'Connected' : 'Needs attention'}
+              {validation.valid ? "已连接" : "需要处理"}
             </Badge>
           )}
         </div>
@@ -69,7 +69,7 @@ export function ProviderCard({
       <div className="provider-card-actions">
         {!isActive && (
           <Button variant="secondary" size="sm" onClick={() => onSetActive(provider.id)}>
-            Use this
+            使用此服务
           </Button>
         )}
         <Button
@@ -78,10 +78,10 @@ export function ProviderCard({
           onClick={() => onValidate(provider.id)}
           disabled={isValidating}
         >
-          {isValidating ? 'Checking...' : 'Test connection'}
+          {isValidating ? "检查中……" : "测试连接"}
         </Button>
         <Button variant="ghost" size="sm" onClick={() => onDelete(provider.id)}>
-          Remove
+          移除
         </Button>
       </div>
 

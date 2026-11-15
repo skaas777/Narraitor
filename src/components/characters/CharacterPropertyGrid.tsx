@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface PropertyLike {
   id: string;
@@ -53,7 +54,7 @@ export function CharacterPropertyGrid<T extends PropertyLike>({
           {Object.entries(grouped).map(([category, group]) => (
             <div key={category} className={categoryClass}>
               {!isLoneGeneralGroup && (
-                <h3 className={categoryHeadingClass}>{category}</h3>
+                <h3 className={categoryHeadingClass}>{displayLabel(category)}</h3>
               )}
               <div className={gridClass}>
                 {group.map((item, index) => (

@@ -298,7 +298,7 @@ describe('narrativeStore - Ending functionality', () => {
       const { currentEnding } = useNarrativeStore.getState();
       expect(currentEnding).not.toBeNull();
       expect(currentEnding?.characterLegacy).toBe(
-        "Mara Voss's story is marked by this: Chose to kick wildly, using the woven container to create a sudden splash and distraction."
+        "Mara Voss的故事因这一点而留下印记：Chose to kick wildly, using the woven container to create a sudden splash and distraction."
       );
     });
 
@@ -317,7 +317,7 @@ describe('narrativeStore - Ending functionality', () => {
       const { currentEnding } = useNarrativeStore.getState();
       expect(currentEnding).not.toBeNull();
       expect(currentEnding?.characterLegacy).toBe(
-        'Mara Voss leaves a mark on everyone they crossed paths with.'
+        "Mara Voss 在每个与其相遇的人心中留下印记。"
       );
     });
 

@@ -56,7 +56,7 @@ export function DashboardContinueCard({
           </div>
         )}
 
-        <h2 id="continue-session-heading">Continue Your Session</h2>
+        <h2 id="continue-session-heading">继续你的冒险记录</h2>
 
         <div className="dashboard-continue-card-row">
           {/* Character Portrait */}
@@ -74,18 +74,18 @@ export function DashboardContinueCard({
           <div className="dashboard-continue-card-info">
             <dl className="dashboard-continue-card-fields">
               <div className="dashboard-continue-card-field">
-                <dt>World</dt>
+                <dt>世界</dt>
                 <dd>{world.name}</dd>
               </div>
               <div className="dashboard-continue-card-field">
-                <dt>Character</dt>
+                <dt>角色</dt>
                 <dd>{character.name}</dd>
               </div>
             </dl>
 
             <p className="dashboard-continue-card-meta">
               <time dateTime={session.lastPlayed}>
-                Last played {lastPlayedText}
+                上次游玩 {lastPlayedText}
               </time>
             </p>
           </div>
@@ -96,12 +96,12 @@ export function DashboardContinueCard({
           gap="sm"
           actions={[
             {
-              label: 'Continue Last Session',
+              label: "继续上次冒险",
               onClick: () => onContinue(session.id),
               variant: 'default',
             },
             {
-              label: 'Delete',
+              label: "删除",
               onClick: () => setIsDeleteDialogOpen(true),
               variant: 'ghost',
             },
@@ -113,8 +113,8 @@ export function DashboardContinueCard({
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDelete}
-        title="Delete Session"
-        description="Removes the story progress and journal entries for this session. This action cannot be undone."
+        title="删除冒险记录"
+        description="删除此冒险记录的故事进度和日志条目。此操作无法撤销。"
         itemName={`${world.name} - ${character.name}`}
         isDeleting={isDeleting}
       />

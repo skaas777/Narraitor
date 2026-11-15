@@ -202,13 +202,13 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
     }
 
     if (!worldId || !sessionId) {
-      setError('Missing world or session context.');
+      setError("缺少世界或冒险记录上下文。");
       setStatus('error');
       return;
     }
 
     if (pendingEvents.length === 0) {
-      setError('Need at least one new major event before creating a checkpoint.');
+      setError("创建故事节点前至少需要一个新的重大事件。");
       setStatus('error');
       return;
     }
@@ -252,7 +252,7 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
 
       if (!response.ok) {
         const errorPayload = await response.json().catch(() => ({}));
-        throw new Error(errorPayload?.error || 'Failed to generate checkpoint summary.');
+        throw new Error(errorPayload?.error || "生成故事节点摘要失败。");
       }
 
       const data = (await response.json()) as StoryCheckpointResponseBody;
@@ -272,7 +272,7 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
       setStatus('success');
     } catch (checkpointError) {
       setStatus('error');
-      setError(checkpointError instanceof Error ? checkpointError.message : 'Unknown error creating checkpoint.');
+      setError(checkpointError instanceof Error ? checkpointError.message : "创建故事节点时发生未知错误。");
     }
   }, [characterId, characterNameLookup, pendingEvents, sessionId, worldId, worldState?.storyCheckpoints, world?.toneSettings]);
 

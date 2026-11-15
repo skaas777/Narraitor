@@ -128,7 +128,7 @@ describe('RangeSlider', () => {
       />
     );
 
-    expect(screen.queryByText('Default Value')).not.toBeInTheDocument();
+    expect(screen.queryByText("默认值")).not.toBeInTheDocument();
   });
 
   test('uses custom label text when provided', () => {

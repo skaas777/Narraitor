@@ -40,8 +40,8 @@ const buildLocalEnding = ({
 }): StoryEnding => {
   const now = new Date();
   const isoNow = now.toISOString();
-  const worldName = params.world?.name || 'their world';
-  const characterName = params.character?.name || 'The character';
+  const worldName = params.world?.name || "他们的世界";
+  const characterName = params.character?.name || "这位角色";
 
   const recentNarrative = narrativeSegments
     .slice(-3)
@@ -50,18 +50,18 @@ const buildLocalEnding = ({
     .join(' ');
 
   const epilogue = recentNarrative
-    ? `${recentNarrative} As the dust settles, ${characterName} closes this chapter in ${worldName}.`
-    : `${characterName} closes this chapter in ${worldName}, leaving the streets quieter than before.`;
+    ? `${recentNarrative} 尘埃落定，${characterName} 在${worldName}中为这一章画上句号。`
+    : `${characterName} 在${worldName}中为这一章画上句号，街巷比从前更显寂静。`;
 
   const journalHighlight = journalEntries.find((entry) => typeof entry?.content === 'string') as
     | { content?: string }
     | undefined;
 
   const characterLegacy = journalHighlight?.content
-    ? `${characterName}'s story is marked by this: ${journalHighlight.content}`
-    : `${characterName} leaves a mark on everyone they crossed paths with.`;
+    ? `${characterName}的故事因这一点而留下印记：${journalHighlight.content}`
+    : `${characterName} 在每个与其相遇的人心中留下印记。`;
 
-  const worldImpact = `In ${worldName}, the ripples of this story linger, whispered about by those who witnessed it.`;
+  const worldImpact = `在${worldName}，这个故事的余波久久不散，亲历者们低声议论着它。`;
 
   const achievements = journalEntries
     .map((entry) => (entry?.title as string) || (entry?.content as string) || '')
@@ -191,7 +191,7 @@ export const createNarrativeEndingActions = (
       // Mark the session as ended to prevent further generation
       get().markSessionEnded(params.sessionId);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage = error instanceof Error ? error.message : "未知错误";
       logger.error('Failed to load ending', { error: errorMessage, endingType, params });
 
       // Fallback: craft a local ending so the user still sees a conclusion

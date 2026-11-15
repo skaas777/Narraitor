@@ -90,8 +90,8 @@ describe('useInventoryStore toggleEquipItem', () => {
     const result = store.toggleEquipItem(characterId, itemId);
 
     expect(result.success).toBe(false);
-    expect(result.error?.title).toBe('Cannot Equip Item');
-    expect(result.error?.message).toMatch(/can't be equipped/i);
+    expect(result.error?.title).toBe("无法装备物品");
+    expect(result.error?.message).toMatch(/无法装备/i);
     expect(useInventoryStore.getState().items[itemId].equipped).toBeFalsy();
   });
 
@@ -102,6 +102,6 @@ describe('useInventoryStore toggleEquipItem', () => {
     const result = store.toggleEquipItem('someone-else', itemId);
 
     expect(result.success).toBe(false);
-    expect(result.error?.title).toBe('Item Not In Inventory');
+    expect(result.error?.title).toBe("物品不在背包中");
   });
 });

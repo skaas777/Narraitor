@@ -33,10 +33,10 @@ export const LoreViewer: React.FC<LoreViewerProps> = ({
   }, {} as Record<LoreCategory, typeof facts>);
 
   const categoryLabels: Record<LoreCategory, string> = {
-    characters: 'Characters',
-    locations: 'Locations', 
-    events: 'Events',
-    rules: 'World Rules'
+    characters: "角色",
+    locations: "地点",
+    events: "事件",
+    rules: "世界规则"
   };
 
   const categoryBackgrounds: Record<LoreCategory, string> = {
@@ -49,15 +49,15 @@ export const LoreViewer: React.FC<LoreViewerProps> = ({
   if (facts.length === 0) {
     return (
       <div className={`${className}`}>
-        <p>No lore facts recorded yet.</p>
-        <p>Facts will appear here as the story unfolds.</p>
+        <p>尚未记录任何设定事实。</p>
+        <p>随着故事展开，设定事实将显示在这里。</p>
       </div>
     );
   }
 
   return (
     <div className={`${className}`}>
-      <h3>Established Lore</h3>
+      <h3>已确立的设定</h3>
       
       {(Object.keys(categoryLabels) as LoreCategory[]).map(category => {
         const categoryFacts = factsByCategory[category];
@@ -72,7 +72,7 @@ export const LoreViewer: React.FC<LoreViewerProps> = ({
                   <span>{fact.value}</span>
                   {fact.aliases && fact.aliases.length > 0 && (
                     <span>
-                      (also: {fact.aliases.join(', ')})
+                      （又名： {fact.aliases.join(', ')})
                     </span>
                   )}
                   {fact.metadata?.description && (
@@ -88,7 +88,7 @@ export const LoreViewer: React.FC<LoreViewerProps> = ({
       })}
       
       <div>
-        Total facts: {facts.length}
+        事实总数： {facts.length}
       </div>
     </div>
   );

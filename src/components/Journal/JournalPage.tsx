@@ -156,12 +156,12 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
   };
 
   const entrySummary = !sessionId
-    ? 'No active session'
+    ? "没有进行中的冒险记录"
     : entries.length
       ? `${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`
-      : 'No entries yet';
+      : "暂无条目";
   const showEntrySummary = !!sessionId;
-  const pageTitle = world ? `Journal in ${world.name}` : 'Journal';
+  const pageTitle = world ? `${world.name}中的日志` : "日志";
   const visibleEntries = filteredEntries.slice(0, visibleCount);
   const canLoadMore = filteredEntries.length > visibleCount;
 
@@ -169,8 +169,8 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
     if (!sessionId) {
       return (
         <EmptyState
-          title="No active session"
-          description="Start or resume a session to view its journal entries."
+          title="没有进行中的冒险记录"
+          description="开始或继续一次冒险，即可查看其日志条目。"
         />
       );
     }
@@ -180,7 +180,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
         <div>
           <LoadingState
             variant="skeleton"
-            message="Loading journal entries..."
+            message="正在加载日志条目……"
             skeletonLines={6}
           />
         </div>
@@ -208,8 +208,8 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
         {entries.length === 0 ? (
           <div className="journal-empty-state">
             <EmptyState
-              title="This journal awaits its first entry"
-              description="Updates will appear here as things unfold"
+              title="这本日志正等待第一条记录"
+              description="随着故事展开，更新将显示在这里"
             />
           </div>
         ) : (
@@ -223,7 +223,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
               data-testid="journal-list-pane"
             >
               <div className="journal-list-header">
-                <h2>Entries</h2>
+                <h2>条目</h2>
                 <JournalViewToggle
                   mode={displayMode}
                   onModeChange={handleDisplayModeChange}
@@ -241,14 +241,14 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
                     <Input
                       id="journal-search"
                       type="search"
-                      placeholder="Search entries..."
+                      placeholder="搜索条目……"
                       value={searchQuery}
                       onChange={(event) => setSearchQuery(event.target.value)}
-                      aria-label="Search entries"
+                      aria-label="搜索条目"
                     />
                   </div>
                   {filteredEntries.length === 0 ? (
-                    <div>No entries match your search.</div>
+                    <div>没有符合搜索条件的条目。</div>
                   ) : (
                     <JournalEntryList
                       entries={visibleEntries}
@@ -268,7 +268,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
                           )
                         }
                       >
-                        Load more
+                        加载更多
                       </Button>
                     </div>
                   )}
@@ -296,9 +296,9 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
                   <div>
                     <BookOpen aria-hidden="true" />
                   </div>
-                  <h3>Select an Entry</h3>
+                  <h3>选择一个条目</h3>
                   <p>
-                    Choose an entry from the list to view its complete content
+                    从列表中选择一个条目以查看完整内容
                   </p>
                 </div>
               )}
@@ -323,7 +323,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
               world.image?.url
                 ? {
                     url: world.image.url,
-                    alt: `${world.name} world`,
+                    alt: `${world.name} 世界`,
                   }
                 : undefined
             }
@@ -334,7 +334,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ worldId }) => {
       )}
 
       <div className="journal-nav">
-        <BackNavigation href={`/worlds/${worldId}/play`} label="Back to Play" />
+        <BackNavigation href={`/worlds/${worldId}/play`} label="返回游戏" />
         {showEntrySummary && <span>{entrySummary}</span>}
       </div>
       {renderContent()}

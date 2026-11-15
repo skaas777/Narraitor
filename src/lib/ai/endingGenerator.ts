@@ -20,7 +20,7 @@ export function extractRecentNarrative(segments: NarrativeSegment[]): string[] {
     .slice(-10);
 
   return recentSegments.map(segment => {
-    const prefix = segment.type === 'dialogue' ? 'Dialogue: ' : '';
+    const prefix = segment.type === 'dialogue' ? "对话：" : '';
     return prefix + segment.content;
   });
 }
@@ -101,9 +101,9 @@ function extractFromPlainText(response: string): EndingGenerationResult {
   const sections = response.split(/\n\n+/);
 
   return {
-    epilogue: sections[0] || 'The story comes to an end...',
-    characterLegacy: sections[1] || 'A hero remembered...',
-    worldImpact: sections[2] || 'The world was forever changed...',
+    epilogue: sections[0] || "故事走向终章……",
+    characterLegacy: sections[1] || "一位被铭记的英雄……",
+    worldImpact: sections[2] || "世界被永远改变……",
     tone: 'hopeful',
     achievements: [],
     playTime: undefined
@@ -151,7 +151,7 @@ export async function generateEnding(
 
     const characterForTemplate = {
       name: context.character.name,
-      class: 'Adventurer',
+      class: "冒险者",
       level: 1,
       background: context.character.background.history,
       personality: context.character.background.personality,
@@ -203,6 +203,6 @@ export async function generateEnding(
       characterId: request.characterId,
       worldId: request.worldId
     });
-    throw new Error('Failed to create ending: ' + (error as Error).message);
+    throw new Error("创建结局失败：" + (error as Error).message);
   }
 }

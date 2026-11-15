@@ -136,8 +136,8 @@ describe('useAutoSave', () => {
 
     expect(mockSessionStore.recordAutoSave).toHaveBeenCalled();
     expect(mockToast.success).toHaveBeenCalledWith(
-      'Game saved successfully',
-      'Your progress has been saved'
+      "游戏保存成功",
+      "你的进度已保存"
     );
   });
 
@@ -206,8 +206,8 @@ describe('useAutoSave', () => {
 
     expect(mockSessionStore.recordAutoSave).toHaveBeenCalled();
     expect(mockToast.success).toHaveBeenCalledWith(
-      'Game saved successfully',
-      'Your progress has been saved'
+      "游戏保存成功",
+      "你的进度已保存"
     );
   });
 });

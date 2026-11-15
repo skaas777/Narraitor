@@ -37,12 +37,12 @@ export function ProviderDisclosure({ type, privacyNote, className }: ProviderDis
     <div className={clsx('component-provider-disclosure', className)} role="note" aria-live="polite">
       {privacyNote && (
         <p className="provider-disclosure-item">
-          <span className="provider-disclosure-label">Privacy</span>
+          <span className="provider-disclosure-label">隐私</span>
           {privacyNote}
         </p>
       )}
       <p className="provider-disclosure-item">
-        <span className="provider-disclosure-label">Content rating</span>
+        <span className="provider-disclosure-label">内容分级</span>
         {contentRatingNote}
       </p>
     </div>

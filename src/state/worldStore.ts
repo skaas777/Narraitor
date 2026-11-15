@@ -124,7 +124,7 @@ export const useWorldStore = create<WorldStore>()(
         update: (id, updates) => {
           const world = get().worlds[id];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -184,7 +184,7 @@ export const useWorldStore = create<WorldStore>()(
         setCurrent: (id) => {
           if (id && !get().worlds[id]) {
             set({
-              error: createStoreError('World Not Found', 'The specified world could not be found'),
+              error: createStoreError("未找到世界", "未找到指定的世界"),
               currentEntityId: null,
               currentWorldId: null,
             });
@@ -257,12 +257,12 @@ export const useWorldStore = create<WorldStore>()(
         addAttribute: (worldId, attributeData) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
           if ((world.attributes?.length || 0) >= (world.settings?.maxAttributes || 0)) {
-            set({ error: createStoreError('Maximum Attributes Reached', 'This world has reached its maximum number of attributes') });
+            set({ error: createStoreError("属性数量已达上限", "该世界的属性数量已达上限") });
             return;
           }
 
@@ -284,7 +284,7 @@ export const useWorldStore = create<WorldStore>()(
         updateAttribute: (worldId, attributeId, updates) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -301,7 +301,7 @@ export const useWorldStore = create<WorldStore>()(
         removeAttribute: (worldId, attributeId) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -318,12 +318,12 @@ export const useWorldStore = create<WorldStore>()(
         addSkill: (worldId, skillData) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
           if ((world.skills?.length || 0) >= (world.settings?.maxSkills || 0)) {
-            set({ error: createStoreError('Maximum Skills Reached', 'This world has reached its maximum number of skills') });
+            set({ error: createStoreError("技能数量已达上限", "该世界的技能数量已达上限") });
             return;
           }
 
@@ -345,7 +345,7 @@ export const useWorldStore = create<WorldStore>()(
         updateSkill: (worldId, skillId, updates) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -362,7 +362,7 @@ export const useWorldStore = create<WorldStore>()(
         removeSkill: (worldId, skillId) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -379,7 +379,7 @@ export const useWorldStore = create<WorldStore>()(
         updateSettings: (worldId, settings) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -395,7 +395,7 @@ export const useWorldStore = create<WorldStore>()(
         updateToneSettings: (worldId, toneSettings) => {
           const world = get().worlds[worldId];
           if (!world) {
-            set({ error: createStoreError('World Not Found', 'The specified world could not be found') });
+            set({ error: createStoreError("未找到世界", "未找到指定的世界") });
             return;
           }
 
@@ -482,8 +482,8 @@ export const useWorldStore = create<WorldStore>()(
           } catch (error) {
             get().setLoading(false);
             get().setError({
-              title: 'Failed to Load Worlds',
-              message: error instanceof Error ? error.message : 'Failed to fetch worlds',
+              title: "加载世界失败",
+              message: error instanceof Error ? error.message : "无法获取世界",
               retryable: true,
               type: ErrorType.SERVICE,
               severity: 'error',

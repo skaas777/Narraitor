@@ -113,7 +113,7 @@ export function SimpleModal({
                 <Button
                   variant="ghost"
                   size="icon"
-                  aria-label="Close modal"
+                  aria-label="关闭弹窗"
                 >
                   <X aria-hidden="true" />
                 </Button>

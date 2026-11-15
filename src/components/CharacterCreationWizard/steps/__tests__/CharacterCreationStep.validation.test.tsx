@@ -92,7 +92,7 @@ describe('CharacterCreationWizard step validation display', () => {
       />
     );
 
-    expect(screen.getByText('Character name is required')).toBeInTheDocument();
+    expect(screen.getByText("角色名称不能为空")).toBeInTheDocument();
   });
 
   it('validates basic-info blur through the injected step validator', () => {
@@ -127,7 +127,7 @@ describe('CharacterCreationWizard step validation display', () => {
       />
     );
 
-    fireEvent.blur(screen.getByLabelText(/Character Name/));
+    fireEvent.blur(screen.getByLabelText(/角色名称/));
 
     expect(validateStep).toHaveBeenCalledTimes(1);
     expect(onValidation).toHaveBeenCalledWith(false, [
@@ -171,7 +171,7 @@ describe('CharacterCreationWizard step validation display', () => {
       />
     );
 
-    expect(screen.getByText('Too many attribute points')).toBeInTheDocument();
+    expect(screen.getByText("分配的属性点已超过可用数量。")).toBeInTheDocument();
   });
 
   it('does not duplicate skill errors inside step 2', () => {
@@ -250,7 +250,7 @@ describe('CharacterCreationWizard step validation display', () => {
     );
 
     expect(
-      screen.getByText('Character history must be at least 50 characters')
+      screen.getByText("角色经历至少需要 50 个字符")
     ).toBeInTheDocument();
   });
 
@@ -287,7 +287,7 @@ describe('CharacterCreationWizard step validation display', () => {
       />
     );
 
-    const history = screen.getByLabelText(/Character History/);
+    const history = screen.getByLabelText(/角色经历/);
     fireEvent.change(history, { target: { value: 'Short' } });
 
     expect(onUpdate).toHaveBeenCalledWith({

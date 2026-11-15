@@ -28,7 +28,7 @@ export async function generateJournalImage(
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || 'Failed to generate journal image');
+      throw new Error(errorData.error || "生成日志图片失败");
     }
 
     const data = await response.json();

@@ -29,8 +29,8 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
   onComplete,
   currentStep,
   totalSteps,
-  nextLabel = 'Next',
-  completeLabel = 'Complete',
+  nextLabel = "下一步",
+  completeLabel = "完成",
   disabled = false,
   isLoading = false,
   className = '',
@@ -58,7 +58,7 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
         disabled={isLoading}
         data-testid={cancelTestId}
       >
-        Cancel
+        取消
       </Button>
 
       <div className={wizardStyles.navigation.buttonGroup}>
@@ -71,7 +71,7 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
             disabled={isLoading}
             data-testid={backTestId}
           >
-            Back
+            返回
           </Button>
         )}
 
@@ -86,7 +86,7 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
               data-testid={completeTestId}
               data-tutorial={completeDataTutorial}
             >
-              {isLoading ? 'Processing...' : completeLabel}
+              {isLoading ? "处理中……" : completeLabel}
             </Button>
           )
         ) : (
@@ -99,7 +99,7 @@ export const WizardNavigation: React.FC<WizardNavigationProps> = ({
               disabled={disabled || isLoading}
               data-testid={nextTestId}
             >
-              {isLoading ? 'Processing...' : nextLabel}
+              {isLoading ? "处理中……" : nextLabel}
             </Button>
           )
         )}

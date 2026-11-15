@@ -53,7 +53,7 @@ export const getUnmetPrerequisites = (
       attributeId: prereq.attributeId,
       attributeName:
         worldAttributes.find((attr) => attr.id === prereq.attributeId)?.name ??
-        'Unknown attribute',
+        "未知属性",
       requiredValue: prereq.minValue,
       currentValue: lookupCurrentValue(prereq.attributeId, characterAttributes),
     }))
@@ -70,8 +70,8 @@ export const formatUnmetPrerequisites = (unmet: UnmetPrerequisite[]): string => 
   }
 
   const parts = unmet.map(
-    (u) => `${u.attributeName} ${u.requiredValue} (you have ${u.currentValue})`
+    (u) => `${u.attributeName} ${u.requiredValue}（你当前为 ${u.currentValue}）`
   );
 
-  return `Requires ${parts.join(', ')}`;
+  return `需要 ${parts.join(', ')}`;
 };

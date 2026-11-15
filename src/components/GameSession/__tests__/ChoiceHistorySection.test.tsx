@@ -66,7 +66,7 @@ describe('ChoiceHistorySection', () => {
     expect(screen.getByText('Offer help')).toBeInTheDocument();
     expect(screen.getByText(/Market square/i)).toBeInTheDocument();
     expect(screen.getByText(/villagers celebrate/i)).toBeInTheDocument();
-    expect(screen.getByText(/Impact unknown yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/影响尚未可知/i)).toBeInTheDocument();
   });
 
   it('shows empty state when no entries exist', () => {
@@ -77,6 +77,6 @@ describe('ChoiceHistorySection', () => {
       />
     );
 
-    expect(screen.getByText(/No recorded choices yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/还没有记录任何选项/i)).toBeInTheDocument();
   });
 });

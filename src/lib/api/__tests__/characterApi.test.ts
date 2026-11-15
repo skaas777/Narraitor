@@ -55,7 +55,7 @@ describe('characterApi.generateCharacter', () => {
 
     await expect(
       characterApi.generateCharacter({ characterType: 'known', existingNames: [] })
-    ).rejects.toThrow('Failed to generate character');
+    ).rejects.toThrow("生成角色失败");
   });
 
   it('omits world.image from the request payload to avoid exceeding body limits', async () => {

@@ -26,8 +26,8 @@ describe('StorageFallbackBanner', () => {
     const alert = screen.getByRole('alert');
     expect(alert).toBeInTheDocument();
     expect(alert).toHaveClass('storage-fallback-banner');
-    expect(screen.getByText(/can't save to this browser/i)).toBeInTheDocument();
-    expect(screen.getByText(/export your data from Settings/i)).toBeInTheDocument();
+    expect(screen.getByText(/无法保存到此浏览器/i)).toBeInTheDocument();
+    expect(screen.getByText(/从设置中导出数据/i)).toBeInTheDocument();
     // The raw failure belongs in the log, not in the player's alert.
     expect(screen.queryByText(/IndexedDB/i)).not.toBeInTheDocument();
   });
@@ -40,7 +40,7 @@ describe('StorageFallbackBanner', () => {
     expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Narraitor can't save to this browser right now. Keep this tab open, and export your data from Settings so you don't lose your progress."
+        "Narraitor 目前无法保存到此浏览器。请保持此标签页打开，并从设置中导出数据，以免丢失进度。"
       )
     ).toBeInTheDocument();
   });
@@ -56,7 +56,7 @@ describe('StorageFallbackBanner', () => {
     });
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
-    expect(screen.getByText(/can't save to this browser/i)).toBeInTheDocument();
+    expect(screen.getByText(/无法保存到此浏览器/i)).toBeInTheDocument();
 
     act(() => {
       _setStorageStatusForTesting(null, null);

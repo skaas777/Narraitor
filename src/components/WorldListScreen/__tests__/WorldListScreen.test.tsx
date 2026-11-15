@@ -284,7 +284,7 @@ describe('WorldListScreen', () => {
     // Check for the correct message
     expect(
       screen.getByText(
-        'Removes all characters and saved sessions for this world. This action cannot be undone.'
+        "将删除此世界中的所有角色和已保存的冒险记录。此操作无法撤销。"
       )
     ).toBeInTheDocument();
 

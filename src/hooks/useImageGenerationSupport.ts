@@ -1,6 +1,7 @@
 'use client';
 
 import { useProviderStore } from '@/state/providerStore';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 import { supportsImages } from '@/lib/ai/providers/capabilities';
 
 /**
@@ -30,6 +31,6 @@ export function useImageGenerationSupport(): { supported: boolean; reason: strin
 
   return {
     supported: false,
-    reason: 'Your provider writes text but does not generate images. Add a Gemini provider to generate them.',
+    reason: PERSONAL_CLOUD_ENABLED ? '当前使用文字模型，世界和角色图片将显示为占位图。' : '你的模型服务只能生成文本，不能生成图片。请添加 Gemini 模型服务来生成图片。',
   };
 }

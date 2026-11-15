@@ -20,7 +20,7 @@ jest.mock('@/components/character/CharacterTable', () => ({
 
 jest.mock('@/components/GenerateCharacterDialog', () => ({
   GenerateCharacterDialog: ({ isOpen }: { isOpen: boolean }) =>
-    isOpen ? <div role="dialog" aria-label="Generate Character" /> : null,
+    isOpen ? <div role="dialog" aria-label="生成角色" /> : null,
 }));
 
 jest.mock('@/services/characterDeletionService', () => ({
@@ -103,7 +103,7 @@ describe('CharactersPage heading hierarchy (#1530)', () => {
 
     const h1s = await screen.findAllByRole('heading', { level: 1 });
     expect(h1s).toHaveLength(1);
-    expect(h1s[0]).toHaveTextContent('My Characters');
+    expect(h1s[0]).toHaveTextContent("我的角色");
     expect(h1s[0]).not.toHaveClass('sr-only');
 
     // The banner is decorative: the world switcher already names the world,
@@ -124,7 +124,7 @@ describe('CharactersPage heading hierarchy (#1530)', () => {
 
     const h1s = await screen.findAllByRole('heading', { level: 1 });
     expect(h1s).toHaveLength(1);
-    expect(h1s[0]).toHaveTextContent('My Characters');
+    expect(h1s[0]).toHaveTextContent("我的角色");
   });
 });
 
@@ -170,32 +170,32 @@ describe('CharactersPage action hierarchy (#2083)', () => {
       </ToastProvider>
     );
 
-    await screen.findByRole('heading', { level: 1, name: 'My Characters' });
+    await screen.findByRole('heading', { level: 1, name: "我的角色" });
 
     // PageLayout actions slot contains Create Character and Generate Character
     const headerActions = container.querySelector<HTMLElement>('.page-layout-actions');
     expect(headerActions).not.toBeNull();
     expect(
-      within(headerActions!).getByRole('button', { name: 'Create Character' })
+      within(headerActions!).getByRole('button', { name: "创建角色" })
     ).toBeInTheDocument();
     expect(
-      within(headerActions!).getByRole('button', { name: 'Generate Character' })
+      within(headerActions!).getByRole('button', { name: "生成角色" })
     ).toBeInTheDocument();
 
     // The body toolbar contains only the view toggle, not action buttons
     const toolbar = container.querySelector<HTMLElement>('.characters-toolbar');
     expect(toolbar).not.toBeNull();
     expect(
-      within(toolbar!).getByRole('button', { name: /grid view/i })
+      within(toolbar!).getByRole('button', { name: /网格视图/i })
     ).toBeInTheDocument();
     expect(
-      within(toolbar!).getByRole('button', { name: /table view/i })
+      within(toolbar!).getByRole('button', { name: /表格视图/i })
     ).toBeInTheDocument();
     expect(
-      within(toolbar!).queryByRole('button', { name: 'Create Character' })
+      within(toolbar!).queryByRole('button', { name: "创建角色" })
     ).toBeNull();
     expect(
-      within(toolbar!).queryByRole('button', { name: 'Generate Character' })
+      within(toolbar!).queryByRole('button', { name: "生成角色" })
     ).toBeNull();
   });
 
@@ -204,21 +204,21 @@ describe('CharactersPage action hierarchy (#2083)', () => {
 
     await screen.findByRole('heading', {
       level: 2,
-      name: 'No characters in Fantasy Realm yet',
+      name: "在 Fantasy Realm 中尚无角色",
     });
 
     // Header actions slot has Create Character
     const headerActions = container.querySelector<HTMLElement>('.page-layout-actions');
     expect(headerActions).not.toBeNull();
     expect(
-      within(headerActions!).getByRole('button', { name: 'Create Character' })
+      within(headerActions!).getByRole('button', { name: "创建角色" })
     ).toHaveClass('button-default');
 
     // Empty state has Create Character
     const emptyState = container.querySelector<HTMLElement>('.characters-empty');
     expect(emptyState).not.toBeNull();
     expect(
-      within(emptyState!).getByRole('button', { name: 'Create Character' })
+      within(emptyState!).getByRole('button', { name: "创建角色" })
     ).toHaveClass('button-default');
   });
 
@@ -227,12 +227,12 @@ describe('CharactersPage action hierarchy (#2083)', () => {
 
     await screen.findByRole('heading', {
       level: 2,
-      name: 'No characters in Fantasy Realm yet',
+      name: "在 Fantasy Realm 中尚无角色",
     });
 
     expect(container.querySelector('.characters-toolbar')).toBeNull();
     expect(
-      screen.queryByRole('button', { name: /table view/i })
+      screen.queryByRole('button', { name: /表格视图/i })
     ).not.toBeInTheDocument();
   });
 
@@ -243,11 +243,11 @@ describe('CharactersPage action hierarchy (#2083)', () => {
     expect(emptyState).not.toBeNull();
 
     fireEvent.click(
-      within(emptyState!).getByRole('button', { name: /generate character/i })
+      within(emptyState!).getByRole('button', { name: /生成角色/i })
     );
 
     expect(
-      await screen.findByRole('dialog', { name: 'Generate Character' })
+      await screen.findByRole('dialog', { name: "生成角色" })
     ).toBeInTheDocument();
   });
 
@@ -260,10 +260,10 @@ describe('CharactersPage action hierarchy (#2083)', () => {
       </ToastProvider>
     );
 
-    await screen.findByText('Choose Your World');
+    await screen.findByText("选择你的世界");
 
     const primaries = primaryCtas(container);
     expect(primaries).toHaveLength(1);
-    expect(primaries[0]).toHaveTextContent('Go to Worlds');
+    expect(primaries[0]).toHaveTextContent("前往世界");
   });
 });

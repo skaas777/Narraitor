@@ -55,11 +55,11 @@ export interface CharacterCreationData {
 }
 
 const steps: WizardStepType[] = [
-  { id: 'basic-info', label: 'Basic Info' },   // Step 0
-  { id: 'attributes', label: 'Attributes' },   // Step 1
-  { id: 'skills', label: 'Skills' },           // Step 2
-  { id: 'background', label: 'Background' },    // Step 3
-  { id: 'portrait', label: 'Portrait' }        // Step 4
+  { id: 'basic-info', label: "基本信息" },   // Step 0
+  { id: 'attributes', label: "属性" },   // Step 1
+  { id: 'skills', label: "技能" },           // Step 2
+  { id: 'background', label: "背景" },    // Step 3
+  { id: 'portrait', label: "头像" }        // Step 4
 ];
 
 interface UseCharacterCreationWizardProps {
@@ -83,11 +83,11 @@ export function useCharacterCreationWizard({
     return {
       0: validateFields<CharacterCreationData>({
         name: [
-          createValidationRules.required('Character name is required'),
-          createValidationRules.minLength(2, 'Character name must be at least 2 characters'),
+          createValidationRules.required("角色名称不能为空"),
+          createValidationRules.minLength(2, "角色名称至少需要 2 个字符"),
           createValidationRules.custom<string>(
             (name) => isCharacterNameUnique(name, worldId),
-            'A character with this name already exists in this world'
+            "该世界中已存在同名角色"
           ),
         ],
       }),

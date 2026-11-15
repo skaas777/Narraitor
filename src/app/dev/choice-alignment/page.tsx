@@ -10,6 +10,8 @@ import { getTimestamp } from '@/lib/utils';
 import { useWorldStore } from '@/state/worldStore';
 import { ensureWorldNpcRoster } from '@/lib/services/worldCreationService';
 import Logger from '@/lib/utils/logger';
+import { displayLabel } from '@/lib/i18n/zhCN';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 const logger = new Logger('ChoiceAlignmentDev');
 
@@ -26,8 +28,8 @@ export default function ChoiceAlignmentTestPage() {
   useEffect(() => {
     try {
       const newWorldId = useWorldStore.getState().createWorld({
-        name: 'Test World',
-        description: 'A fantasy world for testing choice alignment',
+        name: '测试世界',
+        description: "用于测试选项阵营的奇幻世界",
         genre: 'fantasy',
         attributes: [],
         skills: [],
@@ -48,42 +50,42 @@ export default function ChoiceAlignmentTestPage() {
         logger.debug('Created test world with ID:', newWorldId, storedWorld);
       } else {
         logger.error('World was not stored properly');
-        setError('Failed to create test world');
+        setError("创建测试世界失败");
       }
     } catch (err) {
       logger.error('Error creating world:', err);
-      setError(err instanceof Error ? err.message : 'Failed to create world');
+      setError(err instanceof Error ? err.message : "创建世界失败");
     }
   }, []);
 
   const scenarios = {
     bandits: {
-      location: 'Forest Path',
-      situation: 'A group of bandits blocks your path',
-      context: 'You are traveling through a dark forest when a group of armed bandits steps out from behind the trees, weapons drawn, demanding you pay a toll to pass. Their leader, a scarred man with a wicked grin, counts your coin purse with greedy eyes while his companions all escape routes.'
+      location: "森林小径",
+      situation: "一群强盗挡住了你的去路",
+      context: "你正穿行于一片幽暗森林，一群全副武装的强盗从树后走出，拔出武器，要求你交纳过路费才能通过。他们的首领是个脸上带疤、咧嘴狞笑的男人，正用贪婪的目光清点着你的钱袋，而他的同伙则堵住了所有逃跑路线。"
     },
     merchant: {
-      location: 'Town Market',
-      situation: 'A suspicious merchant offers a deal',
-      context: 'A hooded merchant approaches you in the bustling market square with an ornate, glowing artifact. The item pulses with magical energy, yet he offers to sell it for mere copper coins - far less than it appears to be worth. Other merchants nearby whisper nervously and avoid eye contact.'
+      location: "城镇集市",
+      situation: "一名可疑商人提出交易",
+      context: "在熙熙攘攘的集市广场上，一名兜帽商人带着一件华丽、发光的器物走近你。那件物品脉动着魔力，可他却只开价几枚铜币——远低于它看上去的价值。附近的其他商人紧张地低声议论，并避免与你对视。"
     },
     dragon: {
-      location: 'Mountain Cave',
-      situation: 'A dragon guards its treasure',
-      context: 'You have found the legendary dragon\'s lair deep within the mountain. The massive ancient red dragon sits atop an enormous pile of gold and jewels, its intelligent amber eyes following your every movement. Smoke curls from its nostrils as it speaks in a voice like rolling thunder, offering you a riddle for safe passage.'
+      location: "山洞",
+      situation: "一条巨龙看守着宝藏",
+      context: "你在山体深处找到了传说中巨龙的巢穴。那头庞大的远古红龙盘踞在巨大的金银珠宝堆上，它那聪慧的琥珀色眼睛追随着你的一举一动。烟雾从它的鼻孔中缭绕升起，它用滚雷般的声音开口，提出一道谜题，作为让你安全通过的条件。"
     }
   };
 
   const generateChoices = async () => {
     if (!worldId) {
-      setError('World not yet created. Please wait a moment and try again.');
+      setError("世界尚未创建。请稍等片刻后重试。");
       return;
     }
     
     // Double-check that the world still exists
     const currentWorld = useWorldStore.getState().worlds[worldId];
     if (!currentWorld) {
-      setError(`World ${worldId} no longer exists. This may be a persistence issue.`);
+      setError(`世界 ${worldId} 已不存在。这可能是数据持久化问题。`);
       logger.error('Available worlds:', Object.keys(useWorldStore.getState().worlds));
       return;
     }
@@ -124,7 +126,7 @@ export default function ChoiceAlignmentTestPage() {
       setDecision(result);
     } catch (err) {
       logger.error('Error generating choices:', err);
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "未知错误");
     } finally {
       setLoading(false);
     }
@@ -150,25 +152,25 @@ export default function ChoiceAlignmentTestPage() {
       <div>
         <div>
           <h1>
-            Choice Alignment Test
+            选项对齐测试
           </h1>
           
           {/* Controls */}
           <div>
-            <h2>Test Controls</h2>
+            <h2>测试控制</h2>
             
             <div>
               <div>
                 <label>
-                  Scenario
+                  情景
                 </label>
                 <select 
                   value={scenario} 
                   onChange={(e) => setScenario(e.target.value as 'bandits' | 'merchant' | 'dragon')}
                 >
-                  <option value="bandits">Forest Bandits</option>
-                  <option value="merchant">Suspicious Merchant</option>
-                  <option value="dragon">Dragon Encounter</option>
+                  <option value="bandits">森林强盗</option>
+                  <option value="merchant">可疑商人</option>
+                  <option value="dragon">遭遇巨龙</option>
                 </select>
               </div>
               
@@ -177,19 +179,19 @@ export default function ChoiceAlignmentTestPage() {
                   onClick={generateChoices}
                   disabled={loading || !worldId}
                 >
-                  {loading ? 'Generating...' : !worldId ? 'Initializing...' : 'Generate Aligned Choices'}
+                  {loading ? "正在生成……" : !worldId ? "初始化中…" : "生成阵营选项"}
                 </button>
               </div>
             </div>
             
             {/* Scenario Display */}
             <div>
-              <h3>Current Scenario:</h3>
+              <h3>当前情景：</h3>
               <p>
-                <strong>Location:</strong> {scenarios[scenario].location}
+                <strong>地点：</strong> {scenarios[scenario].location}
               </p>
               <p>
-                <strong>Situation:</strong> {scenarios[scenario].situation}
+                <strong>情况：</strong> {scenarios[scenario].situation}
               </p>
               <p>
                 {scenarios[scenario].context}
@@ -200,30 +202,30 @@ export default function ChoiceAlignmentTestPage() {
           {/* Error Display */}
           {error && (
             <div>
-              <strong>Error:</strong> {error}
+              <strong>错误：</strong> {localizeErrorMessage(error)}
             </div>
           )}
 
           {/* Results */}
           {decision && (
             <div>
-              <h2>Generated Choices</h2>
+              <h2>生成的选项</h2>
               
               {/* Alignment Legend */}
               <div>
-                <h3>Alignment Legend:</h3>
+                <h3>阵营图例：</h3>
                 <div>
                   <div>
                     <div />
-                    <span><strong>Lawful:</strong> Follows rules, respects authority</span>
+                    <span><strong>守序：</strong> 遵守规则，尊重权威</span>
                   </div>
                   <div>
                     <div />
-                    <span><strong>Neutral:</strong> Balanced, practical approach</span>
+                    <span><strong>中立：</strong> 平衡、务实的做法</span>
                   </div>
                   <div>
                     <div />
-                    <span><strong>Chaos:</strong> Unexpected, disruptive action</span>
+                    <span><strong>混乱：</strong> 出人意料、具破坏性的行动</span>
                   </div>
                 </div>
               </div>
@@ -238,17 +240,17 @@ export default function ChoiceAlignmentTestPage() {
 
               {/* Debug Info */}
               <div>
-                <h3>Debug Information:</h3>
+                <h3>调试信息：</h3>
                 <div>
-                  <p><strong>Template Used:</strong> Aligned Choice Template</p>
-                  <p><strong>Options Count:</strong> {decision.options.length}</p>
-                  <p><strong>Alignment Distribution:</strong></p>
+                  <p><strong>使用的模板：</strong> 阵营选项模板</p>
+                  <p><strong>选项数量：</strong> {decision.options.length}</p>
+                  <p><strong>阵营分布：</strong></p>
                   <ul>
                     {['lawful', 'neutral', 'chaotic'].map(alignment => {
                       const count = decision.options.filter(opt => opt.alignment === alignment).length;
                       return (
                         <li key={alignment}>
-                          {alignment}: {count} option{count !== 1 ? 's' : ''}
+                          {displayLabel(alignment)}: {count} 选项{''}
                         </li>
                       );
                     })}
@@ -257,7 +259,7 @@ export default function ChoiceAlignmentTestPage() {
                 
                 <details>
                   <summary>
-                    Raw Decision Object
+                    原始决策对象
                   </summary>
                   <pre>
                     {JSON.stringify(decision, null, 2)}
@@ -269,14 +271,14 @@ export default function ChoiceAlignmentTestPage() {
 
           {/* Instructions */}
           <div>
-            <h3>Testing Instructions</h3>
+            <h3>测试说明</h3>
             <ul>
-              <li>• Try different scenarios to see how alignment varies with context</li>
-              <li>• Notice the color coding: blue for lawful, neutral for white, red for chaos</li>
-              <li>• <strong>CHAOS VERIFICATION:</strong> Red choices should be wildly unexpected, dramatic, and could completely change the situation</li>
-              <li>• Test that chaotic options ignore social norms and offer creative/disruptive solutions</li>
-              <li>• Test the custom input feature alongside aligned choices</li>
-              <li>• Check the debug information to verify alignment distribution</li>
+              <li>• 尝试不同情景，观察阵营倾向如何随情境变化</li>
+              <li>• 注意颜色标识：蓝色代表守序，白色代表中立，红色代表混乱</li>
+              <li>• <strong>混乱验证：</strong> 红色选项应当极其出人意料、富有戏剧性，并可能彻底改变局势</li>
+              <li>• 测试混乱选项是否无视社会规范，并提供富有创意/破坏性的解决方案</li>
+              <li>• 在测试阵营选项的同时测试自定义输入功能</li>
+              <li>• 查看调试信息以验证阵营分布</li>
             </ul>
           </div>
         </div>

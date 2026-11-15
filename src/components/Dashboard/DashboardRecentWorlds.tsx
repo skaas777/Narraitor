@@ -35,12 +35,12 @@ export function DashboardRecentWorlds({
         className="component-dashboard-recent-worlds"
         aria-labelledby="recent-worlds-heading"
       >
-        <h2 id="recent-worlds-heading">Recent Worlds</h2>
+        <h2 id="recent-worlds-heading">最近的世界</h2>
         <div className="dashboard-recent-empty-state">
-          <p>No worlds yet</p>
+          <p>尚无世界</p>
           <Button onClick={() => onNavigate('/worlds')} variant="secondary">
             <Plus aria-hidden="true" />
-            Create Your First World
+            创建你的第一个世界
           </Button>
         </div>
       </section>
@@ -52,7 +52,7 @@ export function DashboardRecentWorlds({
       className="component-dashboard-recent-worlds"
       aria-labelledby="recent-worlds-heading"
     >
-      <h2 id="recent-worlds-heading">Recent Worlds</h2>
+      <h2 id="recent-worlds-heading">最近的世界</h2>
 
       <div className="dashboard-recent-list">
         {/* Recent Worlds */}
@@ -63,7 +63,7 @@ export function DashboardRecentWorlds({
             onClick={() => onNavigate(`/worlds/${world.id}`)}
             role="button"
             tabIndex={0}
-            aria-label={`View world: ${world.name}, genre: ${getGenreLabel(world.genre)}`}
+            aria-label={`查看世界：${world.name}，类型：${getGenreLabel(world.genre)}`}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -92,7 +92,7 @@ export function DashboardRecentWorlds({
               className="dashboard-recent-empty-slot"
             >
               <Plus aria-hidden="true" />
-              Create World
+              创建世界
             </Button>
           ))}
       </div>

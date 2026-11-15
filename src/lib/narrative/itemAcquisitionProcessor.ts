@@ -187,7 +187,7 @@ function isStackableCategory(categoryId: string): boolean {
 function normalizeItemName(rawName: string): string {
   const trimmed = (rawName || '').trim();
   if (!trimmed) {
-    return 'Unnamed Item';
+    return "未命名物品";
   }
 
   return titleCase(trimmed);
@@ -282,7 +282,7 @@ function hintCategorization(
       source: 'narrative-context',
       classifiedAt: now,
       confidence: 0.95,
-      rationale: 'Category inferred from narrative context',
+      rationale: "根据叙事上下文推断的类别",
     };
   }
   return null;
@@ -293,7 +293,7 @@ const fallbackCategorization = (now: string): InventoryItemCategorization => ({
   source: 'fallback',
   classifiedAt: now,
   confidence: 0,
-  rationale: 'AI categorization unavailable',
+  rationale: "AI 分类不可用",
 });
 
 async function batchCategorize(

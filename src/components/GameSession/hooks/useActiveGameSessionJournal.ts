@@ -11,7 +11,7 @@ import Logger from '@/lib/utils/logger';
 const logger = new Logger('UseActiveGameSessionJournal');
 
 const YOU_PREFIX_REGEX = /^you\s+/i; // Remove leading "you" (case-insensitive) and following whitespace
-const QUESTION_MARK_SUFFIX_REGEX = /\?$/; // Remove trailing question mark
+const QUESTION_MARK_SUFFIX_REGEX = /[.!?。！？]+$/; // Remove trailing question mark
 const GENERIC_PROMPT_REGEX = /^what will you do(\b.*)?$/i;
 const GENERIC_PROMPT_SUFFIX_REGEX = /(,?\s*)?(what (do|will) you do( next| now)?|how do you respond|what is your move|what's your move)\??\.?$/i;
 
@@ -33,15 +33,15 @@ export const useActiveGameSessionJournal = ({
 
   const createFallbackSummary = useCallback((content: string): string => {
     // Extract first sentence and clean it up
-    const sentences = content.split(/[.!?]+/).filter(s => safeTrim(s).length > 10);
+    const sentences = content.split(/[.!?。！？]+/).filter(s => safeTrim(s).length > 10);
     if (sentences.length > 0) {
       let summary = safeTrim(sentences[0]);
       // Convert from second person to past tense if needed
       summary = summary.replace(/^You\s+/, '').replace(/\byou\b/g, 'the character');
       // Keep it concise - max 60 characters
-      return summary.length > 60 ? truncate(summary, 57) : summary + '.';
+      return summary.length > 60 ? truncate(summary, 57) : summary + '。';
     }
-    return 'Something happened in the adventure.';
+    return "冒险中发生了一些事。";
   }, []);
 
   const generateJournalSummary = useCallback(async (
@@ -107,22 +107,22 @@ export const useActiveGameSessionJournal = ({
 
     // Find the selected choice
     const selectedChoice = decision.options.find(option => option.id === selectedChoiceId);
-    const choiceText = selectedChoice?.text || (isCustomChoice ? selectedChoiceId : 'Unknown choice');
+    const choiceText = selectedChoice?.text || (isCustomChoice ? selectedChoiceId : "未知选项");
 
     // Format decision content for readability
     const formatDecisionContent = (choice: string, prompt: string): string => {
-      const cleanChoice = safeTrim(choice).replace(/[.!?]+$/, '').toLowerCase();
+      const cleanChoice = safeTrim(choice).replace(/[.!?。！？]+$/, '').toLowerCase();
       const cleanPrompt = safeTrim(prompt)
         .replace(GENERIC_PROMPT_SUFFIX_REGEX, '')
         .replace(YOU_PREFIX_REGEX, '')
         .replace(QUESTION_MARK_SUFFIX_REGEX, '')
         .toLowerCase();
 
-      if (!cleanPrompt || GENERIC_PROMPT_REGEX.test(cleanPrompt)) {
-        return `Chose to ${cleanChoice}.`;
+      if (!cleanPrompt || GENERIC_PROMPT_REGEX.test(cleanPrompt) || /^(?:接下来)?你(?:将|会|要)?(?:怎么做|如何行动|做什么)$/.test(cleanPrompt)) {
+        return `选择：${cleanChoice}。`;
       }
 
-      return `Chose to ${cleanChoice} when ${cleanPrompt}.`;
+      return `选择了${cleanChoice}，当时${cleanPrompt}。`;
     };
 
     // Map decision weight to significance

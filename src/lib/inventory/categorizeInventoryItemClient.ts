@@ -46,7 +46,7 @@ export async function categorizeInventoryItemsClient(
       count: items.length,
       details,
     });
-    throw new Error(details?.error ?? 'Inventory categorization failed');
+    throw new Error(details?.error ?? "背包物品分类失败");
   }
 
   const data = (await response.json()) as {

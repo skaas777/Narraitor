@@ -12,7 +12,7 @@ const NAME_STOP_WORDS = ['the', 'and', 'but', 'for'];
 
 export const deriveFallbackName = (id: string): string => {
   if (!id) {
-    return 'Unknown NPC';
+    return "未知人物";
   }
 
   const cleaned = id
@@ -21,10 +21,10 @@ export const deriveFallbackName = (id: string): string => {
     .trim();
 
   if (cleaned) {
-    return `NPC ${cleaned}`;
+    return /[\u3400-\u9fff]/.test(cleaned) ? cleaned : '未命名人物';
   }
 
-  return 'Unknown NPC';
+  return "未知人物";
 };
 
 interface UseNarrativeParticipantsParams {

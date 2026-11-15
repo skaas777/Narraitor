@@ -10,8 +10,8 @@ const logger = new Logger('WorldGenerator');
 
 // Default fallback values for AI validation failures
 const DEFAULT_WORLD_ATTRIBUTE = {
-  name: 'Strength',
-  description: 'Physical power and might',
+  name: "力量",
+  description: "身体力量与威力",
   baseValue: 5,
   minValue: 1,
   maxValue: 10,
@@ -19,8 +19,8 @@ const DEFAULT_WORLD_ATTRIBUTE = {
 };
 
 const DEFAULT_WORLD_SKILL = {
-  name: 'Basic Knowledge',
-  description: 'General knowledge and awareness',
+  name: "基础知识",
+  description: "常识与感知",
   difficulty: 'easy' as const,
   category: 'General',
   baseValue: 1,

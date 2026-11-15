@@ -59,8 +59,8 @@ describe('SkillReviewStep', () => {
       <Harness initial={baseData([skill('Combat', true, ['Strength']), skill('Stealth', false, [])])} />
     );
 
-    expect(screen.getByText('Review Skills')).toBeInTheDocument();
-    expect(screen.getByTestId('skill-toggle-1')).toHaveTextContent('Excluded');
+    expect(screen.getByText("查看技能")).toBeInTheDocument();
+    expect(screen.getByTestId('skill-toggle-1')).toHaveTextContent("已排除");
     expect(latest.skills).toEqual([
       expect.objectContaining({ name: 'Combat', attributeIds: ['attr-1'] }),
     ]);
@@ -71,7 +71,7 @@ describe('SkillReviewStep', () => {
 
     fireEvent.click(screen.getByTestId('skill-toggle-0'));
 
-    expect(screen.getByTestId('skill-toggle-0')).toHaveTextContent('Excluded');
+    expect(screen.getByTestId('skill-toggle-0')).toHaveTextContent("已排除");
     expect(latest.skills).toEqual([]);
   });
 
@@ -84,6 +84,6 @@ describe('SkillReviewStep', () => {
     );
 
     expect(screen.getByText('At least one skill must be selected')).toBeInTheDocument();
-    expect(screen.getByText('No skill suggestions available')).toBeInTheDocument();
+    expect(screen.getByText("暂无技能建议")).toBeInTheDocument();
   });
 });

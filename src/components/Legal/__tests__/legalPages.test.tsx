@@ -17,22 +17,22 @@ describe('Privacy page (#1366)', () => {
     render(<PrivacyPage />);
 
     expect(
-      screen.getByRole('heading', { level: 1, name: /privacy/i })
+      screen.getByRole('heading', { level: 1, name: /隐私/i })
     ).toBeInTheDocument();
     // Local-first storage
-    expect(screen.getByText(/stored locally in your browser/i)).toBeInTheDocument();
+    expect(screen.getByText(/存储在本地浏览器中/i)).toBeInTheDocument();
     // Export/import backup
-    expect(screen.getByText(/export everything to a file/i)).toBeInTheDocument();
+    expect(screen.getByText(/将所有内容导出为文件/i)).toBeInTheDocument();
     // Prompts leave the browser for the AI provider
     expect(
-      screen.getByText(/sends your prompts.*to the provider that does the generating/i)
+      screen.getByText(/发送你的提示词.*传给负责生成的模型服务/i)
     ).toBeInTheDocument();
     // No accounts
-    expect(screen.getByText(/no sign-up, no login, no profile/i)).toBeInTheDocument();
+    expect(screen.getByText(/没有注册、没有登录、没有个人资料/i)).toBeInTheDocument();
     // Cookieless analytics, no content-derived data
-    expect(screen.getByText(/anonymous, cookieless/i)).toBeInTheDocument();
+    expect(screen.getByText(/匿名、无 Cookie/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/nothing derived from your content/i)
+      screen.getByText(/任何源自你内容的信息/i)
     ).toBeInTheDocument();
   });
 
@@ -40,11 +40,11 @@ describe('Privacy page (#1366)', () => {
     render(<PrivacyPage />);
 
     expect(
-      screen.getByRole('heading', { name: /when something breaks/i })
+      screen.getByRole('heading', { name: /当出现故障时/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/the error's class name/i)).toBeInTheDocument();
+    expect(screen.getByText(/错误的类名/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/deliberately leaves out.*the error message itself/i)
+      screen.getByText(/有意省略的内容：错误消息本身/i)
     ).toBeInTheDocument();
   });
 });
@@ -54,12 +54,12 @@ describe('Terms page (#1366)', () => {
     render(<TermsPage />);
 
     expect(
-      screen.getByRole('heading', { level: 1, name: /terms/i })
+      screen.getByRole('heading', { level: 1, name: /条款/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/no warranty of any kind/i)).toBeInTheDocument();
-    expect(screen.getByText(/use it at your own risk/i)).toBeInTheDocument();
+    expect(screen.getByText(/任何形式的保证/i)).toBeInTheDocument();
+    expect(screen.getByText(/使用风险由你自行承担/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/don't paste secrets or real personal data/i)
+      screen.getByText(/请勿将机密信息或真实个人数据粘贴到提示词中/i)
     ).toBeInTheDocument();
   });
 });
@@ -68,16 +68,16 @@ describe('Legal pages are reachable (#1366)', () => {
   it('exposes footer links to privacy, terms, and about', () => {
     render(<PrivacyPage />);
 
-    const footer = screen.getByRole('navigation', { name: /more information/i });
-    expect(within(footer).getByRole('link', { name: /privacy/i })).toHaveAttribute(
+    const footer = screen.getByRole('navigation', { name: /更多信息/i });
+    expect(within(footer).getByRole('link', { name: /隐私/i })).toHaveAttribute(
       'href',
       '/privacy'
     );
-    expect(within(footer).getByRole('link', { name: /terms/i })).toHaveAttribute(
+    expect(within(footer).getByRole('link', { name: /条款/i })).toHaveAttribute(
       'href',
       '/terms'
     );
-    expect(within(footer).getByRole('link', { name: /about/i })).toHaveAttribute(
+    expect(within(footer).getByRole('link', { name: /关于/i })).toHaveAttribute(
       'href',
       '/about'
     );
@@ -86,12 +86,12 @@ describe('Legal pages are reachable (#1366)', () => {
   it('exposes privacy and terms links from the About page', () => {
     render(<About />);
 
-    const footer = screen.getByRole('navigation', { name: /site information/i });
-    expect(within(footer).getByRole('link', { name: /privacy/i })).toHaveAttribute(
+    const footer = screen.getByRole('navigation', { name: /站点信息/i });
+    expect(within(footer).getByRole('link', { name: /隐私/i })).toHaveAttribute(
       'href',
       '/privacy'
     );
-    expect(within(footer).getByRole('link', { name: /terms/i })).toHaveAttribute(
+    expect(within(footer).getByRole('link', { name: /条款/i })).toHaveAttribute(
       'href',
       '/terms'
     );

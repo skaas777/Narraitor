@@ -174,10 +174,10 @@ describe('ActiveGameSession confirmation dialog exclusion (#1536)', () => {
 
     await screen.findByTestId('manuscript-session-shell');
 
-    fireEvent.click(screen.getByRole('button', { name: 'End Story' }));
-    expect(screen.getByRole('dialog', { name: /end story/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: "结束故事" }));
+    expect(screen.getByRole('dialog', { name: /结束故事/i })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    fireEvent.click(screen.getByRole('button', { name: "关闭" }));
 
     // The exit flow proceeds, and the End Story confirmation is gone - the
     // page-level Leave Story dialog is the only modal decision left.
@@ -191,10 +191,10 @@ describe('ActiveGameSession confirmation dialog exclusion (#1536)', () => {
 
     await screen.findByTestId('manuscript-session-shell');
 
-    fireEvent.click(screen.getByRole('button', { name: 'End Story' }));
-    expect(screen.getByRole('dialog', { name: /end story/i })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: "结束故事" }));
+    expect(screen.getByRole('dialog', { name: /结束故事/i })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Reset Session' }));
+    fireEvent.click(screen.getByRole('button', { name: "重置冒险记录" }));
 
     expect(onStartNew).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

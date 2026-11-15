@@ -19,34 +19,34 @@ export interface WorldTypeSelectorProps {
 const WORLD_TYPE_OPTIONS: WorldTypeOption[] = [
   {
     id: 'original',
-    label: 'Original World',
+    label: "原创世界",
     description:
-      'Generate an original world with its own settings and themes',
+      "生成一个拥有自身设定与主题的原创世界",
     requiresReference: false,
   },
   {
     id: 'inspired_by',
-    label: 'Inspired By',
+    label: "灵感来源",
     description:
-      'Generate an original world inspired by an existing fictional universe or real setting',
+      "生成一个受现有虚构宇宙或真实设定启发的原创世界",
     requiresReference: true,
-    referenceLabel: 'Existing Setting',
-    referencePlaceholder: 'e.g., Star Wars, The Office, Breaking Bad',
-    additionalDetailsLabel: 'Additional Details',
+    referenceLabel: "现有设定",
+    referencePlaceholder: "例如：Star Wars、The Office、Breaking Bad",
+    additionalDetailsLabel: "补充细节",
     additionalDetailsPlaceholder:
-      'What aspects should your world be inspired by? What makes it unique?',
+      "你的世界应从哪些方面获得灵感？它有何独特之处？",
   },
   {
     id: 'set_within',
-    label: 'Set Within',
+    label: "衍生世界",
     description:
-      'Generate a world directly within an existing fictional universe or real setting',
+      "直接在现有虚构宇宙或真实设定中生成一个世界",
     requiresReference: true,
-    referenceLabel: 'Existing Setting',
-    referencePlaceholder: 'e.g., Star Wars, The Office, Breaking Bad',
-    additionalDetailsLabel: 'Specific Setting/Time',
+    referenceLabel: "现有设定",
+    referencePlaceholder: "例如：Star Wars、The Office、Breaking Bad",
+    additionalDetailsLabel: "具体设定/时间",
     additionalDetailsPlaceholder:
-      "Where specifically in this universe? What time period? What's the focus?",
+      "在这个宇宙中的具体地点？什么时间段？重点是什么？",
   },
 ];
 
@@ -94,7 +94,7 @@ export function WorldTypeSelector({
       {/* World Type Selection */}
       {showLabels && (
         <Label>
-          World Type <span>*</span>
+          世界类型 <span>*</span>
         </Label>
       )}
 
@@ -139,7 +139,7 @@ export function WorldTypeSelector({
             <Label htmlFor="additional-details">
               {selectedOption.additionalDetailsLabel}{' '}
               {value.worldType === 'set_within' ? (
-                <span>(optional - picked from the setting you named)</span>
+                <span>（可选——会根据你命名的设定自动选择）</span>
               ) : (
                 <span>*</span>
               )}

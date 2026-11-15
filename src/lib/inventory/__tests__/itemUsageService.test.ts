@@ -609,8 +609,8 @@ describe('Item Usage Service', () => {
           'simple'
         );
 
-        expect(result).toContain('You use one of the Health Potion');
-        expect(result).toContain('4 remaining');
+        expect(result).toContain("你使用了其中一件 Health Potion");
+        expect(result).toContain("还剩 4 件");
       });
 
       it('should generate narrative for last consumed item', () => {
@@ -620,7 +620,7 @@ describe('Item Usage Service', () => {
           'simple'
         );
 
-        expect(result).toContain('You use the last of the Health Potion');
+        expect(result).toContain("你用完了最后一件 Health Potion");
       });
 
       it('should generate narrative for non-consumed item', () => {
@@ -630,7 +630,7 @@ describe('Item Usage Service', () => {
           'simple'
         );
 
-        expect(result).toContain('You use the Health Potion');
+        expect(result).toContain("你使用了Health Potion");
         expect(result).toContain('Restores vitality');
       });
 
@@ -642,7 +642,7 @@ describe('Item Usage Service', () => {
           'simple'
         );
 
-        expect(result).toContain('You use the Health Potion.');
+        expect(result).toContain("你使用了Health Potion。");
         expect(result).not.toContain('Restores vitality');
       });
     });
@@ -655,8 +655,8 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('You use one of the Health Potion');
-        expect(result).toContain('4 remaining pieces to draw upon');
+        expect(result).toContain("你使用了其中一件 Health Potion");
+        expect(result).toContain("你还剩 4 件可用");
       });
 
       it('should generate detailed narrative for last consumed item', () => {
@@ -666,8 +666,8 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('You use the Health Potion');
-        expect(result).toContain('That was the last of this item');
+        expect(result).toContain("你使用了Health Potion");
+        expect(result).toContain("那已是这件物品的最后一件");
       });
 
       it('should use singular form when one remains', () => {
@@ -677,8 +677,8 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('1 remaining');
-        expect(result).not.toContain('remaining pieces');
+        expect(result).toContain("1 件可用");
+        expect(result).not.toContain("件剩余");
       });
 
       it('should use plural form when multiple remain', () => {
@@ -688,7 +688,7 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('3 remaining pieces');
+        expect(result).toContain("3 件可用");
       });
 
       it('should generate narrative for non-consumed item', () => {
@@ -698,8 +698,8 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('You use one of the Health Potion');
-        expect(result).toContain('The item remains firmly in your grasp');
+        expect(result).toContain("你使用了其中一件 Health Potion");
+        expect(result).toContain("物品仍稳稳留在你手中");
       });
     });
 
@@ -722,7 +722,7 @@ describe('Item Usage Service', () => {
           'detailed'
         );
 
-        expect(result).toContain('2 remaining pieces');
+        expect(result).toContain("2 件可用");
       });
 
       it('should default to simple tone when not specified', () => {
@@ -733,7 +733,7 @@ describe('Item Usage Service', () => {
 
         // Simple tone doesn't include "firmly in your grasp"
         expect(result).not.toContain('firmly in your grasp');
-        expect(result).toContain('You use the Health Potion');
+        expect(result).toContain("你使用了Health Potion");
       });
     });
   });

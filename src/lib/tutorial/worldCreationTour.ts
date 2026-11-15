@@ -7,8 +7,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="world-name"]',
     content: TutorialContent({
-      children: "Here's where you'll name your world to make it feel distinct.",
-      example: '"The Shattered Realms" to evoke a fractured fantasy kingdom',
+      children: "在这里为你的世界命名，让它显得与众不同。",
+      example: "“破碎国度”能营造出分崩离析的奇幻王国氛围",
     }),
     placement: 'right',
     disableBeacon: true,
@@ -17,8 +17,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="genre-picker"]',
     content: TutorialContent({
-      children: "Here you'll select a genre to define the tone and available options.",
-      example: 'Cyberpunk for neon-lit dystopias with hackers and megacorps',
+      children: "在这里选择题材，以确定叙事风格和可用选项。",
+      example: "赛博朋克，适合霓虹闪烁、黑客与巨型企业并存的反乌托邦",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -26,8 +26,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="world-type"]',
     content: TutorialContent({
-      children: 'This is where you choose whether your world is original, inspired by, or set within an existing setting.',
-      example: 'Inspired By to create your own spin on a favorite universe',
+      children: "在这里选择你的世界是原创、受启发创作，还是置于已有设定之中。",
+      example: "选择“受启发”，在你喜爱的宇宙上做出自己的演绎",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -35,8 +35,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="world-reference"]',
     content: TutorialContent({
-      children: "Here you'll enter the setting your world should follow.",
-      example: '"Star Wars during the Old Republic era" for that specific time period',
+      children: "在这里输入你的世界要沿用的背景设定。",
+      example: "“Star Wars 旧共和国时期”可锁定那个特定时代",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -45,8 +45,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="tone-content-rating"]',
     content: TutorialContent({
-      children: "This is where you'll set the content rating to match your audience.",
-      example: 'PG-13 for moderate themes and action without explicit content',
+      children: "在这里设置内容分级，以匹配你的受众。",
+      example: "PG-13：适合适度主题与动作内容，不含露骨内容",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -56,8 +56,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="tone-narrative-style"]',
     content: TutorialContent({
-      children: "Here you can pick the narrative style that fits your world.",
-      example: 'Epic for grand-scale stories with heroic themes',
+      children: "在这里选择适合你世界的叙事风格。",
+      example: "史诗，适合具有英雄主题的宏大故事",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -66,8 +66,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="tone-language-complexity"]',
     content: TutorialContent({
-      children: 'This setting adjusts language complexity to match your reading preference.',
-      example: 'Literary for sophisticated prose with artistic expression',
+      children: "此设置会调整语言复杂度，以匹配你的阅读偏好。",
+      example: "文学，适合富有艺术表达的精妙文笔",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -76,8 +76,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="tone-custom-instructions"]',
     content: TutorialContent({
-      children: 'You can add extra guidance for how stories should be told.',
-      example: '"Emphasize moral dilemmas" to make choices feel meaningful',
+      children: "你可以补充故事讲述方式的额外指引。",
+      example: "“强调道德困境”能让选择更有分量",
     }),
     placement: 'top',
     tooltipComponent: WorldCreationStartTooltip,
@@ -88,8 +88,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="world-description"]',
     content: TutorialContent({
-      children: "Here's where you'll describe your world in detail. This will be used to generate rich lore, locations, and history.",
-      example: '"A war-torn kingdom where magic is fading" sets up conflict and stakes',
+      children: "在这里详细描述你的世界。系统将据此生成丰富的设定、地点和历史。",
+      example: "“一个战火纷飞、魔法逐渐消退的王国”能奠定冲突与风险",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -98,8 +98,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="ai-suggestions-actions"]',
     content: TutorialContent({
-      children: 'You can click Generate to get suggested attributes and skills based on your description.',
-      example: 'A cyberpunk world might suggest "Hacking" and "Street Cred"',
+      children: "你可以点击“生成”，根据描述获取推荐的属性与技能。",
+      example: "赛博朋克世界可能会推荐“黑客”与“街头声望”",
     }),
     placement: 'top',
     offset: 12,
@@ -108,7 +108,7 @@ export const worldCreationTour: Step[] = [
   },
   {
     target: '[data-tutorial="ai-suggestions-preview"]',
-    content: 'Preview the suggestions before reviewing them in detail. You can accept, modify, or reject each one on the next steps.',
+    content: "先预览推荐内容，再详细审阅。你可以在后续步骤中接受、修改或拒绝每一项。",
     placement: 'top',
     tooltipComponent: WorldCreationStartTooltip,
     disableBeacon: true,
@@ -118,8 +118,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="attribute-editor"]',
     content: TutorialContent({
-      children: "Here's where you'll review and customize the core attributes that define characters.",
-      example: '"Willpower" to represent mental fortitude in a horror setting',
+      children: "在这里审阅并自定义塑造角色的核心属性。",
+      example: "“意志力”可代表恐怖设定中的精神韧性",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -128,8 +128,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="attribute-suggestions"]',
     content: TutorialContent({
-      children: 'You can use the suggested attributes or customize them.',
-      example: 'Rename "Strength" to "Might" for a more fantasy feel',
+      children: "你可以使用推荐的属性，也可以自行自定义。",
+      example: "将“力量”重命名为“威能”，更有奇幻感",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -137,8 +137,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="attribute-custom"]',
     content: TutorialContent({
-      children: 'This section lets you add custom attributes unique to your setting.',
-      example: '"Corruption" to track dark magic influence in your world',
+      children: "此部分可让你添加专属于该设定的自定义属性。",
+      example: "“腐化”可追踪黑暗魔法在你世界中的影响",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -147,7 +147,7 @@ export const worldCreationTour: Step[] = [
   },
   {
     target: '[data-tutorial="attribute-summary"]',
-    content: 'Keep an eye on how many attribute slots you have left. Most worlds work well with 4-6 core attributes.',
+    content: "留意剩余属性槽位。大多数世界使用 4-6 个核心属性效果最佳。",
     placement: 'top',
     tooltipComponent: WorldCreationStartTooltip,
     disableBeacon: true,
@@ -157,8 +157,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="skill-editor"]',
     content: TutorialContent({
-      children: "Here's where you'll define the skills characters can learn.",
-      example: '"Persuasion" for social encounters and negotiations',
+      children: "在这里定义角色可以学习的技能。",
+      example: "“说服”适用于社交遭遇和谈判",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -167,8 +167,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="skill-suggestions"]',
     content: TutorialContent({
-      children: 'You can review the suggested skills and tweak them.',
-      example: 'Rename "Melee Combat" to "Blade Dancing" for a unique feel',
+      children: "你可以审阅推荐的技能并进行微调。",
+      example: "将“近战战斗”重命名为“刃舞”，营造独特风格",
     }),
     placement: 'bottom',
     offset: 12,
@@ -177,8 +177,8 @@ export const worldCreationTour: Step[] = [
   {
     target: '[data-tutorial="skill-custom"]',
     content: TutorialContent({
-      children: 'This section lets you create custom skills for your world.',
-      example: '"Dragon Riding" to enable aerial adventures in your fantasy world',
+      children: "此部分可让你为世界创建自定义技能。",
+      example: "“骑龙”可让你的奇幻世界展开空中冒险",
     }),
     placement: 'top',
     disableBeacon: true,
@@ -187,7 +187,7 @@ export const worldCreationTour: Step[] = [
   },
   {
     target: '[data-tutorial="skill-summary"]',
-    content: 'Track how many skills you have selected. Aim for 8-12 skills to give characters meaningful choices without overwhelming options.',
+    content: "留意已选技能数量。建议控制在 8-12 个，让角色拥有有意义的选择，又不会选项过多。",
     placement: 'top',
     tooltipComponent: WorldCreationStartTooltip,
     disableBeacon: true,
@@ -196,27 +196,27 @@ export const worldCreationTour: Step[] = [
   },
   {
     target: '[data-tutorial="finalize-review"]',
-    content: 'Review the core world details before you finalize.',
+    content: "在最终确认前，审阅核心世界详情。",
     placement: 'top',
     disableBeacon: true,
     hideBackButton: true,
   },
   {
     target: '[data-tutorial="finalize-image"]',
-    content: 'You can generate a world image to visualize your setting based on your description and genre.',
+    content: "你可以根据描述和题材生成世界图像，将设定可视化。",
     placement: 'top',
     disableBeacon: true,
   },
   {
     target: '[data-tutorial="finalize-attributes"]',
-    content: "Here you can double-check the attributes you've chosen. You can still go back to make changes.",
+    content: "在这里复核已选属性。你仍可返回进行更改。",
     placement: 'top',
     disableBeacon: true,
     disableScrolling: true,
   },
   {
     target: '[data-tutorial="finalize-skills"]',
-    content: "Here's where you can confirm the skills list before creating the world. You can still go back to make changes.",
+    content: "在这里可以在创建世界前确认技能列表。你仍可返回进行更改。",
     placement: 'top',
     disableBeacon: true,
     disableScrolling: true,
@@ -224,7 +224,7 @@ export const worldCreationTour: Step[] = [
   },
   {
     target: '[data-tutorial="finalize-world"]',
-    content: "Here's where you'll review your world details and create it! You're just one step away from your adventure.",
+    content: "在这里，你可以查看世界详情并创建它！距离你的冒险只差一步。",
     placement: 'top',
     disableBeacon: true,
     disableScrolling: true,

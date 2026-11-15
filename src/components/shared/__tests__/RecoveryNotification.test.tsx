@@ -27,8 +27,8 @@ describe('RecoveryNotification', () => {
       render(<RecoveryNotification {...defaultProps} />);
 
       // Check for date components flexibly (CI environments may use different timezones)
-      expect(screen.getByText(/Jan 1, 2023/i)).toBeInTheDocument();
-      expect(screen.getByText(/Last saved:/i)).toBeInTheDocument();
+      expect(screen.getByText(/2023年1月1日/i)).toBeInTheDocument();
+      expect(screen.getByText(/上次保存：/i)).toBeInTheDocument();
     });
 
     test('renders a warning icon when recovering would overwrite current data', () => {
@@ -66,7 +66,7 @@ describe('RecoveryNotification', () => {
     test('calls onRecover when recover button clicked', () => {
       render(<RecoveryNotification {...defaultProps} />);
 
-      const recoverButton = screen.getByRole('button', { name: /recover progress/i });
+      const recoverButton = screen.getByRole('button', { name: /恢复进度/i });
       fireEvent.click(recoverButton);
 
       expect(mockOnRecover).toHaveBeenCalledTimes(1);
@@ -75,7 +75,7 @@ describe('RecoveryNotification', () => {
     test('calls onDismiss when dismiss button clicked', () => {
       render(<RecoveryNotification {...defaultProps} />);
 
-      const dismissButton = screen.getByRole('button', { name: /start fresh/i });
+      const dismissButton = screen.getByRole('button', { name: /重新开始/i });
       fireEvent.click(dismissButton);
 
       expect(mockOnDismiss).toHaveBeenCalledTimes(1);
@@ -84,7 +84,7 @@ describe('RecoveryNotification', () => {
     test('calls onDismiss when close button clicked', () => {
       render(<RecoveryNotification {...defaultProps} />);
 
-      const closeButton = screen.getByRole('button', { name: /close/i });
+      const closeButton = screen.getByRole('button', { name: /关闭/i });
       fireEvent.click(closeButton);
 
       expect(mockOnDismiss).toHaveBeenCalledTimes(1);
@@ -95,14 +95,14 @@ describe('RecoveryNotification', () => {
     test('handles missing lastSaved date', () => {
       render(<RecoveryNotification {...defaultProps} lastSaved={undefined} />);
 
-      expect(screen.getByText(/Character Creation Progress Found/i)).toBeInTheDocument();
+      expect(screen.getByText(/发现角色创建进度/i)).toBeInTheDocument();
       expect(screen.queryByText(/last saved/i)).not.toBeInTheDocument();
     });
 
     test('handles invalid lastSaved date', () => {
       render(<RecoveryNotification {...defaultProps} lastSaved="invalid-date" />);
 
-      expect(screen.getByText(/Character Creation Progress Found/i)).toBeInTheDocument();
+      expect(screen.getByText(/发现角色创建进度/i)).toBeInTheDocument();
       expect(screen.queryByText(/last saved/i)).not.toBeInTheDocument();
     });
   });

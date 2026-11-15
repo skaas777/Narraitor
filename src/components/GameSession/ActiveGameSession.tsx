@@ -310,17 +310,17 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
     () => [
       {
         key: '?',
-        description: 'Show keyboard shortcuts',
+        description: "显示键盘快捷键",
         action: () => setIsShortcutsHelpOpen(true),
       },
       {
         key: 'j',
-        description: 'Open journal',
+        description: "打开日志",
         action: handleOpenJournalShortcut,
       },
       {
         key: 'c',
-        description: 'Toggle character sheet',
+        description: "切换角色面板",
         action: handleToggleCharacterShortcut,
       },
     ],
@@ -381,7 +381,7 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
     return (
       <div className="manuscript-loading-shell">
         <LoadingState
-          message={isFatalEnding ? "Game Over" : "Writing your story's ending..."}
+          message={isFatalEnding ? "游戏结束" : "正在撰写你的故事结局……"}
         />
       </div>
     );
@@ -434,7 +434,7 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
       onClick={handleEndStoryClick}
       className="manuscript-warning-action-button"
     >
-      End Story
+      结束故事
     </button>
   );
 
@@ -556,15 +556,15 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
           }}
           title={
             activeDrawer === 'character'
-              ? 'Character Sheet'
+              ? "角色面板"
               : activeDrawer === 'inventory'
-                ? 'Inventory'
+                ? "背包"
                               : activeDrawer === 'story-summary'
-                                ? 'Story So Far'
+                                ? "故事回顾"
                                 : activeDrawer === 'choice-history'
-                                  ? 'Choice History'
+                                  ? "选项历史"
                                   : activeDrawer === 'journal'
-                                    ? 'Journal Snapshot'
+                                    ? "日志快照"
                                     : ''
                           }
                           subtitle={
@@ -575,7 +575,7 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
                             activeDrawer === 'character'
                               ? character?.name
                               : activeDrawer === 'inventory'
-                                ? `Items for ${character?.name}`
+                                ? `${character?.name}的物品`
                                 : activeDrawer === 'story-summary' || activeDrawer === 'choice-history' || activeDrawer === 'journal'
                                   ? world?.name
                                   : undefined

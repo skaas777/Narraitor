@@ -62,10 +62,10 @@ function transformGeneratedAttributes(
       id: generateUniqueId('attr'),
       characterId: '',
       worldAttributeId: attr.id,
-      name: worldAttr?.name || 'Unknown',
+      name: worldAttr?.name || "未知",
       baseValue: attr.value,
       modifiedValue: attr.value,
-      category: worldAttr?.category || 'General',
+      category: worldAttr?.category || "通用",
     };
   });
 }
@@ -80,7 +80,7 @@ function transformGeneratedSkills(
       id: generateUniqueId('skill'),
       characterId: '',
       worldSkillId: skill.id,
-      name: worldSkill?.name || 'Unknown',
+      name: worldSkill?.name || "未知",
       level: skill.level,
       category: worldSkill?.category,
     };
@@ -196,13 +196,13 @@ export default function CharactersPage() {
   const handleGenerateCharacter = async () => {
     if (!currentWorld || !effectiveWorldId) return;
     if (generationType === 'specific' && !characterName.trim()) {
-      setGenerateError('Please enter a character name');
+      setGenerateError("请输入角色名称");
       return;
     }
 
     setIsGenerating(true);
     setGenerateError(null);
-    setGeneratingStatus('Creating character...');
+    setGeneratingStatus("正在创建角色……");
 
     try {
       const existingNames = worldCharacters.map((char) => char.name);
@@ -255,7 +255,7 @@ export default function CharactersPage() {
       });
 
       setCurrentCharacter(characterId);
-      setGeneratingStatus('Generating portrait...');
+      setGeneratingStatus("正在生成肖像……");
       await generateCharacterPortrait(
         characterId,
         generatedData,
@@ -271,7 +271,7 @@ export default function CharactersPage() {
       router.push(`/characters/${characterId}`);
     } catch (error) {
       setGenerateError(
-        error instanceof Error ? error.message : 'Failed to generate character'
+        error instanceof Error ? error.message : "生成角色失败"
       );
     } finally {
       setIsGenerating(false);
@@ -307,8 +307,8 @@ export default function CharactersPage() {
       const characterName = deleteDialog.characterName;
       await deleteCharacterWithCleanup(deleteDialog.characterId);
       toast.success(
-        'Character Deleted',
-        `${characterName} has been permanently deleted`
+        "角色已删除",
+        `${characterName} 已被永久删除`
       );
       setDeleteDialog({
         isOpen: false,
@@ -376,15 +376,15 @@ export default function CharactersPage() {
 
   if (mounted && (!effectiveWorldId || !currentWorld)) {
     return (
-      <PageLayout title="My Characters">
+      <PageLayout title="我的角色">
         <EmptyState
           className="characters-empty-no-world"
           icon={<Globe aria-hidden="true" />}
-          title="Choose Your World"
-          description="Characters live inside a world. Head to Worlds to pick one, then come back here to view and create characters."
+          title="选择你的世界"
+          description="角色存在于某个世界中。前往“世界”选择一个世界，然后回到这里查看并创建角色。"
           action={
             <Button variant="default" onClick={() => router.push('/worlds')}>
-              Go to Worlds
+              前往世界
             </Button>
           }
         />
@@ -394,13 +394,13 @@ export default function CharactersPage() {
 
   const actionButtons = [
     {
-      label: 'Create Character',
+      label: "创建角色",
       onClick: handleCreateCharacter,
       variant: 'primary' as const,
       icon: <Plus aria-hidden="true" />,
     },
     {
-      label: 'Generate Character',
+      label: "生成角色",
       onClick: () => setShowGenerateDialog(true),
       variant: 'secondary' as const,
       disabled: isGenerating,
@@ -409,8 +409,8 @@ export default function CharactersPage() {
 
   const characterCount = worldCharacters.length;
   const pageDescription = currentWorld
-    ? `${characterCount} ${characterCount === 1 ? 'character' : 'characters'} in this realm`
-    : 'Create unique characters for your interactive narrative adventures.';
+    ? `此世界中有 ${characterCount} 个角色`
+    : "为你的互动叙事冒险创建独特的角色。";
 
   // Decorative world art behind the masthead. The header's world switcher
   // already names the world, so the masthead repeats neither its name nor genre.
@@ -429,7 +429,7 @@ export default function CharactersPage() {
 
   return (
     <PageLayout
-      title="My Characters"
+      title="我的角色"
       description={pageDescription}
       headerBackground={headerBackground}
       headerClassName="characters-world-masthead"
@@ -453,7 +453,7 @@ export default function CharactersPage() {
       <div className="characters-body">
         {!currentWorld || worldCharacters.length === 0 ? (
           <div className="characters-empty">
-            <h2>No characters in {currentWorld?.name || 'this world'} yet</h2>
+            <h2>在 {currentWorld?.name || "这个世界"} 中尚无角色</h2>
             <ActionButtonGroup
               layout="horizontal"
               gap="sm"
@@ -461,14 +461,14 @@ export default function CharactersPage() {
                 {
                   // Opens the same dialog as the toolbar, so a failed
                   // generation has somewhere visible to report its error.
-                  label: 'Generate Character',
+                  label: "生成角色",
                   onClick: () => setShowGenerateDialog(true),
                   variant: 'secondary',
                   disabled: isGenerating,
                   size: 'lg',
                 },
                 {
-                  label: 'Create Character',
+                  label: "创建角色",
                   onClick: handleCreateCharacter,
                   // The one filled CTA for this state: with an empty roster the
                   // toolbar above doesn't render.
@@ -522,11 +522,11 @@ export default function CharactersPage() {
         isOpen={deleteDialog.isOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        title="Delete Character"
-        description="This action cannot be undone."
+        title="删除角色"
+        description="此操作无法撤销。"
         itemName={deleteDialog.characterName}
-        confirmButtonText="Delete Character"
-        cancelButtonText="Cancel"
+        confirmButtonText="删除角色"
+        cancelButtonText="取消"
         isDeleting={deleteDialog.isDeleting}
       />
 

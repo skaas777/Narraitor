@@ -21,7 +21,7 @@ describe('NotFound page (#1535)', () => {
 
     const headings = screen.getAllByRole('heading', { level: 1 });
     expect(headings).toHaveLength(1);
-    expect(headings[0]).toHaveTextContent('Page Not Found');
+    expect(headings[0]).toHaveTextContent("页面未找到");
     // Branded copy, not the framework fallback.
     expect(screen.queryByText('This page could not be found.')).not.toBeInTheDocument();
   });
@@ -29,7 +29,7 @@ describe('NotFound page (#1535)', () => {
   it('offers a recovery action back to worlds', () => {
     render(<NotFound />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Back to Worlds' }));
+    fireEvent.click(screen.getByRole('button', { name: "返回世界列表" }));
     expect(push).toHaveBeenCalledWith('/worlds');
   });
 });

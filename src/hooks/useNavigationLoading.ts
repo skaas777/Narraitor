@@ -136,7 +136,7 @@ export function useNavigationLoading(): UseNavigationLoadingReturn {
     setLoadingState({
       isLoading: true,
       loadingType: 'page',
-      message: message || 'Loading...',
+      message: message || "加载中…",
       route: href,
     });
     

@@ -51,13 +51,13 @@ describe('Persistence Storage Status Tracking', () => {
     expect(getStorageStatus()).toBe(StorageStatus.UNAVAILABLE);
     expect(getStorageFallbackNotice()).toEqual(
       expect.objectContaining({
-        message: expect.stringContaining('IndexedDB initialization failed'),
+        message: expect.stringContaining("IndexedDB 初始化失败"),
       })
     );
     expect(listener).toHaveBeenCalledWith(
       StorageStatus.UNAVAILABLE,
       expect.objectContaining({
-        message: expect.stringContaining('IndexedDB initialization failed'),
+        message: expect.stringContaining("IndexedDB 初始化失败"),
       })
     );
     expect(errorSpy).toHaveBeenCalledWith(

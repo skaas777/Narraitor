@@ -107,10 +107,10 @@ describe('HeaderNavigation', () => {
     it('displays main navigation items when no worlds exist', () => {
       render(<HeaderNavigation />);
 
-      expect(screen.getByText('Worlds')).toBeInTheDocument();
-      const charactersLink = screen.getByText('Characters');
+      expect(screen.getByText("世界")).toBeInTheDocument();
+      const charactersLink = screen.getByText("角色");
       expect(charactersLink).toBeInTheDocument();
-      expect(screen.getByText('Settings')).toBeInTheDocument();
+      expect(screen.getByText("设置")).toBeInTheDocument();
     });
 
     it('displays Characters nav when worlds exist', () => {
@@ -118,11 +118,11 @@ describe('HeaderNavigation', () => {
 
       render(<HeaderNavigation />);
 
-      expect(screen.getByText('Worlds')).toBeInTheDocument();
-      expect(screen.getByText('Characters')).toBeInTheDocument();
-      expect(screen.getByText('Settings')).toBeInTheDocument();
+      expect(screen.getByText("世界")).toBeInTheDocument();
+      expect(screen.getByText("角色")).toBeInTheDocument();
+      expect(screen.getByText("设置")).toBeInTheDocument();
 
-      const charactersLink = screen.getByText('Characters');
+      const charactersLink = screen.getByText("角色");
       expect(charactersLink.closest('a')).toHaveAttribute('href', '/characters');
 
       mockWorldStore.worlds = {};
@@ -133,8 +133,8 @@ describe('HeaderNavigation', () => {
     it('has proper navigation links and structure', () => {
       render(<HeaderNavigation />);
 
-      const worldsLink = screen.getByText('Worlds').closest('a');
-      const settingsLink = screen.getByText('Settings').closest('a');
+      const worldsLink = screen.getByText("世界").closest('a');
+      const settingsLink = screen.getByText("设置").closest('a');
 
       expect(worldsLink).toHaveAttribute('href', '/worlds');
       expect(settingsLink).toHaveAttribute('href', '/settings');
@@ -164,7 +164,7 @@ describe('HeaderNavigation', () => {
       render(<HeaderNavigation />);
 
       expect(
-        screen.getByRole('button', { name: 'Open menu' })
+        screen.getByRole('button', { name: "打开菜单" })
       ).toBeInTheDocument();
     });
   });
@@ -174,7 +174,7 @@ describe('HeaderNavigation', () => {
       render(<HeaderNavigation />);
 
       expect(
-        screen.getByRole('button', { name: 'Appearance' })
+        screen.getByRole('button', { name: "外观" })
       ).toBeInTheDocument();
     });
   });
@@ -193,7 +193,7 @@ describe('HeaderNavigation', () => {
 
       render(<HeaderNavigation />);
 
-      expect(screen.getByRole('button', { name: /^Play$/ })).toHaveClass(
+      expect(screen.getByRole('button', { name: /^开始游戏$/ })).toHaveClass(
         'button-outline'
       );
     });
@@ -216,7 +216,7 @@ describe('HeaderNavigation', () => {
         render(<HeaderNavigation />);
 
         expect(
-          screen.queryByRole('button', { name: /^Play$/ })
+          screen.queryByRole('button', { name: /^开始游戏$/ })
         ).not.toBeInTheDocument();
       }
     );
@@ -232,7 +232,7 @@ describe('HeaderNavigation', () => {
         render(<HeaderNavigation />);
 
         expect(
-          screen.queryByRole('button', { name: /Create Your First World/ })
+          screen.queryByRole('button', { name: /创建你的第一个世界/ })
         ).not.toBeInTheDocument();
       }
     );
@@ -243,7 +243,7 @@ describe('HeaderNavigation', () => {
       render(<HeaderNavigation />);
 
       expect(
-        screen.getByRole('button', { name: /Create Your First World/ })
+        screen.getByRole('button', { name: /创建你的第一个世界/ })
       ).toBeInTheDocument();
     });
   });

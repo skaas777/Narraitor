@@ -64,7 +64,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
 
   return (
     <div className="component-basic-info-step">
-      <WizardFormSection title="Basic Information">
+      <WizardFormSection title="基本信息">
       <div className="component-basic-info-layout">
         {/* Portrait placeholder */}
         <div>
@@ -75,7 +75,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
         <div className="component-basic-info-fields" data-tutorial="basic-info">
           <div>
             <Label htmlFor="character-name">
-              Character Name <span>*</span>
+              角色名称 <span>*</span>
             </Label>
             <Input
               id="character-name"
@@ -84,16 +84,16 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
               onChange={handleNameChange}
               onBlur={handleBlur}
               maxLength={50}
-              placeholder="Enter character name"
+              placeholder="输入角色名称"
             />
             <p className="form-help-text">
-              Between 2 and 50 characters, unique within this world.
+              长度在 2 到 50 个字符之间，且在本世界中唯一。
             </p>
           </div>
 
           <div>
             <Label htmlFor="character-description">
-              Description (optional)
+              描述（可选）
             </Label>
             <Textarea
               id="character-description"
@@ -101,7 +101,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
               onChange={handleDescriptionChange}
               onBlur={handleBlur}
               rows={3}
-              placeholder="Describe your character's role and background"
+              placeholder="描述你角色的身份和背景"
             />
           </div>
 
@@ -116,7 +116,7 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
 
           <div>
             <Label htmlFor="physical-description">
-              Physical Description (optional)
+              外貌描述（可选）
             </Label>
             <Textarea
               id="physical-description"
@@ -124,10 +124,10 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
               onChange={handlePhysicalDescriptionChange}
               onBlur={handleBlur}
               rows={3}
-              placeholder="Describe your character's appearance (e.g., tall and muscular, silver hair, blue eyes, wears leather armor)"
+              placeholder="描述你角色的外貌（例如：高大健壮、银发、蓝眼、身穿皮甲）"
             />
             <p className="form-help-text">
-              This will be used to generate your character&apos;s portrait. Tip: Add &quot;looks like [actor name]&quot; to generate a portrait resembling a specific person.
+              这将用于生成你角色的肖像。提示：添加“长得像 [演员名]”即可生成与特定人物相似的肖像。
             </p>
           </div>
 

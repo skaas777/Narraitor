@@ -17,12 +17,12 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
     <div className="component-world-basic-info-form">
       <div className="form-group">
         <Label htmlFor="worldName">
-          Name
+          名称
         </Label>
         <Input
           id="worldName"
           type="text"
-          placeholder="Enter world name..."
+          placeholder="输入世界名称..."
           value={world.name}
           onChange={(e) => onChange({ name: e.target.value })}
         />
@@ -30,11 +30,11 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
 
       <div className="form-group">
         <Label htmlFor="worldDescription">
-          Description
+          描述
         </Label>
         <Textarea
           id="worldDescription"
-          placeholder="Enter world description..."
+          placeholder="输入世界描述..."
           value={world.description}
           onChange={(e) => onChange({ description: e.target.value })}
           rows={4}
@@ -43,7 +43,7 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
 
       <div className="form-group">
         <Label htmlFor="worldGenre">
-          Genre
+          题材
         </Label>
         <Select
           id="worldGenre"
@@ -61,7 +61,7 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
       {/* World Type Section */}
       <div className="form-group">
         <Label htmlFor="worldType">
-          World Type
+          世界类型
         </Label>
         <Select
           id="worldType"
@@ -77,9 +77,9 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
             }
           }}
         >
-          <option value="original">Original World</option>
-          <option value="set_within">Set Within</option>
-          <option value="inspired_by">Inspired By</option>
+          <option value="original">原创世界</option>
+          <option value="set_within">衍生世界</option>
+          <option value="inspired_by">灵感来源</option>
         </Select>
       </div>
 
@@ -87,12 +87,12 @@ const WorldBasicInfoForm: React.FC<WorldBasicInfoFormProps> = ({ world, onChange
       {world.reference !== undefined && (
         <div className="form-group">
           <Label htmlFor="worldReference">
-            {world.relationship === 'set_within' ? 'Set Within Universe' : 'Inspired By'}
+            {world.relationship === 'set_within' ? "设定于同一宇宙" : "灵感来源"}
           </Label>
           <Input
             id="worldReference"
             type="text"
-            placeholder="e.g., Star Wars, Lord of the Rings, Harry Potter"
+            placeholder="例如：星球大战、指环王、哈利·波特"
             value={world.reference || ''}
             onChange={(e) => onChange({ reference: e.target.value })}
           />

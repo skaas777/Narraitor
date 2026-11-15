@@ -114,13 +114,13 @@ export function CharacterCard({
 
           <div className="character-card-meta">
             <span className="character-card-level">
-              Level {character.level || 1}
+              等级 {character.level || 1}
             </span>
             {character?.background?.isKnownFigure !== undefined && (
               <span className="character-card-type">
                 {character.background.isKnownFigure
-                  ? 'Known Figure'
-                  : 'Original'}
+                  ? "知名人物"
+                  : "原创"}
               </span>
             )}
             <ActiveStateLabel
@@ -144,8 +144,8 @@ export function CharacterCard({
             <div className="character-card-footer-meta">
               <time dateTime={timestamp}>
                 {character.updatedAt
-                  ? `Updated: ${formatDate(character.updatedAt)}`
-                  : `Created: ${formatDate(character.createdAt)}`}
+                  ? `更新于：${formatDate(character.updatedAt)}`
+                  : `创建于：${formatDate(character.createdAt)}`}
               </time>
             </div>
           ) : null}
@@ -155,8 +155,8 @@ export function CharacterCard({
               primaryActions={[
                 {
                   key: 'play',
-                  text: 'Play',
-                  ariaLabel: `Play as ${character.name}`,
+                  text: "开始冒险",
+                  ariaLabel: `扮演 ${character.name}`,
                   onClick: onPlay,
                   variant: 'accent',
                   testId: 'character-card-actions-play-button',
@@ -166,8 +166,8 @@ export function CharacterCard({
               secondaryActions={[
                 {
                   key: 'edit',
-                  text: 'Edit',
-                  ariaLabel: `Edit ${character.name}`,
+                  text: "编辑",
+                  ariaLabel: `编辑 ${character.name}`,
                   onClick: onEdit,
                   variant: 'quiet',
                   testId: 'character-card-actions-edit-button',
@@ -175,8 +175,8 @@ export function CharacterCard({
                 },
                 {
                   key: 'delete',
-                  text: 'Delete',
-                  ariaLabel: `Delete ${character.name}`,
+                  text: "删除",
+                  ariaLabel: `删除 ${character.name}`,
                   onClick: onDelete,
                   variant: 'quiet-danger',
                   testId: 'character-card-actions-delete-button',

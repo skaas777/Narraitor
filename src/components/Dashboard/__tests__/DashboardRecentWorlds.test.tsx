@@ -86,7 +86,7 @@ describe('DashboardRecentWorlds', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /create.*world/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /创建.*世界/i })).toBeInTheDocument();
   });
 
   it('shows partial empty slots when fewer than maxItems', () => {
@@ -102,7 +102,7 @@ describe('DashboardRecentWorlds', () => {
 
     expect(screen.getByText('Fantasy Realm')).toBeInTheDocument();
     // Should show 2 empty slots with create buttons
-    const createButtons = screen.getAllByRole('button', { name: /create.*world/i });
+    const createButtons = screen.getAllByRole('button', { name: /创建.*世界/i });
     expect(createButtons).toHaveLength(2);
   });
 
@@ -117,7 +117,7 @@ describe('DashboardRecentWorlds', () => {
       />
     );
 
-    const createButton = screen.getByRole('button', { name: /create.*world/i });
+    const createButton = screen.getByRole('button', { name: /创建.*世界/i });
     await user.click(createButton);
 
     expect(mockOnNavigate).toHaveBeenCalledWith('/worlds');
@@ -147,6 +147,6 @@ describe('DashboardRecentWorlds', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { name: /recent worlds/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /最近的世界/i })).toBeInTheDocument();
   });
 });

@@ -93,7 +93,7 @@ export const useNPCStore = create<NPCStore>()(
       update: (npcId, updates) => {
         const existingNPC = get().npcs[npcId];
         if (!existingNPC) {
-          set({ error: createStoreError('NPC Not Found', 'The specified NPC could not be found.') });
+          set({ error: createStoreError("未找到非玩家角色", "找不到指定的非玩家角色。") });
           return;
         }
 
@@ -102,7 +102,7 @@ export const useNPCStore = create<NPCStore>()(
         if (updates.name !== undefined) {
           const normalizedName = normalizeText(updates.name, NORM_NAME);
           if (!normalizedName) {
-            set({ error: createStoreError('Invalid Name', 'NPC name cannot be empty.', ErrorType.VALIDATION) });
+            set({ error: createStoreError("名称无效", "非玩家角色名称不能为空。", ErrorType.VALIDATION) });
             return;
           }
           normalizedUpdates.name = normalizedName;
@@ -111,14 +111,14 @@ export const useNPCStore = create<NPCStore>()(
         if (updates.description !== undefined) {
           const normalizedDescription = normalizeText(updates.description, NORM_DESC);
           if (!normalizedDescription) {
-            set({ error: createStoreError('Invalid Description', 'NPC description cannot be empty.', ErrorType.VALIDATION) });
+            set({ error: createStoreError("描述无效", "非玩家角色描述不能为空。", ErrorType.VALIDATION) });
             return;
           }
           normalizedUpdates.description = normalizedDescription;
         }
 
         if (updates.worldId !== undefined && !updates.worldId) {
-          set({ error: createStoreError('Invalid World ID', 'World ID is required.', ErrorType.VALIDATION) });
+          set({ error: createStoreError("世界 ID 无效", "世界 ID 为必填项。", ErrorType.VALIDATION) });
           return;
         }
 
@@ -190,7 +190,7 @@ export const useNPCStore = create<NPCStore>()(
       setCurrent: (id) => {
         if (id && !get().npcs[id]) {
           set({
-            error: createStoreError('NPC Not Found', 'The specified NPC could not be found.'),
+            error: createStoreError("未找到非玩家角色", "找不到指定的非玩家角色。"),
             currentEntityId: null,
           });
           return;

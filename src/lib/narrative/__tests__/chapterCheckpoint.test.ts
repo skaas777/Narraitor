@@ -63,7 +63,7 @@ it('falls back on failure or interrupted persisted attempts without repeated gen
   await createChapterCheckpoint(boundary);
   expect(
     useNarrativeStore.getState().segments.boundary.metadata.chapter?.recap
-  ).toContain('Where it stopped: Gate');
+  ).toContain("上次停下的地方: Gate");
   useNarrativeStore
     .getState()
     .updateSegment('boundary', {

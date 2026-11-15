@@ -25,7 +25,7 @@ describe('SkillRequirementBadges', () => {
       <SkillRequirementBadges requirements={requirements} optionId="option-1" />
     );
 
-    expect(screen.getByText('Skill')).toBeInTheDocument();
+    expect(screen.getByText("技能")).toBeInTheDocument();
   });
 
   it('shows skill name alone when met is true', () => {
@@ -37,7 +37,7 @@ describe('SkillRequirementBadges', () => {
     );
 
     expect(screen.getByText('Stealth')).toBeInTheDocument();
-    expect(screen.queryByText(/RISKY/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/有风险/i)).not.toBeInTheDocument();
     expect(screen.getByText('Stealth').closest('[data-met]')).toHaveAttribute(
       'data-met',
       'true'
@@ -55,8 +55,8 @@ describe('SkillRequirementBadges', () => {
       />
     );
 
-    expect(screen.getByText('Stealth · RISKY')).toBeInTheDocument();
-    expect(screen.getByText('Stealth · RISKY').closest('[data-met]')).toHaveAttribute(
+    expect(screen.getByText("Stealth · 有风险")).toBeInTheDocument();
+    expect(screen.getByText("Stealth · 有风险").closest('[data-met]')).toHaveAttribute(
       'data-met',
       'false'
     );

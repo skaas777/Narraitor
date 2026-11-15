@@ -51,12 +51,12 @@ export const JournalEntryList: React.FC<JournalEntryListProps> = ({
                 onEntrySelect(entry);
               }
             }}
-            aria-label={`Select entry: ${entry.title || entry.type}`}
+            aria-label={`选择条目：${entry.title || entry.type}`}
           >
             <div>
               <h4>
                 {isSystemEvent && (
-                  <span aria-label="System event">
+                  <span aria-label="系统事件">
                     {entry.type === 'session_start' && (
                       <Play aria-hidden="true" />
                     )}

@@ -35,30 +35,30 @@ export default function EndingSystemTestHarness() {
     worldId: mockWorldId,
     type: endingType,
     tone: desiredTone,
-    epilogue: `As the sun set over the kingdom, our brave hero ${endingType === 'character-retirement' ? 'decided to lay down their sword and live peacefully' : 'stood victorious after their great adventure'}.
+    epilogue: `夕阳西下，余晖洒满王国，我们勇敢的英雄${endingType === 'character-retirement' ? "决定放下剑，平静地生活" : "在伟大的冒险后胜利屹立"}。
 
-The journey that began with uncertainty ended with ${desiredTone === 'tragic' ? 'great sacrifice' : desiredTone === 'mysterious' ? 'lingering questions' : 'celebration'}. The lands would remember this day for generations to come, when a simple adventurer became the ${desiredTone === 'mysterious' ? 'enigmatic figure of legend' : 'hero the realm needed'}.
+这段始于迷茫的旅程最终以${desiredTone === 'tragic' ? "伟大的牺牲" : desiredTone === 'mysterious' ? "挥之不去的疑问" : 'celebration'}收尾。这片土地将世世代代铭记这一天，一个平凡的冒险者成为了${desiredTone === 'mysterious' ? "传奇中神秘莫测的人物" : "王国需要的英雄"}。
 
-Through trials and tribulations, they proved that courage and determination can overcome any obstacle. As the stars began to twinkle in the evening sky, our hero ${endingType === 'character-retirement' ? 'smiled peacefully, knowing their adventuring days were behind them' : 'looked toward the horizon, ready for whatever adventures lay ahead'}.`,
-    characterLegacy: `The hero's name would be spoken with ${desiredTone === 'tragic' ? 'solemn respect' : 'admiration'} throughout the realm.
+历经重重考验与磨难，他们证明了勇气与决心能够战胜任何阻碍。当星辰开始在夜空闪烁，我们的英雄${endingType === 'character-retirement' ? "平静地微笑，知道自己冒险的岁月已经过去" : "望向地平线，准备迎接前方的一切冒险"}。`,
+    characterLegacy: `整个王国都会带着${desiredTone === 'tragic' ? "庄严的敬意" : "钦佩"}提起这位英雄的名字。
 
-Their ${endingType === 'character-retirement' ? 'wise decision to step away at the peak of their power' : 'incredible journey from humble beginnings to legendary status'} inspired countless others to pursue their own adventures.
+他们的${endingType === 'character-retirement' ? "在权力巅峰时明智隐退的决定" : "从卑微起点到传奇地位的非凡旅程"}激励了无数人踏上自己的冒险之路。
 
-Young warriors would train hoping to follow in their footsteps, and bards would sing songs of their ${desiredTone === 'mysterious' ? 'enigmatic deeds' : 'heroic exploits'} for centuries to come.`,
-    worldImpact: `The realm was forever changed by the hero's actions. ${endingType === 'story-complete' ? 'With the main quest completed, peace returned to the land' : endingType === 'character-retirement' ? 'The hero\'s retirement marked the end of an era' : 'The adventure\'s conclusion brought new possibilities'}.
+年轻的战士会刻苦训练，希望能追随他们的脚步；吟游诗人则会在未来数百年里传唱他们的${desiredTone === 'mysterious' ? "神秘莫测的事迹" : "英雄事迹"}。`,
+    worldImpact: `英雄的所作所为永远改变了这个世界。${endingType === 'story-complete' ? "主线任务完成后，和平重归大地" : endingType === 'character-retirement' ? "英雄的隐退标志着一个时代的终结" : "冒险的落幕带来了新的可能"}。
 
-Trade routes reopened, alliances were strengthened, and the people looked toward the future with ${desiredTone === 'hopeful' ? 'unbridled optimism' : desiredTone === 'tragic' ? 'cautious hope despite their losses' : 'renewed confidence'}.
+贸易路线重新开放，联盟得到巩固，人民带着${desiredTone === 'hopeful' ? "毫无保留的乐观" : desiredTone === 'tragic' ? "尽管有所损失仍怀有的谨慎希望" : "重拾的信心"}展望未来。
 
-The world had been saved, and all knew that heroes like this one would always rise when needed.`,
+世界得救了，所有人都知道，像这样的英雄总会在需要时挺身而出。`,
     timestamp: new Date(),
     createdAt: getTimestamp(),
     updatedAt: getTimestamp(),
     achievements: [
-      'Legendary Hero',
-      'Realm Protector',
-      `${endingType === 'character-retirement' ? 'Peaceful Retirement' : 'Quest Complete'}`,
-      `${capitalize(desiredTone)} Ending`,
-      'Story Complete'
+      "传奇英雄",
+      "疆域守护者",
+      `${endingType === 'character-retirement' ? "平静隐退" : "任务完成"}`,
+      `${capitalize(desiredTone)} 结局`,
+      "故事完结"
     ],
     playTime: 7200 // 2 hours
   };
@@ -80,17 +80,17 @@ The world had been saved, and all knew that heroes like this one would always ri
       <div>
         <div>
           <h1>
-            Ending System Test Harness
+            结局系统测试工具
           </h1>
           
           <div>
             {/* Status Display */}
             <div>
-              <h2>Current Status</h2>
+              <h2>当前状态</h2>
               <div>
-                <p><strong>Is Generating:</strong> {isGeneratingEnding ? 'Yes' : 'No'}</p>
-                <p><strong>Has Ending:</strong> {currentEnding ? 'Yes' : 'No'}</p>
-                <p><strong>Error:</strong> {endingError || 'None'}</p>
+                <p><strong>正在生成：</strong> {isGeneratingEnding ? "是" : "否"}</p>
+                <p><strong>已有结局：</strong> {currentEnding ? "是" : "否"}</p>
+                <p><strong>错误：</strong> {endingError || 'None'}</p>
               </div>
             </div>
 
@@ -98,43 +98,43 @@ The world had been saved, and all knew that heroes like this one would always ri
             <div>
               <div>
                 <label>
-                  Ending Type
+                  结局类型
                 </label>
                 <select
                   value={endingType}
                   onChange={(e) => setEndingType(e.target.value as EndingType)}
                 >
-                  <option value="player-choice">Player Choice</option>
-                  <option value="story-complete">Story Complete</option>
-                  <option value="session-limit">Session Limit</option>
-                  <option value="character-retirement">Character Retirement</option>
+                  <option value="player-choice">玩家选择</option>
+                  <option value="story-complete">故事完结</option>
+                  <option value="session-limit">冒险记录上限</option>
+                  <option value="character-retirement">角色隐退</option>
                 </select>
               </div>
 
               <div>
                 <label>
-                  Desired Tone
+                  期望叙事风格
                 </label>
                 <select
                   value={desiredTone}
                   onChange={(e) => setDesiredTone(e.target.value as EndingTone)}
                 >
-                  <option value="triumphant">Triumphant</option>
-                  <option value="mysterious">Mysterious</option>
-                  <option value="tragic">Tragic</option>
-                  <option value="hopeful">Hopeful</option>
+                  <option value="triumphant">凯旋</option>
+                  <option value="mysterious">神秘</option>
+                  <option value="tragic">悲剧</option>
+                  <option value="hopeful">希望</option>
                 </select>
               </div>
             </div>
 
             <div>
               <label>
-                Custom Prompt (Optional)
+                自定义提示（可选）
               </label>
               <textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Enter any specific instructions for the ending..."
+                placeholder="输入对结局的任何具体说明……"
                 rows={3}
               />
             </div>
@@ -145,38 +145,38 @@ The world had been saved, and all knew that heroes like this one would always ri
                 onClick={handleGenerateEnding}
                 disabled={isGeneratingEnding}
               >
-                {isGeneratingEnding ? 'Generating...' : 'Generate AI Ending'}
+                {isGeneratingEnding ? "正在生成……" : "生成 AI 结局"}
               </button>
 
               <button
                 onClick={handleUseMockData}
               >
-                Use Mock Ending Data
+                使用模拟结局数据
               </button>
 
               <button
                 onClick={clearEnding}
                 disabled={!currentEnding}
               >
-                Clear Ending
+                清除结局
               </button>
             </div>
 
             {/* Test Information */}
             <div>
-              <h3>Test Information</h3>
+              <h3>测试信息</h3>
               <div>
-                <p><strong>Session ID:</strong> {mockSessionId}</p>
-                <p><strong>Character ID:</strong> {mockCharacterId}</p>
-                <p><strong>World ID:</strong> {mockWorldId}</p>
-                <p><strong>Note:</strong> This test harness uses mock IDs for testing purposes.</p>
+                <p><strong>冒险记录 ID：</strong> {mockSessionId}</p>
+                <p><strong>角色 ID：</strong> {mockCharacterId}</p>
+                <p><strong>世界 ID：</strong> {mockWorldId}</p>
+                <p><strong>注意：</strong> 此测试工具使用模拟 ID 仅用于测试。</p>
               </div>
             </div>
 
             {/* Error Display */}
             {endingError && (
               <div>
-                <h3>Error</h3>
+                <h3>错误</h3>
                 <p>{endingError}</p>
               </div>
             )}
@@ -184,8 +184,8 @@ The world had been saved, and all knew that heroes like this one would always ri
             {/* Loading State */}
             {isGeneratingEnding && (
               <div>
-                <h3>Generating Ending</h3>
-                <p>Please wait while we create your story ending...</p>
+                <h3>正在生成结局</h3>
+                <p>请稍候，正在为你的故事生成结局……</p>
                 <div>
                   <div>
                     <div />

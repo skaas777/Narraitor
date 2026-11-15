@@ -75,18 +75,18 @@ export const PointPoolManager: React.FC<PointPoolManagerProps> = ({
       {/* Point Pool Summary */}
       <div className={`${wizardStyles.card.base} point-pool-summary`}>
         <h3 className={wizardStyles.subheading}>
-          {poolConfig.label || 'Point Pool'}
+          {poolConfig.label || "点数池"}
         </h3>
         <div className="point-pool-summary-row">
           <div className="point-pool-totals">
-            <span>Total: {poolConfig.total}</span>
-            <span>Remaining: {remaining}</span>
+            <span>总计： {poolConfig.total}</span>
+            <span>剩余： {remaining}</span>
           </div>
           <div className="point-pool-status">
             {remaining === 0 && (
               <span>
                 <CheckCircle aria-hidden="true" />
-                All points allocated!
+                所有点数已分配！
               </span>
             )}
           </div>
@@ -120,7 +120,7 @@ export const PointPoolManager: React.FC<PointPoolManagerProps> = ({
               <div className="point-pool-allocation-control">
                 {calculateMaxValue(allocation) < allocation.maxValue && (
                   <div className="point-pool-limit">
-                    <span>Limited by available points</span>
+                    <span>受可用点数限制</span>
                   </div>
                 )}
                 <RangeSlider
@@ -142,7 +142,7 @@ export const PointPoolManager: React.FC<PointPoolManagerProps> = ({
                     <div className="point-pool-limit-note">
                       {/* Using a simple dot indicator via CSS */}
                       <span aria-hidden="true" />
-                      <span>No points left. Reduce others to increase.</span>
+                      <span>没有剩余点数。减少其他项以增加。</span>
                     </div>
                   )}
               </div>
@@ -155,8 +155,7 @@ export const PointPoolManager: React.FC<PointPoolManagerProps> = ({
       {remaining < 0 && (
         <div className={wizardStyles.errorContainer}>
           <p className={wizardStyles.form.error}>
-            You&apos;ve allocated {Math.abs(remaining)} more points than
-            available. Please reduce some allocations.
+            你已分配 {Math.abs(remaining)} 个点数，超出可用上限。请减少部分分配。
           </p>
         </div>
       )}

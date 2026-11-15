@@ -5,7 +5,8 @@ const HOUR_MS = 60 * MINUTE_MS;
 const DAY_MS = 24 * HOUR_MS;
 
 function pluralize(count: number, unit: string): string {
-  return `${count} ${unit}${count === 1 ? '' : 'S'} AGO`;
+  const labels: Record<string, string> = { MINUTE: '分钟', HOUR: '小时', DAY: '天' };
+  return `${count} ${labels[unit] ?? unit}前`;
 }
 
 // Segment timestamps are typed as Date, but rehydrated/seeded state can hand
@@ -28,14 +29,14 @@ export function getSessionTimeDividerLabel(
   previousSegment: NarrativeSegment | null
 ): string {
   if (!previousSegment) {
-    return 'BEGINNING OF SESSION';
+    return "冒险记录开始";
   }
 
   // Clamp out-of-order timestamps to 0 rather than surfacing a negative gap.
   const deltaMs = Math.max(0, toTime(segment.timestamp) - toTime(previousSegment.timestamp));
 
   if (deltaMs < MINUTE_MS) {
-    return 'JUST NOW';
+    return "刚刚";
   }
   if (deltaMs < HOUR_MS) {
     return pluralize(Math.floor(deltaMs / MINUTE_MS), 'MINUTE');

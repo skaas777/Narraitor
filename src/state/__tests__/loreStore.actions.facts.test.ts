@@ -21,7 +21,7 @@ describe('createLoreFactActions', () => {
     expect(set).toHaveBeenCalledWith(
       expect.objectContaining({
         error: expect.objectContaining({
-          title: 'Invalid Lore Key',
+          title: "无效的设定键",
         }),
       })
     );

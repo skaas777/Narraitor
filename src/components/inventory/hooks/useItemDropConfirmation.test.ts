@@ -90,13 +90,13 @@ describe('useItemDropConfirmation', () => {
     act(() => {
       result.current.setDropQuantity(0);
     });
-    expect(result.current.quantityError).toBe('Quantity must be at least 1');
+    expect(result.current.quantityError).toBe("数量至少为 1");
 
     // Invalid: Too high
     act(() => {
       result.current.setDropQuantity(10);
     });
-    expect(result.current.quantityError).toBe('Cannot drop more than 5 items');
+    expect(result.current.quantityError).toBe("不能丢弃超过 5 个物品");
   });
 
   it('should confirm drop successfully', () => {

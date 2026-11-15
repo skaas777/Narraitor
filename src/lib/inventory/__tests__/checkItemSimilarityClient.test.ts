@@ -84,7 +84,7 @@ describe('checkItemSimilarityClient', () => {
         name1: 'Item A',
         name2: 'Item B',
       })
-    ).rejects.toThrow('Item similarity check failed');
+    ).rejects.toThrow("物品相似度检查失败");
   });
 
   it('falls back to default error message when response body is not valid JSON', async () => {
@@ -101,7 +101,7 @@ describe('checkItemSimilarityClient', () => {
         name1: 'Item A',
         name2: 'Item B',
       })
-    ).rejects.toThrow('Item similarity check failed');
+    ).rejects.toThrow("物品相似度检查失败");
   });
 
   it('propagates rejection when aiFetch fails with network error', async () => {

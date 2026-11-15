@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import About from '@/components/About';
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: "关于",
   description:
-    'Narraitor is a solo role-playing game where the story answers to the world you built. Define a setting, create a character, and make the choices that shape the story.',
+    "Narraitor 是一款单人角色扮演游戏，故事会回应你所构建的世界。设定一个背景，创建一名角色，做出塑造故事的选择。",
 };
 
 export default function AboutPage() {

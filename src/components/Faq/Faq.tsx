@@ -16,14 +16,13 @@ export default function Faq() {
   return (
     <div className="component-faq">
       <header className="component-faq-hero">
-        <h1 className="component-faq-title">Questions and answers</h1>
+        <h1 className="component-faq-title">问题与解答</h1>
         <p className="component-faq-lead">
-          What Narraitor is, what it needs from you, and what happens to your
-          stories. If something here is wrong or missing, say so on GitHub.
+          Narraitor 是什么、它需要你提供什么，以及你的故事会经历什么。如果这里有错误或遗漏，请在 GitHub 上告诉我们。
         </p>
       </header>
 
-      <nav className="component-faq-jumplist" aria-label="Jump to a question">
+      <nav className="component-faq-jumplist" aria-label="跳转到某个问题">
         {FAQ_GROUPS.map((group) => (
           <div key={group.id} className="component-faq-jumplist-group">
             <p className="component-faq-jumplist-title">{group.title}</p>
@@ -64,18 +63,18 @@ export default function Faq() {
         </section>
       ))}
 
-      <nav className="component-faq-footer" aria-label="More information">
+      <nav className="component-faq-footer" aria-label="更多信息">
         <Link href="/about" className="component-faq-footer-link">
-          About
+          关于
         </Link>
         <Link href="/faq" className="component-faq-footer-link">
-          FAQ
+          常见问题
         </Link>
         <Link href="/privacy" className="component-faq-footer-link">
-          Privacy
+          隐私
         </Link>
         <Link href="/terms" className="component-faq-footer-link">
-          Terms
+          条款
         </Link>
       </nav>
     </div>

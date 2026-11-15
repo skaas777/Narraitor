@@ -62,7 +62,7 @@ export function Breadcrumbs({
   };
 
   return (
-    <nav aria-label="Breadcrumb" className={`breadcrumbs-nav ${className || ''}`}>
+    <nav aria-label="面包屑导航" className={`breadcrumbs-nav ${className || ''}`}>
       {showEllipsis && (
         <>
           <span className="breadcrumbs-item" data-testid="breadcrumb-ellipsis">...</span>
@@ -121,7 +121,7 @@ export function Breadcrumbs({
       return (
         <div>
           <span>{separator}</span>
-          <span>Next: Start Playing</span>
+          <span>下一步：开始游玩</span>
           <Button
             onClick={() => {
               if (currentWorldId && nextStep.characterId) {
@@ -133,7 +133,7 @@ export function Breadcrumbs({
             variant="outline"
             size="sm"
           >
-            Play as {character?.name}
+            扮演 {character?.name}
           </Button>
         </div>
       );
@@ -148,7 +148,7 @@ export function Breadcrumbs({
       return (
         <div>
           <span>{separator}</span>
-          <span>Next: Start Playing</span>
+          <span>下一步：开始游玩</span>
           <Button
             onClick={() => {
               const firstCharacter = (
@@ -163,7 +163,7 @@ export function Breadcrumbs({
             variant="outline"
             size="sm"
           >
-            Quick Start
+            快速开始
           </Button>
         </div>
       );
@@ -172,12 +172,12 @@ export function Breadcrumbs({
     return (
       <div>
         <span>{separator}</span>
-        <span>Next: {nextStep.label}</span>
+        <span>下一步： {nextStep.label}</span>
         <Link href={nextStep.href}>
-          {nextStep.action === 'create-world' && 'Create Your First World'}
-          {nextStep.action === 'create-character' && 'Create Character'}
-          {nextStep.action === 'select-world' && 'Browse Worlds'}
-          {nextStep.action === 'select-character' && 'View Characters'}
+          {nextStep.action === 'create-world' && "创建你的第一个世界"}
+          {nextStep.action === 'create-character' && "创建角色"}
+          {nextStep.action === 'select-world' && "浏览世界"}
+          {nextStep.action === 'select-character' && "查看角色"}
         </Link>
       </div>
     );

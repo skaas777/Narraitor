@@ -77,7 +77,7 @@ describe('GuidedFirstTimeExperience', () => {
       render(<GuidedFirstTimeExperience />);
       
       // Should show the main call to action
-      expect(screen.getByText(/create a world and start a story/i)).toBeInTheDocument();
+      expect(screen.getByText(/创建一个世界并开始故事/i)).toBeInTheDocument();
     });
   });
 
@@ -90,7 +90,7 @@ describe('GuidedFirstTimeExperience', () => {
       
       // When onboarding is completed, isFirstTimeUser returns false, 
       // so component should not render (returns null)
-      expect(screen.queryByText(/welcome/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/欢迎/i)).not.toBeInTheDocument();
       expect(screen.queryByText(/get started/i)).not.toBeInTheDocument();
     });
   });

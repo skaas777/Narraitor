@@ -23,10 +23,10 @@ describe('DashboardProgressCard', () => {
   it('displays metric labels', () => {
     render(<DashboardProgressCard metrics={mockMetrics} />);
 
-    expect(screen.getByText(/Worlds/i)).toBeInTheDocument();
-    expect(screen.getByText(/Characters/i)).toBeInTheDocument();
-    expect(screen.getByText(/Sessions/i)).toBeInTheDocument();
-    expect(screen.getByText(/Entries/i)).toBeInTheDocument();
+    expect(screen.getByText(/世界/i)).toBeInTheDocument();
+    expect(screen.getByText(/角色/i)).toBeInTheDocument();
+    expect(screen.getByText(/冒险记录/i)).toBeInTheDocument();
+    expect(screen.getByText(/条目/i)).toBeInTheDocument();
   });
 
   it('shows zero state for new users', () => {
@@ -46,6 +46,6 @@ describe('DashboardProgressCard', () => {
   it('has proper ARIA labels for accessibility', () => {
     render(<DashboardProgressCard metrics={mockMetrics} />);
 
-    expect(screen.getByRole('region')).toHaveAccessibleName(/progress/i);
+    expect(screen.getByRole('region')).toHaveAccessibleName(/进度/i);
   });
 });

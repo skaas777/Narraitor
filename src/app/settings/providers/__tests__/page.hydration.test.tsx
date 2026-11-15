@@ -56,11 +56,11 @@ describe('ProvidersSettingsPage hydration', () => {
       render(<ProvidersSettingsPage />);
 
       try {
-        expect(screen.queryByText(/no provider yet/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/尚无模型服务/i)).not.toBeInTheDocument();
         expect(
-          screen.queryByRole('button', { name: /set up a provider/i })
+          screen.queryByRole('button', { name: /设置模型服务/i })
         ).not.toBeInTheDocument();
-        expect(screen.getByText('Loading providers...')).toBeInTheDocument();
+        expect(screen.getByText("正在加载模型服务...")).toBeInTheDocument();
       } finally {
         await act(async () => {
           finishRead({ state: persistedState, version: 1 });
@@ -70,13 +70,13 @@ describe('ProvidersSettingsPage hydration', () => {
       }
 
       expect(
-        screen.queryByText('Loading providers...')
+        screen.queryByText("正在加载模型服务...")
       ).not.toBeInTheDocument();
       if (hasSavedProvider) {
         expect(screen.getByText('Saved provider')).toBeInTheDocument();
-        expect(screen.queryByText(/no provider yet/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/尚无模型服务/i)).not.toBeInTheDocument();
       } else {
-        expect(screen.getByText(/no provider yet/i)).toBeInTheDocument();
+        expect(screen.getByText(/尚无模型服务/i)).toBeInTheDocument();
       }
       expect(storage.setItem).not.toHaveBeenCalled();
     }
@@ -100,14 +100,14 @@ describe('ProvidersSettingsPage hydration', () => {
     try {
       const hydration = useProviderStore.persist.rehydrate();
       render(<ProvidersSettingsPage />);
-      expect(screen.getByText('Loading providers...')).toBeInTheDocument();
+      expect(screen.getByText("正在加载模型服务...")).toBeInTheDocument();
       await act(async () => {
         await hydration;
       });
       expect(
-        screen.queryByText('Loading providers...')
+        screen.queryByText("正在加载模型服务...")
       ).not.toBeInTheDocument();
-      expect(screen.getByText(/no provider yet/i)).toBeInTheDocument();
+      expect(screen.getByText(/尚无模型服务/i)).toBeInTheDocument();
       expect(storage.setItem).not.toHaveBeenCalled();
     } finally {
       useProviderStore.persist.setOptions({ storage: originalStorage });

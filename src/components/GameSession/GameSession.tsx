@@ -15,6 +15,7 @@ import { ErrorDisplay } from '@/components/ui/ErrorDisplay';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/EmptyState/EmptyState';
 import { Users, BookOpen } from 'lucide-react';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface GameSessionProps {
   worldId: string;
@@ -213,13 +214,13 @@ const GameSession: React.FC<GameSessionProps> = ({
     
     // Announce status changes
     if (sessionState.status === 'active' && prevStatusRef.current === 'loading') {
-      announce('Game session started. Scene loaded.');
+      announce("冒险记录已开始。场景已加载。");
     } else if (sessionState.status === 'paused') {
-      announce('Game session paused.');
+      announce("冒险记录已暂停。");
     } else if (sessionState.status === 'active' && prevStatusRef.current === 'paused') {
-      announce('Game session resumed.');
+      announce("冒险记录已恢复。");
     } else if (sessionState.error) {
-      announce(`Error occurred: ${sessionState.error}`);
+      announce(`发生错误：${sessionState.error}`);
     }
     
     return () => {
@@ -275,15 +276,15 @@ const GameSession: React.FC<GameSessionProps> = ({
       <div className="manuscript-play-entry" data-testid="game-session-error-container">
         <ErrorDisplay
           variant="section"
-          title="World Not Found"
-          message="The world you're trying to access doesn't exist or has been deleted."
+          title="未找到世界"
+          message="你尝试访问的世界不存在或已被删除。"
           severity="error"
         />
         <Button
           variant="default"
           onClick={() => router?.push('/worlds')}
         >
-          Back to Worlds
+          返回世界列表
         </Button>
       </div>
     );
@@ -312,21 +313,21 @@ const GameSession: React.FC<GameSessionProps> = ({
         <div className="manuscript-play-entry" data-testid="game-session-no-characters">
           <EmptyState
             icon={<Users aria-hidden="true" />}
-            title="No Characters Found"
-            description="You'll need a character before you can start playing in this world."
+            title="未找到角色"
+            description="你需要先创建角色，才能在这个世界中开始游玩。"
             action={
               <>
                 <Button
                   variant="default"
                   onClick={() => router?.push(`/characters/create?worldId=${worldId}`)}
                 >
-                  Create Character
+                  创建角色
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => router?.push('/worlds')}
                 >
-                  Back to Worlds
+                  返回世界列表
                 </Button>
               </>
             }
@@ -339,28 +340,28 @@ const GameSession: React.FC<GameSessionProps> = ({
       <div className="manuscript-play-entry" data-testid="game-session-initializing">
         <EmptyState
           icon={<BookOpen aria-hidden="true" />}
-          title="Session Not Started"
-          description="No active game session yet."
+          title="冒险记录尚未开始"
+          description="还没有进行中的冒险记录。"
           action={
             <>
               <Button
                 variant="default"
                 onClick={startSession}
               >
-                Start Session
+                开始冒险记录
               </Button>
               <Button
                 variant="secondary"
                 onClick={() => router?.push('/worlds')}
               >
-                Back to Worlds
+                返回世界列表
               </Button>
             </>
           }
         />
         {process.env.NODE_ENV === 'development' && (
           <div className="manuscript-play-entry-debug">
-            Debug: Session ID: {sessionState.id || 'none'}, Status: {sessionState.status}
+            调试：冒险记录 ID： {sessionState.id || 'none'}，状态： {displayLabel(sessionState.status)}
           </div>
         )}
       </div>
@@ -377,7 +378,7 @@ const GameSession: React.FC<GameSessionProps> = ({
     return (
       <div className="manuscript-play-entry">
         <GameSessionError
-          error={(error?.message || sessionState.error || 'Unknown error')}
+          error={(error?.message || sessionState.error || "未知错误")}
           onRetry={handleRetry}
           onDismiss={handleDismissError}
         />
@@ -385,7 +386,7 @@ const GameSession: React.FC<GameSessionProps> = ({
           variant="ghost"
           onClick={() => router?.push('/worlds')}
         >
-          Back to Worlds
+          返回世界列表
         </Button>
       </div>
     );
@@ -414,7 +415,7 @@ const GameSession: React.FC<GameSessionProps> = ({
   return (
     <div data-testid="game-session-unknown" >
       <div>
-        <p>Unknown session state: {sessionState.status}</p>
+        <p>未知的冒险记录状态： {displayLabel(sessionState.status)}</p>
       </div>
     </div>
   );

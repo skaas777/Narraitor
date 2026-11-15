@@ -150,15 +150,15 @@ describe('NarrativeDisplay', () => {
 
   it('shows retry button when error occurs and onRetry is provided', async () => {
     const user = userEvent.setup();
-    const errorMessage = 'Unable to generate narrative. Please check your connection and try again.';
+    const errorMessage = '无法生成叙事。请检查网络连接后重试。';
     const mockRetry = jest.fn();
 
     render(<NarrativeDisplay segment={null} error={errorMessage} onRetry={mockRetry} />);
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    expect(screen.getByText('Continue the story')).toBeInTheDocument();
+    expect(screen.getByText("继续故事")).toBeInTheDocument();
 
-    await user.click(screen.getByText('Continue the story'));
+    await user.click(screen.getByText("继续故事"));
     expect(mockRetry).toHaveBeenCalledTimes(1);
   });
 
@@ -221,7 +221,7 @@ describe('NarrativeDisplay', () => {
 
       // Definition panel should appear
       const definition = screen.getByRole('complementary');
-      expect(definition).toHaveAttribute('aria-label', 'Definition: Aria');
+      expect(definition).toHaveAttribute('aria-label', "定义：Aria");
       expect(screen.getByText('A powerful mage from the Northern Tower.')).toBeInTheDocument();
 
       // Escape should dismiss
@@ -246,7 +246,7 @@ describe('NarrativeDisplay', () => {
       fireEvent.click(screen.getByRole('button', { name: "Aria's" }));
 
       const definition = screen.getByRole('complementary');
-      expect(definition).toHaveAttribute('aria-label', 'Definition: Aria');
+      expect(definition).toHaveAttribute('aria-label', "定义：Aria");
       expect(screen.getByText('A powerful mage from the Northern Tower.')).toBeInTheDocument();
     });
 

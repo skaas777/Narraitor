@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { WorldSkill, WorldAttribute } from '@/types/world.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface WorldSkillsListProps {
   skills: WorldSkill[];
@@ -18,7 +19,7 @@ export function WorldSkillsList({ skills, attributes }: WorldSkillsListProps) {
       className="world-detail-section world-detail-skills"
       aria-labelledby="world-skills-heading"
     >
-      <h2 id="world-skills-heading">Skills</h2>
+      <h2 id="world-skills-heading">技能</h2>
       <div className="world-detail-stat-list">
         {skills.map((skill, index) => (
           <div key={`${skill.id ?? skill.name ?? index}`} className="world-detail-stat">
@@ -26,7 +27,7 @@ export function WorldSkillsList({ skills, attributes }: WorldSkillsListProps) {
               <h3 className="world-detail-stat-name">{skill.name}</h3>
               {skill.difficulty && (
                 <span className="world-detail-stat-range">
-                  Difficulty: {skill.difficulty}
+                  难度： {displayLabel(skill.difficulty)}
                 </span>
               )}
             </div>
@@ -36,11 +37,11 @@ export function WorldSkillsList({ skills, attributes }: WorldSkillsListProps) {
             <div className="world-detail-stat-tags">
               {skill.attributeIds?.[0] && (
                 <span>
-                  Linked to: {attributes.find(a => a.id === skill.attributeIds?.[0])?.name || 'Unknown'}
+                  关联属性： {attributes.find(a => a.id === skill.attributeIds?.[0])?.name || "未知"}
                 </span>
               )}
               {skill.category && (
-                <span>Category: {skill.category}</span>
+                <span>类别： {displayLabel(skill.category)}</span>
               )}
             </div>
           </div>

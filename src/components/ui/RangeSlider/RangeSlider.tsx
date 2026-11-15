@@ -95,7 +95,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   onChange,
   disabled = false,
   showLabel = true,
-  labelText = 'Default Value',
+  labelText = "默认值",
   levelDescriptions = [],
   showLevelDescription = false,
   testId = 'range-slider',

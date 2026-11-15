@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { generateWorld } from '@/lib/generators/worldGenerator';
 import type { GeneratedWorldData } from '@/lib/generators/worldGenerator';
+import { displayLabel } from '@/lib/i18n/zhCN';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 export default function TestWorldGeneration() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -34,10 +36,10 @@ export default function TestWorldGeneration() {
 
       // Check if genre matches expected
       if (result.genre !== testCase.expectedGenre) {
-        setError(`Expected genre &quot;${testCase.expectedGenre}&quot; but got &quot;${result.genre}&quot;`);
+        setError(`预期类型为 &quot;${testCase.expectedGenre}&quot;，但实际得到 &quot;${result.genre}&quot;`);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "未知错误");
     } finally {
       setIsGenerating(false);
     }
@@ -45,11 +47,11 @@ export default function TestWorldGeneration() {
 
   return (
     <div>
-      <h1>World Generation Genre Test</h1>
+      <h1>世界生成类型测试</h1>
       
       <div>
         <p>
-          Test that worlds set within non-fantasy universes don&apos;t get fantasy genres or elements.
+          测试设定在非奇幻宇宙中的世界不会获得奇幻类型或元素。
         </p>
       </div>
 
@@ -60,9 +62,9 @@ export default function TestWorldGeneration() {
                            onClick={() => runTest(testCase)}
                            disabled={isGenerating}
                          >
-                           Test &quot;{testCase.reference}&quot;
+                           测试 “{testCase.reference}&quot;
                          </button>            <span>
-              Expected genre: {testCase.expectedGenre}
+              预期类型： {testCase.expectedGenre}
             </span>
           </div>
         ))}
@@ -70,44 +72,44 @@ export default function TestWorldGeneration() {
 
       {isGenerating && (
         <div>
-          <p>Generating world...</p>
+          <p>正在生成世界……</p>
         </div>
       )}
 
       {error && (
         <div>
-          <p>Error:</p>
-          <p>{error}</p>
+          <p>错误：</p>
+          <p>{localizeErrorMessage(error)}</p>
         </div>
       )}
 
       {generatedWorld && (
         <div>
-          <h2>Generated World</h2>
+          <h2>已生成的世界</h2>
           
           <div>
             <div>
-              <span>Name:</span> {generatedWorld.name}
+              <span>名称：</span> {generatedWorld.name}
             </div>
             <div>
-              <span>Genre:</span> {generatedWorld.genre}
+              <span>类型：</span> {displayLabel(generatedWorld.genre)}
               {generatedWorld.genre === 'Fantasy' && !generatedWorld.name.includes('Lord') && (
-                <span>(❌ Should not be Fantasy!)</span>
+                <span>（❌ 不应为奇幻！）</span>
               )}
             </div>
             <div>
-              <span>Description:</span> {generatedWorld.description}
+              <span>描述：</span> {generatedWorld.description}
             </div>
           </div>
 
           <div>
-            <h3>Attributes ({generatedWorld.attributes.length}):</h3>
+            <h3>属性（{generatedWorld.attributes.length}):</h3>
             <ul>
               {generatedWorld.attributes.map((attr, i) => (
                 <li key={i}>
                   <span>{attr.name}:</span> {attr.description}
                   {attr.name.match(/magic|mana|arcane/i) && (
-                    <span>(❌ Fantasy element!)</span>
+                    <span>（❌ 奇幻元素！）</span>
                   )}
                 </li>
               ))}
@@ -115,13 +117,13 @@ export default function TestWorldGeneration() {
           </div>
 
           <div>
-            <h3>Skills ({generatedWorld.skills.length}):</h3>
+            <h3>技能（{generatedWorld.skills.length}):</h3>
             <ul>
               {generatedWorld.skills.map((skill, i) => (
                 <li key={i}>
                   <span>{skill.name}:</span> {skill.description}
                   {skill.name.match(/magic|spell|sorcery|enchant/i) && (
-                    <span>(❌ Fantasy element!)</span>
+                    <span>（❌ 奇幻元素！）</span>
                   )}
                 </li>
               ))}

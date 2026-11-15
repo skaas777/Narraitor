@@ -15,12 +15,12 @@ describe('WizardNavigation', () => {
       />
     );
 
-    const cancelBtn = screen.getByRole('button', { name: 'Cancel' });
-    const nextBtn = screen.getByRole('button', { name: 'Next' });
+    const cancelBtn = screen.getByRole('button', { name: "取消" });
+    const nextBtn = screen.getByRole('button', { name: "下一步" });
 
     expect(cancelBtn).toHaveClass('button-ghost');
     expect(nextBtn).toHaveClass('button-default');
-    expect(screen.queryByRole('button', { name: 'Back' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: "返回" })).not.toBeInTheDocument();
 
     fireEvent.click(nextBtn);
     expect(handleNext).toHaveBeenCalledTimes(1);
@@ -43,7 +43,7 @@ describe('WizardNavigation', () => {
       />
     );
 
-    const backBtn = screen.getByRole('button', { name: 'Back' });
+    const backBtn = screen.getByRole('button', { name: "返回" });
     expect(backBtn).toHaveClass('button-outline');
 
     fireEvent.click(backBtn);
@@ -70,7 +70,7 @@ describe('WizardNavigation', () => {
     expect(completeBtn).toHaveClass('button-default');
     expect(completeBtn).toHaveAttribute('data-testid', 'step-complete-button');
     expect(completeBtn).toHaveAttribute('data-tutorial', 'finalize-world');
-    expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: "下一步" })).not.toBeInTheDocument();
 
     fireEvent.click(completeBtn);
     expect(handleComplete).toHaveBeenCalledTimes(1);

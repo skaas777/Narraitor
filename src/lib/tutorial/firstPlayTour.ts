@@ -9,7 +9,7 @@ import { Step } from 'react-joyride';
 export const firstPlayTour: Step[] = [
   {
     target: '[data-tutorial="narrative-display"]',
-    content: 'This is where your story unfolds. Read the narrative carefully as it adapts to your choices.',
+    content: "你的故事将在这里展开。请仔细阅读叙事，它会随你的选择而变化。",
     placement: 'bottom',
     // The narrative sits directly above the decision block with no reserved
     // gap (the action rail was removed), so Joyride's default
@@ -21,18 +21,18 @@ export const firstPlayTour: Step[] = [
   },
   {
     target: '[data-tutorial="player-choices"]',
-    content: 'When the story pauses, you decide what happens next. Your choices shape the world and your character\'s fate.',
+    content: "当故事停顿时，由你决定接下来发生什么。你的选择会塑造世界和你角色的命运。",
     placement: 'top',
     data: { autoScroll: 'down' },
   },
   {
     target: '[data-tutorial="session-character"]',
-    content: 'Open the Character panel anytime to check your stats and current status.',
+    content: "随时打开角色面板，查看你的属性和当前状态。",
     placement: 'bottom',
   },
   {
     target: '[data-tutorial="session-tools"]',
-    content: 'Your inventory, the Story So Far recap, your choice history, and your journal all live in here.',
+    content: "你的背包、“故事回顾”摘要、选择历史以及日志都在这里。",
     placement: 'bottom',
   },
 ];

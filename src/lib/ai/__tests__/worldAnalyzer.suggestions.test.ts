@@ -142,13 +142,13 @@ describe('worldAnalyzer - AI Suggestions', () => {
       
       // Check for some expected default attributes
       const attributeNames = result.attributes.map(a => a.name);
-      expect(attributeNames).toContain('Strength');
-      expect(attributeNames).toContain('Intelligence');
+      expect(attributeNames).toContain('力量');
+      expect(attributeNames).toContain('智力');
       
       // Check for some expected default skills
       const skillNames = result.skills.map(s => s.name);
-      expect(skillNames).toContain('Combat');
-      expect(skillNames).toContain('Stealth');
+      expect(skillNames).toContain('战斗');
+      expect(skillNames).toContain("潜行");
     });
 
     it('should handle malformed JSON responses', async () => {

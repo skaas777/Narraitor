@@ -83,8 +83,8 @@ const baseData: Partial<WorldCreationData> = {
   },
 };
 
-const next = () => userEvent.click(screen.getByRole('button', { name: /^next/i }));
-const back = () => userEvent.click(screen.getByRole('button', { name: /^back/i }));
+const next = () => userEvent.click(screen.getByRole('button', { name: /^下一步/i }));
+const back = () => userEvent.click(screen.getByRole('button', { name: /^返回/i }));
 
 describe('WorldCreationWizard review steps', () => {
   beforeEach(() => {
@@ -113,18 +113,18 @@ describe('WorldCreationWizard review steps', () => {
     );
 
     await userEvent.click(await screen.findByTestId('attribute-toggle-1'));
-    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent('Excluded');
+    expect(screen.getByTestId('attribute-toggle-1')).toHaveTextContent("已排除");
     await next();
     await userEvent.click(await screen.findByTestId('skill-toggle-1'));
     await back();
     await next();
     await back();
 
-    expect(await screen.findByTestId('attribute-toggle-1')).toHaveTextContent('Excluded');
+    expect(await screen.findByTestId('attribute-toggle-1')).toHaveTextContent("已排除");
     expect(screen.getByTestId('custom-attribute-card-attribute-custom')).toBeInTheDocument();
 
     await next();
-    expect(await screen.findByTestId('skill-toggle-1')).toHaveTextContent('Excluded');
+    expect(await screen.findByTestId('skill-toggle-1')).toHaveTextContent("已排除");
     await next();
     await userEvent.click(screen.getByTestId('step-complete-button'));
 
@@ -154,12 +154,12 @@ describe('WorldCreationWizard review steps', () => {
       />
     );
 
-    expect(await screen.findByText(/attributes selected: 3 \/ 6/i)).toBeInTheDocument();
+    expect(await screen.findByText(/已选属性： 3 \/ 6/i)).toBeInTheDocument();
     expect(screen.getAllByTestId(/^custom-attribute-card-/)).toHaveLength(1);
     expect(screen.getByTestId('custom-attribute-card-attribute-custom')).toBeInTheDocument();
 
     await next();
-    expect(await screen.findByText(/skills selected: 2 \/ 12/i)).toBeInTheDocument();
+    expect(await screen.findByText(/已选技能： 2 \/ 12/i)).toBeInTheDocument();
     expect(screen.queryAllByTestId(/^custom-skill-card-/)).toHaveLength(0);
     await next();
     await userEvent.click(screen.getByTestId('step-complete-button'));
@@ -183,11 +183,11 @@ describe('WorldCreationWizard review steps', () => {
     );
 
     await waitFor(() =>
-      expect(screen.getByTestId('attribute-toggle-7')).toHaveTextContent('Excluded')
+      expect(screen.getByTestId('attribute-toggle-7')).toHaveTextContent("已排除")
     );
     await userEvent.click(screen.getByTestId('attribute-toggle-7'));
-    expect(screen.getByTestId('attribute-toggle-7')).toHaveTextContent('Excluded');
-    expect(screen.getByText(/attributes selected: 6 \/ 6/i)).toBeInTheDocument();
+    expect(screen.getByTestId('attribute-toggle-7')).toHaveTextContent("已排除");
+    expect(screen.getByText(/已选属性： 6 \/ 6/i)).toBeInTheDocument();
   });
 
   it('surfaces a createWorld failure instead of completing', async () => {
@@ -199,7 +199,7 @@ describe('WorldCreationWizard review steps', () => {
 
     await userEvent.click(screen.getByTestId('step-complete-button'));
 
-    expect(await screen.findByText(/couldn't create this world/i)).toBeInTheDocument();
+    expect(await screen.findByText(/无法创建此世界/i)).toBeInTheDocument();
     expect(onComplete).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
   });

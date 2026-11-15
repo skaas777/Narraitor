@@ -82,8 +82,8 @@ describe('useCharacterStore - CRUD Operations', () => {
       useCharacterStore.getState().updateCharacter('non-existent-id', { name: 'Updated' });
       const state = useCharacterStore.getState();
       expect(state.error).toMatchObject({
-        title: 'Character Not Found',
-        message: 'The specified character could not be found',
+        title: "未找到角色",
+        message: "未找到指定的角色",
         type: 'validation'
       });
     });
@@ -165,8 +165,8 @@ describe('useCharacterStore - CRUD Operations', () => {
 
       const state = useCharacterStore.getState();
       expect(state.error).toMatchObject({
-        title: 'Character Not Found',
-        message: 'The specified character could not be found',
+        title: "未找到角色",
+        message: "未找到指定的角色",
         type: 'validation'
       });
     });

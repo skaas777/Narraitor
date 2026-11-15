@@ -80,12 +80,12 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
               {characterPortrait && (
                 <CharacterPortrait
                   portrait={characterPortrait}
-                  characterName={characterName || 'Character'}
+                  characterName={characterName || '角色'}
                   size="small"
                 />
               )}
             </span>
-            <span>{characterName || 'Character'}</span>
+            <span>{characterName || "角色"}</span>
           </button>
         </div>
 
@@ -102,7 +102,7 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
           onKeyDown={onKeyDown}
           onFocus={onFocus}
           role="toolbar"
-          aria-label="Session tools"
+          aria-label="冒险记录工具"
           className="manuscript-ds3-controls"
         >
           {saveIndicator}
@@ -111,8 +111,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenDrawer?.('journal')}
-                title="Journal"
-                aria-label="Journal"
+                title="日志"
+                aria-label="日志"
                 className="manuscript-hud-icon-button"
               >
                 <BookOpen size={16} aria-hidden="true" />
@@ -120,8 +120,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenDrawer?.('inventory')}
-                title="Inventory"
-                aria-label="Inventory"
+                title="背包"
+                aria-label="背包"
                 className="manuscript-hud-icon-button"
               >
                 <Backpack size={16} aria-hidden="true" />
@@ -129,8 +129,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenDrawer?.('story-summary')}
-                title="Story Summary"
-                aria-label="Story Summary"
+                title="故事摘要"
+                aria-label="故事摘要"
                 className="manuscript-hud-icon-button"
               >
                 <FileText size={16} aria-hidden="true" />
@@ -138,8 +138,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenDrawer?.('choice-history')}
-                title="Choice History"
-                aria-label="Choice History"
+                title="选项历史"
+                aria-label="选项历史"
                 className="manuscript-hud-icon-button"
               >
                 <History size={16} aria-hidden="true" />
@@ -149,8 +149,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
           <button
             type="button"
             onClick={onShowShortcuts}
-            title="Keyboard Shortcuts"
-            aria-label="Keyboard Shortcuts"
+            title="键盘快捷键"
+            aria-label="键盘快捷键"
             className="manuscript-hud-icon-button manuscript-hud-shortcuts-button"
           >
             <Keyboard size={16} aria-hidden="true" />
@@ -158,8 +158,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
           <button
             type="button"
             onClick={onStartNew}
-            title="Reset Session"
-            aria-label="Reset Session"
+            title="重置冒险记录"
+            aria-label="重置冒险记录"
             className="manuscript-hud-icon-button"
           >
             <RotateCcw size={16} aria-hidden="true" />
@@ -168,8 +168,8 @@ export const ManuscriptFloatingHud: React.FC<ManuscriptFloatingHudProps> = ({
           <button
             type="button"
             onClick={onEndStory}
-            title="End Story"
-            aria-label="End Story"
+            title="结束故事"
+            aria-label="结束故事"
             className="manuscript-hud-icon-button"
           >
             <LogOut size={16} aria-hidden="true" />

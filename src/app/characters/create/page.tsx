@@ -52,20 +52,19 @@ export default function CharacterCreatePage() {
     return (
       <div className="component-create-character-page wizard-page">
         <div className="wizard-page-header">
-          <h1 className="wizard-page-title">Create Character</h1>
+          <h1 className="wizard-page-title">创建角色</h1>
         </div>
         <div className="wizard-empty-state wizard-world-required-state">
           <AlertTriangle aria-hidden="true" />
-          <h2 className={wizardStyles.step.title}>World Required</h2>
-          <p>Characters are created within specific worlds.</p>
+          <h2 className={wizardStyles.step.title}>必须选择世界</h2>
+          <p>角色需在特定世界中创建。</p>
           <p>
-            Each world defines unique attributes, skills, and rules that shape
-            your characters.
+            每个世界都会定义独特的属性、技能和规则，它们会塑造你的角色。
           </p>
           <ActionButtonGroup
             actions={[
               {
-                label: 'Select a World First',
+                label: "请先选择世界",
                 onClick: () => router.push('/worlds'),
                 variant: 'primary',
                 size: 'lg',
@@ -80,7 +79,7 @@ export default function CharacterCreatePage() {
   if (!currentWorld) {
     return (
       <div className="component-create-character-page wizard-page">
-        <div className="wizard-empty-state">Preparing character creation…</div>
+        <div className="wizard-empty-state">正在准备角色创建……</div>
       </div>
     );
   }
@@ -88,7 +87,7 @@ export default function CharacterCreatePage() {
   return (
     <section
       className="component-create-character-page wizard-page"
-      aria-label="Create New Character"
+      aria-label="创建新角色"
     >
       <CharacterCreationWizard
         key={`new-character-${effectiveWorldId}`}

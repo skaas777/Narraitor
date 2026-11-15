@@ -72,7 +72,7 @@ export function normalizeDecisionOptions(
 
       return {
         requirement: req,
-        skillName: skillData?.name || 'Unknown Skill',
+        skillName: skillData?.name || "未知技能",
         // evaluation.success is hardcoded true (F47: choices stay selectable).
         // Read the actual values the evaluator already computed correctly.
         met: Number.isFinite(requiredLevel)
@@ -127,12 +127,12 @@ export function normalizeDecisionOptions(
           }).filter((value): value is string => Boolean(value))
         );
       if (missingItems.length > 0) {
-        disabledReasonParts.push(`Items: ${missingItems.join(', ')}`);
+        disabledReasonParts.push(`物品：${missingItems.join(', ')}`);
       }
     }
 
     const disabledReason = disabledReasonParts.length > 0
-      ? `Requires ${disabledReasonParts.join(' | ')}`
+      ? `需要 ${disabledReasonParts.join(' | ')}`
       : undefined;
 
     return {

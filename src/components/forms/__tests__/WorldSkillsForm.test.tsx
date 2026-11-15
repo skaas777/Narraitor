@@ -62,7 +62,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const addButton = screen.getByText('Add Skill');
+    const addButton = screen.getByText("添加技能");
     fireEvent.click(addButton);
 
     // Should call onChange with new skill added
@@ -70,7 +70,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       expect.arrayContaining([
         ...mockSkills,
         expect.objectContaining({
-          name: 'New Skill',
+          name: "新技能",
           worldId: 'world-123',
         }),
       ])
@@ -88,7 +88,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const removeButton = screen.getByText('Remove');
+    const removeButton = screen.getByText("移除");
     fireEvent.click(removeButton);
 
     // Should call onChange with skill removed
@@ -107,7 +107,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
     );
 
     // Find the checkbox for the attribute (Strength is already linked)
-    const strengthCheckbox = screen.getByRole('checkbox', { name: /strength/i });
+    const strengthCheckbox = screen.getByRole('checkbox', { name: /Strength/i });
     
     // Uncheck it to remove the link
     fireEvent.click(strengthCheckbox);
@@ -128,7 +128,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const difficultySelect = screen.getByRole('combobox', { name: /difficulty/i });
+    const difficultySelect = screen.getByRole('combobox', { name: /难度/i });
     fireEvent.change(difficultySelect, { target: { value: 'hard' } });
 
     expect(mockOnChange).toHaveBeenCalledWith([
@@ -147,7 +147,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const categoryInput = screen.getByLabelText(/category/i);
+    const categoryInput = screen.getByLabelText(/分类/i);
     fireEvent.change(categoryInput, { target: { value: 'Combat' } });
 
     expect(mockOnChange).toHaveBeenCalledWith([
@@ -166,7 +166,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const prereqInput = screen.getByLabelText('Minimum Strength');
+    const prereqInput = screen.getByLabelText("最低 Strength");
     fireEvent.change(prereqInput, { target: { value: '5' } });
 
     expect(mockOnChange).toHaveBeenCalledWith([
@@ -194,7 +194,7 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    const prereqInput = screen.getByLabelText('Minimum Strength');
+    const prereqInput = screen.getByLabelText("最低 Strength");
     expect(prereqInput).toHaveValue(5);
 
     fireEvent.change(prereqInput, { target: { value: '0' } });
@@ -215,6 +215,6 @@ describe('WorldSkillsForm - MVP Level Tests', () => {
       />
     );
 
-    expect(screen.getByText(/No skills defined yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/尚未定义技能/i)).toBeInTheDocument();
   });
 });

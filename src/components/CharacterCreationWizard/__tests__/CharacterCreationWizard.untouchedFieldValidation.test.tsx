@@ -82,11 +82,11 @@ describe('CharacterCreationWizard untouched-field validation (#2178)', () => {
     const user = userEvent.setup();
     render(<CharacterCreationWizard worldId="world-1" initialStep={3} />);
 
-    const personality = await screen.findByLabelText(/Personality/);
+    const personality = await screen.findByLabelText(/性格/);
     await user.type(personality, 'Cheerful and endlessly curious about the world.');
 
     expect(
-      screen.queryByText(/Personality description is required/i)
+      screen.queryByText(/性格描述为必填项/i)
     ).not.toBeInTheDocument();
   });
 
@@ -94,12 +94,12 @@ describe('CharacterCreationWizard untouched-field validation (#2178)', () => {
     const user = userEvent.setup();
     render(<CharacterCreationWizard worldId="world-1" initialStep={3} />);
 
-    const history = await screen.findByLabelText(/Character History/);
+    const history = await screen.findByLabelText(/角色经历/);
     await user.click(history);
     await user.tab();
 
     expect(
-      screen.queryByText(/Personality description is required/i)
+      screen.queryByText(/性格描述为必填项/i)
     ).not.toBeInTheDocument();
   });
 
@@ -107,10 +107,10 @@ describe('CharacterCreationWizard untouched-field validation (#2178)', () => {
     const user = userEvent.setup();
     render(<CharacterCreationWizard worldId="world-1" initialStep={3} />);
 
-    const personality = await screen.findByLabelText(/Personality/);
+    const personality = await screen.findByLabelText(/性格/);
     await user.click(personality);
     await user.tab();
 
-    expect(screen.getByText(/Personality description is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/性格描述为必填项/i)).toBeInTheDocument();
   });
 });

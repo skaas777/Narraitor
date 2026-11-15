@@ -56,8 +56,8 @@ export const createInventoryCrudActions = (
     if (!existingItem) {
       set({
         error: createStoreError(
-          'Item Not Found',
-          'The specified item could not be found.',
+          "未找到物品",
+          "找不到指定的物品。",
           ErrorType.VALIDATION
         ),
       });
@@ -80,8 +80,8 @@ export const createInventoryCrudActions = (
     if (updates.maxStack !== undefined && updates.maxStack <= 0) {
       set({
         error: createStoreError(
-          'Invalid Max Stack',
-          'Max stack size must be greater than zero.',
+          "最大堆叠数无效",
+          "最大堆叠数必须大于零。",
           ErrorType.VALIDATION
         ),
       });
@@ -94,8 +94,8 @@ export const createInventoryCrudActions = (
       if (updates.quantity < 0) {
         set({
           error: createStoreError(
-            'Invalid Quantity',
-            'Item quantity cannot be negative.',
+            "数量无效",
+            "物品数量不能为负数。",
             ErrorType.VALIDATION
           ),
         });
@@ -106,8 +106,8 @@ export const createInventoryCrudActions = (
       if (maxStack && updates.quantity > maxStack) {
         set({
           error: createStoreError(
-            'Stack Limit Exceeded',
-            `Quantity cannot exceed maximum stack size of ${maxStack}.`,
+            "超出堆叠上限",
+            `数量不能超过最大堆叠数 ${maxStack}。`,
             ErrorType.VALIDATION
           ),
         });
@@ -121,8 +121,8 @@ export const createInventoryCrudActions = (
       if (!isValidCategory(updates.categorization.categoryId)) {
         set({
           error: createStoreError(
-            'Invalid Category',
-            'Categorization must use a standard inventory category.',
+            "分类无效",
+            "分类必须使用标准背包分类。",
             ErrorType.VALIDATION
           ),
         });
@@ -141,8 +141,8 @@ export const createInventoryCrudActions = (
       if (!isValidCategory(updates.categoryId)) {
         set({
           error: createStoreError(
-            'Invalid Category',
-            'Categorization must use a standard inventory category.',
+            "分类无效",
+            "分类必须使用标准背包分类。",
             ErrorType.VALIDATION
           ),
         });
@@ -223,8 +223,8 @@ export const createInventoryCrudActions = (
     if (id && !get().items[id]) {
       set({
         error: createStoreError(
-          'Item Not Found',
-          'The specified item could not be found.',
+          "未找到物品",
+          "找不到指定的物品。",
           ErrorType.VALIDATION
         ),
         currentEntityId: null,
@@ -267,10 +267,10 @@ export const createInventoryCrudActions = (
       validateNewItemData(itemData);
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Invalid item data';
+        error instanceof Error ? error.message : "物品数据无效";
       set({
         error: createStoreError(
-          'Validation Error',
+          "验证错误",
           errorMessage,
           ErrorType.VALIDATION
         ),

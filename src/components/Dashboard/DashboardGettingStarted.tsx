@@ -20,23 +20,23 @@ export function DashboardGettingStarted({
   const steps = [
     {
       id: 'world',
-      label: 'Create a world',
+      label: "创建世界",
       completed: hasWorlds,
-      cta: 'Create Your World',
+      cta: "创建你的世界",
       path: '/worlds',
     },
     {
       id: 'character',
-      label: 'Create a character',
+      label: "创建角色",
       completed: hasCharacters,
-      cta: 'Create a Character',
+      cta: "创建角色",
       path: '/characters',
     },
     {
       id: 'play',
-      label: 'Start playing',
+      label: "开始游玩",
       completed: hasSessions,
-      cta: 'Start Playing',
+      cta: "开始游玩",
       path: '/worlds',
     },
   ];
@@ -48,7 +48,7 @@ export function DashboardGettingStarted({
       className="component-dashboard-getting-started"
       aria-labelledby="getting-started-heading"
     >
-      <h2 id="getting-started-heading">Getting Started</h2>
+      <h2 id="getting-started-heading">开始使用</h2>
 
       <ol className="dashboard-getting-started-steps">
         {steps.map((step) => {

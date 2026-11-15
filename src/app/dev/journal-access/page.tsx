@@ -64,8 +64,8 @@ export default function JournalAccessTestPage() {
       const timestamp = getTimestamp();
       const testWorld = {
         id: 'test-world-1',
-        name: 'Test World',
-        description: 'A lightweight world for journal testing.',
+        name: '测试世界',
+        description: "用于日志测试的轻量世界。",
         genre: 'modern' as const,
         attributes: [],
         skills: [],
@@ -80,8 +80,8 @@ export default function JournalAccessTestPage() {
       };
       const testCharacter = {
         id: 'test-char-1',
-        name: 'Test Adventurer',
-        description: 'A brave explorer testing journal access functionality',
+        name: "测试冒险者",
+        description: "一位正在测试日志访问功能的勇敢探险者",
         worldId: 'test-world-1',
         level: 1,
         isPlayer: true,
@@ -89,11 +89,11 @@ export default function JournalAccessTestPage() {
         skills: [],
         derivedStats: [],
         background: {
-          history: 'A brave explorer testing journal access',
-          personality: 'Curious and methodical',
-          goals: ['Master the journal system'],
-          fears: ['Missing important story details'],
-          physicalDescription: 'A determined adventurer with keen eyes',
+          history: "一位正在测试日志访问功能的勇敢探险者",
+          personality: "好奇而严谨",
+          goals: ["掌握日志系统"],
+          fears: ["遗漏重要的故事细节"],
+          physicalDescription: "目光敏锐、意志坚定的冒险者",
           relationships: [],
           isKnownFigure: false,
         },
@@ -106,7 +106,7 @@ export default function JournalAccessTestPage() {
         },
         status: {
           conditions: [],
-          location: 'Test Area',
+          location: "测试区域",
         },
         createdAt: timestamp,
         updatedAt: timestamp,
@@ -162,14 +162,14 @@ export default function JournalAccessTestPage() {
           worldId: 'test-world-1',
           characterId: 'test-char-1',
           type: 'character_event',
-          title: 'First Day at Work',
-          content: 'Started my work shift at the video store today.',
+          title: "上班第一天",
+          content: "今天我在录像店开始了工作班次。",
           detailedContent:
-            'Opened the store for another shift. Same fluorescent lights, same carpet cleaner smell. Customers still ignore movie recommendations.',
+            "又开店值了一个班。同样的荧光灯，同样的地毯清洁剂气味。顾客还是无视电影推荐。",
           significance: 'minor',
           isRead: false,
           relatedEntities: [
-            { id: 'loc-1', type: 'location', name: 'Video Store' },
+            { id: 'loc-1', type: 'location', name: "录像店" },
           ],
           metadata: {
             tags: ['opening', 'introduction', 'work'],
@@ -181,16 +181,16 @@ export default function JournalAccessTestPage() {
           worldId: 'test-world-1',
           characterId: 'test-char-1',
           type: 'world_event',
-          title: 'Unexpected Encounter',
+          title: "意外相遇",
           content:
-            'I questioned a caller about the nature of their problem, learning it concerns a missing package.',
+            "我向一位来电者询问了对方遇到的问题，得知是一个包裹丢失了。",
           detailedContent:
-            'Customer called about missing Citizen Kane rental. Complained for twenty minutes about Orson Welles. Found it in their car after checking. Marco dealt with another difficult customer around the same time.',
+            "顾客打电话说租的《Citizen Kane》不见了。就 Orson Welles 抱怨了二十分钟。检查后发现它就在他们车里。大约同一时间，Marco 应付了另一位难缠的顾客。",
           significance: 'minor',
           isRead: true,
           relatedEntities: [
             { id: 'char-2', type: 'character', name: 'Marco' },
-            { id: 'char-3', type: 'character', name: 'Angry Customer' },
+            { id: 'char-3', type: 'character', name: "愤怒的顾客" },
           ],
           metadata: {
             tags: ['dialogue', 'employee', 'customer-service'],
@@ -202,24 +202,24 @@ export default function JournalAccessTestPage() {
           worldId: 'test-world-1',
           characterId: 'test-char-1',
           type: 'decision',
-          title: 'Help the Stranger',
+          title: "帮助陌生人",
           content:
-            'Chose to help the stranger when you encounter a suspicious person at the tavern',
+            "在酒馆遇到可疑人物时选择帮助陌生人",
           detailedContent:
-            'A cloaked figure approached asking about rare books. Despite their suspicious appearance, I decided to provide directions to the library. This could lead to interesting developments.',
+            "一个披斗篷的人走近，询问稀有书籍。尽管对方形迹可疑，我还是决定为对方指去图书馆的路。这可能会带来有趣的发展。",
           significance: 'major',
           isRead: false,
           relatedEntities: [
-            { id: 'char-4', type: 'character', name: 'Cloaked Stranger' },
-            { id: 'loc-2', type: 'location', name: 'Village Tavern' },
+            { id: 'char-4', type: 'character', name: "披斗篷的陌生人" },
+            { id: 'loc-2', type: 'location', name: "村庄酒馆" },
           ],
           metadata: {
             tags: ['decision', 'stranger', 'tavern'],
             automaticEntry: true,
             decisionId: 'decision-help-stranger',
-            choiceText: 'Help the stranger',
+            choiceText: "帮助陌生人",
             decisionPrompt:
-              'You encounter a suspicious person at the tavern. What do you do?',
+              "你在酒馆遇到一个可疑人物。你会怎么做？",
           },
           updatedAt: getTimestamp(),
         },
@@ -227,14 +227,14 @@ export default function JournalAccessTestPage() {
           worldId: 'test-world-1',
           characterId: 'test-char-1',
           type: 'discovery',
-          title: 'The Choice That Changed Everything',
-          content: 'Learned a package, meant to arrive before the Myposian...',
+          title: "改变一切的选项",
+          content: "得知有一个包裹，本应在 Myposian 之前送达……",
           detailedContent:
-            "Organized Staff Picks section. Realized I'm stuck in the same routine every day. Same store, same complaints about late fees. Considered not coming back tomorrow.",
+            "整理了员工推荐专区。意识到自己每天都困在同一套日常里。同一家店，同样关于滞纳金的抱怨。考虑过明天不再来了。",
           significance: 'critical',
           isRead: false,
           relatedEntities: [
-            { id: 'item-1', type: 'item', name: 'Staff Picks Display' },
+            { id: 'item-1', type: 'item', name: "员工推荐展示" },
           ],
           metadata: {
             tags: ['browsing', 'selection', 'life-decision', 'epiphany'],
@@ -254,26 +254,26 @@ export default function JournalAccessTestPage() {
       {/* Test Controls */}
       <div>
         <h1>
-          📖 Journal Access Test Harness - Issue #278
+          📖 日志访问测试工具 - Issue #278
         </h1>
 
         <div>
           {/* Character Toggle */}
           <div>
-            <h3>Character Presence</h3>
+            <h3>角色在场</h3>
             <label>
               <input
                 type="checkbox"
                 checked={hasCharacter}
                 onChange={(e) => setHasCharacter(e.target.checked)}
               />
-              <span>Has Character (AC1: button visibility)</span>
+              <span>有角色（AC1：按钮可见性）</span>
             </label>
           </div>
 
           {/* Game Status */}
           <div>
-            <h3>Game Status</h3>
+            <h3>游戏状态</h3>
             <select
               value={gameStatus}
               onChange={(e) =>
@@ -281,18 +281,18 @@ export default function JournalAccessTestPage() {
               }
             >
               <option value="active">
-                Active (AC3: available at any point)
+                进行中（AC3：任意时刻可用）
               </option>
               <option value="paused">
-                Paused (AC3: available at any point)
+                已暂停（AC3：任意时刻可用）
               </option>
-              <option value="ended">Ended</option>
+              <option value="ended">已结束</option>
             </select>
           </div>
 
           {/* Journal Entries */}
           <div>
-            <h3>Journal Entries</h3>
+            <h3>日志条目</h3>
             <input
               type="range"
               min="0"
@@ -300,16 +300,16 @@ export default function JournalAccessTestPage() {
               value={entryCount}
               onChange={(e) => setEntryCount(parseInt(e.target.value))}
             />
-            <span>{entryCount} entries</span>
+            <span>{entryCount} 条</span>
           </div>
 
           {/* Journal Controls */}
           <div>
-            <h3>Journal Debug</h3>
+            <h3>日志调试</h3>
             <button
               onClick={() => router.push('/worlds/test-world-1/play/journal')}
             >
-              Open Journal Page
+              打开日志页面
             </button>
             <button
               onClick={() => {
@@ -319,7 +319,7 @@ export default function JournalAccessTestPage() {
                 setTimeout(() => setEntryCount(3), 100);
               }}
             >
-              Clear & Regenerate Journal
+              清除并重新生成日志
             </button>
           </div>
         </div>
@@ -327,27 +327,23 @@ export default function JournalAccessTestPage() {
         {/* Acceptance Criteria Checklist */}
         <div>
           <h3>
-            ✅ Acceptance Criteria Testing
+            ✅ 验收标准测试
           </h3>
           <ul>
             <li>
-              🎯 <strong>AC1:</strong> Journal button visible when character
-              present
+              🎯 <strong>检查1：</strong> 角色在场时显示日志按钮
             </li>
             <li>
-              🎯 <strong>AC2:</strong> Game state preserved when journal opened
+              🎯 <strong>检查2：</strong> 打开日志时保留游戏状态
             </li>
             <li>
-              🎯 <strong>AC3:</strong> Journal available during active/paused
-              status
+              🎯 <strong>检查3：</strong> 日志在进行中/已暂停状态下可用
             </li>
             <li>
-              🎯 <strong>AC4:</strong> Smooth page transition with proper
-              accessibility
+              🎯 <strong>检查4：</strong> 页面过渡流畅，并具备适当的无障碍支持
             </li>
             <li>
-              🎯 <strong>AC5:</strong> Narrative components remain functional
-              when journal open
+              🎯 <strong>检查5：</strong> 打开日志时叙事组件仍可正常使用
             </li>
           </ul>
         </div>
@@ -371,35 +367,35 @@ export default function JournalAccessTestPage() {
       <div>
         <div>
           <h3>
-            🧪 Testing Instructions
+            🧪 测试说明
           </h3>
           <div>
             <div>
               <h4>
-                Interactive Tests:
+                交互测试：
               </h4>
               <ul>
-                <li>• Toggle character presence to test AC1</li>
-                <li>• Change game status to test AC3</li>
-                <li>• Adjust entry count to test different journal states</li>
-                <li>• Click journal button to test AC4 (page transition)</li>
+                <li>• 切换角色在场状态以测试 AC1</li>
+                <li>• 更改游戏状态以测试 AC3</li>
+                <li>• 调整条目数量以测试不同的日志状态</li>
+                <li>• 点击日志按钮以测试 AC4（页面过渡）</li>
                 <li>
-                  • Verify AC2: game state preserved during journal access
+                  • 验证 AC2：访问日志期间游戏状态保持不变
                 </li>
-                <li>• Check AC5: narrative components remain visible</li>
+                <li>• 检查 AC5：叙事组件仍然可见</li>
               </ul>
             </div>
             <div>
               <h4>
-                Expected Behavior:
+                预期行为：
               </h4>
               <ul>
-                <li>• Journal button appears only with character</li>
-                <li>• Journal opens as a full-page view</li>
-                <li>• Journal entries display correctly</li>
-                <li>• Back navigation returns to gameplay</li>
-                <li>• Game session remains intact throughout</li>
-                <li>• Accessibility features work properly</li>
+                <li>• 只有角色在场时才显示日志按钮</li>
+                <li>• 日志以整页视图打开</li>
+                <li>• 日志条目正确显示</li>
+                <li>• 返回导航会回到游戏玩法</li>
+                <li>• 冒险记录全程保持完整</li>
+                <li>• 无障碍功能正常工作</li>
               </ul>
             </div>
           </div>

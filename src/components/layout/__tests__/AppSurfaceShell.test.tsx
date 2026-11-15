@@ -104,7 +104,7 @@ describe('AppSurfaceShell', () => {
     );
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
-    expect(screen.getByText(/can't save to this browser/i)).toBeInTheDocument();
+    expect(screen.getByText(/无法保存到此浏览器/i)).toBeInTheDocument();
   });
 });
 

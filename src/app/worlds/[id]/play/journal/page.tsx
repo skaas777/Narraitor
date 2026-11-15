@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { JournalPage } from '@/components/Journal';
 
 export const metadata: Metadata = {
-  title: 'Journal',
+  title: "日志",
 };
 
 interface JournalPageRouteProps {

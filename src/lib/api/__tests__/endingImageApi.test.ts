@@ -82,7 +82,7 @@ describe('endingImageApi', () => {
     } as unknown as Response);
 
     await expect(generateEndingImage(params)).rejects.toThrow(
-      'Failed to load ending image (502)'
+      "加载结局图片失败（502）"
     );
   });
 });

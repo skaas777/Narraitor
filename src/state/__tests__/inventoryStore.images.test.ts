@@ -120,7 +120,7 @@ describe('inventoryStore - image field support', () => {
 
       expect(itemId).toBe('');
       expect(state.error).toMatchObject({
-        title: 'Validation Error',
+        title: "验证错误",
         message: 'Image type must be "ai-generated" or "placeholder"',
         type: ErrorType.VALIDATION,
       });
@@ -138,7 +138,7 @@ describe('inventoryStore - image field support', () => {
 
       expect(itemId).toBe('');
       expect(state.error).toMatchObject({
-        title: 'Validation Error',
+        title: "验证错误",
         message: 'Image URL must be a string or null',
         type: ErrorType.VALIDATION,
       });
@@ -152,7 +152,7 @@ describe('inventoryStore - image field support', () => {
 
       expect(itemId).toBe('');
       expect(state.error).toMatchObject({
-        title: 'Validation Error',
+        title: "验证错误",
         message: 'Image must be a GeneratedImage object',
         type: ErrorType.VALIDATION,
       });

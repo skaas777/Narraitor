@@ -102,7 +102,7 @@ describe('NarrativeController session pacing integration', () => {
     });
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Good stopping point')).toBeInTheDocument();
+    expect(screen.getByText("适合暂停的时机")).toBeInTheDocument();
   });
 
   it('counts decisions from persisted segments metadata in break prompt metrics', async () => {
@@ -159,7 +159,7 @@ describe('NarrativeController session pacing integration', () => {
     });
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    const decisionsLabel = screen.getByText('Decisions made');
+    const decisionsLabel = screen.getByText("已做决定");
     expect(decisionsLabel.nextElementSibling).toHaveTextContent('2');
   });
 
@@ -203,7 +203,7 @@ describe('NarrativeController session pacing integration', () => {
       jest.advanceTimersByTime(15 * 60 * 1000);
     });
 
-    const decisionsLabel = screen.getByText('Decisions made');
+    const decisionsLabel = screen.getByText("已做决定");
     expect(decisionsLabel.nextElementSibling).toHaveTextContent('5');
   });
 
@@ -250,7 +250,7 @@ describe('NarrativeController session pacing integration', () => {
       jest.advanceTimersByTime(15 * 60 * 1000);
     });
 
-    const decisionsLabel = screen.getByText('Decisions made');
+    const decisionsLabel = screen.getByText("已做决定");
     expect(decisionsLabel.nextElementSibling).toHaveTextContent('5');
   });
 });

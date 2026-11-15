@@ -12,13 +12,13 @@ describe('KeyboardShortcutsDialog', () => {
   it('lists the game-session keyboard shortcuts when open', () => {
     render(<KeyboardShortcutsDialog open onOpenChange={jest.fn()} />);
 
-    const dialog = screen.getByRole('dialog', { name: /keyboard shortcuts/i });
+    const dialog = screen.getByRole('dialog', { name: /键盘快捷键/i });
     expect(dialog).toBeInTheDocument();
 
-    expect(screen.getByText(/select a suggested action/i)).toBeInTheDocument();
-    expect(screen.getByText(/open journal/i)).toBeInTheDocument();
-    expect(screen.getByText(/toggle character sheet/i)).toBeInTheDocument();
-    expect(screen.getByText(/close a dialog or panel/i)).toBeInTheDocument();
-    expect(screen.getByText(/show this shortcuts guide/i)).toBeInTheDocument();
+    expect(screen.getByText(/选择建议行动/i)).toBeInTheDocument();
+    expect(screen.getByText(/打开日志/i)).toBeInTheDocument();
+    expect(screen.getByText(/切换角色面板/i)).toBeInTheDocument();
+    expect(screen.getByText(/关闭对话框或面板/i)).toBeInTheDocument();
+    expect(screen.getByText(/显示快捷键指南/i)).toBeInTheDocument();
   });
 });

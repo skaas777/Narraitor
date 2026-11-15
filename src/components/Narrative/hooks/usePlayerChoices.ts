@@ -45,17 +45,17 @@ function buildFallbackDecision(contextSummary: string): Decision {
     options: [
       {
         id: `option-${fallbackId}-1`,
-        text: 'Investigate further',
+        text: "进一步调查",
         alignment: 'neutral',
       },
       {
         id: `option-${fallbackId}-2`,
-        text: 'Talk to nearby characters',
+        text: "与附近的角色交谈",
         alignment: 'lawful',
       },
       {
         id: `option-${fallbackId}-3`,
-        text: 'Move to a new location',
+        text: "前往新地点",
         alignment: 'neutral',
       },
     ],
@@ -133,8 +133,8 @@ export function usePlayerChoices({
     let usedFallbackDecision = false;
     const fallbackDecision = buildFallbackDecision(
       recentSegments.length > 0
-        ? `${lastSegment?.metadata?.location || 'Unknown location'}: ${truncate(lastSegment?.content || 'Making a decision', 100)}`
-        : 'Making a decision in an unknown location.'
+        ? `${lastSegment?.metadata?.location || 'Unknown location'}: ${truncate(lastSegment?.content || "做出决定", 100)}`
+        : "在未知地点做出决定。"
     );
 
     try {
@@ -243,7 +243,7 @@ export function usePlayerChoices({
 
         if (existingDecisions.length === 0 && mountedRef.current) {
           const fallbackDecision = buildFallbackDecision(
-            'Error occurred during choice generation.'
+            "生成选项时发生错误。"
           );
           fallbackDecision.id = useNarrativeStore
             .getState()

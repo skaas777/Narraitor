@@ -25,12 +25,12 @@ interface WorldViewToggleProps {
  */
 export function WorldViewToggle({ mode, onModeChange }: WorldViewToggleProps) {
   return (
-    <div className="view-mode-toggle" role="group" aria-label="View mode toggle">
+    <div className="view-mode-toggle" role="group" aria-label="切换视图模式">
       <Button
         variant={mode === 'grid' ? 'default' : 'outline'}
         size="icon"
         onClick={() => onModeChange('grid')}
-        aria-label="Grid view"
+        aria-label="网格视图"
         aria-pressed={mode === 'grid'}
         className={mode === 'grid' ? 'active' : ''}
       >
@@ -40,7 +40,7 @@ export function WorldViewToggle({ mode, onModeChange }: WorldViewToggleProps) {
         variant={mode === 'table' ? 'default' : 'outline'}
         size="icon"
         onClick={() => onModeChange('table')}
-        aria-label="Table view"
+        aria-label="表格视图"
         aria-pressed={mode === 'table'}
         className={mode === 'table' ? 'active' : ''}
       >

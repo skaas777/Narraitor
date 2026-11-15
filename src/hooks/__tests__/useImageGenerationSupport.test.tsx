@@ -58,6 +58,6 @@ describe('useImageGenerationSupport', () => {
 
     render(<Probe />);
 
-    expect(screen.getByText(/does not generate images/i)).toBeInTheDocument();
+    expect(screen.getByText(/不能生成图片/i)).toBeInTheDocument();
   });
 });

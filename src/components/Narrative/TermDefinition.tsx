@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import type { TermDefinitionData } from './useTermDefinitions';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface TermDefinitionProps {
   term: TermDefinitionData;
@@ -157,14 +158,14 @@ export const TermDefinition: React.FC<TermDefinitionProps> = ({
       ref={ref}
       role="complementary"
       className="manuscript-marginalia-definition"
-      aria-label={`Definition: ${term.name}`}
+      aria-label={`定义：${term.name}`}
       tabIndex={-1}
       style={style}
     >
-      <span className="manuscript-marginalia-category">{term.category}</span>
+      <span className="manuscript-marginalia-category">{displayLabel(term.category)}</span>
       <p className="manuscript-marginalia-name">{term.name}</p>
       {term.type && (
-        <span className="manuscript-marginalia-type">{term.type}</span>
+        <span className="manuscript-marginalia-type">{displayLabel(term.type)}</span>
       )}
       <p className="manuscript-marginalia-description">{term.description}</p>
     </aside>

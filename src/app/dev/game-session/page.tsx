@@ -16,14 +16,14 @@ import { getTimestamp } from '@/lib/utils';
 // Mock world
 const mockWorld: World = {
   id: 'world-1',
-  name: 'Fantasy Realm',
-  description: 'A high fantasy world of magic and adventure',
+  name: "奇幻领域",
+  description: "一个充满魔法与冒险的高奇幻世界",
   genre: 'fantasy',
   attributes: [
     {
       id: 'strength',
-      name: 'Strength',
-      description: 'Physical power and muscle',
+      name: "力量",
+      description: "体能与肌肉力量",
       worldId: 'world-1',
       baseValue: 1,
       minValue: 1,
@@ -31,8 +31,8 @@ const mockWorld: World = {
     },
     {
       id: 'intelligence',
-      name: 'Intelligence',
-      description: 'Mental acuity and reasoning',
+      name: "智力",
+      description: "思维敏锐度与推理能力",
       worldId: 'world-1',
       baseValue: 1,
       minValue: 1,
@@ -42,8 +42,8 @@ const mockWorld: World = {
   skills: [
     {
       id: 'lockpicking',
-      name: 'Lockpicking',
-      description: 'The art of opening locks without keys',
+      name: "开锁",
+      description: "不使用钥匙开锁的技艺",
       worldId: 'world-1',
       difficulty: 'medium',
       baseValue: 1,
@@ -52,8 +52,8 @@ const mockWorld: World = {
     },
     {
       id: 'intimidation',
-      name: 'Intimidation',
-      description: 'Using presence and fear to influence others',
+      name: "恐吓",
+      description: "利用气场与恐惧影响他人",
       worldId: 'world-1',
       difficulty: 'hard',
       baseValue: 1,
@@ -62,8 +62,8 @@ const mockWorld: World = {
     },
     {
       id: 'stealth',
-      name: 'Stealth',
-      description: 'Moving unseen and unheard',
+      name: "潜行",
+      description: "无声无息地行动",
       worldId: 'world-1',
       difficulty: 'medium',
       baseValue: 1,
@@ -72,8 +72,8 @@ const mockWorld: World = {
     },
     {
       id: 'magic',
-      name: 'Magic',
-      description: 'Wielding arcane forces',
+      name: "魔法",
+      description: "驾驭奥术力量",
       worldId: 'world-1',
       difficulty: 'hard',
       baseValue: 1,
@@ -82,8 +82,8 @@ const mockWorld: World = {
     },
     {
       id: 'persuasion',
-      name: 'Persuasion',
-      description: 'Convincing others through words and charm',
+      name: "说服",
+      description: "通过言辞与魅力说服他人",
       worldId: 'world-1',
       difficulty: 'easy',
       baseValue: 1,
@@ -104,16 +104,16 @@ const mockWorld: World = {
 // Mock character
 const mockCharacter = {
   id: 'test-character-123',
-  name: 'Test Hero',
-  description: 'A test character for debugging purposes',
+  name: "测试英雄",
+  description: "用于调试的测试角色",
   worldId: 'world-1',
   level: 5,
   background: {
-    history: 'Born in a test harness, raised to debug',
-    personality: 'Deterministic and reliable',
-    goals: ['To pass all tests'],
-    fears: ['Null pointer exceptions', 'Infinite loops'],
-    physicalDescription: 'A well-structured test character',
+    history: "生于测试工具，长于调试",
+    personality: "确定且可靠",
+    goals: ["通过所有测试"],
+    fears: ["空指针异常", "无限循环"],
+    physicalDescription: "一个结构良好的测试角色",
     relationships: [],
   },
   portrait: {
@@ -125,7 +125,7 @@ const mockCharacter = {
       id: 'attr1',
       characterId: 'test-character-123',
       worldAttributeId: 'strength',
-      name: 'Strength',
+      name: "力量",
       baseValue: 14,
       modifiedValue: 14,
       category: 'physical',
@@ -134,7 +134,7 @@ const mockCharacter = {
       id: 'attr2',
       characterId: 'test-character-123',
       worldAttributeId: 'intelligence',
-      name: 'Intelligence',
+      name: "智力",
       baseValue: 16,
       modifiedValue: 16,
       category: 'mental',
@@ -145,7 +145,7 @@ const mockCharacter = {
       id: 'skill1',
       characterId: 'test-character-123',
       worldSkillId: 'lockpicking',
-      name: 'Lockpicking',
+      name: "开锁",
       level: 8,
       category: 'stealth',
     },
@@ -153,7 +153,7 @@ const mockCharacter = {
       id: 'skill2',
       characterId: 'test-character-123',
       worldSkillId: 'intimidation',
-      name: 'Intimidation',
+      name: "恐吓",
       level: 6,
       category: 'social',
     },
@@ -161,7 +161,7 @@ const mockCharacter = {
       id: 'skill3',
       characterId: 'test-character-123',
       worldSkillId: 'stealth',
-      name: 'Stealth',
+      name: "潜行",
       level: 4,
       category: 'stealth',
     },
@@ -169,7 +169,7 @@ const mockCharacter = {
       id: 'skill4',
       characterId: 'test-character-123',
       worldSkillId: 'magic',
-      name: 'Magic',
+      name: "魔法",
       level: 9,
       category: 'arcane',
     },
@@ -177,7 +177,7 @@ const mockCharacter = {
       id: 'skill5',
       characterId: 'test-character-123',
       worldSkillId: 'persuasion',
-      name: 'Persuasion',
+      name: "说服",
       level: 3,
       category: 'social',
     },
@@ -252,7 +252,7 @@ export default function GameSessionTestHarness() {
     const npcStore = useNPCStore.getState();
     const seededNpcs = [
       { id: 'npc-marta', name: 'Marta' },
-      { id: 'npc-guard-bren', name: 'Guard Bren' },
+      { id: 'npc-guard-bren', name: "守卫 Bren" },
     ];
     const missingNpcs = seededNpcs.filter((npc) => !npcStore.npcs[npc.id]);
     if (missingNpcs.length > 0) {
@@ -263,7 +263,7 @@ export default function GameSessionTestHarness() {
           ...Object.fromEntries(
             missingNpcs.map((npc) => [
               npc.id,
-              { ...npc, description: 'Dev harness NPC', worldId: mockWorld.id, createdAt: now, updatedAt: now },
+              { ...npc, description: "开发测试工具 NPC", worldId: mockWorld.id, createdAt: now, updatedAt: now },
             ])
           ),
         },
@@ -301,8 +301,8 @@ export default function GameSessionTestHarness() {
     });
 
     inventoryStore.addItem(mockCharacter.id, {
-      name: 'Steel Sword',
-      description: 'A well-crafted blade',
+      name: "钢剑",
+      description: "一把精工打造的剑",
       quantity: 1,
       stackable: false,
       categorization: createCategorization('equipment'),
@@ -310,8 +310,8 @@ export default function GameSessionTestHarness() {
     });
 
     inventoryStore.addItem(mockCharacter.id, {
-      name: 'Health Potions',
-      description: 'Restores 50 HP',
+      name: "治疗药水",
+      description: "恢复 50 HP",
       quantity: 5,
       stackable: true,
       maxStack: 10,
@@ -320,8 +320,8 @@ export default function GameSessionTestHarness() {
     });
 
     inventoryStore.addItem(mockCharacter.id, {
-      name: 'Gold Coins',
-      description: 'Currency',
+      name: "金币",
+      description: "货币",
       quantity: 150,
       stackable: true,
       maxStack: 999,
@@ -330,8 +330,8 @@ export default function GameSessionTestHarness() {
     });
 
     inventoryStore.addItem(mockCharacter.id, {
-      name: 'Ancient Map',
-      description: 'Shows locations',
+      name: "古老地图",
+      description: "显示地点",
       quantity: 1,
       stackable: false,
       categorization: createCategorization('documents'),
@@ -339,8 +339,8 @@ export default function GameSessionTestHarness() {
     });
 
     inventoryStore.addItem(mockCharacter.id, {
-      name: 'Magic Ring',
-      description: 'Quest item - glows faintly',
+      name: "魔法戒指",
+      description: "任务物品——微微发光",
       quantity: 1,
       stackable: false,
       categorization: createCategorization('quest-items'),
@@ -437,8 +437,8 @@ export default function GameSessionTestHarness() {
     // Return loading placeholder to avoid hydration mismatch
     return (
       <div>
-        <h1>Game Session Test Harness</h1>
-        <div>Loading test harness...</div>
+        <h1>游戏冒险记录测试工具</h1>
+        <div>正在加载测试工具……</div>
       </div>
     );
   }
@@ -447,17 +447,17 @@ export default function GameSessionTestHarness() {
     <div className="game-session-test-harness">
       {!showRealComponent && (
         <>
-          <h2>Game Session Test Harness</h2>
+          <h2>游戏冒险记录测试工具</h2>
 
           <div>
             <button onClick={() => setShowRealComponent(true)}>
-              Show Component
+              显示组件
             </button>
           </div>
 
           <div>
             <button onClick={createTestWorld}>
-              Ensure Test World & Character Exist
+              确保测试世界与角色存在
             </button>
 
             <button
@@ -475,7 +475,7 @@ export default function GameSessionTestHarness() {
                 }
               }}
             >
-              Start Session
+              开始冒险记录
             </button>
 
             <button
@@ -484,7 +484,7 @@ export default function GameSessionTestHarness() {
                 useSessionStore.getState().endSession();
               }}
             >
-              End Session
+              结束冒险记录
             </button>
 
             <button
@@ -520,18 +520,18 @@ export default function GameSessionTestHarness() {
                 }, 500);
               }}
             >
-              Reset State & Refresh
+              重置状态并刷新
             </button>
           </div>
 
           <div>
-            <h2>Current Session State</h2>
+            <h2>当前冒险记录状态</h2>
             <p>
-              Status:{' '}
+              状态：{' '}
               <span>{currentState.status || 'unknown'}</span>
             </p>
             <p>
-              Store methods:{' '}
+              存储方法：{' '}
               {Object.keys(useSessionStore.getState())
                 .filter((key) => {
                   const value =
@@ -548,7 +548,7 @@ export default function GameSessionTestHarness() {
           </div>
 
           <div>
-            <h2>Test World Data</h2>
+            <h2>测试世界数据</h2>
             <div>
               {JSON.stringify(mockWorld, null, 2)}
             </div>

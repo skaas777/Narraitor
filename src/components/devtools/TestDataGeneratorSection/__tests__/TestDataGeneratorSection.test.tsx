@@ -126,7 +126,7 @@ describe('TestDataGeneratorSection', () => {
 
   it('creates a world and its image through the api wrappers', async () => {
     render(<TestDataGeneratorSection />);
-    clickButton('Generate Diverse AI World');
+    clickButton('生成多样化 AI 世界');
 
     await waitFor(() => expect(mockGenerateWorldImage).toHaveBeenCalledTimes(1));
     expect(mockGenerateWorld).toHaveBeenCalledTimes(1);
@@ -141,7 +141,7 @@ describe('TestDataGeneratorSection', () => {
     mockGenerateWorld.mockRejectedValue(new Error('world route down'));
 
     render(<TestDataGeneratorSection />);
-    clickButton('Generate Diverse AI World');
+    clickButton('生成多样化 AI 世界');
 
     await waitFor(() =>
       expect(window.alert).toHaveBeenCalledWith(expect.stringContaining('world route down'))
@@ -153,7 +153,7 @@ describe('TestDataGeneratorSection', () => {
     mockGenerateWorldImage.mockRejectedValue(new Error('image route down'));
 
     render(<TestDataGeneratorSection />);
-    clickButton('Generate Diverse AI World');
+    clickButton('生成多样化 AI 世界');
 
     await waitFor(() => expect(mockGenerateWorldImage).toHaveBeenCalledTimes(1));
     expect(mockCreateWorld).toHaveBeenCalledTimes(1);
@@ -165,7 +165,7 @@ describe('TestDataGeneratorSection', () => {
     mockGenerateCharacter.mockRejectedValue(new Error('character route down'));
 
     render(<TestDataGeneratorSection />);
-    clickButton('Generate 5 AI Characters for World');
+    clickButton('为世界生成 5 个 AI 角色');
 
     await waitFor(() =>
       expect(window.alert).toHaveBeenCalledWith(expect.stringContaining('character route down'))
@@ -177,10 +177,10 @@ describe('TestDataGeneratorSection', () => {
     mockGeneratePortrait.mockRejectedValue(new Error('portrait route down'));
 
     render(<TestDataGeneratorSection />);
-    clickButton('Generate 5 AI Characters for World');
+    clickButton('为世界生成 5 个 AI 角色');
 
     await waitFor(() =>
-      expect(window.alert).toHaveBeenCalledWith(expect.stringContaining('Successfully generated'))
+      expect(window.alert).toHaveBeenCalledWith(expect.stringContaining('已成功生成'))
     );
     expect(mockCreateCharacter).toHaveBeenCalledTimes(5);
     expect(mockUpdateCharacter).not.toHaveBeenCalled();

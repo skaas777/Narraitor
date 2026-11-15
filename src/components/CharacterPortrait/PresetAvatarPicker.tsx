@@ -36,20 +36,20 @@ export function PresetAvatarPicker({
     <div className={clsx('component-preset-avatar-picker', className)}>
       <div className="preset-avatar-picker-filters">
         <div className="preset-avatar-picker-search">
-          <label htmlFor={searchId}>Search avatars</label>
+          <label htmlFor={searchId}>搜索头像</label>
           <input
             id={searchId}
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Try ranger, visor, detective"
+            placeholder="试试游侠、护目镜、侦探"
           />
         </div>
 
         <div
           className="preset-avatar-picker-categories"
           role="group"
-          aria-label="Filter avatars by category"
+          aria-label="按类别筛选头像"
         >
           <button
             type="button"
@@ -60,7 +60,7 @@ export function PresetAvatarPicker({
             aria-pressed={category === 'all'}
             onClick={() => setCategory('all')}
           >
-            All
+            全部
           </button>
           {PRESET_AVATAR_CATEGORIES.map((option) => (
             <button
@@ -81,7 +81,7 @@ export function PresetAvatarPicker({
 
       {avatars.length === 0 ? (
         <p className="preset-avatar-picker-empty">
-          No avatars match that search. Try a different word or category.
+          没有头像匹配该搜索。试试其他关键词或类别。
         </p>
       ) : (
         <ul className="preset-avatar-picker-grid">
@@ -109,7 +109,7 @@ export function PresetAvatarPicker({
                     unoptimized
                   />
                   <span className="preset-avatar-picker-option-name">
-                    {avatar.name} avatar
+                    {avatar.name} 头像
                   </span>
                 </button>
               </li>
@@ -119,7 +119,7 @@ export function PresetAvatarPicker({
       )}
 
       <p className="preset-avatar-picker-count">
-        {avatars.length} of {PRESET_AVATARS.length} avatars shown
+        {avatars.length} / {PRESET_AVATARS.length} 已显示头像
       </p>
     </div>
   );

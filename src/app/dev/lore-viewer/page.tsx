@@ -63,8 +63,8 @@ export default function LoreViewerTestPage() {
       setWorldId(existingWorldId as EntityID);
     } else {
       const newWorldId = createWorld({
-        name: 'Test World',
-        description: 'Test world for lore viewer',
+        name: '测试世界',
+        description: "设定查看器测试世界",
         genre: 'fantasy',
         attributes: [],
         skills: [],
@@ -84,7 +84,7 @@ export default function LoreViewerTestPage() {
   
   // Don't render until we have a world
   if (!worldId) {
-    return <div>Loading test world...</div>;
+    return <div>正在加载测试世界……</div>;
   }
 
   const addSampleFacts = () => {
@@ -99,22 +99,22 @@ export default function LoreViewerTestPage() {
     addFact('capital_city', 'Goldenhaven', 'locations', 'manual', worldId);
     
     // Events
-    addFact('quest_start', 'The village was attacked by goblins', 'events', 'narrative', worldId, sessionId);
-    addFact('first_battle', 'Marcus defeated three goblins', 'events', 'narrative', worldId, sessionId);
-    addFact('mentor_meeting', 'Eldara revealed the prophecy', 'events', 'narrative', worldId, sessionId);
+    addFact('quest_start', "村庄遭到了哥布林袭击", 'events', 'narrative', worldId, sessionId);
+    addFact('first_battle', "Marcus 击败了三只哥布林", 'events', 'narrative', worldId, sessionId);
+    addFact('mentor_meeting', "Eldara 揭示了预言", 'events', 'narrative', worldId, sessionId);
     
     // Rules
-    addFact('magic_system', 'Magic requires crystalline focuses', 'rules', 'manual', worldId);
-    addFact('combat_rule', 'Initiative is based on agility', 'rules', 'manual', worldId);
+    addFact('magic_system', "魔法需要水晶法器", 'rules', 'manual', worldId);
+    addFact('combat_rule', "先攻基于敏捷", 'rules', 'manual', worldId);
   };
 
 
   const testStructuredExtraction = async () => {
     const beforeCount = getFacts({ worldId }).length;
     
-    const sampleNarrative = customNarrative || `You enter the bustling marketplace of Goldenhaven, where merchants hawk their wares. A mysterious woman named Lady Seraphina approaches you with an urgent request. She tells you about the Lost Temple of Aethon, deep in the Whispering Woods. The temple is said to contain the Crystal of Truth, a powerful artifact. Sir Gareth, the captain of the guard, warns you that the woods are dangerous. Many adventurers have entered the Whispering Woods, but few have returned. The local tavern, The Dragon's Rest, might have more information.`;
+    const sampleNarrative = customNarrative || "你进入 Goldenhaven 熙熙攘攘的集市，商贩们正大声兜售货物。一位名叫 Lady Seraphina 的神秘女子向你提出紧急请求。她向你讲述了位于 Whispering Woods 深处的 Aethon 失落神庙。据说神庙中藏有真理水晶，一件强大的神器。卫队长 Sir Gareth 警告你森林十分危险。许多冒险者进入过 Whispering Woods，但很少有人归来。当地酒馆 The Dragon's Rest 或许有更多信息。";
     
-    status.show('Extracting structured lore with AI...', { sticky: true });
+    status.show("正在使用 AI 提取结构化设定...", { sticky: true });
     try {
       const structuredLore = await extractStructuredLore(sampleNarrative);
       addStructuredLore(structuredLore, worldId, sessionId);
@@ -122,18 +122,18 @@ export default function LoreViewerTestPage() {
       const afterCount = getFacts({ worldId }).length;
       const extracted = afterCount - beforeCount;
 
-      status.show(`AI extracted ${extracted} new structured facts! Check all categories for rich metadata.`);
+      status.show(`AI 提取了 ${extracted} 条新的结构化事实！查看所有分类以获取丰富的元数据。`);
     } catch (error) {
-      status.show(`Failed to extract structured lore: ${error}`);
+      status.show(`提取结构化设定失败：${error}`);
     }
   };
 
   const testErrorHandling = async () => {
     const beforeCount = getFacts({ worldId }).length;
 
-    const sampleNarrative = customNarrative || `You enter the bustling marketplace of Goldenhaven, where merchants hawk their wares. A mysterious woman named Lady Seraphina approaches you with an urgent request. She tells you about the Lost Temple of Aethon, deep in the Whispering Woods. The temple is said to contain the Crystal of Truth, a powerful artifact. Sir Gareth, the captain of the guard, warns you that the woods are dangerous. Many adventurers have entered the Whispering Woods, but few have returned. The local tavern, The Dragon's Rest, might have more information.`;
+    const sampleNarrative = customNarrative || "你进入 Goldenhaven 熙熙攘攘的集市，商贩们正大声兜售货物。一位名叫 Lady Seraphina 的神秘女子向你提出紧急请求。她向你讲述了位于 Whispering Woods 深处的 Aethon 失落神庙。据说神庙中藏有真理水晶，一件强大的神器。卫队长 Sir Gareth 警告你森林十分危险。许多冒险者进入过 Whispering Woods，但很少有人归来。当地酒馆 The Dragon's Rest 或许有更多信息。";
 
-    status.show('Testing AI extraction with error handling...', { sticky: true });
+    status.show("正在测试带错误处理的 AI 提取...", { sticky: true });
 
     try {
       const structuredLore = await extractStructuredLore(sampleNarrative);
@@ -141,9 +141,9 @@ export default function LoreViewerTestPage() {
       const afterCount = getFacts({ worldId }).length;
       const extracted = afterCount - beforeCount;
 
-      status.show(`AI extraction successful! Added ${extracted} facts.`);
+      status.show(`AI 提取成功！已添加 ${extracted} 条事实。`);
     } catch (error) {
-      status.show(`AI extraction failed: ${error}`);
+      status.show(`AI 提取失败：${error}`);
     }
   };
 
@@ -152,29 +152,29 @@ export default function LoreViewerTestPage() {
     const characterFacts = facts.filter(f => f.category === 'characters');
 
     if (characterFacts.length === 0) {
-      status.show('Add some facts first before testing aliases!');
+      status.show("在测试别名之前，请先添加一些事实！");
       return;
     }
 
     characterFacts.slice(0, 3).forEach(fact => {
       if (fact.value.includes('Marcus')) {
-        setAliases(fact.id, ['Marcus', 'The Brave', 'Hero of Willowbrook']);
+        setAliases(fact.id, ['Marcus', "勇者", "Willowbrook 的英雄"]);
       } else if (fact.value.includes('Seraphina')) {
-        setAliases(fact.id, ['Seraphina', 'Lady Sera', 'The Mysterious Woman']);
+        setAliases(fact.id, ['Seraphina', "Sera 女士", "神秘女子"]);
       } else if (fact.value.includes('Gareth')) {
-        setAliases(fact.id, ['Gareth', 'Captain', 'Guard Captain']);
+        setAliases(fact.id, ['Gareth', "队长", "卫队长"]);
       } else {
         const firstName = fact.value.split(' ')[0];
         setAliases(fact.id, [firstName, fact.value]);
       }
     });
 
-    status.show('Added aliases to character facts! Check the display above.');
+    status.show("已为角色事实添加别名！请查看上方显示。");
   };
 
   const testAliasSearch = () => {
     if (!searchQuery.trim()) {
-      status.show('Enter a search query first!');
+      status.show("请先输入搜索查询！");
       return;
     }
 
@@ -182,59 +182,59 @@ export default function LoreViewerTestPage() {
     const entityByName = findEntityByAnyName(searchQuery, worldId);
 
     const lines = [
-      `Search for "${searchQuery}":`,
-      `- Found ${results.length} facts via search`,
-      entityByName ? `- Found exact match: ${entityByName.value}` : `- No exact match found`,
+      `搜索“${searchQuery}”：`,
+      `- 通过搜索找到 ${results.length} 条事实`,
+      entityByName ? `- 找到精确匹配：${entityByName.value}` : "- 未找到精确匹配",
     ];
     status.show(lines.join('\n'));
   };
 
   const testAliasExtraction = async () => {
-    const narrativeWithAliases = `You encounter Lady Seraphina Moonwhisper in the market. The locals call her "Sera" or "The Mysterious Woman". She's accompanied by Sir Gareth "The Iron", captain of the guard, who many simply call "Captain". They speak of Goldenhaven (also known as "The Golden City" or "Haven") and its troubles. The Dragon's Rest tavern, which locals affectionately call "The Dragon" or "Dragon's", is nearby.`;
+    const narrativeWithAliases = "你在集市遇到了 Lady Seraphina Moonwhisper。当地人称她为“Sera”或“神秘女子”。陪伴她的是卫队长 Sir Gareth“铁人”，许多人只称他为“队长”。他们谈到了 Goldenhaven（也被称为“黄金之城”或“Haven”）及其困境。当地人亲切地称 The Dragon's Rest 酒馆为“The Dragon”或“Dragon's”，它就在附近。";
 
-    status.show('Testing AI alias extraction...', { sticky: true });
+    status.show("正在测试 AI 别名提取...", { sticky: true });
 
     try {
       const structuredLore = await extractStructuredLore(narrativeWithAliases);
       addStructuredLore(structuredLore, worldId, sessionId);
 
-      status.show('AI alias extraction complete! Check if aliases were detected in the display above.');
+      status.show("AI 别名提取完成！请检查上方显示中是否检测到别名。");
     } catch (error) {
-      status.show(`AI alias extraction failed: ${error}`);
+      status.show(`AI 别名提取失败：${error}`);
     }
   };
 
   return (
     <div>
-      <h1>Lore Viewer Test Harness</h1>
+      <h1>设定查看器测试工具</h1>
       
       <div>
         <div>
           <button
             onClick={addSampleFacts}
           >
-            Add Sample Facts
+            添加示例事实
           </button>
           
           <button
             onClick={testStructuredExtraction}
           >
-            Test AI Structured Extraction
+            测试 AI 结构化提取
           </button>
           
           <button
             onClick={testErrorHandling}
           >
-            Test Error Handling
+            测试错误处理
           </button>
           
           <button
             onClick={() => {
               clearFacts(worldId);
-              status.show('All facts cleared from this world');
+              status.show("已清除此世界中的所有事实");
             }}
           >
-            Clear All Facts
+            清除所有事实
           </button>
 
           <label>
@@ -243,23 +243,23 @@ export default function LoreViewerTestPage() {
               checked={showSessionOnly}
               onChange={(e) => setShowSessionOnly(e.target.checked)}
             />
-            Show Session Facts Only
+            仅显示本次冒险记录的事实
           </label>
         </div>
 
         <div>
-          <h3>Alias Testing:</h3>
+          <h3>别名测试：</h3>
           <div>
             <button
               onClick={testAliasAddition}
             >
-              Test Alias Addition
+              测试别名添加
             </button>
 
             <button
               onClick={testAliasExtraction}
             >
-              Test AI Alias Extraction
+              测试 AI 别名提取
             </button>
           </div>
 
@@ -268,12 +268,12 @@ export default function LoreViewerTestPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name or alias (e.g., 'Sera', 'Captain')..."
+              placeholder="按名称或别名搜索（例如：“Sera”、“队长”）..."
             />
             <button
               onClick={testAliasSearch}
             >
-              Test Alias Search
+              测试别名搜索
             </button>
           </div>
         </div>
@@ -286,12 +286,12 @@ export default function LoreViewerTestPage() {
 
         <div>
           <label>
-            Custom Narrative Text (optional - leave empty to use sample)
+            自定义叙事文本（可选——留空则使用示例）
           </label>
           <textarea
             value={customNarrative}
             onChange={(e) => setCustomNarrative(e.target.value)}
-            placeholder="Enter narrative text to test fact extraction..."
+            placeholder="输入叙事文本以测试事实提取……"
           />
         </div>
       </div>
@@ -304,50 +304,50 @@ export default function LoreViewerTestPage() {
       </div>
       
       <div>
-        <h2>Test Instructions:</h2>
+        <h2>测试说明：</h2>
         <ol>
-          <li><strong>Add Sample Facts:</strong> Manually adds predefined facts to test display</li>
-          <li><strong>Test AI Structured Extraction:</strong> Runs the AI extractor and stores the structured facts it returns, with their metadata</li>
-          <li><strong>Test Error Handling:</strong> Forces the AI call to fail and shows what the viewer does with it</li>
-          <li><strong>Custom Narrative:</strong> Enter your own text to test extraction (any genre/style supported)</li>
-          <li><strong>Session Filtering:</strong> Toggle to show only facts from the current session</li>
-          <li><strong>Clear All Facts:</strong> Remove all facts to start fresh</li>
-          <li><strong>Test Alias Addition:</strong> Manually adds aliases to existing character facts</li>
-          <li><strong>Test AI Alias Extraction:</strong> Tests AI extraction of aliases from narrative text</li>
-          <li><strong>Test Alias Search:</strong> Search for entities by their canonical name or any alias</li>
+          <li><strong>添加示例事实：</strong> 手动添加预定义事实以测试显示</li>
+          <li><strong>测试 AI 结构化提取：</strong> 运行 AI 提取器，并存储其返回的结构化事实及元数据</li>
+          <li><strong>测试错误处理：</strong> 强制 AI 调用失败，并展示查看器如何处理该失败</li>
+          <li><strong>自定义叙事：</strong> 输入你自己的文本以测试提取（支持任意类型/风格）</li>
+          <li><strong>冒险记录筛选：</strong> 切换以仅显示当前冒险记录中的事实</li>
+          <li><strong>清除所有事实：</strong> 移除所有事实以重新开始</li>
+          <li><strong>测试别名添加：</strong> 手动为现有角色事实添加别名</li>
+          <li><strong>测试 AI 别名提取：</strong> 测试 AI 从叙事文本中提取别名</li>
+          <li><strong>测试别名搜索：</strong> 按实体的规范名称或任意别名搜索</li>
         </ol>
         
         <div>
-          <h3>AI Structured Extraction:</h3>
+          <h3>AI 结构化提取：</h3>
           <ul>
-            <li>• Extracts characters with roles, descriptions, and importance</li>
-            <li>• Identifies locations with types and context</li>
-            <li>• Detects aliases and alternative names for entities</li>
-            <li>• Captures events with significance and relationships</li>
-            <li>• Recognizes rules and world mechanics</li>
-            <li>• Covers more cases than regex patterns</li>
+            <li>• 提取角色及其定位、描述和重要性</li>
+            <li>• 识别地点及其类型和背景</li>
+            <li>• 检测实体的别名和替代名称</li>
+            <li>• 捕获事件及其重要性和关联</li>
+            <li>• 识别规则和世界机制</li>
+            <li>• 比正则表达式模式覆盖更多情况</li>
           </ul>
         </div>
 
         <div>
-          <h3>Alias Management:</h3>
+          <h3>别名管理：</h3>
           <ul>
-            <li>• Characters and locations can have multiple aliases</li>
-            <li>• Search finds entities by canonical name or any alias</li>
-            <li>• AI automatically detects aliases from narrative context</li>
-            <li>• Aliases are displayed inline with the canonical name</li>
-            <li>• Useful for nicknames, titles, and alternative references</li>
+            <li>• 角色和地点可以有多个别名</li>
+            <li>• 搜索会按规范名称或任意别名查找实体</li>
+            <li>• AI 会从叙事上下文中自动检测别名</li>
+            <li>• 别名会与规范名称一起内联显示</li>
+            <li>• 适用于昵称、头衔和替代称呼</li>
           </ul>
         </div>
         
         <div>
-          <h3>Production Behavior:</h3>
+          <h3>生产环境行为：</h3>
           <ul>
-            <li>• <strong>Primary:</strong> AI-powered structured extraction (production with API key)</li>
-            <li>• <strong>Development:</strong> Mock structured extraction (intelligent patterns without API)</li>
-            <li>• <strong>Error Handling:</strong> Graceful failure - no lore extraction rather than bad data</li>
-            <li>• Focuses on quality over quantity - better no data than wrong data</li>
-            <li>• Simple, reliable architecture without brittle regex patterns</li>
+            <li>• <strong>主要方式：</strong> AI 驱动的结构化提取（使用 API 密钥的生产环境）</li>
+            <li>• <strong>开发环境：</strong> 模拟结构化提取（无 API 时使用智能模式）</li>
+            <li>• <strong>错误处理：</strong> 优雅失败——宁可不出设定，也不产生错误数据</li>
+            <li>• 注重质量而非数量——宁可没有数据，也不要错误数据</li>
+            <li>• 简单可靠的架构，不依赖脆弱的正则表达式模式</li>
           </ul>
         </div>
       </div>

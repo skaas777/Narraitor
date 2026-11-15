@@ -95,13 +95,13 @@ describe('WorldTable', () => {
   it('renders table with all columns', () => {
     render(<WorldTable worlds={mockWorlds} onDeleteWorld={mockOnDeleteWorld} />);
 
-    expect(screen.getByText('Name')).toBeInTheDocument();
-    expect(screen.getByText('Genre')).toBeInTheDocument();
-    expect(screen.getByText('Attributes')).toBeInTheDocument();
-    expect(screen.getByText('Skills')).toBeInTheDocument();
-    expect(screen.getByText('Characters')).toBeInTheDocument();
-    expect(screen.getByText('Created')).toBeInTheDocument();
-    expect(screen.getByText('Actions')).toBeInTheDocument();
+    expect(screen.getByText("名称")).toBeInTheDocument();
+    expect(screen.getByText("类型")).toBeInTheDocument();
+    expect(screen.getByText("属性")).toBeInTheDocument();
+    expect(screen.getByText("技能")).toBeInTheDocument();
+    expect(screen.getByText("角色")).toBeInTheDocument();
+    expect(screen.getByText("创建时间")).toBeInTheDocument();
+    expect(screen.getByText("操作")).toBeInTheDocument();
   });
 
   it('renders world data correctly', () => {
@@ -125,15 +125,15 @@ describe('WorldTable', () => {
   it('renders action buttons for each world', () => {
     render(<WorldTable worlds={mockWorlds} onDeleteWorld={mockOnDeleteWorld} />);
 
-    expect(screen.getByLabelText('View Fantasy Realm')).toBeInTheDocument();
-    expect(screen.getByLabelText('Edit Fantasy Realm')).toBeInTheDocument();
-    expect(screen.getByLabelText('Delete Fantasy Realm')).toBeInTheDocument();
+    expect(screen.getByLabelText("查看 Fantasy Realm")).toBeInTheDocument();
+    expect(screen.getByLabelText("编辑 Fantasy Realm")).toBeInTheDocument();
+    expect(screen.getByLabelText("删除 Fantasy Realm")).toBeInTheDocument();
   });
 
   it('calls onDeleteWorld when delete button clicked', () => {
     render(<WorldTable worlds={mockWorlds} onDeleteWorld={mockOnDeleteWorld} />);
 
-    const deleteBtn = screen.getByLabelText('Delete Fantasy Realm');
+    const deleteBtn = screen.getByLabelText("删除 Fantasy Realm");
     fireEvent.click(deleteBtn);
 
     expect(mockOnDeleteWorld).toHaveBeenCalledWith('world-1', expect.any(Object));
@@ -142,13 +142,13 @@ describe('WorldTable', () => {
   it('shows empty state when no worlds', () => {
     render(<WorldTable worlds={[]} onDeleteWorld={mockOnDeleteWorld} />);
 
-    expect(screen.getByText('No worlds yet. Create one to get started.')).toBeInTheDocument();
+    expect(screen.getByText("还没有世界。创建一个开始吧。")).toBeInTheDocument();
   });
 
   it('includes search functionality', () => {
     render(<WorldTable worlds={mockWorlds} onDeleteWorld={mockOnDeleteWorld} />);
 
-    const searchInput = screen.getByPlaceholderText('Search worlds...');
+    const searchInput = screen.getByPlaceholderText("搜索世界……");
     expect(searchInput).toBeInTheDocument();
 
     // Type in search
@@ -169,6 +169,6 @@ describe('WorldTable', () => {
     render(<WorldTable worlds={manyWorlds} onDeleteWorld={mockOnDeleteWorld} />);
 
     // Pagination should show page info
-    expect(screen.getByText(/Page \d+ of \d+/)).toBeInTheDocument();
+    expect(screen.getByText(/第 \d+ \/ \d+/)).toBeInTheDocument();
   });
 });

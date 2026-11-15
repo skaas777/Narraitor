@@ -126,12 +126,12 @@ export class RateLimiter {
     const minutesUntilReset = Math.ceil((resetTime - Date.now()) / (60 * 1000));
     
     if (minutesUntilReset <= 1) {
-      return "Rate limit reached. Try again in a minute.";
+      return "请求次数已达上限，请在一分钟后重试。";
     } else if (minutesUntilReset <= 60) {
-      return `Rate limit reached. Try again in ${minutesUntilReset} minutes.`;
+      return `请求次数已达上限，请在${minutesUntilReset}分钟后重试。`;
     } else {
       const hoursUntilReset = Math.ceil(minutesUntilReset / 60);
-      return `Rate limit reached. Try again in ${hoursUntilReset} hour${hoursUntilReset > 1 ? 's' : ''}.`;
+      return `请求次数已达上限，请在${hoursUntilReset}小时${''}后重试。`;
     }
   }
 }

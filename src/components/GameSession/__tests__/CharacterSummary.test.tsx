@@ -50,7 +50,7 @@ describe('CharacterSummary', () => {
       render(<CharacterSummary character={mockCharacter} />);
 
       expect(screen.getByText('Aldric the Bold')).toBeInTheDocument();
-      expect(screen.getByText(/Level 5/)).toBeInTheDocument();
+      expect(screen.getByText(/等级 5/)).toBeInTheDocument();
       expect(screen.getByRole('img', { name: /Aldric the Bold/i })).toBeInTheDocument();
     });
 
@@ -59,7 +59,7 @@ describe('CharacterSummary', () => {
       render(<CharacterSummary character={mockCharacter} />);
 
       const history = 'Raised in a noble family, trained in the art of combat since childhood';
-      const toggle = screen.getByRole('button', { name: /show details/i });
+      const toggle = screen.getByRole('button', { name: /显示详情/i });
 
       expect(screen.queryByText(history)).not.toBeInTheDocument();
       expect(toggle).toHaveAttribute('aria-expanded', 'false');
@@ -67,12 +67,12 @@ describe('CharacterSummary', () => {
       await user.click(toggle);
 
       expect(screen.getByText(history)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /hide details/i })).toHaveAttribute(
+      expect(screen.getByRole('button', { name: /隐藏详情/i })).toHaveAttribute(
         'aria-expanded',
         'true'
       );
 
-      await user.click(screen.getByRole('button', { name: /hide details/i }));
+      await user.click(screen.getByRole('button', { name: /隐藏详情/i }));
 
       expect(screen.queryByText(history)).not.toBeInTheDocument();
     });
@@ -111,10 +111,10 @@ describe('CharacterSummary', () => {
         />
       );
 
-      await user.click(screen.getByRole('button', { name: /show details/i }));
+      await user.click(screen.getByRole('button', { name: /显示详情/i }));
 
       expect(container.querySelector('.manuscript-character-summary-history')).toBeNull();
-      expect(screen.getByText(/Level 5/)).toBeInTheDocument();
+      expect(screen.getByText(/等级 5/)).toBeInTheDocument();
     });
 
     it('handles missing background gracefully', () => {
@@ -131,7 +131,7 @@ describe('CharacterSummary', () => {
       render(<CharacterSummary character={characterWithoutBackground} />);
 
       expect(screen.getByText('Aldric the Bold')).toBeInTheDocument();
-      expect(screen.getByText(/Level 5/)).toBeInTheDocument();
+      expect(screen.getByText(/等级 5/)).toBeInTheDocument();
       expect(screen.queryByText('Raised in a noble family, trained in the art of combat since childhood')).not.toBeInTheDocument();
     });
   });
@@ -140,7 +140,7 @@ describe('CharacterSummary', () => {
     it('exposes the summary as a labelled region', () => {
       const { container } = render(<CharacterSummary character={mockCharacter} />);
 
-      const region = screen.getByRole('region', { name: /character information/i });
+      const region = screen.getByRole('region', { name: /角色信息/i });
       expect(region).toBe(container.querySelector('[data-testid="character-summary"]'));
     });
   });

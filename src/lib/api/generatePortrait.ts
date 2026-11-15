@@ -29,7 +29,7 @@ export async function generatePortrait(
     const errorPayload = await response.json().catch(() => ({}));
     const message =
       (errorPayload as { error?: string }).error ||
-      `Portrait request failed: ${response.status}`;
+      `头像请求失败：${response.status}`;
     throw new Error(message);
   }
 

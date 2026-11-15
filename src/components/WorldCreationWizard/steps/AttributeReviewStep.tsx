@@ -20,6 +20,7 @@ import {
 } from '@/components/shared/wizard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface AttributeReviewStepProps {
   worldData: WorldCreationData;
@@ -178,8 +179,8 @@ export default function AttributeReviewStep({
   return (
     <div data-testid="attribute-review-step">
       <WizardFormSection
-        title="Review Attributes"
-        description={`Keep the attributes that fit your world. At least one, up to ${maxAttributes}.`}
+        title="查看属性"
+        description={`保留适合你的世界的属性。至少一个，最多 ${maxAttributes} 个。`}
         dataTutorial="attribute-editor"
       >
         {showClearButton && (
@@ -191,7 +192,7 @@ export default function AttributeReviewStep({
               size="sm"
               data-testid="clear-ai-suggestions-button"
             >
-              Clear Suggestions
+              清除建议
             </Button>
           </div>
         )}
@@ -200,10 +201,9 @@ export default function AttributeReviewStep({
           <div className="wizard-review-suggestions">
             {suggestions.length === 0 ? (
               <div className="wizard-empty-state">
-                <p>No attribute suggestions available</p>
+                <p>没有可用的属性建议</p>
                 <p>
-                  You can add attributes to your world later in the world
-                  editor.
+                  你之后可以在世界编辑器中为你的世界添加属性。
                 </p>
               </div>
             ) : (
@@ -222,7 +222,7 @@ export default function AttributeReviewStep({
                       {suggestion.category && (
                         <>
                           <span aria-hidden="true"> · </span>
-                          <span>{suggestion.category}</span>
+                          <span>{displayLabel(suggestion.category)}</span>
                         </>
                       )}
                     </div>
@@ -237,7 +237,7 @@ export default function AttributeReviewStep({
                           toggleDetails(index);
                         }}
                       >
-                        {expanded.has(index) ? 'Hide details' : 'Customize'}
+                        {expanded.has(index) ? "隐藏详情" : "自定义"}
                       </Button>
                       <Button
                         type="button"
@@ -248,7 +248,7 @@ export default function AttributeReviewStep({
                         aria-pressed={suggestion.accepted}
                         disabled={!suggestion.accepted && acceptedCount >= maxAttributes}
                       >
-                        {suggestion.accepted ? 'Selected' : 'Excluded'}
+                        {suggestion.accepted ? "已选择" : "已排除"}
                       </Button>
                     </div>
                   </div>
@@ -259,7 +259,7 @@ export default function AttributeReviewStep({
                       className="wizard-review-card-detail"
                       onClick={(e) => e.stopPropagation()} // Prevent toggling when interacting with inputs
                     >
-                      <WizardFormGroup label="Name">
+                      <WizardFormGroup label="名称">
                         <WizardTextField
                           value={suggestion.name}
                           onChange={(value) =>
@@ -269,7 +269,7 @@ export default function AttributeReviewStep({
                         />
                       </WizardFormGroup>
 
-                      <WizardFormGroup label="Description">
+                      <WizardFormGroup label="描述">
                         <WizardTextArea
                           value={suggestion.description}
                           onChange={(value) =>
@@ -283,7 +283,7 @@ export default function AttributeReviewStep({
                       {/* Starting value (min/max fixed to 1–10 for MVP). A
                           number stepper matches the custom-attribute editor's
                           Min/Max fields and reads cleaner than a 1–10 slider. */}
-                      <WizardFormGroup label="Starting Value (1–10)">
+                      <WizardFormGroup label="初始值（1–10）">
                         <Input
                           type="number"
                           min={1}
@@ -292,7 +292,7 @@ export default function AttributeReviewStep({
                           value={suggestion.baseValue}
                           className="wizard-attribute-value-input"
                           data-testid={`attribute-base-value-input-${index}`}
-                          aria-label={`Starting value for ${suggestion.name}`}
+                          aria-label={`${suggestion.name} 的初始值`}
                           onChange={(e) => {
                             const next = Number(e.target.value);
                             if (Number.isNaN(next)) return;
@@ -315,10 +315,10 @@ export default function AttributeReviewStep({
           <div className="wizard-review-custom" data-tutorial="attribute-custom">
             <div className="wizard-review-custom-head">
               <div className="wizard-review-custom-heading">
-                <h3 className="wizard-subheading">Custom Attributes</h3>
+                <h3 className="wizard-subheading">自定义属性</h3>
                 <p>
-                  Create your own unique attributes for this world (
-                  {acceptedCount}/{maxAttributes} slots used)
+                  为这个世界创建你自己的独特属性（
+                  {acceptedCount}/{maxAttributes} 个槽位已使用）
                 </p>
               </div>
               <Button
@@ -329,17 +329,17 @@ export default function AttributeReviewStep({
                 data-testid="add-custom-attribute-button"
                 disabled={acceptedCount >= maxAttributes}
               >
-                + Add Custom Attribute
+                + 添加自定义属性
               </Button>
             </div>
 
             {customAttributes.length === 0 && !isCreatingCustomAttribute ? (
               <div className="wizard-empty-state">
-                <p>No custom attributes yet</p>
+                <p>尚无自定义属性</p>
                 <p>
                   {acceptedCount < maxAttributes
-                    ? `You have ${maxAttributes - acceptedCount} attribute slot${maxAttributes - acceptedCount !== 1 ? 's' : ''} available for custom attributes`
-                    : 'Remove some suggested attributes to add custom ones'}
+                    ? `你有 ${maxAttributes - acceptedCount} 个可用于自定义属性的属性槽位${''}`
+                    : "移除一些建议属性以添加自定义属性"}
                 </p>
               </div>
             ) : (
@@ -353,9 +353,9 @@ export default function AttributeReviewStep({
                     <div className="wizard-review-card-head">
                       <div className="wizard-review-card-meta">
                         <span>{attribute.name}</span>
-                        <span>Custom</span>
+                        <span>自定义</span>
                         {attribute.category && (
-                          <span>{attribute.category}</span>
+                          <span>{displayLabel(attribute.category)}</span>
                         )}
                       </div>
                       <div className="wizard-review-card-tools">
@@ -368,7 +368,7 @@ export default function AttributeReviewStep({
                           size="sm"
                           data-testid={`edit-custom-attribute-${attribute.id}`}
                         >
-                          Edit
+                          编辑
                         </Button>
                         <Button
                           type="button"
@@ -379,7 +379,7 @@ export default function AttributeReviewStep({
                           size="sm"
                           data-testid={`delete-custom-attribute-${attribute.id}`}
                         >
-                          Delete
+                          删除
                         </Button>
                       </div>
                     </div>
@@ -418,13 +418,13 @@ export default function AttributeReviewStep({
         >
           <div className="wizard-slot-summary-text">
             <div className="wizard-slot-summary-count">
-              <span>Attributes Selected: {acceptedCount} / {maxAttributes}</span>
-              {acceptedCount >= maxAttributes && <span>(Maximum reached)</span>}
+              <span>已选属性： {acceptedCount} / {maxAttributes}</span>
+              {acceptedCount >= maxAttributes && <span>（已达上限）</span>}
             </div>
             <div className="wizard-slot-summary-note">
               {acceptedCount < maxAttributes
-                ? `${maxAttributes - acceptedCount} slot${maxAttributes - acceptedCount !== 1 ? 's' : ''} available`
-                : 'All slots filled'}
+                ? `有 ${maxAttributes - acceptedCount} 个槽位${''} 可用`
+                : "所有槽位已满"}
             </div>
           </div>
           <div className="wizard-slot-meter-wrap">
@@ -452,11 +452,11 @@ export default function AttributeReviewStep({
         isOpen={showClearConfirmation}
         onClose={() => setShowClearConfirmation(false)}
         onConfirm={handleClearSuggestions}
-        title="Clear Suggestions?"
-        message="This removes every suggested attribute and skill, on both review steps. Custom attributes and skills you added stay. You can generate new suggestions from the description step."
+        title="清除建议？"
+        message="这会移除两个审核步骤中的所有建议属性和技能。你添加的自定义属性和技能会保留。你可以从描述步骤重新生成建议。"
         variant="destructive"
-        confirmText="Clear Suggestions"
-        cancelText="Cancel"
+        confirmText="清除建议"
+        cancelText="取消"
       />
     </div>
   );

@@ -83,12 +83,12 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       render(<WorldCreationWizard onCancel={mockOnCancel} />);
       
       // Click cancel on the first step (clean state)
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Should call onCancel directly without showing confirmation
       expect(mockOnCancel).toHaveBeenCalled();
-      expect(screen.queryByText('Cancel World Creation?')).not.toBeInTheDocument();
+      expect(screen.queryByText("取消世界创建？")).not.toBeInTheDocument();
     });
 
     it('should show confirmation dialog when canceling with dirty state', async () => {
@@ -100,14 +100,14 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
       // Click cancel - should show confirmation due to dirty state
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Should show confirmation dialog
-      expect(screen.getByText('Cancel World Creation?')).toBeInTheDocument();
-      expect(screen.getByText('Your progress will be lost. Are you sure you want to cancel?')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /yes, cancel/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /continue editing/i })).toBeInTheDocument();
+      expect(screen.getByText("取消世界创建？")).toBeInTheDocument();
+      expect(screen.getByText("你的进度将丢失。确定要取消吗？")).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /是的，取消/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /继续编辑/i })).toBeInTheDocument();
       
       // Should NOT call onCancel yet
       expect(mockOnCancel).not.toHaveBeenCalled();
@@ -121,11 +121,11 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
       // Click cancel to show confirmation
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Click "Yes, Cancel" to confirm
-      const yesButton = screen.getByRole('button', { name: /yes, cancel/i });
+      const yesButton = screen.getByRole('button', { name: /是的，取消/i });
       await user.click(yesButton);
       
       // Should call onCancel
@@ -140,15 +140,15 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
       // Click cancel to show confirmation
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Click "Continue Editing" to reject
-      const continueButton = screen.getByRole('button', { name: /continue editing/i });
+      const continueButton = screen.getByRole('button', { name: /继续编辑/i });
       await user.click(continueButton);
       
       // Dialog should close and user should remain in wizard
-      expect(screen.queryByText('Cancel World Creation?')).not.toBeInTheDocument();
+      expect(screen.queryByText("取消世界创建？")).not.toBeInTheDocument();
       expect(mockOnCancel).not.toHaveBeenCalled();
     });
 
@@ -160,11 +160,11 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
       // Click cancel to show confirmation
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Confirm cancellation
-      const yesButton = screen.getByRole('button', { name: /yes, cancel/i });
+      const yesButton = screen.getByRole('button', { name: /是的，取消/i });
       await user.click(yesButton);
       
       // Should navigate to worlds page
@@ -181,10 +181,10 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       const descriptionInput = screen.getByTestId('world-full-description');
       await user.type(descriptionInput, TEST_WORLD_DATA.description);
 
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
 
-      expect(screen.getByText('Cancel World Creation?')).toBeInTheDocument();
+      expect(screen.getByText("取消世界创建？")).toBeInTheDocument();
     });
 
     it('should detect dirty state when genre is changed', async () => {
@@ -194,10 +194,10 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       const genreSelect = screen.getByTestId('world-genre-select');
       await user.selectOptions(genreSelect, TEST_WORLD_DATA.genre);
       
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
-      expect(screen.getByText('Cancel World Creation?')).toBeInTheDocument();
+      expect(screen.getByText("取消世界创建？")).toBeInTheDocument();
     });
 
     it('should detect dirty state when attributes are modified', async () => {
@@ -216,10 +216,10 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       const nameInput = screen.getByTestId('world-name-input');
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
-      expect(screen.getByText('Cancel World Creation?')).toBeInTheDocument();
+      expect(screen.getByText("取消世界创建？")).toBeInTheDocument();
     });
 
     it('should detect dirty state when skills are modified', async () => {
@@ -242,10 +242,10 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       const nameInput = screen.getByTestId('world-name-input');
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
-      expect(screen.getByText('Cancel World Creation?')).toBeInTheDocument();
+      expect(screen.getByText("取消世界创建？")).toBeInTheDocument();
     });
   });
 
@@ -257,7 +257,7 @@ describe('WorldCreationWizard Cancel Confirmation', () => {
       const nameInput = screen.getByTestId('world-name-input');
       await user.type(nameInput, TEST_WORLD_DATA.name);
       
-      const cancelButton = screen.getByRole('button', { name: /cancel/i });
+      const cancelButton = screen.getByRole('button', { name: /取消/i });
       await user.click(cancelButton);
       
       // Verify warning styling is applied to the modal content

@@ -131,7 +131,7 @@ describe('WorldListScreen integration (#347)', () => {
       useWorldStore.getState().setCurrentWorld(worldId);
     });
 
-    expect(screen.getByTestId('world-card-active-label')).toHaveTextContent('Active');
+    expect(screen.getByTestId('world-card-active-label')).toHaveTextContent("活跃");
   });
 
   // AC: Tests validate proper routing behavior when selecting worlds
@@ -162,7 +162,7 @@ describe('WorldListScreen integration (#347)', () => {
     render(<WorldListScreen />);
     expect(screen.getByTestId('world-list-screen-error-message')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /try again/i }));
+    await user.click(screen.getByRole('button', { name: /重试/i }));
 
     // Retry calls the real fetchWorlds(), which clears the store's error —
     // if that wiring broke, the error UI would still be showing here.

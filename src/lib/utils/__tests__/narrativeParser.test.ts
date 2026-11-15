@@ -111,13 +111,13 @@ describe('parseNarrativeContent', () => {
   describe('Short content and metadata detection', () => {
     test('should detect short scene metadata and return fallback message', () => {
       const input = 'scene: forest';
-      const expected = 'The story is beginning... (Content generation in progress)';
+      const expected = '故事即将开始……（内容生成中）';
       expect(parseNarrativeContent(input)).toBe(expected);
     });
 
     test('should detect Starting Location metadata and return fallback message', () => {
       const input = 'Starting Location: Castle';
-      const expected = 'The story is beginning... (Content generation in progress)';
+      const expected = '故事即将开始……（内容生成中）';
       expect(parseNarrativeContent(input)).toBe(expected);
     });
 
@@ -128,7 +128,7 @@ describe('parseNarrativeContent', () => {
 
     test('should handle mixed case in short metadata detection', () => {
       const input = 'Scene: tavern';
-      const expected = 'The story is beginning... (Content generation in progress)';
+      const expected = '故事即将开始……（内容生成中）';
       expect(parseNarrativeContent(input)).toBe(expected);
     });
   });

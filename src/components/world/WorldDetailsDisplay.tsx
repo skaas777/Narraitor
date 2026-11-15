@@ -53,7 +53,7 @@ export function WorldDetailsDisplay({
           className="world-detail-section"
           aria-labelledby="world-description-heading"
         >
-          <h2 id="world-description-heading">About this world</h2>
+          <h2 id="world-description-heading">关于此世界</h2>
           <div>
             <p>{world.description}</p>
           </div>
@@ -65,10 +65,9 @@ export function WorldDetailsDisplay({
           className="world-detail-section world-detail-npcs"
           aria-labelledby="world-npcs-heading"
         >
-          <h2 id="world-npcs-heading">Characters you may meet</h2>
+          <h2 id="world-npcs-heading">你可能会遇到的角色</h2>
           <p className="world-detail-npcs-lede">
-            These NPCs were generated alongside <span>{world.name}</span> and
-            will appear in narrative scenes for this world.
+            这些非玩家角色是与 <span>{world.name}</span> 一同生成，并将出现在此世界的叙事场景中。
           </p>
           <ul className="world-detail-npcs-grid">
             {worldNpcs.map((npc) => (

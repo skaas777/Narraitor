@@ -105,8 +105,8 @@ export function importFactsImpl(worldId: EntityID, jsonData: string, context: Im
   } catch (error) {
     context.setError(
       createStoreError(
-        'Lore Import Failed',
-        error instanceof Error ? error.message : 'Unknown import error occurred.',
+        "设定导入失败",
+        error instanceof Error ? error.message : "发生未知导入错误。",
         ErrorType.SERVICE
       )
     );

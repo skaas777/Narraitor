@@ -51,7 +51,7 @@ describe('MobileNavigationMenu', () => {
 
     expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true');
     expect(
-      screen.getByRole('navigation', { name: 'Mobile navigation' })
+      screen.getByRole('navigation', { name: "移动端导航" })
     ).toBeInTheDocument();
   });
 

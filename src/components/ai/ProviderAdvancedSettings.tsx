@@ -62,21 +62,20 @@ export function ProviderAdvancedSettings({
 
   return (
     <CollapsibleSection
-      title="Advanced"
+      title="高级"
       initialCollapsed
       className={clsx('component-provider-advanced-settings', className)}
     >
       <div className="provider-advanced-fields">
         {samplingControlsFixed && (
           <p className="form-help-text">
-            This provider&apos;s model runs its own reasoning and rejects requests that set
-            temperature or top-p at all, so those two controls are disabled below.
+            此模型服务的模型会自行推理，并完全拒绝设置了温度或 Top-p 的请求，因此下面这两个控件已被禁用。
           </p>
         )}
 
         <div className="provider-advanced-field">
           <Label htmlFor={fieldId('temperature')}>
-            Temperature: {(value?.temperature ?? TEMPERATURE_DEFAULT).toFixed(1)}
+            温度： {(value?.temperature ?? TEMPERATURE_DEFAULT).toFixed(1)}
           </Label>
           <input
             id={fieldId('temperature')}
@@ -88,17 +87,16 @@ export function ProviderAdvancedSettings({
             value={value?.temperature ?? TEMPERATURE_DEFAULT}
             onChange={(e) => set('temperature', Number(e.target.value))}
             className="provider-advanced-slider"
-            aria-label="Temperature"
+            aria-label="温度"
           />
           <p className="form-help-text">
-            Higher is more creative and random; lower is more consistent and focused (0.0-2.0).
-            Turn it down if the story feels erratic, up if it feels repetitive.
+            数值越高，越有创意、越随机；数值越低，越稳定、越聚焦（0.0-2.0）。如果故事显得飘忽不定，就调低；如果显得重复，就调高。
           </p>
         </div>
 
         <div className="provider-advanced-field">
           <Label htmlFor={fieldId('top-p')}>
-            Top-p: {(value?.topP ?? TOP_P_DEFAULT).toFixed(2)}
+            核采样概率： {(value?.topP ?? TOP_P_DEFAULT).toFixed(2)}
           </Label>
           <input
             id={fieldId('top-p')}
@@ -110,81 +108,75 @@ export function ProviderAdvancedSettings({
             value={value?.topP ?? TOP_P_DEFAULT}
             onChange={(e) => set('topP', Number(e.target.value))}
             className="provider-advanced-slider"
-            aria-label="Top-p"
+            aria-label="核采样概率"
           />
           <p className="form-help-text">
-            Nucleus sampling — an alternative way to bound response variety (0.0-1.0). Most
-            people only need temperature; leave this at 1.0 unless you know you want it.
+            核采样——另一种限制回复多样性的方式（0.0-1.0）。大多数人只需调整温度；除非你明确需要，否则请保持为 1.0。
           </p>
         </div>
 
         <div className="provider-advanced-field">
-          <Label htmlFor={fieldId('max-tokens')}>Max response length (tokens)</Label>
+          <Label htmlFor={fieldId('max-tokens')}>最大回复长度（token 数）</Label>
           <Input
             id={fieldId('max-tokens')}
             type="number"
             min={1}
             max={4096}
             step={1}
-            placeholder="Provider default"
+            placeholder="模型服务默认值"
             value={value?.maxTokens ?? ''}
             onChange={(e) =>
               set('maxTokens', e.target.value ? Number(e.target.value) : undefined)
             }
           />
           <p className="form-help-text">
-            Caps how long one generated response can be (up to 4,096 tokens). Higher allows longer scenes, but costs
-            more and takes longer per turn.
+            限制单次生成回复的长度（最多 4,096 个 token）。数值越高，场景可以越长，但每回合成本更高、耗时也更长。
           </p>
         </div>
 
         <div className="provider-advanced-field">
-          <Label htmlFor={fieldId('safety-prompt')}>Custom safety guidance</Label>
+          <Label htmlFor={fieldId('safety-prompt')}>自定义安全指导</Label>
           <Textarea
             id={fieldId('safety-prompt')}
             rows={3}
-            placeholder="Leave blank to use the default content-rating guidance"
+            placeholder="留空以使用默认的内容分级指导"
             value={value?.customSafetyPrompt ?? ''}
             onChange={(e) => set('customSafetyPrompt', e.target.value || undefined)}
           />
           <Alert variant="warning">
             <AlertDescription>
-              Replaces the guidance sent about your world&apos;s content rating. This does not
-              change a provider&apos;s own safety filtering — check that provider&apos;s policies
-              before relying on this to loosen or tighten anything.
+              替换针对你世界内容分级所发送的指导。这不会改变模型服务自身的安全过滤——在依赖它放宽或收紧任何内容之前，请先查看该模型服务的政策。
             </AlertDescription>
           </Alert>
         </div>
 
         <div className="provider-advanced-field">
-          <Label htmlFor={fieldId('system-prompt')}>Additional system prompt</Label>
+          <Label htmlFor={fieldId('system-prompt')}>附加系统提示词</Label>
           <Textarea
             id={fieldId('system-prompt')}
             rows={3}
-            placeholder="Extra instructions to include with every request to this provider"
+            placeholder="随每次请求一并发送给此模型服务的额外指令"
             value={value?.customSystemPrompt ?? ''}
             onChange={(e) => set('customSystemPrompt', e.target.value || undefined)}
           />
           <p className="form-help-text">
-            Extra instructions appended to every generation this provider makes — for example a
-            preferred prose style.
+            附加到该模型服务每次生成内容中的额外指令——例如偏好的文风。
           </p>
         </div>
 
         <div className="provider-advanced-field">
           <Checkbox
             id={fieldId('rate-limit-enabled')}
-            label="Limit requests per hour"
+            label="每小时请求数上限"
             checked={value?.rateLimitEnabled ?? false}
             onChange={(e) => set('rateLimitEnabled', e.target.checked ? true : undefined)}
           />
           <p className="form-help-text">
-            A safety net against accidentally burning through your own quota. Enforced in this
-            browser only — it has no effect on the provider&apos;s own limits.
+            防止意外耗尽自身配额的安全网。仅在此浏览器中强制执行——它不会影响模型服务自身的限制。
           </p>
           {value?.rateLimitEnabled && (
             <div className="provider-advanced-rate-limit-value">
-              <Label htmlFor={fieldId('max-requests-per-hour')}>Max requests per hour</Label>
+              <Label htmlFor={fieldId('max-requests-per-hour')}>每小时最大请求数</Label>
               <Input
                 id={fieldId('max-requests-per-hour')}
                 type="number"
@@ -202,7 +194,7 @@ export function ProviderAdvancedSettings({
 
         <div className="provider-advanced-actions">
           <Button type="button" variant="outline" size="sm" onClick={handleReset}>
-            Reset to defaults
+            恢复默认值
           </Button>
         </div>
       </div>

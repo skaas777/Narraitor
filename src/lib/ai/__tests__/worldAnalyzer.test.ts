@@ -160,20 +160,20 @@ describe('worldAnalyzer', () => {
 
     // Should return default suggestions
     expect(result.attributes).toHaveLength(6);
-    expect(result.attributes[0].name).toBe('Strength');
-    expect(result.attributes[1].name).toBe('Intelligence');
-    expect(result.attributes[2].name).toBe('Agility');
-    expect(result.attributes[3].name).toBe('Charisma');
-    expect(result.attributes[4].name).toBe('Dexterity');
-    expect(result.attributes[5].name).toBe('Constitution');
+    expect(result.attributes[0].name).toBe('力量');
+    expect(result.attributes[1].name).toBe('智力');
+    expect(result.attributes[2].name).toBe('敏捷');
+    expect(result.attributes[3].name).toBe("魅力");
+    expect(result.attributes[4].name).toBe("灵巧");
+    expect(result.attributes[5].name).toBe('体质');
 
     expect(result.skills).toHaveLength(12);
-    expect(result.skills[0].name).toBe('Combat');
-    expect(result.skills[1].name).toBe('Stealth');
-    expect(result.skills[2].name).toBe('Perception');
-    expect(result.skills[3].name).toBe('Persuasion');
-    expect(result.skills[4].name).toBe('Investigation');
-    expect(result.skills[5].name).toBe('Athletics');
+    expect(result.skills[0].name).toBe('战斗');
+    expect(result.skills[1].name).toBe("潜行");
+    expect(result.skills[2].name).toBe("察觉");
+    expect(result.skills[3].name).toBe("说服");
+    expect(result.skills[4].name).toBe("调查");
+    expect(result.skills[5].name).toBe('运动');
   });
 
   test('transforms AI response to correct format', async () => {

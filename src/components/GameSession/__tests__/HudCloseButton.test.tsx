@@ -7,7 +7,7 @@ describe('HudCloseButton', () => {
     const onBack = jest.fn();
     render(<HudCloseButton onBack={onBack} />);
 
-    const closeButton = screen.getByRole('button', { name: /close/i });
+    const closeButton = screen.getByRole('button', { name: /关闭/i });
     expect(closeButton).toHaveClass('manuscript-hud-close-button');
 
     fireEvent.click(closeButton);
@@ -16,6 +16,6 @@ describe('HudCloseButton', () => {
 
   it('does not throw when onBack is omitted', () => {
     render(<HudCloseButton />);
-    expect(() => fireEvent.click(screen.getByRole('button', { name: /close/i }))).not.toThrow();
+    expect(() => fireEvent.click(screen.getByRole('button', { name: /关闭/i }))).not.toThrow();
   });
 });

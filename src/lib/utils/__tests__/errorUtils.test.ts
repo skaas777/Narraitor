@@ -78,22 +78,22 @@ describe('errorUtils', () => {
       const error = new Error('network connection failed');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Connection Problem');
-      expect(result.message).toBe('Unable to connect. Please check your internet connection.');
+      expect(result.title).toBe("连接问题");
+      expect(result.message).toBe("无法连接，请检查你的网络连接。");
       expect(result.retryable).toBe(true);
       expect(result.type).toBe(ErrorType.NETWORK);
-      expect(result.actionLabel).toBe('Try Again');
+      expect(result.actionLabel).toBe("重试");
     });
 
     it('should map timeout errors with generic message', () => {
       const error = new Error('request timeout');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Request Timed Out');
-      expect(result.message).toBe('The request is taking too long. Try again.');
+      expect(result.title).toBe("请求超时");
+      expect(result.message).toBe("请求耗时过长，请重试。");
       expect(result.retryable).toBe(true);
       expect(result.type).toBe(ErrorType.NETWORK);
-      expect(result.actionLabel).toBe('Try Again');
+      expect(result.actionLabel).toBe("重试");
     });
 
     it('should map a stream abort to the network branch', () => {
@@ -101,13 +101,13 @@ describe('errorUtils', () => {
 
       expect(result.type).toBe(ErrorType.NETWORK);
       expect(result.retryable).toBe(true);
-      expect(result.actionLabel).toBe('Try Again');
+      expect(result.actionLabel).toBe("重试");
     });
 
     it('should keep a signal timeout on the timeout branch', () => {
       const result = getUserFriendlyError(signalTimeoutError());
 
-      expect(result.title).toBe('Request Timed Out');
+      expect(result.title).toBe("请求超时");
       expect(result.severity).toBe('warning');
       expect(result.type).toBe(ErrorType.NETWORK);
       expect(result.retryable).toBe(true);
@@ -117,19 +117,19 @@ describe('errorUtils', () => {
       const error = new Error('429 rate limit exceeded');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Too Many Requests');
-      expect(result.message).toBe('Too many requests. Please wait a moment before trying again.');
+      expect(result.title).toBe("请求过多");
+      expect(result.message).toBe("请求过多。请稍等片刻后重试。");
       expect(result.retryable).toBe(true);
       expect(result.type).toBe(ErrorType.SERVICE);
-      expect(result.actionLabel).toBe('Try Again Later');
+      expect(result.actionLabel).toBe("稍后重试");
     });
 
     it('should map rate limit text errors with generic message', () => {
       const error = new Error('rate limit exceeded');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Too Many Requests');
-      expect(result.message).toBe('Too many requests. Please wait a moment before trying again.');
+      expect(result.title).toBe("请求过多");
+      expect(result.message).toBe("请求过多。请稍等片刻后重试。");
       expect(result.retryable).toBe(true);
       expect(result.type).toBe(ErrorType.SERVICE);
     });
@@ -138,8 +138,8 @@ describe('errorUtils', () => {
       const error = new Error('401 unauthorized');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Authentication Error');
-      expect(result.message).toBe('Authentication failed. Please check your credentials.');
+      expect(result.title).toBe("身份验证错误");
+      expect(result.message).toBe("身份验证失败。请检查你的凭据。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.AUTH);
     });
@@ -148,8 +148,8 @@ describe('errorUtils', () => {
       const error = new Error('unauthorized access');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Authentication Error');
-      expect(result.message).toBe('Authentication failed. Please check your credentials.');
+      expect(result.title).toBe("身份验证错误");
+      expect(result.message).toBe("身份验证失败。请检查你的凭据。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.AUTH);
     });
@@ -163,9 +163,9 @@ describe('errorUtils', () => {
 
       for (const error of cases) {
         const result = getUserFriendlyError(error);
-        expect(result.title).toBe('API Key Required');
-        expect(result.message).toBe('No API key configured for this provider.');
-        expect(result.suggestion).toBe('Add your API key in Settings > Provider Setup to play.');
+        expect(result.title).toBe("需要 API 密钥");
+        expect(result.message).toBe("此模型服务未配置 API 密钥。");
+        expect(result.suggestion).toBe("请在设置 > 模型服务设置中添加 API 密钥以开始游戏。");
         expect(result.retryable).toBe(false);
         expect(result.type).toBe(ErrorType.AUTH);
         expect(result.severity).toBe('critical');
@@ -176,8 +176,8 @@ describe('errorUtils', () => {
       const error = new Error('validation failed: invalid email');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Check Your Input');
-      expect(result.message).toBe("Some of what you entered doesn't look right.");
+      expect(result.title).toBe("检查输入");
+      expect(result.message).toBe("你输入的部分内容似乎不正确。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.VALIDATION);
     });
@@ -186,8 +186,8 @@ describe('errorUtils', () => {
       const error = new Error('400 bad request');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Check Your Input');
-      expect(result.message).toBe("Some of what you entered doesn't look right.");
+      expect(result.title).toBe("检查输入");
+      expect(result.message).toBe("你输入的部分内容似乎不正确。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.VALIDATION);
     });
@@ -196,8 +196,8 @@ describe('errorUtils', () => {
       const error = new Error('invalid data format');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Check Your Input');
-      expect(result.message).toBe("Some of what you entered doesn't look right.");
+      expect(result.title).toBe("检查输入");
+      expect(result.message).toBe("你输入的部分内容似乎不正确。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.VALIDATION);
     });
@@ -206,8 +206,8 @@ describe('errorUtils', () => {
       const error = new Error('malformed request');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Check Your Input');
-      expect(result.message).toBe("Some of what you entered doesn't look right.");
+      expect(result.title).toBe("检查输入");
+      expect(result.message).toBe("你输入的部分内容似乎不正确。");
       expect(result.retryable).toBe(false);
       expect(result.type).toBe(ErrorType.VALIDATION);
     });
@@ -216,10 +216,10 @@ describe('errorUtils', () => {
       const error = new Error('something unexpected happened');
       const result = getUserFriendlyError(error);
 
-      expect(result.title).toBe('Something Went Wrong');
-      expect(result.message).toBe("That didn't work.");
+      expect(result.title).toBe("出错了");
+      expect(result.message).toBe("操作未成功。");
       expect(result.type).toBe(ErrorType.UNKNOWN);
-      expect(result.actionLabel).toBe('Try Again');
+      expect(result.actionLabel).toBe("重试");
     });
 
     it('should not expose raw error details in generic handler', () => {
@@ -337,26 +337,26 @@ describe('errorUtils', () => {
     it('formats Payload too large into plain language with actionable next step', () => {
       const formatted = formatPlainLanguageError(new Error('Payload too large'));
       expect(formatted).toBe(
-        "Couldn't generate this content because the input is too large. Try shortening your physical description or prompt and try again."
+        "输入内容过大，无法生成此内容。 请缩短外貌描述或提示词后重试。"
       );
     });
 
     it('formats rate limit into plain language with actionable next step', () => {
       const formatted = formatPlainLanguageError(new Error('429 rate limit exceeded'));
-      expect(formatted).toContain('Too many requests');
-      expect(formatted).toContain('Wait a minute or so before trying again');
+      expect(formatted).toContain("请求过多");
+      expect(formatted).toContain("请等待约一分钟后再试");
     });
 
     it('formats missing API key error into plain language with setup guidance', () => {
       const formatted = formatPlainLanguageError(new Error('API key not configured'));
-      expect(formatted).toContain('No API key configured for this provider');
-      expect(formatted).toContain('Add your API key in Settings > Provider Setup to play');
+      expect(formatted).toContain("此模型服务未配置 API 密钥");
+      expect(formatted).toContain('请在设置 > 模型服务设置中添加 API 密钥以开始游戏');
     });
 
     it('formats generic error into plain language message and suggestion', () => {
       const formatted = formatPlainLanguageError(new Error('Unknown server crash'));
-      expect(formatted).toContain("That didn't work");
-      expect(formatted).toContain('try reloading the page');
+      expect(formatted).toContain("操作未成功");
+      expect(formatted).toContain('请尝试重新加载页面');
     });
   });
 

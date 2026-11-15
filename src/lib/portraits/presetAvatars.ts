@@ -26,12 +26,12 @@ export const PRESET_AVATAR_CATEGORIES: Array<{
   id: PresetAvatarCategory;
   label: string;
 }> = [
-  { id: 'fantasy', label: 'Fantasy' },
-  { id: 'modern', label: 'Modern' },
-  { id: 'sci-fi', label: 'Sci-fi' },
-  { id: 'western', label: 'Western' },
-  { id: 'horror', label: 'Horror' },
-  { id: 'abstract', label: 'Abstract' },
+  { id: 'fantasy', label: "奇幻" },
+  { id: 'modern', label: "现代" },
+  { id: 'sci-fi', label: "科幻" },
+  { id: 'western', label: "西部" },
+  { id: 'horror', label: "恐怖" },
+  { id: 'abstract', label: "抽象" },
 ];
 
 interface AvatarPalette {
@@ -166,43 +166,43 @@ interface AvatarSeed {
 
 const SEEDS: AvatarSeed[] = [
   // Fantasy
-  { id: 'fantasy-ranger', name: 'Ranger', category: 'fantasy', keywords: ['hood', 'scout', 'archer'], ornaments: ['hood'] },
-  { id: 'fantasy-monarch', name: 'Monarch', category: 'fantasy', keywords: ['crown', 'royal', 'noble'], ornaments: ['crown'] },
-  { id: 'fantasy-horned', name: 'Horned One', category: 'fantasy', keywords: ['beast', 'demon', 'tiefling'], ornaments: ['horns'] },
-  { id: 'fantasy-oracle', name: 'Oracle', category: 'fantasy', keywords: ['circlet', 'seer', 'mystic'], ornaments: ['circlet'] },
-  { id: 'fantasy-bard', name: 'Bard', category: 'fantasy', keywords: ['lute', 'minstrel', 'music'], ornaments: ['lute'] },
-  { id: 'fantasy-knight', name: 'Knight', category: 'fantasy', keywords: ['helm', 'armor', 'warrior'], ornaments: ['helm'] },
+  { id: 'fantasy-ranger', name: "游侠", category: 'fantasy', keywords: ['hood', 'scout', 'archer'], ornaments: ['hood'] },
+  { id: 'fantasy-monarch', name: "君主", category: 'fantasy', keywords: ['crown', 'royal', 'noble'], ornaments: ['crown'] },
+  { id: 'fantasy-horned', name: "有角者", category: 'fantasy', keywords: ['beast', 'demon', 'tiefling'], ornaments: ['horns'] },
+  { id: 'fantasy-oracle', name: "先知", category: 'fantasy', keywords: ['circlet', 'seer', 'mystic'], ornaments: ['circlet'] },
+  { id: 'fantasy-bard', name: "吟游诗人", category: 'fantasy', keywords: ['lute', 'minstrel', 'music'], ornaments: ['lute'] },
+  { id: 'fantasy-knight', name: "骑士", category: 'fantasy', keywords: ['helm', 'armor', 'warrior'], ornaments: ['helm'] },
 
   // Modern
-  { id: 'modern-executive', name: 'Executive', category: 'modern', keywords: ['suit', 'collar', 'office'], ornaments: ['collar'] },
-  { id: 'modern-scholar', name: 'Scholar', category: 'modern', keywords: ['glasses', 'academic', 'researcher'], ornaments: ['glasses'] },
-  { id: 'modern-courier', name: 'Courier', category: 'modern', keywords: ['cap', 'runner', 'delivery'], ornaments: ['cap'] },
-  { id: 'modern-medic', name: 'Medic', category: 'modern', keywords: ['doctor', 'nurse', 'first aid'], ornaments: ['cross'] },
-  { id: 'modern-traveller', name: 'Traveller', category: 'modern', keywords: ['scarf', 'nomad', 'wanderer'], ornaments: ['scarf'] },
+  { id: 'modern-executive', name: "高管", category: 'modern', keywords: ['suit', 'collar', 'office'], ornaments: ['collar'] },
+  { id: 'modern-scholar', name: "学者", category: 'modern', keywords: ['glasses', 'academic', 'researcher'], ornaments: ['glasses'] },
+  { id: 'modern-courier', name: "信使", category: 'modern', keywords: ['cap', 'runner', 'delivery'], ornaments: ['cap'] },
+  { id: 'modern-medic', name: "医者", category: 'modern', keywords: ['doctor', 'nurse', 'first aid'], ornaments: ['cross'] },
+  { id: 'modern-traveller', name: "旅人", category: 'modern', keywords: ['scarf', 'nomad', 'wanderer'], ornaments: ['scarf'] },
 
   // Sci-fi
-  { id: 'scifi-pilot', name: 'Pilot', category: 'sci-fi', keywords: ['visor', 'flight', 'ace'], ornaments: ['visor'] },
-  { id: 'scifi-synth', name: 'Synth', category: 'sci-fi', keywords: ['android', 'robot', 'antenna'], ornaments: ['antenna'] },
-  { id: 'scifi-engineer', name: 'Engineer', category: 'sci-fi', keywords: ['circuit', 'tech', 'mechanic'], ornaments: ['circuit'] },
-  { id: 'scifi-navigator', name: 'Navigator', category: 'sci-fi', keywords: ['orbit', 'astro', 'starfarer'], ornaments: ['orbit'] },
-  { id: 'scifi-trooper', name: 'Trooper', category: 'sci-fi', keywords: ['helm', 'marine', 'soldier'], ornaments: ['helm', 'circuit'] },
+  { id: 'scifi-pilot', name: "飞行员", category: 'sci-fi', keywords: ['visor', 'flight', 'ace'], ornaments: ['visor'] },
+  { id: 'scifi-synth', name: "合成人", category: 'sci-fi', keywords: ['android', 'robot', 'antenna'], ornaments: ['antenna'] },
+  { id: 'scifi-engineer', name: "工程师", category: 'sci-fi', keywords: ['circuit', 'tech', 'mechanic'], ornaments: ['circuit'] },
+  { id: 'scifi-navigator', name: "领航员", category: 'sci-fi', keywords: ['orbit', 'astro', 'starfarer'], ornaments: ['orbit'] },
+  { id: 'scifi-trooper', name: "士兵", category: 'sci-fi', keywords: ['helm', 'marine', 'soldier'], ornaments: ['helm', 'circuit'] },
 
   // Western
-  { id: 'western-marshal', name: 'Marshal', category: 'western', keywords: ['sheriff', 'star', 'law'], ornaments: ['brim', 'star'] },
-  { id: 'western-drifter', name: 'Drifter', category: 'western', keywords: ['hat', 'outlaw', 'gunslinger'], ornaments: ['brim'] },
-  { id: 'western-bandit', name: 'Bandit', category: 'western', keywords: ['bandana', 'robber', 'masked'], ornaments: ['bandana'] },
-  { id: 'western-prospector', name: 'Prospector', category: 'western', keywords: ['miner', 'pick', 'gold'], ornaments: ['brim', 'pick'] },
+  { id: 'western-marshal', name: "执法官", category: 'western', keywords: ['sheriff', 'star', 'law'], ornaments: ['brim', 'star'] },
+  { id: 'western-drifter', name: "漂泊者", category: 'western', keywords: ['hat', 'outlaw', 'gunslinger'], ornaments: ['brim'] },
+  { id: 'western-bandit', name: "匪徒", category: 'western', keywords: ['bandana', 'robber', 'masked'], ornaments: ['bandana'] },
+  { id: 'western-prospector', name: "淘金者", category: 'western', keywords: ['miner', 'pick', 'gold'], ornaments: ['brim', 'pick'] },
 
   // Horror
-  { id: 'horror-shrouded', name: 'Shrouded Figure', category: 'horror', keywords: ['ghost', 'wraith', 'shroud'], ornaments: ['shroud'] },
-  { id: 'horror-investigator', name: 'Investigator', category: 'horror', keywords: ['lantern', 'detective', 'night'], ornaments: ['cap', 'lantern'] },
-  { id: 'horror-occultist', name: 'Occultist', category: 'horror', keywords: ['sigil', 'cult', 'ritual'], ornaments: ['sigil'] },
+  { id: 'horror-shrouded', name: "蒙面人影", category: 'horror', keywords: ['ghost', 'wraith', 'shroud'], ornaments: ['shroud'] },
+  { id: 'horror-investigator', name: "调查员", category: 'horror', keywords: ['lantern', 'detective', 'night'], ornaments: ['cap', 'lantern'] },
+  { id: 'horror-occultist', name: "秘术师", category: 'horror', keywords: ['sigil', 'cult', 'ritual'], ornaments: ['sigil'] },
 
   // Abstract
-  { id: 'abstract-rings', name: 'Rings', category: 'abstract', keywords: ['circles', 'geometric', 'symbol'], ornaments: ['rings'] },
-  { id: 'abstract-lattice', name: 'Lattice', category: 'abstract', keywords: ['grid', 'geometric', 'square'], ornaments: ['lattice'] },
-  { id: 'abstract-compass', name: 'Compass', category: 'abstract', keywords: ['star', 'direction', 'geometric'], ornaments: ['compass'] },
-  { id: 'abstract-waypoint', name: 'Waypoint', category: 'abstract', keywords: ['marker', 'triangle', 'geometric'], ornaments: ['waypoint'] },
+  { id: 'abstract-rings', name: "圆环", category: 'abstract', keywords: ['circles', 'geometric', 'symbol'], ornaments: ['rings'] },
+  { id: 'abstract-lattice', name: "网格", category: 'abstract', keywords: ['grid', 'geometric', 'square'], ornaments: ['lattice'] },
+  { id: 'abstract-compass', name: "罗盘", category: 'abstract', keywords: ['star', 'direction', 'geometric'], ornaments: ['compass'] },
+  { id: 'abstract-waypoint', name: "路标", category: 'abstract', keywords: ['marker', 'triangle', 'geometric'], ornaments: ['waypoint'] },
 ];
 
 export const PRESET_AVATARS: PresetAvatar[] = SEEDS.map((seed, index) => {

@@ -23,7 +23,7 @@ const levelFor = (ratio: number): UtilizationLevel => {
   return 'ok';
 };
 
-const formatTokens = (value: number): string => Math.round(value).toLocaleString();
+const formatTokens = (value: number): string => Math.round(value).toLocaleString('zh-CN');
 
 const EMPTY_SNAPSHOT: PromptCalibrationSnapshot = {
   totalBudget: DEFAULT_TOTAL_BUDGET,
@@ -42,7 +42,7 @@ const UsageBar = ({ snapshot }: { snapshot: PromptCalibrationSnapshot }) => {
       data-level={level}
     >
       <div className="token-budget-panel-row-head">
-        <span className="token-budget-panel-component">whole prompt</span>
+        <span className="token-budget-panel-component">完整提示词</span>
         <span className="token-budget-panel-numbers">
           {formatTokens(snapshot.estimated)} / {formatTokens(snapshot.totalBudget)}
         </span>
@@ -68,7 +68,7 @@ const CalibrationSummary = ({
 
   return (
     <div className="token-budget-panel-calibration" data-testid="token-budget-calibration">
-      <h5 className="token-budget-panel-subheading">Estimate accuracy</h5>
+      <h5 className="token-budget-panel-subheading">估算准确度</h5>
       {hasActual ? (
         <div className="token-budget-panel-calibration-figures">
           <span data-testid="token-budget-accuracy">
@@ -77,7 +77,7 @@ const CalibrationSummary = ({
               : 'n/a'}
           </span>
           <span className="token-budget-panel-numbers">
-            actual {formatTokens(snapshot.actual as number)} / estimated{' '}
+            实际 {formatTokens(snapshot.actual as number)} / 估算{' '}
             {formatTokens(snapshot.estimated)}
           </span>
         </div>
@@ -86,8 +86,7 @@ const CalibrationSummary = ({
           className="token-budget-panel-empty"
           data-testid="token-budget-calibration-empty"
         >
-          n/a until a provider token count is available (generate a narrative
-          segment with a live API key).
+          在有模型服务返回的 token 计数之前不可用（使用有效的 API 密钥生成一段叙事）。
         </p>
       )}
     </div>
@@ -113,7 +112,7 @@ export const TokenBudgetPanel = () => {
     <div className="token-budget-panel" data-testid="devtools-token-budget-panel">
       <div className="token-budget-panel-meta">
         <span data-testid="token-budget-status">
-          {latest ? 'Latest request' : 'No request captured yet'}
+          {latest ? "最新请求" : "尚未捕获任何请求"}
         </span>
       </div>
 

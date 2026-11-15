@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
   pagination = { pageSize: 10, showPagination: false },
   searchable = { enabled: false },
   rowSelection,
-  ariaLabel = 'Data',
+  ariaLabel = "数据",
   customRowRenderer,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -103,10 +103,10 @@ export function DataTable<TData, TValue>({
       {searchable.enabled && (
         <div className="data-table-toolbar">
           <Input
-            placeholder={searchable.placeholder || 'Search...'}
+            placeholder={searchable.placeholder || "搜索…"}
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            aria-label={searchable.placeholder || 'Search'}
+            aria-label={searchable.placeholder || "搜索"}
           />
         </div>
       )}
@@ -206,7 +206,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length}>
-                  No data available.
+                  暂无数据。
                 </TableCell>
               </TableRow>
             )}
@@ -218,7 +218,7 @@ export function DataTable<TData, TValue>({
       {pagination.showPagination && (
         <div className="data-table-pagination">
           <div className="data-table-pagination-info">
-            Page {table.getState().pagination.pageIndex + 1} of{' '}
+            第 {table.getState().pagination.pageIndex + 1} /{' '}
             {table.getPageCount()}
           </div>
           <div className="data-table-pagination-controls">
@@ -227,19 +227,19 @@ export function DataTable<TData, TValue>({
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              aria-label="Previous page"
+              aria-label="上一页"
             >
               <ChevronLeft />
-              Previous
+              上一页
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              aria-label="Next page"
+              aria-label="下一页"
             >
-              Next
+              下一步
               <ChevronRight />
             </Button>
           </div>

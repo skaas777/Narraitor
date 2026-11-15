@@ -20,7 +20,7 @@ describe('CharacterPropertyGrid', () => {
       />
     );
 
-    expect(screen.queryByRole('heading', { level: 3, name: /general/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 3, name: /通用/i })).not.toBeInTheDocument();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
@@ -41,7 +41,7 @@ describe('CharacterPropertyGrid', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { level: 3, name: 'Physical' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 3, name: 'Mental' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: '身体' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: '心智' })).toBeInTheDocument();
   });
 });

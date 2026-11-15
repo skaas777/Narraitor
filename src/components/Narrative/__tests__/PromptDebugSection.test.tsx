@@ -28,10 +28,10 @@ describe('PromptDebugSection', () => {
   it('should display token usage statistics', () => {
     render(<PromptDebugSection debugInfo={mockDebugInfo} />);
 
-    expect(screen.getByText(/Token Usage/i)).toBeInTheDocument();
-    expect(screen.getByText(/Prompt: 100/i)).toBeInTheDocument();
-    expect(screen.getByText(/Completion: 50/i)).toBeInTheDocument();
-    expect(screen.getByText(/Total: 150/i)).toBeInTheDocument();
+    expect(screen.getByText(/令牌用量/i)).toBeInTheDocument();
+    expect(screen.getByText(/提示词： 100/i)).toBeInTheDocument();
+    expect(screen.getByText(/补全： 50/i)).toBeInTheDocument();
+    expect(screen.getByText(/总计： 150/i)).toBeInTheDocument();
   });
 
   it('should display tone settings when provided', () => {
@@ -46,7 +46,7 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithTone} />);
 
-    expect(screen.getByText(/Tone Settings/i)).toBeInTheDocument();
+    expect(screen.getByText(/叙事风格设置/i)).toBeInTheDocument();
     expect(screen.getByText(/mysterious/i)).toBeInTheDocument();
     expect(screen.getByText(/moderate/i)).toBeInTheDocument();
     expect(screen.getByText(/Keep it suspenseful/i)).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithCharacters} />);
 
-    expect(screen.getByText(/Character Context/i)).toBeInTheDocument();
+    expect(screen.getByText(/角色上下文/i)).toBeInTheDocument();
     expect(screen.getByText('Aragorn')).toBeInTheDocument();
     expect(screen.getByText('Gandalf')).toBeInTheDocument();
   });
@@ -76,7 +76,7 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithGoals} />);
 
-    expect(screen.getByText(/Active Goals/i)).toBeInTheDocument();
+    expect(screen.getByText(/当前目标/i)).toBeInTheDocument();
     expect(screen.getByText('Find the ancient artifact')).toBeInTheDocument();
     expect(screen.getByText('Rescue the princess')).toBeInTheDocument();
   });
@@ -95,7 +95,7 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithLore} />);
 
-    expect(screen.getByText(/Lore Context/i)).toBeInTheDocument();
+    expect(screen.getByText(/设定上下文/i)).toBeInTheDocument();
     expect(screen.getByText('Ancient Magic')).toBeInTheDocument();
     expect(screen.getByText(/Magic is rare and dangerous/i)).toBeInTheDocument();
   });
@@ -111,10 +111,10 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithInventory} />);
 
-    expect(screen.getByText(/Inventory Context/i)).toBeInTheDocument();
+    expect(screen.getByText(/背包上下文/i)).toBeInTheDocument();
     expect(screen.getByText('Magic Sword')).toBeInTheDocument();
     expect(screen.getByText('Health Potion')).toBeInTheDocument();
-    expect(screen.getByText('Equipped')).toBeInTheDocument();
+    expect(screen.getByText("已装备")).toBeInTheDocument();
   });
 
   it('should display recent decisions when provided', () => {
@@ -131,7 +131,7 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithDecisions} />);
 
-    expect(screen.getByText(/Recent Decisions/i)).toBeInTheDocument();
+    expect(screen.getByText(/最近的决定/i)).toBeInTheDocument();
     expect(screen.getByText('What do you do?')).toBeInTheDocument();
     expect(screen.getByText(/Enter the cave/i)).toBeInTheDocument();
   });
@@ -147,14 +147,14 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={debugInfoWithPrevious} />);
 
-    expect(screen.getByText(/Previous Segment/i)).toBeInTheDocument();
-    expect(screen.getByText(/Type: scene/i)).toBeInTheDocument();
+    expect(screen.getByText(/上一段落/i)).toBeInTheDocument();
+    expect(screen.getByText(/类型： 场景/i)).toBeInTheDocument();
     expect(screen.getByText(/You enter the dark cave/i)).toBeInTheDocument();
   });
 
   it('should display generation timestamp', () => {
     render(<PromptDebugSection debugInfo={mockDebugInfo} />);
-    expect(screen.getByText(/Generated at:/i)).toBeInTheDocument();
+    expect(screen.getByText(/生成时间：/i)).toBeInTheDocument();
   });
 
   it('should be collapsible', async () => {
@@ -162,7 +162,7 @@ describe('PromptDebugSection', () => {
     render(<PromptDebugSection debugInfo={mockDebugInfo} />);
 
     // Click to expand using the toggle button
-    const toggleButton = screen.getByRole('button', { name: /Expand.*Prompt Debug Info/i });
+    const toggleButton = screen.getByRole('button', { name: /展开.*提示词调试信息/i });
     await user.click(toggleButton);
 
     // Now the content should be visible
@@ -174,11 +174,11 @@ describe('PromptDebugSection', () => {
     render(<PromptDebugSection debugInfo={mockDebugInfo} />);
 
     // Expand main section
-    const mainToggle = screen.getByRole('button', { name: /Expand.*Prompt Debug Info/i });
+    const mainToggle = screen.getByRole('button', { name: /展开.*提示词调试信息/i });
     await user.click(mainToggle);
 
     // Full prompt section should now be visible but still collapsed
-    const nestedToggle = screen.getByRole('button', { name: /Expand Full Prompt Text/i });
+    const nestedToggle = screen.getByRole('button', { name: /展开 完整提示词文本/i });
     expect(nestedToggle).toBeInTheDocument();
 
     // Click the nested toggle to expand
@@ -198,13 +198,13 @@ describe('PromptDebugSection', () => {
 
     render(<PromptDebugSection debugInfo={minimalDebugInfo} />);
 
-    expect(screen.queryByText(/Token Usage/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Tone Settings/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Character Context/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Active Goals/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Lore Context/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Inventory Context/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Recent Decisions/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Previous Segment/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/令牌用量/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/叙事风格设置/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/角色上下文/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/当前目标/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/设定上下文/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/背包上下文/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/最近的决定/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/上一段落/i)).not.toBeInTheDocument();
   });
 });

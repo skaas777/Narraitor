@@ -27,9 +27,9 @@ interface GameStartData {
 }
 
 const gameStartSteps: WizardStepType[] = [
-  { id: 'world', label: 'Select World' },
-  { id: 'character', label: 'Select Character' },
-  { id: 'ready', label: 'Ready to Play' },
+  { id: 'world', label: "选择世界" },
+  { id: 'character', label: "选择角色" },
+  { id: 'ready', label: "准备开始" },
 ];
 
 export function GameStartWizard({
@@ -62,12 +62,12 @@ export function GameStartWizard({
     return {
       0: (data) => ({
         valid: !!data.selectedWorldId,
-        errors: data.selectedWorldId ? [] : ['Please select a world'],
+        errors: data.selectedWorldId ? [] : ["请选择一个世界"],
         touched: true,
       }),
       1: (data) => ({
         valid: !!data.selectedCharacterId,
-        errors: data.selectedCharacterId ? [] : ['Please select a character'],
+        errors: data.selectedCharacterId ? [] : ["请选择一个角色"],
         touched: true,
       }),
       2: alwaysValid, // Ready step is always valid
@@ -133,13 +133,13 @@ export function GameStartWizard({
       {/* Progress Indicator */}
       <div>
         <div>
-          <h2>Start Your Adventure</h2>
+          <h2>开始你的冒险</h2>
           {onCancel && (
             <Button
               onClick={onCancel}
               variant="ghost"
               size="icon"
-              aria-label="Cancel"
+              aria-label="取消"
             >
               <X aria-hidden="true" />
             </Button>
@@ -147,7 +147,7 @@ export function GameStartWizard({
         </div>
         <div>
           <span>
-            Step {wizard.state.currentStep + 1} of {gameStartSteps.length}:{' '}
+            步骤 {wizard.state.currentStep + 1} / {gameStartSteps.length}:{' '}
             {currentStepConfig.label}
           </span>
         </div>

@@ -62,9 +62,9 @@ const fontVariables = [
 ].join(' ');
 
 const SITE_TITLE =
-  'Narraitor: play a story that answers to the world you built';
+  "Narraitor：游玩一个由你构建的世界所塑造的故事";
 const SITE_DESCRIPTION =
-  'Build a world, create a character, and make the choices that steer the story. A solo role-playing game that runs in your browser.';
+  "构建一个世界，创建一个角色，并做出左右故事走向的选项。一款在浏览器中运行的单人角色扮演游戏。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: SITE_NAME,
-    locale: 'en_US',
+    locale: 'zh_CN',
   },
   twitter: { card: 'summary_large_image' },
 };
@@ -102,7 +102,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" data-theme="ds3" className={fontVariables} suppressHydrationWarning>
+    <html lang="zh-CN" data-theme="ds3" className={fontVariables} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>

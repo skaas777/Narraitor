@@ -35,7 +35,7 @@ export function SkipLinks() {
         onClick={handleSkipToMain}
         
       >
-        Skip to main content
+        跳到主要内容
       </a>
     </div>
   );

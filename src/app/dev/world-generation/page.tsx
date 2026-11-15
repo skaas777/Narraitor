@@ -9,6 +9,8 @@ import {
 import { safeTrim, capitalize } from '@/lib/utils';
 import { worldCreationService } from '@/lib/services/worldCreationService';
 import { toGenreValue } from '@/lib/constants/genres';
+import { displayLabel } from '@/lib/i18n/zhCN';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 export default function WorldGenerationTestPage() {
   const [worldReference, setWorldReference] = useState('');
@@ -22,7 +24,7 @@ export default function WorldGenerationTestPage() {
 
   const handleGenerate = async () => {
     if (!safeTrim(worldReference)) {
-      setError('Please enter a world reference');
+      setError("请输入世界参考");
       return;
     }
 
@@ -42,7 +44,7 @@ export default function WorldGenerationTestPage() {
 
       setGeneratedWorld(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation failed');
+      setError(err instanceof Error ? err.message : "生成失败");
     } finally {
       setIsGenerating(false);
     }
@@ -71,38 +73,38 @@ export default function WorldGenerationTestPage() {
     'Harry Potter',
     'Game of Thrones',
     'Cyberpunk 2077',
-    'Ancient Rome',
-    'Victorian England',
-    'Wild West',
-    'Post-Apocalyptic Wasteland',
+    "古罗马",
+    "维多利亚时代的英格兰",
+    "狂野西部",
+    "末日废土",
     'space-opera',
-    'Steampunk',
-    'Modern Spy Thriller',
-    'Medieval Fantasy',
-    'Superhero Universe',
+    "蒸汽朋克",
+    "现代谍战惊悚",
+    "中世纪奇幻",
+    "超级英雄宇宙",
   ];
 
   return (
     <div>
-      <h1>World Generation Test Harness</h1>
+      <h1>世界生成测试工具</h1>
 
       <div>
         {/* World Reference Input */}
         <div>
-          <h2>World Reference</h2>
+          <h2>世界参考</h2>
           <div>
             <div>
-              <label>Enter a fictional or non-fictional world reference:</label>
+              <label>输入虚构或非虚构的世界参考：</label>
               <input
                 type="text"
                 value={worldReference}
                 onChange={(e) => setWorldReference(e.target.value)}
-                placeholder="e.g., Lord of the Rings, Ancient Rome, Cyberpunk 2077"
+                placeholder="例如：Lord of the Rings、古罗马、Cyberpunk 2077"
               />
             </div>
 
             <div>
-              <label>Or choose a preset:</label>
+              <label>或选择一个预设：</label>
               <div>
                 {presetReferences.map((preset) => (
                   <button
@@ -119,14 +121,14 @@ export default function WorldGenerationTestPage() {
 
         {/* Custom Name */}
         <div>
-          <h2>Custom Name (Optional)</h2>
+          <h2>自定义名称（可选）</h2>
           <div>
-            <label>Override the AI-generated name:</label>
+            <label>覆盖 AI 生成的名称：</label>
             <input
               type="text"
               value={suggestedName}
               onChange={(e) => setSuggestedName(e.target.value)}
-              placeholder="Leave empty to use AI-generated name"
+              placeholder="留空则使用 AI 生成的名称"
             />
           </div>
         </div>
@@ -137,47 +139,47 @@ export default function WorldGenerationTestPage() {
             onClick={handleGenerate}
             disabled={isGenerating || !safeTrim(worldReference)}
           >
-            {isGenerating ? 'Generating World...' : 'Generate World'}
+            {isGenerating ? "正在生成世界..." : "生成世界"}
           </button>
         </div>
 
         {/* Error Display */}
         {error && (
           <div>
-            <p>{error}</p>
+            <p>{localizeErrorMessage(error)}</p>
           </div>
         )}
 
         {/* Generated World Display */}
         {generatedWorld && (
           <div>
-            <h2>Generated World</h2>
+            <h2>已生成的世界</h2>
 
             <div>
               <div>
-                <h3>Name:</h3>
+                <h3>名称：</h3>
                 <p>{generatedWorld.name}</p>
               </div>
 
               <div>
-                <h3>Genre:</h3>
-                <p>{generatedWorld.genre}</p>
+                <h3>类型：</h3>
+                <p>{displayLabel(generatedWorld.genre)}</p>
               </div>
 
               <div>
-                <h3>Description:</h3>
+                <h3>描述：</h3>
                 <p>{generatedWorld.description}</p>
               </div>
 
               <div>
-                <h3>Attributes ({generatedWorld.attributes.length}):</h3>
+                <h3>属性（{generatedWorld.attributes.length}):</h3>
                 <div>
                   {generatedWorld.attributes.map((attr, index: number) => (
                     <div key={index}>
                       <div>{attr.name}</div>
                       <div>{attr.description}</div>
                       <div>
-                        Range: {attr.minValue} - {attr.maxValue} (Default:{' '}
+                        范围： {attr.minValue} - {attr.maxValue} （默认：{' '}
                         {attr.baseValue})
                       </div>
                     </div>
@@ -186,7 +188,7 @@ export default function WorldGenerationTestPage() {
               </div>
 
               <div>
-                <h3>Skills ({generatedWorld.skills.length}):</h3>
+                <h3>技能（{generatedWorld.skills.length}):</h3>
                 <div>
                   {generatedWorld.skills.map((skill, index: number) => (
                     <div key={index}>
@@ -211,23 +213,23 @@ export default function WorldGenerationTestPage() {
               </div>
 
               <div>
-                <h3>Settings:</h3>
+                <h3>设置：</h3>
                 <div>
                   <div>
-                    Attribute Pool: {generatedWorld.settings.attributePointPool}
+                    属性点池： {generatedWorld.settings.attributePointPool}
                   </div>
                   <div>
-                    Skill Pool: {generatedWorld.settings.skillPointPool}
+                    技能点池： {generatedWorld.settings.skillPointPool}
                   </div>
                   <div>
-                    Max Attributes: {generatedWorld.settings.maxAttributes}
+                    最大属性数： {generatedWorld.settings.maxAttributes}
                   </div>
-                  <div>Max Skills: {generatedWorld.settings.maxSkills}</div>
+                  <div>最大技能数： {generatedWorld.settings.maxSkills}</div>
                 </div>
               </div>
 
               <div>
-                <button onClick={handleCreateWorld}>Create This World</button>
+                <button onClick={handleCreateWorld}>创建这个世界</button>
               </div>
             </div>
           </div>
@@ -235,20 +237,20 @@ export default function WorldGenerationTestPage() {
 
         {/* Existing Worlds */}
         <div>
-          <h2>Existing Worlds</h2>
+          <h2>现有世界</h2>
           <div>
             {Object.values(worlds).map((world) => (
               <div key={world.id}>
                 <div>
                   <span>{world.name}</span>
-                  <span>({world.genre})</span>
+                  <span>({displayLabel(world.genre)})</span>
                 </div>
                 <div>
-                  {world.attributes.length} attrs, {world.skills.length} skills
+                  {world.attributes.length} 项属性， {world.skills.length} 项技能
                 </div>
               </div>
             ))}
-            {Object.values(worlds).length === 0 && <p>No worlds created yet</p>}
+            {Object.values(worlds).length === 0 && <p>尚未创建世界</p>}
           </div>
         </div>
       </div>

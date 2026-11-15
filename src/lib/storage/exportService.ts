@@ -75,7 +75,7 @@ export async function exportGameState(): Promise<ExportResult> {
 
     return { success: true, data: gameState };
   } catch {
-    return { success: false, error: 'Failed to export game state' };
+    return { success: false, error: "导出游戏状态失败" };
   }
 }
 
@@ -83,7 +83,7 @@ export async function downloadGameState(): Promise<void> {
   const exportResult = await exportGameState();
 
   if (!exportResult.success || !exportResult.data) {
-    throw new Error(exportResult.error || 'Export failed');
+    throw new Error(exportResult.error || "导出失败");
   }
 
   const json = JSON.stringify(exportResult.data, null, 2);
@@ -192,9 +192,9 @@ async function importGameState(gameState: unknown): Promise<ImportResult> {
       useNPCStore.setState(validatedGameState.npcState);
     }
 
-    return { success: true, message: 'Game state imported successfully' };
+    return { success: true, message: "游戏状态导入成功" };
   } catch {
-    return { success: false, error: 'Failed to import game state' };
+    return { success: false, error: "导入游戏状态失败" };
   }
 }
 
@@ -204,33 +204,33 @@ export async function importFromFile(file: File): Promise<ImportResult> {
     const gameState = JSON.parse(text);
     return await importGameState(gameState);
   } catch {
-    return { success: false, error: 'Invalid JSON file' };
+    return { success: false, error: "无效的 JSON 文件" };
   }
 }
 
 function validateGameState(gameState: unknown): { valid: boolean; error?: string } {
   if (!gameState || typeof gameState !== 'object') {
-    return { valid: false, error: 'Invalid game state format' };
+    return { valid: false, error: "游戏状态格式无效" };
   }
 
   const state = gameState as Record<string, unknown>;
 
   if (!state.version) {
-    return { valid: false, error: 'Invalid game state format' };
+    return { valid: false, error: "游戏状态格式无效" };
   }
 
   if (!COMPATIBLE_VERSIONS.includes(state.version as string)) {
-    return { valid: false, error: 'Incompatible save file version' };
+    return { valid: false, error: "存档文件版本不兼容" };
   }
 
   if (!state.exportedAt) {
-    return { valid: false, error: 'Invalid game state format' };
+    return { valid: false, error: "游戏状态格式无效" };
   }
 
   const requiredFields = ['worldState', 'characterState', 'sessionState'];
   for (const field of requiredFields) {
     if (!state[field]) {
-      return { valid: false, error: 'Invalid game state format' };
+      return { valid: false, error: "游戏状态格式无效" };
     }
   }
 
@@ -242,7 +242,7 @@ function validateGameState(gameState: unknown): { valid: boolean; error?: string
         if (!validation.valid) {
           return {
             valid: false,
-            error: `Invalid world data for ${worldId}: ${validation.errors[0]}`,
+            error: `世界数据无效（${worldId}）：${validation.errors[0]}`,
           };
         }
       }

@@ -146,7 +146,7 @@ describe('WorldEditor - MVP Level Tests', () => {
     });
 
     // Click save button
-    const saveButton = screen.getByText('Save Changes');
+    const saveButton = screen.getByText("保存更改");
     fireEvent.click(saveButton);
 
     // Should call updateWorld with correct data
@@ -169,7 +169,7 @@ describe('WorldEditor - MVP Level Tests', () => {
     });
 
     // Click cancel button
-    const cancelButton = screen.getByText('Cancel');
+    const cancelButton = screen.getByText("取消");
     fireEvent.click(cancelButton);
 
     // Should navigate back without saving
@@ -193,11 +193,11 @@ describe('WorldEditor - MVP Level Tests', () => {
     render(<WorldEditor worldId="non-existent" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/World not found/i)).toBeInTheDocument();
+      expect(screen.getByText(/未找到世界/i)).toBeInTheDocument();
     });
 
     // Should provide a way to return to worlds list
-    const returnButton = screen.getByText('Return to Worlds');
+    const returnButton = screen.getByText("返回世界列表");
     expect(returnButton).toBeInTheDocument();
   });
 
@@ -216,10 +216,10 @@ describe('WorldEditor - MVP Level Tests', () => {
     // Save changes - wait for save button to appear after form change
     await waitFor(() => {
       expect(
-        screen.getByRole('button', { name: /save changes/i })
+        screen.getByRole('button', { name: /保存更改/i })
       ).toBeInTheDocument();
     });
-    const saveButton = screen.getByRole('button', { name: /save changes/i });
+    const saveButton = screen.getByRole('button', { name: /保存更改/i });
     fireEvent.click(saveButton);
 
     // Should save with updated data

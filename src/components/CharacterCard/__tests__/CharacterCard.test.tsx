@@ -52,8 +52,8 @@ describe('CharacterCard', () => {
     );
 
     expect(screen.getByRole('heading', { name: 'Aragorn' })).toBeInTheDocument();
-    expect(screen.getByText('Level 5')).toBeInTheDocument();
-    expect(screen.getByText('Known Figure')).toBeInTheDocument();
+    expect(screen.getByText("等级 5")).toBeInTheDocument();
+    expect(screen.getByText("知名人物")).toBeInTheDocument();
     expect(screen.getByText('A noble ranger from the north.')).toBeInTheDocument();
   });
 
@@ -94,8 +94,8 @@ describe('CharacterCard', () => {
       />
     );
 
-    expect(screen.getByTestId('character-card-active-label')).toHaveTextContent('Active');
-    expect(screen.queryByRole('button', { name: /active/i })).not.toBeInTheDocument();
+    expect(screen.getByTestId('character-card-active-label')).toHaveTextContent("活跃");
+    expect(screen.queryByRole('button', { name: /活跃/i })).not.toBeInTheDocument();
   });
 
   it('names every action after the character', () => {
@@ -110,9 +110,9 @@ describe('CharacterCard', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Play as Aragorn' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Edit Aragorn' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Delete Aragorn' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "扮演 Aragorn" })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "编辑 Aragorn" })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "删除 Aragorn" })).toBeInTheDocument();
     expect(screen.queryByTestId('character-card-actions-view-button')).not.toBeInTheDocument();
   });
 

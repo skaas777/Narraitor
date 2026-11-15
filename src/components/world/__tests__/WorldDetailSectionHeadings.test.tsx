@@ -44,7 +44,7 @@ describe('World detail section headings', () => {
     );
 
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Attributes' })
+      screen.getByRole('heading', { level: 2, name: "属性" })
     ).toBeInTheDocument();
     expect(
       container.querySelector('.world-detail-attributes')
@@ -60,7 +60,7 @@ describe('World detail section headings', () => {
     );
 
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Skills' })
+      screen.getByRole('heading', { level: 2, name: "技能" })
     ).toBeInTheDocument();
     expect(
       container.querySelector('.world-detail-skills')
@@ -85,7 +85,7 @@ describe('World detail section headings', () => {
   it('omits internal data (range, default) from attribute cards', () => {
     render(<WorldAttributesList attributes={attributes} />);
 
-    expect(screen.queryByText(/Range:/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/范围：/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Default:/i)).not.toBeInTheDocument();
   });
 });

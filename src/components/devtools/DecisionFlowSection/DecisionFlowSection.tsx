@@ -51,13 +51,13 @@ export const DecisionFlowSection = () => {
     <div className="devtools-decision-flow" data-testid="devtools-decision-flow-section">
       <div className="devtools-decision-flow-controls">
         <Select
-          aria-label="Select session"
+          aria-label="选择冒险记录"
           value={activeSessionId}
           onChange={(event) => setSelectedSessionId(event.target.value)}
           data-testid="decision-flow-session-select"
         >
           {sessionIds.length === 0 ? (
-            <option value="">No sessions with decisions</option>
+            <option value="">没有包含决策的冒险记录</option>
           ) : (
             sessionIds.map((sessionId) => (
               <option key={sessionId} value={sessionId}>
@@ -67,14 +67,13 @@ export const DecisionFlowSection = () => {
           )}
         </Select>
         <Button variant="ghost" size="sm" onClick={handleRefresh} data-testid="decision-flow-refresh">
-          Refresh
+          刷新
         </Button>
       </div>
 
       {decisions.length === 0 ? (
         <p className="devtools-decision-flow-empty">
-          No decisions in the narrative store yet. Play a session to a choice point, then hit
-          Refresh.
+          叙事存储中还没有决策。进行冒险直到出现选择点，然后点击刷新。
         </p>
       ) : (
         <div className="devtools-decision-flow-traces">

@@ -37,7 +37,7 @@ export async function checkItemSimilarityClient(
       status: response.status,
       details,
     });
-    throw new Error(details?.error ?? 'Item similarity check failed');
+    throw new Error(details?.error ?? "物品相似度检查失败");
   }
 
   return (await response.json()) as ItemSimilarityResponse;

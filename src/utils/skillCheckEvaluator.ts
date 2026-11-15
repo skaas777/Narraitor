@@ -37,7 +37,7 @@ export function evaluateSkillCheck(
   const worldSkill = findWorldSkill(skillCheck, worldSkills);
   if (!worldSkill) {
     // AI referenced a skill that doesn't exist in this world: auto-fail rather than throw.
-    const attemptedSkillName = skillCheck.skillName || skillCheck.skillId || 'Unknown Skill';
+    const attemptedSkillName = skillCheck.skillName || skillCheck.skillId || "未知技能";
     logger.warn(`Skill not found: ${attemptedSkillName} - treating as automatic failure`);
     return {
       skillId: skillCheck.skillId || '',

@@ -18,16 +18,16 @@ export function WorldSelectionStep({ onNext }: WorldSelectionStepProps) {
     return (
       <div>
         <h3>
-          No Worlds Yet
+          尚无世界
         </h3>
         <p>
-          Create your first world to begin your adventure
+          创建你的第一个世界，开始你的冒险
         </p>
         <Link
           href="/worlds/create"
           
         >
-          Create Your First World
+          创建你的第一个世界
         </Link>
       </div>
     );
@@ -36,7 +36,7 @@ export function WorldSelectionStep({ onNext }: WorldSelectionStepProps) {
   return (
     <div data-testid="world-selection-step">
       <h3>
-        Choose Your World
+        选择你的世界
       </h3>
       
       <div>
@@ -48,7 +48,7 @@ export function WorldSelectionStep({ onNext }: WorldSelectionStepProps) {
               onDelete={() => {/* No delete in wizard */}}
             />
             <Button onClick={() => onNext(world.id)}>
-              Choose {world.name}
+              选择 {world.name}
             </Button>
           </div>
         ))}
@@ -59,10 +59,10 @@ export function WorldSelectionStep({ onNext }: WorldSelectionStepProps) {
           href="/worlds/create"
           
         >
-          Create New World
+          创建新世界
         </Link>
         <p>
-          Choose a world to continue
+          选择一个世界以继续
         </p>
       </div>
     </div>

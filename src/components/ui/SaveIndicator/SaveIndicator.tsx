@@ -34,12 +34,12 @@ export const SaveIndicator: React.FC<SaveIndicatorProps> = ({
 }) => {
   const getStatusText = () => {
     if (status === 'saving') {
-      return 'Saving...';
+      return "保存中……";
     }
     if (lastSaveTime) {
-      return `Saved at ${formatTime(lastSaveTime)}`;
+      return `保存于 ${formatTime(lastSaveTime)}`;
     }
-    return 'Saved';
+    return "已保存";
   };
 
   // Handle error state with ErrorDisplay component
@@ -49,8 +49,8 @@ export const SaveIndicator: React.FC<SaveIndicatorProps> = ({
         <ErrorDisplay
           variant={compact ? 'inline' : 'section'}
           severity="error"
-          title={compact ? undefined : 'Auto-Save Error'}
-          message={errorMessage || "Couldn't save your progress. Your recent moves aren't stored yet."}
+          title={compact ? undefined : "自动保存错误"}
+          message={errorMessage || "无法保存你的进度。你最近的操作尚未存储。"}
           showRetry={retryable && !!onRetryError}
           onRetry={onRetryError}
           showDismiss={false}
@@ -65,11 +65,11 @@ export const SaveIndicator: React.FC<SaveIndicatorProps> = ({
       <div className={clsx('save-indicator', compact && 'save-indicator-compact', className)}>
         <LoadingState
           variant="spinner"
-          message={compact ? undefined : 'Saving...'}
+          message={compact ? undefined : "正在保存……"}
         />
         {onManualSave && (
           <button className="save-indicator-button" disabled={true} type="button">
-            Save Now
+            立即保存
           </button>
         )}
       </div>
@@ -83,13 +83,13 @@ export const SaveIndicator: React.FC<SaveIndicatorProps> = ({
         <div className="save-indicator-copy">
           <span className="save-indicator-text">{getStatusText()}</span>
 
-          {totalSaves > 0 && !compact && <span className="save-indicator-meta">{totalSaves} saves</span>}
+          {totalSaves > 0 && !compact && <span className="save-indicator-meta">{totalSaves} 次存档</span>}
         </div>
       </div>
 
       {onManualSave && (
         <button className="save-indicator-button" onClick={() => onManualSave('manual')} type="button">
-          Save Now
+          立即保存
         </button>
       )}
     </div>

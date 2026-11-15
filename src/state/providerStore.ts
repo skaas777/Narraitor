@@ -140,7 +140,7 @@ export const useProviderStore = create<ProviderStore>()(
       updateProvider: async (id, updates) => {
         const existing = get().providers[id];
         if (!existing) {
-          set({ error: 'Provider not found' });
+          set({ error: "未找到模型服务" });
           return;
         }
 
@@ -170,7 +170,7 @@ export const useProviderStore = create<ProviderStore>()(
       updateAdvancedSettings: (id, settings) => {
         const existing = get().providers[id];
         if (!existing) {
-          set({ error: 'Provider not found' });
+          set({ error: "未找到模型服务" });
           return;
         }
 

@@ -23,7 +23,7 @@
   gap: 1rem;
   padding: 2rem;
 }
-.personal-cloud-screen h1 { font-size: 1.5rem; }
+.personal-cloud-screen h1 { font-size: var(--font-size-xl); }
 .personal-cloud-screen button, .personal-cloud-status button {
   padding: .5rem 1rem;
   border: 1px solid currentColor;

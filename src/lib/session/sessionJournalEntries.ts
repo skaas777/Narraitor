@@ -26,8 +26,8 @@ export const handleSessionStarted = ({ sessionId, worldId, characterId, startedA
     type: 'session_start',
     worldId,
     characterId,
-    title: 'Adventure Begins',
-    content: `A new journey starts${world ? ` in ${world.name}` : ''}`,
+    title: "冒险开始",
+    content: `新的旅程开始了${world ? `，地点在${world.name}` : ''}`,
     significance: 'minor' as const,
     isRead: false,
     relatedEntities: [],
@@ -36,8 +36,8 @@ export const handleSessionStarted = ({ sessionId, worldId, characterId, startedA
       automaticEntry: true,
       sessionStartTime: startedAt,
       sessionContext: {
-        worldName: world?.name || 'Unknown World',
-        characterName: character?.name || 'Unknown Character',
+        worldName: world?.name || "未知世界",
+        characterName: character?.name || "未知角色",
         sessionNumber
       }
     },
@@ -62,15 +62,15 @@ export const handleSessionEnded = ({ sessionId, worldId, characterId, endedAt }:
   const character = useCharacterStore.getState().characters[characterId];
   const narrativeSegments = useNarrativeStore.getState().getSessionSegments(sessionId);
 
-  const durationText = sessionDuration > 0 ? formatSessionDuration(sessionDuration) : 'unknown duration';
+  const durationText = sessionDuration > 0 ? formatSessionDuration(sessionDuration) : "未知时长";
   const segmentCount = narrativeSegments.length;
 
   journalStore.addEntry(sessionId, {
     type: 'session_end',
     worldId,
     characterId,
-    title: 'Adventure Concluded',
-    content: `Session completed after ${durationText}${segmentCount > 0 ? ` with ${segmentCount} story segment${segmentCount !== 1 ? 's' : ''}` : ''}`,
+    title: "冒险结束",
+    content: `本次冒险记录历时${durationText}后结束${segmentCount > 0 ? `，包含${segmentCount}段故事${''}` : ''}`,
     significance: 'minor' as const,
     isRead: false,
     relatedEntities: [],
@@ -79,8 +79,8 @@ export const handleSessionEnded = ({ sessionId, worldId, characterId, endedAt }:
       automaticEntry: true,
       sessionDuration,
       sessionContext: {
-        worldName: world?.name || 'Unknown World',
-        characterName: character?.name || 'Unknown Character',
+        worldName: world?.name || "未知世界",
+        characterName: character?.name || "未知角色",
         sessionNumber: sessionStartEntry?.metadata.sessionContext?.sessionNumber ?? calculateNextSessionNumber(Object.values(journalStore.entries).flat())
       }
     },

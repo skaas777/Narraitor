@@ -32,8 +32,8 @@ describe('WorldImageForm', () => {
 
     render(<WorldImageForm world={worldWithImage} onChange={jest.fn()} />);
 
-    expect(screen.getByRole('button', { name: /regenerate world image/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /remove world image/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /重新生成世界图像/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /移除世界图像/i })).toBeInTheDocument();
   });
 
   test('renders generate button when world image is placeholder', () => {
@@ -47,7 +47,7 @@ describe('WorldImageForm', () => {
 
     render(<WorldImageForm world={worldWithPlaceholder} onChange={jest.fn()} />);
 
-    expect(screen.getByRole('button', { name: /generate world image/i })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /remove world image/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /生成世界图像/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /移除世界图像/i })).not.toBeInTheDocument();
   });
 });

@@ -50,6 +50,6 @@ describe('session boundary journal entries (event-driven)', () => {
 
     expect(endEntry).toBeDefined();
     expect(endEntry?.metadata.sessionDuration).toBeGreaterThanOrEqual(0);
-    expect(endEntry?.content).toContain('Session completed');
+    expect(endEntry?.content).toContain("本次冒险记录历时");
   });
 });

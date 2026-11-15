@@ -38,12 +38,12 @@ export function DashboardRecentCharacters({
         className="component-dashboard-recent-characters"
         aria-labelledby="recent-characters-heading"
       >
-        <h2 id="recent-characters-heading">Recent Characters</h2>
+        <h2 id="recent-characters-heading">最近角色</h2>
         <div className="dashboard-recent-empty-state">
-          <p>No characters yet</p>
+          <p>尚无角色</p>
           <Button onClick={() => onNavigate('/characters')} variant="secondary">
             <Plus aria-hidden="true" />
-            Create Your First Character
+            创建你的第一个角色
           </Button>
         </div>
       </section>
@@ -55,7 +55,7 @@ export function DashboardRecentCharacters({
       className="component-dashboard-recent-characters"
       aria-labelledby="recent-characters-heading"
     >
-      <h2 id="recent-characters-heading">Recent Characters</h2>
+      <h2 id="recent-characters-heading">最近角色</h2>
 
       <div className="dashboard-recent-list">
         {/* Recent Characters */}
@@ -68,7 +68,7 @@ export function DashboardRecentCharacters({
               onClick={() => onNavigate(`/characters/${character.id}`)}
               role="button"
               tabIndex={0}
-              aria-label={`View character: ${character.name}${world ? ` from ${world.name}` : ''}`}
+              aria-label={`查看角色：${character.name}${world ? `，来自 ${world.name}` : ''}`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
@@ -113,7 +113,7 @@ export function DashboardRecentCharacters({
               className="dashboard-recent-empty-slot"
             >
               <Plus aria-hidden="true" />
-              Create Character
+              创建角色
             </Button>
           ))}
       </div>

@@ -39,14 +39,14 @@ describe('describeContentRatingEnforcement', () => {
   it('tells the player a rating is only guidance where nothing enforces it', () => {
     const copy = describeContentRatingEnforcement(false);
 
-    expect(copy).toContain('guidance');
-    expect(copy).toContain('does not enforce');
+    expect(copy).toContain("指导");
+    expect(copy).toContain("不会强制执行");
   });
 
   it('does not oversell the native path either', () => {
     const copy = describeContentRatingEnforcement(true);
 
-    expect(copy).toContain('safety-filter setting');
-    expect(copy).toContain('no setting turns off');
+    expect(copy).toContain("安全过滤设置");
+    expect(copy).toContain("无法通过任何设置关闭");
   });
 });

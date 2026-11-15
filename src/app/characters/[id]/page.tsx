@@ -48,23 +48,23 @@ export default function CharacterViewPage() {
   if (!character || !world) {
     return (
       <NotFoundState
-        title="Character Not Found"
-        message="The character you're looking for doesn't exist or has been deleted."
+        title="未找到角色"
+        message="你要查找的角色不存在或已被删除。"
         backUrl="/characters"
-        backLabel="Back to Characters"
+        backLabel="返回角色列表"
       />
     );
   }
 
   const actionButtons = [
     {
-      label: 'Edit Character',
+      label: "编辑角色",
       onClick: () => router.push(`/characters/${characterId}/edit`),
       variant: 'secondary' as const,
       icon: <Pencil aria-hidden="true" />,
     },
     {
-      label: 'Play with Character',
+      label: "以该角色游玩",
       onClick: () => {
         setCurrentCharacter(characterId);
         router.push(`/worlds/${character.worldId}/play`);
@@ -73,7 +73,7 @@ export default function CharacterViewPage() {
       icon: <Play aria-hidden="true" />,
     },
     {
-      label: 'Delete Character',
+      label: "删除角色",
       onClick: () => setShowDeleteDialog(true),
       variant: 'danger-outline' as const,
       icon: <Trash aria-hidden="true" />,
@@ -86,7 +86,7 @@ export default function CharacterViewPage() {
         href={`/worlds/${world.id}`}
         className="characters-world-kicker-link"
       >
-        <span className="characters-kicker-prefix">WORLD: </span>
+        <span className="characters-kicker-prefix">世界： </span>
         <span className="characters-kicker-name">{world.name}</span>
       </Link>
       {world.genre && (
@@ -118,7 +118,7 @@ export default function CharacterViewPage() {
     <PageLayout
       title={character.name}
       kicker={worldKicker}
-      description={character.level ? `Level ${character.level}` : undefined}
+      description={character.level ? `等级 ${character.level}` : undefined}
       actions={
         <ActionButtonGroup 
           actions={actionButtons.map(btn => ({
@@ -133,7 +133,7 @@ export default function CharacterViewPage() {
       headerClassName="characters-world-masthead character-detail-masthead"
     >
       <div className="character-detail-back">
-        <BackNavigation href="/characters" label="Back to Characters" />
+        <BackNavigation href="/characters" label="返回角色列表" />
       </div>
 
       <div className="character-detail-body">
@@ -146,11 +146,11 @@ export default function CharacterViewPage() {
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDelete}
-        title="Delete Character"
-        description={`Are you sure you want to delete "${character.name}"? This action cannot be undone.`}
+        title="删除角色"
+        description={`确定要删除“${character.name}”吗？此操作无法撤销。`}
         itemName={character.name}
-        confirmButtonText="Delete"
-        cancelButtonText="Cancel"
+        confirmButtonText="删除"
+        cancelButtonText="取消"
       />
     </PageLayout>
   );

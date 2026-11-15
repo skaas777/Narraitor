@@ -11,18 +11,18 @@ import './SectionVisibilityControls.css';
  * Section information for display
  */
 const SECTION_INFO = {
-  [DevToolsSection.STATE_SECTION]: 'State Section',
-  [DevToolsSection.TEST_DATA_GENERATOR]: 'Test Data Generator',
-  [DevToolsSection.AI_TESTING]: 'AI Testing Panel',
-  [DevToolsSection.PORTRAIT_DEBUG]: 'Portrait Debug',
-  [DevToolsSection.ENDING_IMAGE_DEBUG]: 'Ending Image Debug',
-  [DevToolsSection.CONSISTENCY_VALIDATION]: 'Consistency Validation',
-  [DevToolsSection.LORE_MANAGEMENT]: 'Lore Management',
-  [DevToolsSection.ERROR_SECTION]: 'Error Tracking',
-  [DevToolsSection.TOKEN_BUDGET]: 'Token Budget',
-  [DevToolsSection.DECISION_CONSOLE]: 'Decision Console',
-  [DevToolsSection.DECISION_FLOW]: 'Decision Creation Flow',
-  [DevToolsSection.WORLD_CLOCK]: 'World Clock',
+  [DevToolsSection.STATE_SECTION]: "状态区块",
+  [DevToolsSection.TEST_DATA_GENERATOR]: "测试数据生成器",
+  [DevToolsSection.AI_TESTING]: "AI 测试面板",
+  [DevToolsSection.PORTRAIT_DEBUG]: "头像调试",
+  [DevToolsSection.ENDING_IMAGE_DEBUG]: "结局图像调试",
+  [DevToolsSection.CONSISTENCY_VALIDATION]: "一致性校验",
+  [DevToolsSection.LORE_MANAGEMENT]: "设定管理",
+  [DevToolsSection.ERROR_SECTION]: "错误追踪",
+  [DevToolsSection.TOKEN_BUDGET]: "Token 预算",
+  [DevToolsSection.DECISION_CONSOLE]: "决策控制台",
+  [DevToolsSection.DECISION_FLOW]: "决策创建流程",
+  [DevToolsSection.WORLD_CLOCK]: "世界时钟",
 } as const;
 
 /**
@@ -104,10 +104,10 @@ export const SectionVisibilityControls = () => {
         size="sm"
         aria-expanded={isDropdownOpen}
         aria-haspopup="menu"
-        aria-label="Section visibility controls"
+        aria-label="区块可见性控制"
         data-testid="visibility-controls-dropdown"
       >
-        Sections ({visibleCount}/{totalCount}) ▼
+        区块 ({visibleCount}/{totalCount}) ▼
       </Button>
 
       {isDropdownOpen && (
@@ -121,7 +121,7 @@ export const SectionVisibilityControls = () => {
               data-testid="show-all-sections"
               role="menuitem"
             >
-              Show All
+              全部显示
             </Button>
             <Button
               onClick={handleHideAll}
@@ -130,7 +130,7 @@ export const SectionVisibilityControls = () => {
               data-testid="hide-all-sections"
               role="menuitem"
             >
-              Hide All
+              全部隐藏
             </Button>
           </div>
 
@@ -151,7 +151,7 @@ export const SectionVisibilityControls = () => {
                   }
                   role="menuitemcheckbox"
                   aria-checked={isVisible}
-                  aria-label={`Toggle ${displayName} visibility`}
+                  aria-label={`切换${displayName}的可见性`}
                 >
                   <span className="section-visibility-item-check">
                     {isVisible && (
@@ -174,7 +174,7 @@ export const SectionVisibilityControls = () => {
               size="sm"
               data-testid="close-dropdown"
             >
-              Close
+              关闭
             </Button>
           </div>
         </div>

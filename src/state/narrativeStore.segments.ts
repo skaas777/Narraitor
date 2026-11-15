@@ -259,7 +259,7 @@ export const createNarrativeSegmentActions = (
 
   updateSegment: (segmentId: EntityID, updates: Partial<NarrativeSegment>) => set((state) => {
     if (!state.segments[segmentId]) {
-      return { error: 'Segment not found' };
+      return { error: "未找到片段" };
     }
 
     const updatedSegment: NarrativeSegment = {

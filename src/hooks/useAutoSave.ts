@@ -30,7 +30,7 @@ export const useAutoSave = () => {
       if (status === StorageStatus.UNAVAILABLE) {
         useSessionStore.getState().updateAutoSaveStatus(
           'error',
-          notice?.message || 'Storage unavailable'
+          notice?.message || "存储不可用"
         );
       } else if (useSessionStore.getState().autoSave.status === 'error') {
         useSessionStore.getState().updateAutoSaveStatus('idle');
@@ -57,7 +57,7 @@ export const useAutoSave = () => {
     async (reason: SaveTriggerReason = 'manual') => {
       const currentStorageStatus = getStorageStatus();
       if (currentStorageStatus === StorageStatus.UNAVAILABLE) {
-        const message = getStorageFallbackNotice()?.message || 'Storage unavailable';
+        const message = getStorageFallbackNotice()?.message || "存储不可用";
         useSessionStore.getState().updateAutoSaveStatus('error', message);
         toast.error('Save failed', message);
         return;
@@ -67,7 +67,7 @@ export const useAutoSave = () => {
       // storage layer means the change is already written: record the time only.
       useSessionStore.getState().recordAutoSave(getTimestamp());
       if (reason === 'manual') {
-        toast.success('Game saved successfully', 'Your progress has been saved');
+        toast.success("游戏保存成功", "你的进度已保存");
       }
     },
     [toast]
@@ -80,7 +80,7 @@ export const useAutoSave = () => {
   const isStorageUnavailable = getStorageStatus() === StorageStatus.UNAVAILABLE;
   const effectiveStatus = isStorageUnavailable ? 'error' : autoSaveState.status;
   const effectiveErrorMessage = isStorageUnavailable
-    ? (getStorageFallbackNotice()?.message || autoSaveState.errorMessage || 'Storage unavailable')
+    ? (getStorageFallbackNotice()?.message || autoSaveState.errorMessage || "存储不可用")
     : autoSaveState.errorMessage;
 
   return {

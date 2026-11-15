@@ -40,9 +40,9 @@ interface CharacterFormData {
 type PortraitSource = 'generate' | 'presets' | 'upload';
 
 const PORTRAIT_SOURCES: Array<{ value: PortraitSource; label: string }> = [
-  { value: 'generate', label: 'Generate' },
-  { value: 'presets', label: 'Preset avatars' },
-  { value: 'upload', label: 'Upload' },
+  { value: 'generate', label: "生成" },
+  { value: 'presets', label: "预设头像" },
+  { value: 'upload', label: "上传" },
 ];
 
 interface PortraitStepProps {
@@ -165,18 +165,18 @@ export function PortraitStep({
   return (
     <div className="component-portrait-step">
       <div className="portrait-step-header">
-        <h3>Character Portrait</h3>
+        <h3>角色肖像</h3>
         <p>
           {data.characterData.background?.isKnownFigure
-            ? `Generate a portrait of ${data.characterData.name} as they are commonly recognized`
-            : 'Generate a portrait, pick a preset avatar, or upload your own image'}
+            ? `生成 ${data.characterData.name} 的肖像，展现其广为人知的形象`
+            : "生成肖像、选择预设头像，或上传自己的图片"}
         </p>
       </div>
 
       <div className="portrait-step-body">
         {isGenerating ? (
           <div className="portrait-step-loading">
-            <LoadingState variant="spinner" size="md" message="Generating portrait..." />
+            <LoadingState variant="spinner" size="md" message="正在生成肖像……" />
           </div>
         ) : (
           <CharacterPortrait
@@ -190,8 +190,7 @@ export function PortraitStep({
         {previewPortrait && (
           <div className="portrait-step-preview">
             <p className="portrait-step-preview-label">
-              Just a preview. Choose &quot;Use this portrait&quot; to keep it —
-              moving on without that leaves the character as it was.
+              这只是预览。选择 “使用此肖像” 才会保留；未选择便继续，角色将保持原样。
             </p>
             <div className="portrait-step-actions">
               <Button
@@ -199,14 +198,14 @@ export function PortraitStep({
                 variant="outline"
                 onClick={handleUsePreview}
               >
-                Use this portrait
+                使用此肖像
               </Button>
               <Button
                 type="button"
                 variant="ghost"
                 onClick={() => setPreviewPortrait(null)}
               >
-                Cancel
+                取消
               </Button>
             </div>
           </div>
@@ -216,7 +215,7 @@ export function PortraitStep({
           <div className="portrait-step-success">
             <p className="portrait-step-success-label">
               <CheckCircle aria-hidden="true" />
-              Portrait saved to this character
+              肖像已保存到此角色
             </p>
             <div className="portrait-step-actions">
               <Button
@@ -224,7 +223,7 @@ export function PortraitStep({
                 variant="outline"
                 onClick={handleRemovePortrait}
               >
-                Remove Portrait
+                移除肖像
               </Button>
             </div>
           </div>
@@ -235,7 +234,7 @@ export function PortraitStep({
           className="portrait-step-sources"
           onValueChange={handleSourceChange}
         >
-          <TabsList role="group" aria-label="Where the portrait comes from">
+          <TabsList role="group" aria-label="肖像来源">
             {PORTRAIT_SOURCES.map((option) => (
               <TabsTrigger
                 key={option.value}
@@ -262,8 +261,8 @@ export function PortraitStep({
               data-tutorial="portrait-generator-action"
             >
               {savedPortrait.type === 'ai-generated' && savedPortrait.url
-                ? 'Regenerate Portrait'
-                : 'Generate Portrait'}
+                ? "重新生成肖像"
+                : "生成肖像"}
             </Button>
           </TabsContent>
 
@@ -280,7 +279,7 @@ export function PortraitStep({
         </Tabs>
 
         <p className="portrait-step-hint">
-          A portrait is optional. You can skip this step and continue.
+          肖像为可选项。你可以跳过此步骤并继续。
         </p>
       </div>
     </div>

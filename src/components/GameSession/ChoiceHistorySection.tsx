@@ -18,11 +18,11 @@ interface ChoiceHistorySectionProps {
 }
 
 const outcomeLabels: Record<DecisionOutcome, string> = {
-  success: 'Success',
-  failure: 'Failure',
-  mixed: 'Mixed',
-  'critical-success': 'Critical success',
-  'critical-failure': 'Critical failure',
+  success: "成功",
+  failure: "失败",
+  mixed: "混合",
+  'critical-success': "大成功",
+  'critical-failure': "大失败",
 };
 
 const resolveDate = (value?: Date | string): Date | null => {
@@ -38,7 +38,7 @@ const getChoiceText = (entry: DecisionHistoryEntry): string => {
   const selectedOption = decision.options.find(
     (option) => option.id === decision.selectedOptionId
   );
-  return selectedOption?.text || decision.selectedOptionId || 'Unknown choice';
+  return selectedOption?.text || decision.selectedOptionId || "未知选项";
 };
 
 const buildExpandedSet = (previous: Set<EntityID>, decisionId: EntityID) => {
@@ -73,8 +73,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
     >
       {resolvedEntries.length === 0 ? (
         <p className="manuscript-choice-history-empty">
-          No recorded choices yet. Your decisions will appear here once you
-          start choosing.
+          还没有记录任何选项。当你开始做出选择后，你的决定将显示在这里。
         </p>
       ) : (
         <div className="manuscript-choice-history-list">
@@ -83,7 +82,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
             const decisionPrompt = entry.decision.prompt.trim();
             const outcomeSegment = entry.outcomeSegment;
             const outcomeText =
-              outcomeSegment?.content || 'Impact unknown yet.';
+              outcomeSegment?.content || "影响尚未可知。";
             const outcomeLocation = outcomeSegment?.metadata?.location;
             const decisionTime =
               resolveDate(entry.decision.selectedAt) ||
@@ -91,7 +90,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
               resolveDate(outcomeSegment?.timestamp);
             const timeLabel = decisionTime
               ? formatRelativeTime(decisionTime)
-              : 'Time unknown';
+              : "时间未知";
             const timeTitle = decisionTime
               ? formatDateTime(decisionTime)
               : undefined;
@@ -112,7 +111,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
                 <div className="manuscript-choice-history-meta">
                   {decisionWeight && (
                     <span className="manuscript-choice-history-meta-item">
-                      {decisionWeight} WEIGHT
+                      {decisionWeight} 权重
                     </span>
                   )}
                   {decisionOutcome && (
@@ -143,7 +142,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
                         );
                       }}
                     >
-                      {isExpanded ? 'HIDE DETAILS' : 'DETAILS'}
+                      {isExpanded ? "隐藏详情" : '详情'}
                     </Button>
                   )}
                 </div>

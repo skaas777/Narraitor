@@ -18,30 +18,29 @@ import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 export default function SettingsPage() {
   return (
     <PageLayout
-      title="Settings"
-      description="Manage your settings and back up your game data."
+      title="设置"
+      description="管理你的设置并备份游戏数据。"
     >
       <div className="settings-page">
         {!PERSONAL_CLOUD_ENABLED && <section className="settings-section">
-          <h2>Providers</h2>
+          <h2>模型服务</h2>
           <p className="settings-section-description">
-            Connect the provider key used to generate your stories. It stays in this browser, encrypted, and is only ever used to make your own requests.
+            连接用于生成故事的模型服务密钥。它只会加密保存在此浏览器中，并且仅用于发起你自己的请求。
           </p>
           <div className="settings-section-actions">
             <Link
               href="/settings/providers"
               className="button button-default button-size-default"
             >
-              Manage providers
+              管理模型服务
             </Link>
           </div>
         </section>}
 
         <section className="settings-section">
-          <h2>Appearance</h2>
+          <h2>外观</h2>
           <p className="settings-section-description">
-            Choose light, dark, or system mode. Your choice is saved in this
-            browser and applies across the app.
+            选择浅色、深色或跟随系统模式。你的选择会保存在此浏览器中，并应用于整个应用。
           </p>
           <div className="settings-appearance-row">
             <DarkModeToggle showLabels />
@@ -49,11 +48,11 @@ export default function SettingsPage() {
         </section>
 
         <section className="settings-section">
-          <h2>Data Management</h2>
+          <h2>数据管理</h2>
           <p className="settings-section-description">
             {PERSONAL_CLOUD_ENABLED
               ? '世界、角色和游戏进度会自动保存到私有云端。你也可以额外导出备份。'
-              : 'Backup and restore your worlds, characters, and game progress.'}
+              : "备份并恢复你的世界、角色和游戏进度。"}
           </p>
           <ExportImportControls />
         </section>

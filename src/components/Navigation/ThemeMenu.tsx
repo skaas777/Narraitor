@@ -50,7 +50,7 @@ export function ThemeMenu() {
         type="button"
         variant="ghost"
         size="icon"
-        aria-label="Appearance"
+        aria-label="外观"
         aria-expanded={open}
         className={headerDropdownTriggerClass}
         onClick={() => setOpen((prev) => !prev)}

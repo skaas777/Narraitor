@@ -369,7 +369,7 @@ describe('Narrative store world state integration', () => {
     let worldState = useWorldStore.getState().worldStates[worldId];
     expect(worldState?.majorEvents).toHaveLength(1);
     expect(worldState?.majorEvents?.[0]?.description).toBe(
-      'Story begins at Ancient Chamber'
+      "故事从Ancient Chamber开始"
     );
     expect(global.fetch).not.toHaveBeenCalled(); // No validation for first segment
     // Step 2: Mock validation API to reject trivial event
@@ -433,7 +433,7 @@ describe('Narrative store world state integration', () => {
       'Character discovers the Tome of Forbidden Knowledge'
     );
     expect(worldState?.majorEvents?.[1]?.description).toBe(
-      'Story begins at Ancient Chamber'
+      "故事从Ancient Chamber开始"
     );
     jest.restoreAllMocks();
   });

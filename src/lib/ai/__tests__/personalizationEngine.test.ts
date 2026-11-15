@@ -67,9 +67,9 @@ describe('buildCharacterPromptSection', () => {
     const section = buildCharacterPromptSection(baseInput);
 
     expect(section).toContain('attr-dexterity');
-    expect(section).toContain('Exceptional');
+    expect(section).toContain("卓越");
     expect(section).toContain('attr-strength');
-    expect(section).toContain('Low');
+    expect(section).toContain("低");
     expect(section).not.toMatch(/attr-charisma.*Moderate/);
   });
 
@@ -80,7 +80,7 @@ describe('buildCharacterPromptSection', () => {
     });
 
     expect(section).toContain('dexterity');
-    expect(section).toContain('Exceptional');
+    expect(section).toContain("卓越");
   });
 
   it('lists skills with their proficiency', () => {
@@ -88,7 +88,7 @@ describe('buildCharacterPromptSection', () => {
 
     expect(section).toContain('SKILLS:');
     expect(section).toContain('skill-lockpicking');
-    expect(section).toMatch(/Expert|Master|Competent/);
+    expect(section).toMatch(/专家|大师|熟练/);
   });
 
   it('accepts skills keyed by name instead of id', () => {

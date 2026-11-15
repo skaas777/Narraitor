@@ -59,9 +59,9 @@ const INITIAL_DATA: ProviderWizardData = {
 };
 
 const STEPS = [
-  { id: 'provider', label: 'Provider' },
-  { id: 'connect', label: 'Connect' },
-  { id: 'verify', label: 'Verify' },
+  { id: 'provider', label: "模型服务" },
+  { id: 'connect', label: "连接" },
+  { id: 'verify', label: "验证" },
 ];
 
 /**
@@ -69,7 +69,7 @@ const STEPS = [
  * don't know its terms — not silence, which reads as "nothing to worry about".
  */
 const CUSTOM_PRIVACY_NOTE =
-  'A custom endpoint is whatever you point it at. Check that provider\'s own data-retention terms — we have no way to know them.';
+  "自定义端点完全取决于你指向的地址。请查看该提供商自身的数据保留条款——我们无从得知。";
 
 interface ProviderWizardProps {
   onComplete?: () => void;
@@ -84,27 +84,27 @@ function describeVerifyError(code: string | undefined, requiresApiKey: boolean):
 }
 
 function describeDiscoveryError(code: string | null | undefined): string {
-  if (code === 'NO_KEY') return 'Enter your API key first to load models.';
-  if (code === 'INVALID_KEY') return 'The API key was rejected while loading models.';
-  if (code === 'RATE_LIMITED') return 'Rate limited by the provider. Please try again in a moment.';
+  if (code === 'NO_KEY') return "请先输入 API 密钥以加载模型。";
+  if (code === 'INVALID_KEY') return "加载模型时 API 密钥被拒绝。";
+  if (code === 'RATE_LIMITED') return "模型服务触发了速率限制。请稍后再试。";
   if (code === 'UNSUPPORTED_PROVIDER')
-    return 'Live model listing is not supported for this provider. Enter model ID manually below.';
-  if (code === 'INVALID_ENDPOINT') return 'Invalid endpoint address.';
-  if (code === 'NETWORK') return 'Could not reach provider to load models. Enter model ID manually below.';
-  return 'Could not load models list. Enter model ID manually below.';
+    return "此模型服务不支持实时列出模型。请在下方手动输入模型 ID。";
+  if (code === 'INVALID_ENDPOINT') return "端点地址无效。";
+  if (code === 'NETWORK') return "无法连接模型服务以加载模型。请在下方手动输入模型 ID。";
+  return "无法加载模型列表。请在下方手动输入模型 ID。";
 }
 
 const ERROR_MESSAGES: Record<string, string> = {
-  INVALID_KEY: 'That key was rejected. Double-check it and try again.',
-  INVALID_MODEL: 'That model name was not found for this provider.',
-  RATE_LIMITED: 'The provider is rate limiting right now — wait a moment and retry.',
+  INVALID_KEY: "该密钥被拒绝。请仔细检查后重试。",
+  INVALID_MODEL: "此模型服务未找到该模型名称。",
+  RATE_LIMITED: "模型服务当前正在限流——请稍等片刻再重试。",
   UNSUPPORTED_PROVIDER:
-    "This provider's API isn't one we can talk to yet. If it accepts OpenAI-style chat completions, add it as a custom endpoint instead.",
+    "此模型服务的 API 尚不受支持。如果它接受 OpenAI 风格的聊天补全，请改为将其添加为自定义端点。",
   INVALID_ENDPOINT:
-    'That endpoint must be an https URL on a public host. Local addresses are not reachable from the server that makes the request.',
-  NO_KEY: 'Enter your API key first.',
-  NETWORK: 'Could not reach the provider. Check your connection and the endpoint.',
-  VALIDATION_FAILED: 'Something went wrong checking this configuration.',
+    "该端点必须是公共主机上的 https URL。发起请求的服务器无法访问本地地址。",
+  NO_KEY: "请先输入 API 密钥。",
+  NETWORK: "无法连接模型服务。请检查你的网络连接和端点。",
+  VALIDATION_FAILED: "检查此配置时出现错误。",
 };
 
 /**
@@ -112,11 +112,11 @@ const ERROR_MESSAGES: Record<string, string> = {
  * fix is on their machine rather than in somebody's dashboard.
  */
 const SELF_HOSTED_ERROR_MESSAGES: Record<string, string> = {
-  NETWORK: 'Nothing answered at that address. Check the server is running and reachable from outside your machine.',
+  NETWORK: "该地址无响应。请确认服务器正在运行，且可从你的机器外部访问。",
   INVALID_MODEL:
-    'Your server does not have that model. Install it there, then run the check again.',
+    "你的服务器上没有该模型。请先在其中安装，然后再次运行检查。",
   INVALID_KEY:
-    'Your server refused the request. Most local model servers only accept requests addressed to their own machine, so a server reached through a tunnel has to be told to allow that address.',
+    "你的服务器拒绝了请求。大多数本地模型服务器只接受发往其自身机器的请求，因此通过隧道访问的服务器必须被设置为允许该地址。",
 };
 
 export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
@@ -158,14 +158,14 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
         data.mode === 'custom'
           ? Boolean(data.endpoint.trim())
           : Boolean(data.presetId) && (!preset?.requiresEndpoint || Boolean(data.endpoint.trim()));
-      return { valid: ok, errors: ok ? [] : ['Choose a provider'], touched: true };
+      return { valid: ok, errors: ok ? [] : ["选择模型服务"], touched: true };
     }
     if (step === 1) {
       const hasKey = !data.requiresApiKey || Boolean(data.apiKey.trim());
       const ok = hasKey && Boolean(data.model.trim());
       return {
         valid: ok,
-        errors: ok ? [] : [data.requiresApiKey ? 'Enter your key and model' : 'Enter a model'],
+        errors: ok ? [] : [data.requiresApiKey ? "输入你的密钥和模型" : "输入模型"],
         touched: true,
       };
     }
@@ -176,7 +176,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
     async (data: ProviderWizardData) => {
       await addProvider({
         type: data.type,
-        name: data.name.trim() || data.presetId || 'Provider',
+        name: data.name.trim() || data.presetId || "模型服务",
         endpoint: data.endpoint,
         model: data.model,
         apiKey: keyToSend(data.apiKey, data.requiresApiKey),
@@ -440,12 +440,12 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
   const showLoadModels = data.mode === 'custom' || preset?.modelDiscovery !== false;
 
   return (
-    <WizardContainer title="Set up a provider" className="component-provider-wizard">
+    <WizardContainer title="设置模型服务" className="component-provider-wizard">
       <WizardStep error={wizard.currentError}>
         {currentStep === 0 && (
           <div className="provider-form-fields">
             <p className="form-help-text">
-              Pick a provider. Stories are generated with your own key, kept in this browser.
+              选择一个模型服务。故事将使用你自己的密钥生成，密钥保存在此浏览器中。
             </p>
             <ProviderPresets selectedId={data.mode === 'preset' ? data.presetId : null} onSelect={(p) => selectPreset(p.id)} />
             {playerSuppliesEndpoint && (
@@ -469,7 +469,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                 });
               }}
             >
-              {data.mode === 'custom' ? 'Use a preset instead' : 'Use a custom endpoint'}
+              {data.mode === 'custom' ? "改用预设" : "使用自定义端点"}
             </button>
             {data.mode === 'custom' && (
               <CustomProviderForm
@@ -487,26 +487,26 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
           <div className="provider-form-fields">
             <div className="form-group">
               <Label htmlFor="provider-name">
-                Name
+                名称
               </Label>
               <Input
                 id="provider-name"
                 value={data.name}
-                placeholder="My provider key"
+                placeholder="我的模型服务密钥"
                 onChange={(e) => handlers.updateData({ name: e.target.value })}
               />
             </div>
 
             <div className="form-group">
               <Label htmlFor="provider-key">
-                API key{data.requiresApiKey ? '' : ' (optional)'}
+                API 密钥{data.requiresApiKey ? '' : "（可选）"}
               </Label>
               <div className="provider-key-field">
                 <Input
                   id="provider-key"
                   type={isKeyRevealed ? 'text' : 'password'}
                   value={data.apiKey}
-                  placeholder="Paste your key"
+                  placeholder="粘贴你的密钥"
                   autoComplete="off"
                   onChange={(e) => handlers.updateData({ apiKey: e.target.value })}
                 />
@@ -514,22 +514,21 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                   type="button"
                   className="provider-key-reveal"
                   aria-pressed={isKeyRevealed}
-                  aria-label={isKeyRevealed ? 'Hide key' : 'Show key'}
+                  aria-label={isKeyRevealed ? "隐藏密钥" : "显示密钥"}
                   onClick={() => setIsKeyRevealed((revealed) => !revealed)}
                 >
-                  {isKeyRevealed ? 'Hide' : 'Show'}
+                  {isKeyRevealed ? "隐藏" : "显示"}
                 </button>
               </div>
               {!data.requiresApiKey && (
                 <p className="form-help-text">
-                  A server you run yourself usually needs no key — leave this blank. Fill it in
-                  only if you put authentication in front of it.
+                  你自己运行的服务器通常不需要密钥——留空即可。只有在它前面加了身份验证时才需要填写。
                 </p>
               )}
               {data.helpUrl && (
                 <p className="form-help-text">
                   <a href={data.helpUrl} target="_blank" rel="noopener noreferrer">
-                    {data.requiresApiKey ? 'Where do I find my key?' : 'How do I set this up?'}
+                    {data.requiresApiKey ? "在哪里找到我的密钥？" : "如何设置？"}
                   </a>
                 </p>
               )}
@@ -538,7 +537,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
             <div className="form-group">
               <div className="provider-model-header">
                 <Label htmlFor="provider-model">
-                  Model
+                  模型
                 </Label>
                 {showLoadModels && (
                   <Button
@@ -549,7 +548,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                     onClick={handleDiscoverModels}
                     disabled={discoveryStatus === 'loading' || (data.requiresApiKey && !data.apiKey.trim())}
                   >
-                    {discoveryStatus === 'loading' ? 'Loading models...' : 'Load models'}
+                    {discoveryStatus === 'loading' ? "正在加载模型..." : "加载模型"}
                   </Button>
                 )}
               </div>
@@ -564,12 +563,12 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                 <div className="provider-model-picker">
                   <div className="form-group">
                     <Label htmlFor={searchId}>
-                      Search models
+                      搜索模型
                     </Label>
                     <Input
                       id={searchId}
                       type="search"
-                      placeholder="Search models..."
+                      placeholder="搜索模型..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -582,7 +581,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                       handlers.updateData({ model: e.target.value });
                     }}
                   >
-                    <option value="">Select a model...</option>
+                    <option value="">选择模型...</option>
                     {filteredModels.map((m) => (
                       <option key={m.id} value={m.id}>
                         {m.name === m.id ? m.id : `${m.name} (${m.id})`}
@@ -594,7 +593,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                 <Input
                   id="provider-model"
                   value={data.model}
-                  placeholder="model-name"
+                  placeholder="模型名称"
                   onChange={(e) => {
                     hasUserDeliberatelySetModelRef.current = true;
                     handlers.updateData({ model: e.target.value });
@@ -608,7 +607,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                   className="provider-advanced-toggle"
                   onClick={() => setIsManualEntry((prev) => !prev)}
                 >
-                  {isManualEntry ? 'Select from discovered models' : 'Enter model ID manually'}
+                  {isManualEntry ? "从已发现的模型中选择" : "手动输入模型 ID"}
                 </button>
               )}
             </div>
@@ -620,7 +619,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
         {currentStep === 2 && (
           <div className="provider-verify">
             <p className="form-help-text">
-              Run a quick check to confirm your key works before saving.
+              保存前先运行一次快速检查，确认你的密钥可用。
             </p>
             <Button
               type="button"
@@ -628,12 +627,12 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
               onClick={runVerify}
               disabled={verifyState === 'loading'}
             >
-              {verifyState === 'loading' ? 'Checking...' : 'Test connection'}
+              {verifyState === 'loading' ? "检查中……" : "测试连接"}
             </Button>
             {verifyState === 'success' && (
               <div className="provider-verify-status" data-state="success">
-                Connected. Save provider to finish. Text {verifyResult?.capabilities?.text ? 'yes' : 'no'}, images{' '}
-                {verifyResult?.capabilities?.images ? 'yes' : 'no'}.
+                已连接。保存模型服务即可完成。文本： {verifyResult?.capabilities?.text ? '是' : '否'}，图像：{' '}
+                {verifyResult?.capabilities?.images ? '是' : '否'}.
               </div>
             )}
             {verifyState === 'error' && (
@@ -643,7 +642,7 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
                   <>
                     {' '}
                     <a href={data.helpUrl} target="_blank" rel="noopener noreferrer">
-                      Setup guide
+                      设置指南
                     </a>
                   </>
                 )}
@@ -660,8 +659,8 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
         onBack={handlers.handleBack}
         onNext={handlers.handleNext}
         onComplete={handlers.handleComplete}
-        nextLabel="Next"
-        completeLabel="Save provider"
+        nextLabel="下一步"
+        completeLabel="保存模型服务"
         disabled={navDisabled}
         isLoading={state.isProcessing}
       />
@@ -682,11 +681,11 @@ export function ProviderWizard({ onComplete, onCancel }: ProviderWizardProps) {
             handlers.handleCancel();
           }
         }}
-        title="Discard provider setup?"
-        message="This provider hasn't been saved. Leaving will discard the key you entered."
+        title="放弃模型服务设置？"
+        message="此模型服务尚未保存。离开将丢弃你输入的密钥。"
         variant="warning"
-        confirmText="Discard provider"
-        cancelText="Keep editing"
+        confirmText="放弃模型服务"
+        cancelText="继续编辑"
       />
     </WizardContainer>
   );

@@ -36,7 +36,7 @@ export function TutorialMenu() {
   }, [isOpen]);
 
   const handleRestart = async () => {
-    if (confirm('Are you sure you want to reset all tutorial progress?')) {
+    if (confirm("确定要重置所有教程进度吗？")) {
       try {
         resetTutorial();
         setIsOpen(false);
@@ -58,7 +58,7 @@ export function TutorialMenu() {
         onClick={() => setIsOpen(!isOpen)}
         variant="ghost"
         size="icon"
-        aria-label="Help & Tutorials"
+        aria-label="帮助与教程"
       >
         <HelpCircle />
       </Button>
@@ -66,7 +66,7 @@ export function TutorialMenu() {
       {isOpen && (
         <div>
           <div>
-            <h4>Tutorial Progress</h4>
+            <h4>教程进度</h4>
           </div>
 
           <div>
@@ -76,12 +76,12 @@ export function TutorialMenu() {
                 {data.completed ? (
                   <CheckCircle />
                 ) : data.skipped ? (
-                  <span>Skipped</span>
+                  <span>已跳过</span>
                 ) : 'lastStep' in data &&
                   (data as { lastStep: number }).lastStep > 0 ? (
-                  <span>In Progress</span>
+                  <span>进行中</span>
                 ) : (
-                  <span>Not Started</span>
+                  <span>未开始</span>
                 )}
               </div>
             ))}
@@ -90,7 +90,7 @@ export function TutorialMenu() {
           <div>
             <Button variant="ghost" onClick={handleRestart}>
               <RefreshCw />
-              Reset All Tutorials
+              重置所有教程
             </Button>
           </div>
         </div>

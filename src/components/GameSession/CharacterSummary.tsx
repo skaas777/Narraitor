@@ -90,7 +90,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
       data-testid="character-summary"
       className={isDrawer ? 'manuscript-character-details' : 'manuscript-character-summary'}
       role="region"
-      aria-label="Character information"
+      aria-label="角色信息"
     >
       {/* Header Section */}
       <div
@@ -120,7 +120,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
                 {character.name}
               </Link>
             </h2>
-            <p className="manuscript-character-summary-level">Level {character.level}</p>
+            <p className="manuscript-character-summary-level">等级 {character.level}</p>
           </div>
         </div>
 
@@ -135,9 +135,9 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
               setIsExpanded(!isExpanded);
             }}
             aria-expanded={isExpanded}
-            title={isExpanded ? 'Hide character details' : 'Show character details'}
+            title={isExpanded ? "隐藏角色详情" : "显示角色详情"}
           >
-            {isExpanded ? 'Hide details' : 'Show details'}
+            {isExpanded ? "隐藏详情" : "显示详情"}
           </Button>
         )}
       </div>
@@ -161,7 +161,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
             <div className="manuscript-character-summary-columns">
               {character.background?.goals && character.background.goals.length > 0 && (
                 <div className="manuscript-character-summary-column">
-                  <h3 className="manuscript-character-summary-subheading">Goals</h3>
+                  <h3 className="manuscript-character-summary-subheading">目标</h3>
                   <div className="manuscript-character-summary-list">
                     {character.background.goals.map((goal, i) => (
                       <div key={i} className="manuscript-character-summary-item manuscript-character-summary-item-stack">
@@ -173,7 +173,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
               )}
               {character.background?.fears && character.background.fears.length > 0 && (
                 <div className="manuscript-character-summary-column">
-                  <h3 className="manuscript-character-summary-subheading">Fears</h3>
+                  <h3 className="manuscript-character-summary-subheading">恐惧</h3>
                   <div className="manuscript-character-summary-list">
                     {character.background.fears.map((fear, i) => (
                       <div key={i} className="manuscript-character-summary-item manuscript-character-summary-item-stack">
@@ -189,17 +189,17 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
           {/* Status (drawer only) */}
           {isDrawer && character.status && (
             <div className="manuscript-character-summary-column">
-              <h3 className="manuscript-character-summary-subheading">Status</h3>
+              <h3 className="manuscript-character-summary-subheading">状态</h3>
               <div className="manuscript-character-summary-list">
                 {character.status.location && (
                   <div className="manuscript-character-summary-item">
-                    <span className="manuscript-character-summary-item-label">Location</span>
+                    <span className="manuscript-character-summary-item-label">位置</span>
                     <span className="manuscript-character-summary-item-value">{character.status.location}</span>
                   </div>
                 )}
                 {character.status.conditions && character.status.conditions.length > 0 && (
                   <div className="manuscript-character-summary-item manuscript-character-summary-item-stack">
-                    <span className="manuscript-character-summary-item-label">Conditions</span>
+                    <span className="manuscript-character-summary-item-label">状态效果</span>
                     <span className="manuscript-character-summary-item-value">{character.status.conditions.join(', ')}</span>
                   </div>
                 )}
@@ -210,7 +210,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
           {/* Derived Stats (drawer only) */}
           {isDrawer && character.derivedStats && character.derivedStats.length > 0 && (
             <div className="manuscript-character-summary-column">
-              <h3 className="manuscript-character-summary-subheading">Derived Stats</h3>
+              <h3 className="manuscript-character-summary-subheading">衍生属性</h3>
               <div className="manuscript-character-summary-list">
                 {character.derivedStats.map((stat) => (
                   <div key={stat.id} className="manuscript-character-summary-item">
@@ -228,7 +228,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
               {/* Attributes Column */}
               {character.attributes && character.attributes.length > 0 && (
                 <div className="manuscript-character-summary-column">
-                  <h3 className="manuscript-character-summary-subheading">Attributes</h3>
+                  <h3 className="manuscript-character-summary-subheading">属性</h3>
                   <div className="manuscript-character-summary-list">
                     {character.attributes.map(attr => {
                       const worldAttribute = world.attributes.find(wa => wa.id === attr.worldAttributeId);
@@ -248,7 +248,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
               {/* Skills Column */}
               {character.skills && character.skills.length > 0 && (
                 <div className="manuscript-character-summary-column">
-                  <h3 className="manuscript-character-summary-subheading">Skills</h3>
+                  <h3 className="manuscript-character-summary-subheading">技能</h3>
                   <div className="manuscript-character-summary-list">
                     {character.skills.map(skill => {
                         const worldSkill = world.skills.find(ws => ws.id === skill.worldSkillId);
@@ -257,7 +257,7 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
                           return (
                             <div key={skill.id} className="manuscript-character-summary-item">
                               <span className="manuscript-character-summary-item-label">{skill.name}</span>
-                              <span className="manuscript-character-summary-item-value">Level {skill.level}</span>
+                              <span className="manuscript-character-summary-item-value">等级 {skill.level}</span>
                             </div>
                           );
                         }
@@ -269,10 +269,10 @@ const CharacterSummary: React.FC<CharacterSummaryProps> = ({
                         return (
                           <div key={skill.id} className="manuscript-character-summary-item manuscript-character-summary-item-stack">
                             <span className="manuscript-character-summary-item-label">{worldSkill.name}</span>
-                            <span className="manuscript-character-summary-item-value">Level {skill.level}</span>
+                            <span className="manuscript-character-summary-item-value">等级 {skill.level}</span>
                             {linkedAttributes.length > 0 && (
                               <div className="manuscript-character-summary-links">
-                                Linked to: {linkedAttributes.join(', ')}
+                                关联属性： {linkedAttributes.join(', ')}
                               </div>
                             )}
                           </div>

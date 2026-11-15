@@ -80,7 +80,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
       setDismissed(new Set());
       setEditingCard(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't generate suggestions. Try again, or fill this in yourself.");
+      setError(err instanceof Error ? err.message : "无法生成建议。请重试，或自行填写。");
     } finally {
       setLoading(false);
     }
@@ -220,13 +220,12 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
     <section
       className="character-suggestions"
       role="region"
-      aria-label="Character suggestions"
+      aria-label="角色建议"
       aria-busy={loading}
     >
       <div className="character-suggestions-intro">
         <p className="character-suggestions-lead">
-          Stuck for ideas? Generate world-aligned character details from your concept.
-          You can adopt, edit, or dismiss each suggestion.
+          没有头绪？可根据你的构想生成与世界相符的角色细节。你可以采纳、编辑或忽略每一条建议。
         </p>
         <Button
           type="button"
@@ -235,13 +234,13 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
           disabled={loading}
           className="character-suggestions-generate"
         >
-          {loading ? 'Generating suggestions...' : 'Suggest character details'}
+          {loading ? "正在生成建议……" : "推荐角色细节"}
         </Button>
       </div>
 
       {loading && (
         <p className="character-suggestions-status" role="status">
-          Generating world-aligned suggestions...
+          正在生成与世界相符的建议……
         </p>
       )}
 
@@ -257,7 +256,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
           {isVisible('description') && (
             <SuggestionCard
               cardKey="description"
-              title="Description"
+              title="描述"
               editing={editingCard === 'description'}
               onAdopt={() =>
                 adoptDescription(
@@ -272,7 +271,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
             >
               {editingCard === 'description' ? (
                 <>
-                  <Label htmlFor="suggestion-description">Description</Label>
+                  <Label htmlFor="suggestion-description">描述</Label>
                   <Textarea
                     id="suggestion-description"
                     rows={3}
@@ -292,7 +291,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
           {isVisible('background') && (
             <SuggestionCard
               cardKey="background"
-              title="Background"
+              title="背景"
               editing={editingCard === 'background'}
               onAdopt={() =>
                 adoptBackground(
@@ -313,7 +312,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
             >
               {editingCard === 'background' ? (
                 <div className="character-suggestion-fields">
-                  <Label htmlFor="suggestion-history">History</Label>
+                  <Label htmlFor="suggestion-history">历史</Label>
                   <Textarea
                     id="suggestion-history"
                     rows={3}
@@ -322,7 +321,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
                       setEditBackground((p) => ({ ...p, history: e.target.value }))
                     }
                   />
-                  <Label htmlFor="suggestion-personality">Personality</Label>
+                  <Label htmlFor="suggestion-personality">性格</Label>
                   <Textarea
                     id="suggestion-personality"
                     rows={2}
@@ -331,7 +330,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
                       setEditBackground((p) => ({ ...p, personality: e.target.value }))
                     }
                   />
-                  <Label htmlFor="suggestion-motivation">Motivation</Label>
+                  <Label htmlFor="suggestion-motivation">动机</Label>
                   <Textarea
                     id="suggestion-motivation"
                     rows={2}
@@ -343,13 +342,13 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
                 </div>
               ) : (
                 <dl className="character-suggestion-defs">
-                  <dt>Personality</dt>
+                  <dt>性格</dt>
                   <dd>{suggestion.background.personality}</dd>
-                  <dt>Motivation</dt>
+                  <dt>动机</dt>
                   <dd>{suggestion.background.motivation}</dd>
                   {suggestion.background.fears?.length > 0 && (
                     <>
-                      <dt>Story hooks</dt>
+                      <dt>故事钩子</dt>
                       <dd>{suggestion.background.fears.join(', ')}</dd>
                     </>
                   )}
@@ -362,7 +361,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
           {isVisible('attributes') && attributeSuggestions.length > 0 && (
             <SuggestionCard
               cardKey="attributes"
-              title="Attributes"
+              title="属性"
               editing={editingCard === 'attributes'}
               adoptDisabled={editingCard === 'attributes' && !attributePool.isValidDistribution}
               onAdopt={() =>
@@ -378,10 +377,10 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
             >
               {editingCard === 'attributes' && (
                 <div className="character-suggestion-pool-status">
-                  <span className="character-suggestion-pool-remaining">Points remaining: {attributePool.pool.remaining}</span>
+                  <span className="character-suggestion-pool-remaining">剩余点数： {attributePool.pool.remaining}</span>
                   {!attributePool.isValidDistribution && (
                     <span className={`character-suggestion-pool-error ${wizardStyles.form.error}`} role="alert">
-                      Over budget by {Math.abs(attributePool.pool.remaining)} points. Reduce attributes to adopt.
+                      超出预算 {Math.abs(attributePool.pool.remaining)} 点。请减少属性后再采纳。
                     </span>
                   )}
                 </div>
@@ -393,7 +392,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
                     {editingCard === 'attributes' ? (
                       <Input
                         type="number"
-                        aria-label={`${attr.name} value`}
+                        aria-label={`${attr.name} 值`}
                         min={attr.minValue}
                         max={attr.maxValue}
                         value={attributePool.getItemById(attr.id)?.value ?? attr.value}
@@ -413,7 +412,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
           {isVisible('skills') && skillSuggestions.length > 0 && (
             <SuggestionCard
               cardKey="skills"
-              title="Skills"
+              title="技能"
               editing={editingCard === 'skills'}
               adoptDisabled={editingCard === 'skills' && !skillPool.isValidDistribution}
               onAdopt={() =>
@@ -429,10 +428,10 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
             >
               {editingCard === 'skills' && (
                 <div className="character-suggestion-pool-status">
-                  <span className="character-suggestion-pool-remaining">Points remaining: {skillPool.pool.remaining}</span>
+                  <span className="character-suggestion-pool-remaining">剩余点数： {skillPool.pool.remaining}</span>
                   {!skillPool.isValidDistribution && (
                     <span className={`character-suggestion-pool-error ${wizardStyles.form.error}`} role="alert">
-                      Over budget by {Math.abs(skillPool.pool.remaining)} points. Reduce skills to adopt.
+                      超出预算 {Math.abs(skillPool.pool.remaining)} 点。请减少技能后再采纳。
                     </span>
                   )}
                 </div>
@@ -444,7 +443,7 @@ export const CharacterSuggestions: React.FC<CharacterSuggestionsProps> = ({
                     {editingCard === 'skills' ? (
                       <Input
                         type="number"
-                        aria-label={`${skill.name} level`}
+                        aria-label={`${skill.name} 等级`}
                         min={skill.minLevel}
                         max={skill.maxLevel}
                         value={skillPool.getItemById(skill.id)?.value ?? skill.level}
@@ -491,7 +490,7 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
   <article
     className="character-suggestion-card"
     data-suggestion={cardKey}
-    aria-label={`${title} suggestion`}
+    aria-label={`${title}建议`}
   >
     <h4 className="character-suggestion-card-title">{title}</h4>
     <div className="character-suggestion-card-body">{children}</div>
@@ -502,9 +501,9 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
         size="sm"
         onClick={onAdopt}
         disabled={adoptDisabled}
-        aria-label={`Adopt ${title} suggestion`}
+        aria-label={`采纳${title}建议`}
       >
-        Adopt
+        采纳
       </Button>
       {editing ? (
         <Button
@@ -512,9 +511,9 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
           variant="outline"
           size="sm"
           onClick={onCancel}
-          aria-label={`Cancel editing ${title} suggestion`}
+          aria-label={`取消编辑${title}建议`}
         >
-          Cancel
+          取消
         </Button>
       ) : (
         <Button
@@ -522,9 +521,9 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
           variant="outline"
           size="sm"
           onClick={onEdit}
-          aria-label={`Edit ${title} suggestion`}
+          aria-label={`编辑${title}建议`}
         >
-          Edit
+          编辑
         </Button>
       )}
       <Button
@@ -532,9 +531,9 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
         variant="ghost"
         size="sm"
         onClick={onDismiss}
-        aria-label={`Dismiss ${title} suggestion`}
+        aria-label={`忽略${title}建议`}
       >
-        Dismiss
+        忽略
       </Button>
     </div>
   </article>

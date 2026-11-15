@@ -25,13 +25,13 @@ export function CharacterSkillDisplay({
     <CharacterPropertyGrid
       items={skills}
       kind="skill"
-      emptyText="No skills assigned to this character."
+      emptyText="该角色尚未分配任何技能。"
       showCategories={showCategories}
       renderItem={(skill) => (
         <div className="character-skill-card">
           <div className="character-skill-name">{skill.name}</div>
           <div className="character-skill-value">{skill.level}</div>
-          <div className="character-skill-level-label">Level</div>
+          <div className="character-skill-level-label">等级</div>
           {skill.description && (
             <p className="character-skill-description">{skill.description}</p>
           )}

@@ -28,7 +28,7 @@ export const validateAttributes = (
   if (attributes.length === 0) {
     return {
       valid: false,
-      errors: ['At least one attribute is required.'],
+      errors: ["至少需要分配一项属性。"],
     };
   }
 
@@ -36,7 +36,7 @@ export const validateAttributes = (
   if (pointsSpent > totalPoints) {
     return {
       valid: false,
-      errors: ['You have allocated more attribute points than available.'],
+      errors: ["分配的属性点已超过可用数量。"],
     };
   }
 
@@ -64,11 +64,11 @@ export const validateSkills = (
   const result = validateSelectionCount(selections, {
     minSelections: 1,
     maxSelections: getMaxSkillSelections(world),
-    fieldName: 'skills'
+    fieldName: '技能'
   });
 
   const errors = result.errors.map(error =>
-    error === 'Select at least 1 skills' ? 'Select at least one skill' : error
+    error === '请至少选择 1 个技能' ? "请至少选择一项技能" : error
   );
 
   const selectedSkills = skills.filter(skill => skill.isSelected);
@@ -76,19 +76,19 @@ export const validateSkills = (
     const { minLevel, maxLevel } = getSkillBounds(skill, world);
     const skillLabel = skill.name || skill.skillId;
     if (maxLevel === minLevel) {
-      errors.push(`Skill ${skillLabel} cannot be leveled because its configuration has no available range.`);
+      errors.push(`技能 ${skillLabel} 无法升级，因为其配置中没有可用范围。`);
     }
     if (skill.level < minLevel) {
-      errors.push(`Skill ${skillLabel} is below its minimum level of ${minLevel}.`);
+      errors.push(`技能 ${skillLabel} 低于其最低等级 ${minLevel}。`);
     }
     if (skill.level > maxLevel) {
-      errors.push(`Skill ${skillLabel} exceeds its maximum level of ${maxLevel}.`);
+      errors.push(`技能 ${skillLabel} 超过其最高等级 ${maxLevel}。`);
     }
   });
 
   const { spent } = calculateSkillPointPool(skills, world, skillPointPool);
   if (skillPointPool >= 0 && spent > skillPointPool) {
-    errors.push('You have allocated more skill points than available.');
+    errors.push("分配的技能点超过了可用点数。");
   }
 
   const uniqueErrors = Array.from(new Set(errors));
@@ -107,12 +107,12 @@ export const validateBackground = (background: {
 }): ValidationResult => {
   const historyValidation = validateText(background.history, {
     minLength: 50,
-    fieldName: 'Character history'
+    fieldName: "角色经历"
   });
   
   const personalityValidation = validateText(background.personality, {
     minLength: 20,
-    fieldName: 'Personality description'
+    fieldName: "性格描述"
   });
 
   const allErrors = [...historyValidation.errors, ...personalityValidation.errors];

@@ -59,11 +59,11 @@ export const StorySummarySection: React.FC<StorySummarySectionProps> = ({
         </div>
       ) : showFailedState ? (
         <p className="manuscript-story-summary-error">
-          {error ?? "Couldn't put together a story summary yet."}
+          {error ?? "暂时无法生成故事摘要。"}
         </p>
       ) : (
         <p className="manuscript-story-summary-empty">
-          Your story will appear here once major events occur.
+          重大事件发生后，你的故事将显示在这里。
         </p>
       )}
     </section>

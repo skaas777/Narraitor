@@ -73,7 +73,7 @@ export async function generateWorldImage(world: World, customPrompt?: string): P
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to generate world image');
+      throw new Error(errorData.error || "生成世界图像失败");
     }
 
     const data = await response.json();

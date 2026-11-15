@@ -8,18 +8,18 @@ export function validateWorldTypeData(data: WorldTypeData): string[] {
 
   // Always require world type selection
   if (!data.worldType) {
-    errors.push('World type is required');
+    errors.push("必须选择世界类型");
   }
 
   // Validate based on world type
   if (data.worldType === 'inspired_by' || data.worldType === 'set_within') {
     if (!data.worldReference?.trim()) {
-      errors.push('Existing setting is required');
+      errors.push("需要填写现有设定");
     }
     
     // Only require additional details for "Inspired By" - "Set Within" can infer setting/time from reference
     if (data.worldType === 'inspired_by' && !data.additionalDetails?.trim()) {
-      errors.push('Additional details are required');
+      errors.push("需要填写补充细节");
     }
   }
   // Note: 'original' world type requires no additional input - it's completely self-contained

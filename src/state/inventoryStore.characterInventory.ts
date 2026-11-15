@@ -31,8 +31,8 @@ export const createCharacterInventoryActions = (
       if (!acquisition) {
         set({
           error: createStoreError(
-            'Acquisition Missing',
-            'Unable to add item without acquisition metadata.',
+            "缺少获取信息",
+            "缺少获取元数据，无法添加物品。",
             ErrorType.VALIDATION
           ),
         });
@@ -45,8 +45,8 @@ export const createCharacterInventoryActions = (
       if (quantityToAdd <= 0) {
         set({
           error: createStoreError(
-            'Invalid Quantity',
-            'Item quantity must be greater than zero.',
+            "数量无效",
+            "物品数量必须大于零。",
             ErrorType.VALIDATION
           ),
         });
@@ -86,8 +86,8 @@ export const createCharacterInventoryActions = (
           if (maxStack && newQuantity > maxStack) {
             set({
               error: createStoreError(
-                'Stack Limit Exceeded',
-                `Cannot add more items. Maximum stack size is ${maxStack}.`,
+                "超出堆叠上限",
+                `无法添加更多物品。最大堆叠数量为 ${maxStack}。`,
                 ErrorType.VALIDATION
               ),
             });
@@ -156,8 +156,8 @@ export const createCharacterInventoryActions = (
       if (!itemData.categorization) {
         set({
           error: createStoreError(
-            'Categorization Missing',
-            'Unable to add new item without categorization metadata.',
+            "缺少分类",
+            "缺少分类元数据，无法添加新物品。",
             ErrorType.VALIDATION
           ),
         });
@@ -179,10 +179,10 @@ export const createCharacterInventoryActions = (
         validateNewItemData(newItemPayload);
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : 'Invalid item data';
+          error instanceof Error ? error.message : "物品数据无效";
         set({
           error: createStoreError(
-            'Validation Error',
+            "验证错误",
             errorMessage,
             ErrorType.VALIDATION
           ),
@@ -244,8 +244,8 @@ export const createCharacterInventoryActions = (
       if (!item) {
         set({
           error: createStoreError(
-            'Item Not Found',
-            'The specified item could not be found.',
+            "未找到物品",
+            "找不到指定的物品。",
             ErrorType.VALIDATION
           ),
         });
@@ -256,8 +256,8 @@ export const createCharacterInventoryActions = (
       if (!characterItems.includes(itemId)) {
         set({
           error: createStoreError(
-            'Item Not In Inventory',
-            "The specified item is not in this character's inventory.",
+            "物品不在背包中",
+            "指定物品不在该角色的背包中。",
             ErrorType.VALIDATION
           ),
         });
@@ -269,8 +269,8 @@ export const createCharacterInventoryActions = (
       if (removeQuantity > item.quantity) {
         set({
           error: createStoreError(
-            'Insufficient Quantity',
-            `Cannot remove ${removeQuantity} items. Only ${item.quantity} available.`,
+            "数量不足",
+            `无法移除 ${removeQuantity} 个物品。仅有 ${item.quantity} 个可用。`,
             ErrorType.VALIDATION
           ),
         });
@@ -292,8 +292,8 @@ export const createCharacterInventoryActions = (
       if (!item) {
         set({
           error: createStoreError(
-            'Item Not Found',
-            'The specified item could not be found.',
+            "未找到物品",
+            "找不到指定的物品。",
             ErrorType.VALIDATION
           ),
         });
@@ -303,8 +303,8 @@ export const createCharacterInventoryActions = (
       if (quantity <= 0) {
         set({
           error: createStoreError(
-            'Invalid Quantity',
-            'Item quantity must be greater than zero.',
+            "数量无效",
+            "物品数量必须大于零。",
             ErrorType.VALIDATION
           ),
         });
@@ -314,8 +314,8 @@ export const createCharacterInventoryActions = (
       if (item.maxStack && quantity > item.maxStack) {
         set({
           error: createStoreError(
-            'Stack Limit Exceeded',
-            `Quantity cannot exceed maximum stack size of ${item.maxStack}.`,
+            "超出堆叠上限",
+            `数量不能超过最大堆叠数 ${item.maxStack}。`,
             ErrorType.VALIDATION
           ),
         });

@@ -14,9 +14,9 @@ describe('validateToneSettings', () => {
 
     expect(result.valid).toBe(false);
     expect(result.errors).toEqual([
-      'Content Rating is required',
-      'Narrative Style is required',
-      'Language Complexity is required',
+      "内容分级为必填项",
+      "叙事风格为必填项",
+      "语言复杂度为必填项",
     ]);
   });
 
@@ -27,7 +27,7 @@ describe('validateToneSettings', () => {
     });
 
     expect(result.valid).toBe(false);
-    expect(result.errors).toEqual(['Content Rating must be a valid rating']);
+    expect(result.errors).toEqual(["内容分级必须是有效的分级"]);
   });
 
   it('caps custom instructions but leaves them optional', () => {
@@ -39,7 +39,7 @@ describe('validateToneSettings', () => {
     });
 
     expect(result.errors).toEqual([
-      'Custom Instructions must be no more than 500 characters',
+      "自定义指令不得超过 500 个字符",
     ]);
   });
 });

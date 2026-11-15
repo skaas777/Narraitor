@@ -23,30 +23,30 @@ export const LoreManagementImportExportTab: React.FC<LoreManagementImportExportT
 }) => (
   <div>
     <div>
-      <h3>Export Facts</h3>
-      <Button onClick={onExport}>Export to JSON</Button>
+      <h3>导出设定事实</h3>
+      <Button onClick={onExport}>导出为 JSON</Button>
       {exportedData && (
         <div>
-          <div>Exported data (copied to clipboard):</div>
+          <div>已导出数据（已复制到剪贴板）：</div>
           <pre>{exportedData}</pre>
         </div>
       )}
     </div>
 
     <div>
-      <h3>Import Facts</h3>
+      <h3>导入设定事实</h3>
       {!showImportDialog ? (
-        <Button onClick={() => onShowImportDialog(true)}>Import from JSON</Button>
+        <Button onClick={() => onShowImportDialog(true)}>从 JSON 导入</Button>
       ) : (
         <div>
           <Textarea
             
-            placeholder="Paste JSON data here..."
+            placeholder="在此粘贴 JSON 数据..."
             value={importData}
             onChange={(e) => onImportDataChange(e.target.value)}
           />
           <div>
-            <Button onClick={onImport}>Confirm Import</Button>
+            <Button onClick={onImport}>确认导入</Button>
             <Button
               variant="outline"
               onClick={() => {
@@ -54,7 +54,7 @@ export const LoreManagementImportExportTab: React.FC<LoreManagementImportExportT
                 onImportDataChange('');
               }}
             >
-              Cancel
+              取消
             </Button>
           </div>
         </div>

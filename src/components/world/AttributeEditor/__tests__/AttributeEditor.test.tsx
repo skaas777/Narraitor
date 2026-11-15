@@ -54,11 +54,11 @@ describe('AttributeEditor', () => {
         />
       );
 
-      expect(screen.getByLabelText(/attribute name/i)).toHaveValue('');
-      expect(screen.getByLabelText(/description/i)).toHaveValue('');
-      expect(screen.getByLabelText(/minimum value/i)).toHaveValue(1);
-      expect(screen.getByLabelText(/maximum value/i)).toHaveValue(10);
-      expect(screen.getByText(/create attribute/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/属性名称/i)).toHaveValue('');
+      expect(screen.getByLabelText(/描述/i)).toHaveValue('');
+      expect(screen.getByLabelText(/最小值/i)).toHaveValue(1);
+      expect(screen.getByLabelText(/最大值/i)).toHaveValue(10);
+      expect(screen.getByText(/创建属性/i)).toBeInTheDocument();
     });
 
     it('validates required fields', async () => {
@@ -73,11 +73,11 @@ describe('AttributeEditor', () => {
         />
       );
 
-      const saveButton = screen.getByText(/create attribute/i);
+      const saveButton = screen.getByText(/创建属性/i);
       fireEvent.click(saveButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/attribute name is required/i)).toBeInTheDocument();
+        expect(screen.getByText(/属性名称为必填项/i)).toBeInTheDocument();
       });
       expect(mockOnSave).not.toHaveBeenCalled();
     });
@@ -94,20 +94,20 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.change(screen.getByLabelText(/attribute name/i), {
+      fireEvent.change(screen.getByLabelText(/属性名称/i), {
         target: { value: 'Intelligence' },
       });
-      fireEvent.change(screen.getByLabelText(/description/i), {
+      fireEvent.change(screen.getByLabelText(/描述/i), {
         target: { value: 'Mental acuity and reasoning' },
       });
-      fireEvent.change(screen.getByLabelText(/minimum value/i), {
+      fireEvent.change(screen.getByLabelText(/最小值/i), {
         target: { value: '0' },
       });
-      fireEvent.change(screen.getByLabelText(/maximum value/i), {
+      fireEvent.change(screen.getByLabelText(/最大值/i), {
         target: { value: '20' },
       });
 
-      fireEvent.click(screen.getByText(/create attribute/i));
+      fireEvent.click(screen.getByText(/创建属性/i));
 
       await waitFor(() => {
         expect(mockOnSave).toHaveBeenCalledWith(
@@ -138,12 +138,12 @@ describe('AttributeEditor', () => {
         />
       );
 
-      expect(screen.getByLabelText(/attribute name/i)).toHaveValue('Strength');
-      expect(screen.getByLabelText(/description/i)).toHaveValue('Physical power and endurance');
-      expect(screen.getByLabelText(/minimum value/i)).toHaveValue(1);
-      expect(screen.getByLabelText(/maximum value/i)).toHaveValue(10);
-      expect(screen.getByText(/save changes/i)).toBeInTheDocument();
-      expect(screen.getByText(/delete attribute/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/属性名称/i)).toHaveValue('Strength');
+      expect(screen.getByLabelText(/描述/i)).toHaveValue('Physical power and endurance');
+      expect(screen.getByLabelText(/最小值/i)).toHaveValue(1);
+      expect(screen.getByLabelText(/最大值/i)).toHaveValue(10);
+      expect(screen.getByText(/保存更改/i)).toBeInTheDocument();
+      expect(screen.getByText(/删除属性/i)).toBeInTheDocument();
     });
 
     it('updates existing attribute', async () => {
@@ -160,11 +160,11 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.change(screen.getByLabelText(/attribute name/i), {
+      fireEvent.change(screen.getByLabelText(/属性名称/i), {
         target: { value: 'Power' },
       });
 
-      fireEvent.click(screen.getByText(/save changes/i));
+      fireEvent.click(screen.getByText(/保存更改/i));
 
       await waitFor(() => {
         expect(mockOnSave).toHaveBeenCalledWith(
@@ -206,14 +206,14 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.change(screen.getByLabelText(/attribute name/i), {
+      fireEvent.change(screen.getByLabelText(/属性名称/i), {
         target: { value: 'Dexterity' },
       });
 
-      fireEvent.click(screen.getByText(/save changes/i));
+      fireEvent.click(screen.getByText(/保存更改/i));
 
       await waitFor(() => {
-        expect(screen.getByText(/an attribute with this name already exists/i)).toBeInTheDocument();
+        expect(screen.getByText(/已存在同名属性/i)).toBeInTheDocument();
       });
       expect(mockOnSave).not.toHaveBeenCalled();
     });
@@ -232,12 +232,12 @@ describe('AttributeEditor', () => {
         />
       );
 
-      const deleteButton = screen.getByRole('button', { name: /delete attribute/i });
+      const deleteButton = screen.getByRole('button', { name: /删除属性/i });
       fireEvent.click(deleteButton);
 
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
-        expect(screen.getByText(/this action cannot be undone/i)).toBeInTheDocument();
+        expect(screen.getByText(/此操作无法撤销/i)).toBeInTheDocument();
       });
     });
 
@@ -255,10 +255,10 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.click(screen.getByText(/delete attribute/i));
+      fireEvent.click(screen.getByText(/删除属性/i));
 
       await waitFor(() => {
-        expect(screen.getByText(/this attribute is linked to 1 skill/i)).toBeInTheDocument();
+        expect(screen.getByText(/此属性已关联 1 个技能/i)).toBeInTheDocument();
       });
     });
 
@@ -277,7 +277,7 @@ describe('AttributeEditor', () => {
       );
 
       // Click the delete button in the form
-      const deleteButton = screen.getByLabelText(/delete attribute/i);
+      const deleteButton = screen.getByLabelText(/删除属性/i);
       fireEvent.click(deleteButton);
       
       // Wait for dialog to appear
@@ -286,7 +286,7 @@ describe('AttributeEditor', () => {
       });
       
       // Find the confirm button in the dialog and click it (use more specific label)
-      const dialogDeleteButton = screen.getByRole('button', { name: /delete attribute strength/i });
+      const dialogDeleteButton = screen.getByRole('button', { name: /删除属性Strength/i });
       fireEvent.click(dialogDeleteButton);
 
       await waitFor(() => {
@@ -308,7 +308,7 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.click(screen.getByText(/cancel/i));
+      fireEvent.click(screen.getByText(/取消/i));
       expect(mockOnCancel).toHaveBeenCalled();
     });
 
@@ -324,20 +324,20 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.change(screen.getByLabelText(/attribute name/i), {
+      fireEvent.change(screen.getByLabelText(/属性名称/i), {
         target: { value: 'Test Attribute' },
       });
-      fireEvent.change(screen.getByLabelText(/minimum value/i), {
+      fireEvent.change(screen.getByLabelText(/最小值/i), {
         target: { value: '10' },
       });
-      fireEvent.change(screen.getByLabelText(/maximum value/i), {
+      fireEvent.change(screen.getByLabelText(/最大值/i), {
         target: { value: '5' },
       });
 
-      fireEvent.click(screen.getByText(/create attribute/i));
+      fireEvent.click(screen.getByText(/创建属性/i));
 
       await waitFor(() => {
-        expect(screen.getByText(/maximum value must be greater than minimum value/i)).toBeInTheDocument();
+        expect(screen.getByText(/最大值必须大于最小值/i)).toBeInTheDocument();
       });
       expect(mockOnSave).not.toHaveBeenCalled();
     });
@@ -360,14 +360,14 @@ describe('AttributeEditor', () => {
         />
       );
 
-      fireEvent.change(screen.getByLabelText(/attribute name/i), {
+      fireEvent.change(screen.getByLabelText(/属性名称/i), {
         target: { value: 'New Attribute' },
       });
 
-      fireEvent.click(screen.getByText(/create attribute/i));
+      fireEvent.click(screen.getByText(/创建属性/i));
 
       await waitFor(() => {
-        expect(screen.getByText(/cannot create more attributes.*maximum of 2/i)).toBeInTheDocument();
+        expect(screen.getByText(/无法创建更多属性.*最多.*2/i)).toBeInTheDocument();
       });
       expect(mockOnSave).not.toHaveBeenCalled();
     });

@@ -185,7 +185,7 @@ describe('ChoiceSelector', () => {
         onCustomSubmit: mockOnCustomSubmit,
       });
 
-      const input = screen.getByPlaceholderText('Describe your action...');
+      const input = screen.getByPlaceholderText("描述你的行动……");
       input.focus();
       await user.keyboard('1');
 
@@ -202,7 +202,7 @@ describe('ChoiceSelector', () => {
         onCustomSubmit: mockOnCustomSubmit,
       });
 
-      const input = screen.getByPlaceholderText('Describe your action...');
+      const input = screen.getByPlaceholderText("描述你的行动……");
       await user.type(input, 'Take 1 step back');
 
       expect(mockOnSelect).not.toHaveBeenCalled();
@@ -230,14 +230,14 @@ describe('ChoiceSelector', () => {
     it('shows custom input field when enabled', () => {
       renderChoiceSelector({decision: decision, onSelect: mockOnSelect, enableCustomInput: true, onCustomSubmit: mockOnCustomSubmit});
 
-      expect(screen.getByPlaceholderText('Describe your action...')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("描述你的行动……")).toBeInTheDocument();
     });
 
     it('submits custom input when entered', async () => {
       const user = userEvent.setup();
       renderChoiceSelector({decision: decision, onSelect: mockOnSelect, enableCustomInput: true, onCustomSubmit: mockOnCustomSubmit});
 
-      const input = screen.getByPlaceholderText('Describe your action...');
+      const input = screen.getByPlaceholderText("描述你的行动……");
       await user.type(input, 'Custom action');
       await user.keyboard('{Enter}');
 
@@ -270,7 +270,7 @@ describe('ChoiceSelector', () => {
       expect(screen.getByText('Stealth')).toBeInTheDocument();
       expect(screen.getByText('Intimidation')).toBeInTheDocument();
       expect(screen.queryByText(/DC/i)).not.toBeInTheDocument();
-      expect(screen.queryByText(/^Skill$/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/^技能$/i)).not.toBeInTheDocument();
     });
 
     it('still surfaces the skill badge when the character lacks the skill (F47)', () => {
@@ -352,7 +352,7 @@ describe('ChoiceSelector', () => {
     it('disables when item requirement is missing (skills do not disable)', () => {
       const button = renderCombinedOption(proficientSkills, []);
       expect(button).toBeDisabled();
-      expect(button?.getAttribute('data-disabled-reason')).toMatch(/Items/i);
+      expect(button?.getAttribute('data-disabled-reason')).toMatch(/物品/i);
     });
 
     it('does not disable when item requirement is met (skills do not disable)', () => {
@@ -366,8 +366,8 @@ describe('ChoiceSelector', () => {
       const button = renderCombinedOption([], []);
       expect(button).toBeDisabled();
       const reason = button?.getAttribute('data-disabled-reason') ?? '';
-      expect(reason).toMatch(/Items/i);
-      expect(reason).not.toMatch(/Skills/i);
+      expect(reason).toMatch(/物品/i);
+      expect(reason).not.toMatch(/技能/i);
     });
 
     it('enables when both requirements are satisfied', () => {
@@ -398,13 +398,13 @@ describe('ChoiceSelector', () => {
   describe('Manuscript Styling Contract', () => {
     it('uses manuscript-input id for custom input', () => {
       renderChoiceSelector({decision: decision, onSelect: mockOnSelect, enableCustomInput: true, onCustomSubmit: mockOnCustomSubmit});
-      const input = screen.getByPlaceholderText('Describe your action...');
+      const input = screen.getByPlaceholderText("描述你的行动……");
       expect(input).toHaveAttribute('id', 'manuscript-input');
     });
 
     it('uses manuscript-send id for submit button', () => {
       renderChoiceSelector({decision: decision, onSelect: mockOnSelect, enableCustomInput: true, onCustomSubmit: mockOnCustomSubmit});
-      const sendButton = screen.getByRole('button', { name: /send/i });
+      const sendButton = screen.getByRole('button', { name: /发送/i });
       expect(sendButton).toHaveAttribute('id', 'manuscript-send');
     });
 

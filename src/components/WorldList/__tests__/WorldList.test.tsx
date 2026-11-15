@@ -32,10 +32,10 @@ describe('WorldList', () => {
 
       expect(screen.getByTestId('world-list-empty-message')).toBeInTheDocument();
       expect(
-        screen.getByRole('heading', { level: 2, name: 'Every story starts with a world.' })
+        screen.getByRole('heading', { level: 2, name: "每个故事都始于一个世界。" })
       ).toBeInTheDocument();
 
-      const createButton = screen.getByRole('button', { name: 'Create World' });
+      const createButton = screen.getByRole('button', { name: "创建世界" });
       expect(createButton).toBeInTheDocument();
       expect(createButton).toHaveClass('button-default');
     });
@@ -43,7 +43,7 @@ describe('WorldList', () => {
     it('navigates to /worlds/create when Create World button is clicked', () => {
       render(<WorldList worlds={[]} onDeleteWorld={jest.fn()} />);
 
-      const createButton = screen.getByRole('button', { name: 'Create World' });
+      const createButton = screen.getByRole('button', { name: "创建世界" });
       fireEvent.click(createButton);
 
       expect(mockRouterPush).toHaveBeenCalledWith('/worlds/create');
@@ -59,7 +59,7 @@ describe('WorldList', () => {
         />
       );
 
-      const createButton = screen.getByRole('button', { name: 'Create World' });
+      const createButton = screen.getByRole('button', { name: "创建世界" });
       fireEvent.click(createButton);
 
       expect(mockOnCreateWorld).toHaveBeenCalledTimes(1);

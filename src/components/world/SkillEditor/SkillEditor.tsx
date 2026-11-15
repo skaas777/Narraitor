@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import SkillPrerequisitesEditor from '@/components/forms/SkillPrerequisitesEditor';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 const MAX_NAME_LENGTH = 100;
 const MAX_DESCRIPTION_LENGTH = 500;
@@ -120,20 +121,20 @@ export function SkillEditor({
 
     // Required field validation
     if (!trimmedName) {
-      validationErrors.push('Skill name is required');
+      validationErrors.push("技能名称不能为空");
     }
 
     if (!trimmedDescription) {
-      validationErrors.push('Description is required');
+      validationErrors.push("描述不能为空");
     }
 
     // Length validation
     if (trimmedName.length > MAX_NAME_LENGTH) {
-      validationErrors.push(`Skill name must be ${MAX_NAME_LENGTH} characters or less`);
+      validationErrors.push(`技能名称不能超过 ${MAX_NAME_LENGTH} 个字符`);
     }
 
     if (trimmedDescription.length > MAX_DESCRIPTION_LENGTH) {
-      validationErrors.push(`Description must be ${MAX_DESCRIPTION_LENGTH} characters or less`);
+      validationErrors.push(`描述不能超过 ${MAX_DESCRIPTION_LENGTH} 个字符`);
     }
 
     // Duplicate name validation (only for create mode or different skill in edit mode)
@@ -144,13 +145,13 @@ export function SkillEditor({
           (mode === 'create' || skill.id !== skillId)
       );
       if (isDuplicate) {
-        validationErrors.push(`Skill name "${trimmedName}" already exists`);
+        validationErrors.push(`技能名称“${trimmedName}”已存在`);
       }
     }
 
     // Attribute selection validation
     if (!formData.attributeIds || (formData.attributeIds?.length || 0) === 0) {
-      validationErrors.push('At least one attribute must be selected');
+      validationErrors.push("至少需要选择一个属性");
     }
 
     return validationErrors;
@@ -215,14 +216,13 @@ export function SkillEditor({
   return (
     <div>
       <div>
-        <h2>{mode === 'create' ? 'Create New Skill' : 'Edit Skill'}</h2>
+        <h2>{mode === 'create' ? "创建新技能" : "编辑技能"}</h2>
       </div>
 
       {mode === 'create' && isAtMaxSkills && (
         <div>
           <p>
-            Maximum number of skills ({maxSkills}) reached. You cannot create
-            more skills for this world.
+            技能数量已达上限（{maxSkills}）。你无法再为此世界创建更多技能。
           </p>
         </div>
       )}
@@ -231,7 +231,7 @@ export function SkillEditor({
         <div>
           {errors.map((error, index) => (
             <div key={index} role="alert">
-              {error}
+              {localizeErrorMessage(error)}
             </div>
           ))}
         </div>
@@ -241,7 +241,7 @@ export function SkillEditor({
         <div>
           <div>
             <Label htmlFor="skill-name">
-              Skill Name <span>*</span>
+              技能名称 <span>*</span>
             </Label>
             <Input
               id="skill-name"
@@ -250,14 +250,14 @@ export function SkillEditor({
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
-              placeholder="Enter skill name"
+              placeholder="输入技能名称"
               disabled={!canCreateSkill}
             />
           </div>
 
           <div>
             <Label htmlFor="skill-description">
-              Description <span>*</span>
+              描述 <span>*</span>
             </Label>
             <Textarea
               id="skill-description"
@@ -268,15 +268,15 @@ export function SkillEditor({
                   description: e.target.value,
                 }))
               }
-              placeholder="Describe what this skill represents"
+              placeholder="描述此技能代表什么"
               disabled={!canCreateSkill}
               rows={3}
             />
           </div>
 
           <div>
-            <Label>Linked Attributes</Label>
-            <p>Select one or more attributes this skill is based on</p>
+            <Label>关联属性</Label>
+            <p>选择此技能所依据的一个或多个属性</p>
             <div>
               {existingAttributes.map((attribute) => (
                 <div key={attribute.id}>
@@ -299,7 +299,7 @@ export function SkillEditor({
             </div>
             {existingAttributes.length === 0 && (
               <p>
-                No attributes available. Create attributes first to link skills.
+                暂无可用属性。请先创建属性，再关联技能。
               </p>
             )}
           </div>
@@ -318,10 +318,10 @@ export function SkillEditor({
         <div>
           <div>
             <Button type="submit" disabled={!canCreateSkill} variant="default">
-              {mode === 'create' ? 'Create Skill' : 'Save Changes'}
+              {mode === 'create' ? "创建技能" : "保存更改"}
             </Button>
             <Button type="button" onClick={onCancel} variant="outline">
-              Cancel
+              取消
             </Button>
           </div>
 
@@ -332,7 +332,7 @@ export function SkillEditor({
               variant="destructive"
               size="sm"
             >
-              Delete Skill
+              删除技能
             </Button>
           )}
         </div>
@@ -340,9 +340,9 @@ export function SkillEditor({
 
       <DeleteConfirmationDialog
         isOpen={showDeleteDialog}
-        title="Delete Skill"
-        description="Are you sure you want to delete this skill?"
-        itemName={formData.name || 'this skill'}
+        title="删除技能"
+        description="确定要删除此技能吗？"
+        itemName={formData.name || '此技能'}
         onConfirm={handleDelete}
         onClose={() => setShowDeleteDialog(false)}
       />

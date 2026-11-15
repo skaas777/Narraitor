@@ -103,8 +103,8 @@ describe('DropConfirmationDialog', () => {
   it('should render dialog when open', () => {
     render(<DropConfirmationDialog {...defaultProps} />);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByText('Drop Item')).toBeInTheDocument();
-    expect(screen.getByText(/Are you sure you want to drop/)).toBeInTheDocument();
+    expect(screen.getByText("丢弃物品")).toBeInTheDocument();
+    expect(screen.getByText(/确定要丢弃/)).toBeInTheDocument();
     expect(screen.getByText('Health Potion')).toBeInTheDocument();
   });
 
@@ -117,7 +117,7 @@ describe('DropConfirmationDialog', () => {
     const user = userEvent.setup();
     render(<DropConfirmationDialog {...defaultProps} />);
     
-    await user.click(screen.getByText('Cancel'));
+    await user.click(screen.getByText("取消"));
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
@@ -125,23 +125,23 @@ describe('DropConfirmationDialog', () => {
     const user = userEvent.setup();
     render(<DropConfirmationDialog {...defaultProps} />);
     
-    await user.click(screen.getByText('Drop'));
+    await user.click(screen.getByText("丢弃"));
     expect(defaultProps.onConfirm).toHaveBeenCalled();
   });
 
   it('should show quantity input for stackable items with quantity > 1', () => {
     render(<DropConfirmationDialog {...defaultProps} />);
     
-    expect(screen.getByLabelText('Quantity to drop')).toBeInTheDocument();
+    expect(screen.getByLabelText("丢弃数量")).toBeInTheDocument();
     expect(screen.getByRole('spinbutton')).toBeInTheDocument(); // Input type="number"
-    expect(screen.getByText('Available: 5')).toBeInTheDocument();
+    expect(screen.getByText("可用： 5")).toBeInTheDocument();
   });
 
   it('should NOT show quantity input for non-stackable items', () => {
     const nonStackableItem = { ...mockItem, stackable: false, quantity: 1 };
     render(<DropConfirmationDialog {...defaultProps} item={nonStackableItem} />);
     
-    expect(screen.queryByLabelText('Quantity to drop')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("丢弃数量")).not.toBeInTheDocument();
     expect(screen.queryByRole('spinbutton')).not.toBeInTheDocument();
   });
 
@@ -149,7 +149,7 @@ describe('DropConfirmationDialog', () => {
     const singleItem = { ...mockItem, quantity: 1 };
     render(<DropConfirmationDialog {...defaultProps} item={singleItem} />);
     
-    expect(screen.queryByLabelText('Quantity to drop')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("丢弃数量")).not.toBeInTheDocument();
   });
 
   it('should handle quantity change', async () => {

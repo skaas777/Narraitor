@@ -227,7 +227,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
 
     // The mocked ChoicesColumn receives endStoryAction which renders "End Story"
     // (scoped: the HUD also has its own always-visible "End Story" icon button)
-    expect(within(choicesColumn).getByRole('button', { name: /end story/i })).toBeInTheDocument();
+    expect(within(choicesColumn).getByRole('button', { name: /结束故事/i })).toBeInTheDocument();
   });
 
   it('does not have narrativeMaxHeight constraint in manuscript mode', async () => {
@@ -286,10 +286,10 @@ describe('ActiveGameSession Manuscript Layout', () => {
         />
       );
 
-      const trigger = await screen.findByRole('button', { name: /keyboard shortcuts/i });
+      const trigger = await screen.findByRole('button', { name: /键盘快捷键/i });
       fireEvent.click(trigger);
 
-      expect(await screen.findByRole('dialog', { name: /keyboard shortcuts/i })).toBeInTheDocument();
+      expect(await screen.findByRole('dialog', { name: /键盘快捷键/i })).toBeInTheDocument();
     });
 
     it('opens the shortcuts dialog when "?" is pressed', async () => {
@@ -304,7 +304,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       await screen.findByTestId('manuscript-session-shell');
       fireEvent.keyDown(document, { key: '?' });
 
-      expect(await screen.findByRole('dialog', { name: /keyboard shortcuts/i })).toBeInTheDocument();
+      expect(await screen.findByRole('dialog', { name: /键盘快捷键/i })).toBeInTheDocument();
     });
 
     it('suspends ChoiceSelector\'s number-key hotkeys while the shortcuts dialog is open (review follow-up)', async () => {
@@ -328,7 +328,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       expect(propsBeforeOpen.shortcutsSuspended).toBe(false);
 
       fireEvent.keyDown(document, { key: '?' });
-      await screen.findByRole('dialog', { name: /keyboard shortcuts/i });
+      await screen.findByRole('dialog', { name: /键盘快捷键/i });
 
       const propsWhileOpen = (ActiveGameSessionChoicesColumn as jest.Mock).mock.calls.slice(-1)[0][0];
       expect(propsWhileOpen.shortcutsSuspended).toBe(true);
@@ -393,11 +393,11 @@ describe('ActiveGameSession Manuscript Layout', () => {
       await screen.findByTestId('manuscript-session-shell');
 
       const hudTools = within(
-        screen.getByRole('toolbar', { name: 'Session tools' })
+        screen.getByRole('toolbar', { name: "冒险记录工具" })
       );
 
       // Open and close once from the HUD icon so the ref is populated.
-      const journalIcon = hudTools.getByRole('button', { name: 'Journal' });
+      const journalIcon = hudTools.getByRole('button', { name: "日志" });
       fireEvent.click(journalIcon);
       await screen.findByTestId('manuscript-drawer');
       fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
@@ -406,7 +406,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       );
 
       // Now open from somewhere else entirely via the shortcut.
-      const elsewhere = hudTools.getByRole('button', { name: 'End Story' });
+      const elsewhere = hudTools.getByRole('button', { name: "结束故事" });
       elsewhere.focus();
       fireEvent.keyDown(document, { key: 'j' });
       await screen.findByTestId('manuscript-drawer');
@@ -493,10 +493,10 @@ describe('ActiveGameSession Manuscript Layout', () => {
     );
 
     // Scene status lives inside the <aside> rail and reflects the latest segment.
-    const aside = await screen.findByRole('complementary', { name: /scene status/i });
+    const aside = await screen.findByRole('complementary', { name: /场景状态/i });
     expect(aside).toBeInTheDocument();
     expect(aside).toHaveClass('manuscript-characters-rail');
-    expect(screen.getByText('Characters Present')).toBeInTheDocument();
+    expect(screen.getByText("在场角色")).toBeInTheDocument();
   });
 
   describe('drawer subtitles use readable labels (#1534)', () => {
@@ -511,7 +511,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
     });
 
     // The three session-scoped drawers share one subtitle branch.
-    it.each(['Journal', 'Story Summary', 'Choice History'])(
+    it.each(['日志', '故事摘要', '选项历史'])(
       'shows the world name instead of a truncated session ID in the %s drawer',
       async (triggerLabel) => {
         render(
@@ -542,7 +542,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
         />
       );
 
-      fireEvent.click(await screen.findByRole('button', { name: 'Journal' }));
+      fireEvent.click(await screen.findByRole('button', { name: "日志" }));
 
       const drawer = await screen.findByTestId('manuscript-drawer');
       expect(within(drawer).queryByText(/Session session-/)).not.toBeInTheDocument();
@@ -568,7 +568,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       // Initially choices are not hidden
       const initialProps = (ActiveGameSessionChoicesColumn as jest.Mock).mock.calls.slice(-1)[0][0];
       expect(initialProps.hideChoices).toBe(false);
-      expect(screen.queryByText('Your story could end here')).not.toBeInTheDocument();
+      expect(screen.queryByText("你的故事可以在此结束")).not.toBeInTheDocument();
 
       // Simulate narrative column suggesting an ending
       const narrativeProps = (NarrativeController as jest.Mock).mock.calls.slice(-1)[0][0];
@@ -580,7 +580,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       });
 
       // Ending banner appears
-      expect(await screen.findByText('Your story could end here')).toBeInTheDocument();
+      expect(await screen.findByText("你的故事可以在此结束")).toBeInTheDocument();
       expect(screen.getByText('Your quest reaches a natural resting place.')).toBeInTheDocument();
 
       // Choices column now has hideChoices set to true
@@ -588,11 +588,11 @@ describe('ActiveGameSession Manuscript Layout', () => {
       expect(offerProps.hideChoices).toBe(true);
 
       // Player clicks "Continue Playing"
-      fireEvent.click(screen.getByRole('button', { name: 'Continue Playing' }));
+      fireEvent.click(screen.getByRole('button', { name: "继续游玩" }));
 
       // Ending banner is dismissed
       await waitFor(() => {
-        expect(screen.queryByText('Your story could end here')).not.toBeInTheDocument();
+        expect(screen.queryByText("你的故事可以在此结束")).not.toBeInTheDocument();
       });
 
       // Choices column has hideChoices restored to false
@@ -652,13 +652,13 @@ describe('ActiveGameSession Manuscript Layout', () => {
       });
 
       // Ending offer banner appears
-      expect(await screen.findByText('Your story could end here')).toBeInTheDocument();
+      expect(await screen.findByText("你的故事可以在此结束")).toBeInTheDocument();
 
       // 2. Player dismisses the soft offer
-      fireEvent.click(screen.getByRole('button', { name: 'Continue Playing' }));
+      fireEvent.click(screen.getByRole('button', { name: "继续游玩" }));
 
       await waitFor(() => {
-        expect(screen.queryByText('Your story could end here')).not.toBeInTheDocument();
+        expect(screen.queryByText("你的故事可以在此结束")).not.toBeInTheDocument();
       });
 
       // 3. Later, a fatal outcome occurs
@@ -692,7 +692,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
         />
       );
 
-      expect(screen.getByText('Game Over')).toBeInTheDocument();
+      expect(screen.getByText("游戏结束")).toBeInTheDocument();
       expect(screen.queryByTestId('manuscript-session-shell')).not.toBeInTheDocument();
 
       // 5. Once currentEnding is set, EndingScreen is shown
@@ -708,7 +708,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
       );
 
       expect(screen.getByTestId('ending-screen')).toBeInTheDocument();
-      expect(screen.queryByText('Game Over')).not.toBeInTheDocument();
+      expect(screen.queryByText("游戏结束")).not.toBeInTheDocument();
     });
   });
 });

@@ -530,11 +530,11 @@ export function TutorialProvider({ children }: TutorialProviderProps) {
             disableOverlayClose={true}
             spotlightClicks={true}
             scrollOffset={tourOptions.scrollOffset}
-          locale={
-            stepMapping
-              ? { skip: 'Skip tutorial', last: 'Finish tutorial' }
-              : undefined
-          }
+          locale={{
+            back: '上一步', close: '关闭', last: '完成引导',
+            next: '下一步', skip: '跳过引导', open: '开始引导',
+            nextLabelWithProgress: '下一步（第 {step} 步，共 {steps} 步）',
+          }}
         />
         );
       })()}

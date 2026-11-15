@@ -10,9 +10,9 @@ interface CharacterSnapshotProps {
 
 /** -100..-34 Chaotic, -33..33 Neutral, 34..100 Lawful. */
 const getAlignmentLabel = (alignment: number): string => {
-  if (alignment > 33) return 'Lawful';
-  if (alignment < -33) return 'Chaotic';
-  return 'Neutral';
+  if (alignment > 33) return "守序";
+  if (alignment < -33) return "混乱";
+  return "中立";
 };
 
 export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character }) => {
@@ -40,7 +40,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
 
   return (
     <div className="manuscript-character-snapshot">
-      <h4 className="manuscript-hud-panel-title">CHARACTER SNAPSHOT</h4>
+      <h4 className="manuscript-hud-panel-title">角色快照</h4>
 
       <div className="manuscript-character-snapshot-identity">
         {character.portrait && (
@@ -59,7 +59,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
         <div className="manuscript-character-snapshot-section">
           <div className="manuscript-character-snapshot-list">
             <div className="manuscript-character-snapshot-level-row">
-              <span className="manuscript-character-snapshot-item-label">Level</span>
+              <span className="manuscript-character-snapshot-item-label">等级</span>
               <span className="manuscript-character-snapshot-item-value">{character.level}</span>
             </div>
             {typeof character.alignment === 'number' && (
@@ -68,7 +68,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
                 data-testid="character-snapshot-alignment"
               >
                 <div className="manuscript-character-snapshot-item">
-                  <span className="manuscript-character-snapshot-item-label">Alignment</span>
+                  <span className="manuscript-character-snapshot-item-label">阵营</span>
                   <span className="manuscript-character-snapshot-item-value">
                     {getAlignmentLabel(character.alignment)}
                   </span>
@@ -76,7 +76,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
                 <div
                   className="manuscript-character-snapshot-alignment-track"
                   role="img"
-                  aria-label={`Alignment ${getAlignmentLabel(character.alignment)} (${character.alignment} on a -100 chaotic to +100 lawful scale)`}
+                  aria-label={`阵营 ${getAlignmentLabel(character.alignment)}（在 -100 混乱至 +100 守序的尺度上为 ${character.alignment}）`}
                 >
                   <div
                     className="manuscript-character-snapshot-alignment-fill"
@@ -90,7 +90,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
 
         {character.attributes && character.attributes.length > 0 && world && (
           <div className="manuscript-character-snapshot-section">
-            <h5 className="manuscript-character-snapshot-subheading">Attributes</h5>
+            <h5 className="manuscript-character-snapshot-subheading">属性</h5>
             <div className="manuscript-character-snapshot-list">
               {character.attributes.map(attr => {
                 const worldAttribute = world.attributes.find(wa => wa.id === attr.worldAttributeId);
@@ -109,7 +109,7 @@ export const CharacterSnapshot: React.FC<CharacterSnapshotProps> = ({ character 
 
         {world && normalizedSkills.length > 0 && (
           <div className="manuscript-character-snapshot-section" data-section="skills">
-            <h5 className="manuscript-character-snapshot-subheading">Skills</h5>
+            <h5 className="manuscript-character-snapshot-subheading">技能</h5>
             <div className="manuscript-character-snapshot-list">
               {normalizedSkills.map(skill => {
                 return (

@@ -36,11 +36,11 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    expect(screen.getByText('Tone Settings')).toBeInTheDocument();
-    expect(screen.getByLabelText('Content Rating')).toBeInTheDocument();
-    expect(screen.getByLabelText('Narrative Style')).toBeInTheDocument();
-    expect(screen.getByLabelText('Language Complexity')).toBeInTheDocument();
-    expect(screen.getByLabelText('Custom Instructions (Optional)')).toBeInTheDocument();
+    expect(screen.getByText("叙事风格设置")).toBeInTheDocument();
+    expect(screen.getByLabelText("内容分级")).toBeInTheDocument();
+    expect(screen.getByLabelText("叙事风格")).toBeInTheDocument();
+    expect(screen.getByLabelText("语言复杂度")).toBeInTheDocument();
+    expect(screen.getByLabelText("自定义指令（可选）")).toBeInTheDocument();
   });
 
   test('calls onToneSettingsChange when content rating changes', async () => {
@@ -53,7 +53,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    const contentRatingSelect = screen.getByRole('combobox', { name: /content rating/i });
+    const contentRatingSelect = screen.getByRole('combobox', { name: /内容分级/i });
     await user.selectOptions(contentRatingSelect, 'PG-13');
 
     expect(mockOnToneSettingsChange).toHaveBeenCalledWith({
@@ -72,7 +72,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    const narrativeStyleSelect = screen.getByRole('combobox', { name: /narrative style/i });
+    const narrativeStyleSelect = screen.getByRole('combobox', { name: /叙事风格/i });
     await user.selectOptions(narrativeStyleSelect, 'dramatic');
 
     expect(mockOnToneSettingsChange).toHaveBeenCalledWith({
@@ -91,7 +91,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    const languageComplexitySelect = screen.getByRole('combobox', { name: /language complexity/i });
+    const languageComplexitySelect = screen.getByRole('combobox', { name: /语言复杂度/i });
     await user.selectOptions(languageComplexitySelect, 'advanced');
 
     expect(mockOnToneSettingsChange).toHaveBeenCalledWith({
@@ -110,7 +110,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    const customInstructionsTextarea = screen.getByLabelText('Custom Instructions (Optional)');
+    const customInstructionsTextarea = screen.getByLabelText("自定义指令（可选）");
     await user.type(customInstructionsTextarea, 'X');
 
     // Verify that onToneSettingsChange was called with updated customInstructions
@@ -136,7 +136,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    const customInstructionsTextarea = screen.getByLabelText('Custom Instructions (Optional)');
+    const customInstructionsTextarea = screen.getByLabelText("自定义指令（可选）");
     expect(customInstructionsTextarea).toHaveValue('Include complex themes');
   });
 
@@ -155,7 +155,7 @@ describe('ToneSettingsForm', () => {
       />
     );
 
-    expect(screen.getByText('Content Rating is required')).toBeInTheDocument();
-    expect(screen.getByText('Narrative Style must be valid')).toBeInTheDocument();
+    expect(screen.getByText("内容分级为必填项")).toBeInTheDocument();
+    expect(screen.getByText("叙事风格必须有效")).toBeInTheDocument();
   });
 });

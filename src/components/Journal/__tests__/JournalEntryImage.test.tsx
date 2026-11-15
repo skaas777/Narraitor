@@ -41,15 +41,15 @@ describe('JournalEntryImage', () => {
   it('shows the generate control and an empty placeholder when no image exists', () => {
     render(<JournalEntryImage entry={entry} />);
 
-    expect(screen.getByRole('button', { name: /generate image/i })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /no image/i })).toBeInTheDocument();
-    expect(screen.queryByText(/^no image$/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /生成图片/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /无图片/i })).toBeInTheDocument();
+    expect(screen.queryByText(/^无图片$/i)).not.toBeInTheDocument();
   });
 
   it('renders the section heading as h4 to fit the detail panel heading order', () => {
     render(<JournalEntryImage entry={entry} />);
 
-    expect(screen.getByRole('heading', { level: 4, name: 'Entry Image' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4, name: "条目图片" })).toBeInTheDocument();
   });
 
   it('persists the generated image to the journal store', async () => {
@@ -61,7 +61,7 @@ describe('JournalEntryImage', () => {
     });
 
     render(<JournalEntryImage entry={entry} />);
-    fireEvent.click(screen.getByRole('button', { name: /generate image/i }));
+    fireEvent.click(screen.getByRole('button', { name: /生成图片/i }));
 
     await waitFor(() => {
       expect(useJournalStore.getState().entries[entry.id].metadata.image?.url).toBe(
@@ -86,21 +86,21 @@ describe('JournalEntryImage', () => {
 
     const { rerender } = render(<JournalEntryImage entry={withImage('/a.png')} />);
 
-    fireEvent.error(screen.getByAltText(/illustration for/i));
-    expect(screen.getByText(/error loading image/i)).toBeInTheDocument();
+    fireEvent.error(screen.getByAltText(/绘制的插图/i));
+    expect(screen.getByText(/图片加载失败/i)).toBeInTheDocument();
 
     rerender(<JournalEntryImage entry={withImage('/b.png')} />);
 
-    expect(screen.getByAltText(/illustration for/i)).toBeInTheDocument();
-    expect(screen.queryByText(/error loading image/i)).not.toBeInTheDocument();
+    expect(screen.getByAltText(/绘制的插图/i)).toBeInTheDocument();
+    expect(screen.queryByText(/图片加载失败/i)).not.toBeInTheDocument();
   });
 
   it('surfaces an error message when generation fails', async () => {
     mockGenerate.mockRejectedValue(new Error('generation failed'));
 
     render(<JournalEntryImage entry={entry} />);
-    fireEvent.click(screen.getByRole('button', { name: /generate image/i }));
+    fireEvent.click(screen.getByRole('button', { name: /生成图片/i }));
 
-    expect(await screen.findByText('generation failed')).toBeInTheDocument();
+    expect(await screen.findByText("操作未能完成，请稍后重试。")).toBeInTheDocument();
   });
 });

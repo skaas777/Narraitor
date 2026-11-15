@@ -148,8 +148,8 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
 
       const alert = await screen.findByRole('alert');
       expect(alert).toBeInTheDocument();
-      expect(screen.getByText('Connection Problem')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+      expect(screen.getByText('连接问题')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /重试/i })).toBeInTheDocument();
     });
 
     it('hides retry for a non-recoverable auth error', async () => {
@@ -158,8 +158,8 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
 
       render(<AIErrorHarness client={client} />);
 
-      expect(await screen.findByText('Authentication Error')).toBeInTheDocument();
-      expect(screen.queryByRole('button', { name: /try again/i })).not.toBeInTheDocument();
+      expect(await screen.findByText('身份验证错误')).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /重试/i })).not.toBeInTheDocument();
     });
 
     it('clears the error when retry succeeds after one failure', async () => {
@@ -168,7 +168,7 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
 
       render(<AIErrorHarness client={client} />);
 
-      const retry = await screen.findByRole('button', { name: /try again/i });
+      const retry = await screen.findByRole('button', { name: /重试/i });
       fireEvent.click(retry);
 
       await waitFor(() => {
@@ -182,25 +182,25 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
       {
         case: 'network',
         error: new Error('network connection failed'),
-        title: 'Connection Problem',
+        title: '连接问题',
         retryVisible: true,
       },
       {
         case: 'timeout',
         error: new Error('request timeout'),
-        title: 'Request Timed Out',
+        title: '请求超时',
         retryVisible: true,
       },
       {
         case: 'rate limit',
         error: new Error('429 rate limit'),
-        title: 'Too Many Requests',
+        title: '请求过多',
         retryVisible: true,
       },
       {
         case: 'auth',
         error: new Error('401 unauthorized'),
-        title: 'Authentication Error',
+        title: '身份验证错误',
         retryVisible: false,
       },
     ])('renders severity-driven copy for $case errors', async ({ error, title, retryVisible }) => {
@@ -210,7 +210,7 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
       render(<AIErrorHarness client={client} />);
 
       expect(await screen.findByText(title)).toBeInTheDocument();
-      const retryButton = screen.queryByRole('button', { name: /try again/i });
+      const retryButton = screen.queryByRole('button', { name: /重试/i });
       if (retryVisible) {
         expect(retryButton).toBeInTheDocument();
       } else {
@@ -232,11 +232,11 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
       );
 
       // First failure on mount.
-      const firstRetry = await screen.findByRole('button', { name: /try again/i });
+      const firstRetry = await screen.findByRole('button', { name: /重试/i });
       fireEvent.click(firstRetry);
 
       // Second retry click still shows the error display.
-      const secondRetry = await screen.findByRole('button', { name: /try again/i });
+      const secondRetry = await screen.findByRole('button', { name: /重试/i });
       fireEvent.click(secondRetry);
 
       // After 2 user-driven retries, fallback UI replaces ErrorDisplay.
@@ -253,7 +253,7 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
 
       render(<AIErrorHarness client={client} />);
 
-      const dismiss = await screen.findByRole('button', { name: /dismiss/i });
+      const dismiss = await screen.findByRole('button', { name: /忽略/i });
       fireEvent.click(dismiss);
 
       await waitFor(() => {
@@ -270,10 +270,10 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
 
       const wrapper = await screen.findByTestId('game-session-error');
       expect(wrapper).toBeInTheDocument();
-      expect(screen.getByText('The story paused')).toBeInTheDocument();
+      expect(screen.getByText("故事暂停了")).toBeInTheDocument();
 
       // Retry then dismiss both work through the GameSessionError surface.
-      fireEvent.click(screen.getByRole('button', { name: /continue the story/i }));
+      fireEvent.click(screen.getByRole('button', { name: /继续故事/i }));
       await waitFor(() => {
         expect(screen.queryByTestId('game-session-error')).not.toBeInTheDocument();
       });
@@ -309,7 +309,7 @@ describe('AI error flow → ErrorDisplay/GameSessionError integration', () => {
         await jest.runAllTimersAsync();
       });
 
-      expect(await screen.findByText('Connection Problem')).toBeInTheDocument();
+      expect(await screen.findByText('连接问题')).toBeInTheDocument();
       expect(mockGenerateContent).toHaveBeenCalledTimes(2);
     });
   });

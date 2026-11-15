@@ -18,6 +18,7 @@ import type { StandardInventoryCategory } from '@/types/inventory.types';
 import { processItemUsage } from '@/lib/inventory/itemUsageService';
 import { useItemDropConfirmation } from './hooks/useItemDropConfirmation';
 import { DropConfirmationDialog } from './DropConfirmationDialog';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface InventoryListProps {
   characterId: EntityID;
@@ -60,7 +61,7 @@ const InventoryItemImage: React.FC<InventoryItemImageProps> = ({
         <div
           className="manuscript-inventory-item-image-placeholder manuscript-skeleton-pulse"
           role="img"
-          aria-label={`Generating image for ${item.name}`}
+          aria-label={`正在为${item.name}生成图片`}
         />
       </div>
     );
@@ -89,10 +90,10 @@ const InventoryItemImage: React.FC<InventoryItemImageProps> = ({
         <div
           className="manuscript-inventory-item-image-placeholder manuscript-inventory-item-image-placeholder-error"
           role="img"
-          aria-label={`Image unavailable for ${item.name}`}
-          title={error}
+          aria-label={`${item.name}的图片不可用`}
+          title={localizeErrorMessage(error)}
         >
-          No image
+          无图片
         </div>
       </div>
     );
@@ -179,10 +180,10 @@ export const InventoryList: React.FC<InventoryListProps> = ({
       if (result.success) {
         // Success path handled via narrative segment entry; no inline feedback needed.
       } else {
-        setErrorFeedback(result.error?.message || "Couldn't use that item. Try again.");
+        setErrorFeedback(result.error?.message || "无法使用该物品，请重试。");
       }
     } catch {
-      setErrorFeedback("Couldn't use that item. Try again.");
+      setErrorFeedback("无法使用该物品，请重试。");
     } finally {
       setUsingItemId(null);
     }
@@ -211,8 +212,8 @@ export const InventoryList: React.FC<InventoryListProps> = ({
     return (
       <div className={clsx('component-inventory-list', className)}>
         <EmptyState
-          title="No items in inventory"
-          description="Items will appear here as they are added"
+          title="背包中没有物品"
+          description="物品添加后会显示在这里"
         />
       </div>
     );
@@ -222,7 +223,7 @@ export const InventoryList: React.FC<InventoryListProps> = ({
     <div
       className={clsx('component-inventory-list', className)}
       role="region"
-      aria-label="Character inventory"
+      aria-label="角色背包"
     >
       {/* Feedback message */}
       {errorFeedback && (
@@ -248,7 +249,7 @@ export const InventoryList: React.FC<InventoryListProps> = ({
                 {categoryName}
               </h3>
 
-              <div className="manuscript-inventory-grid" role="list" aria-label={`${categoryName} items`}>
+              <div className="manuscript-inventory-grid" role="list" aria-label={`${categoryName} 物品`}>
                 {categoryItems.map((item) => (
                   <article
                     key={item.id}
@@ -270,7 +271,7 @@ export const InventoryList: React.FC<InventoryListProps> = ({
                       {item.stackable && (
                         <span
                           className="manuscript-inventory-item-quantity"
-                          aria-label={`Quantity: ${item.quantity}`}
+                          aria-label={`数量：${item.quantity}`}
                         >
                           ×{item.quantity}
                         </span>
@@ -280,7 +281,7 @@ export const InventoryList: React.FC<InventoryListProps> = ({
                     {item.equipped && (
                       <span className="manuscript-inventory-item-equipped-badge">
                         <Shield aria-hidden="true" />
-                        Equipped
+                        已装备
                       </span>
                     )}
 
@@ -298,11 +299,11 @@ export const InventoryList: React.FC<InventoryListProps> = ({
                             aria-pressed={item.equipped ?? false}
                             aria-label={
                               item.equipped
-                                ? `Unequip ${item.name}`
-                                : `Equip ${item.name}`
+                                ? `卸下 ${item.name}`
+                                : `装备 ${item.name}`
                             }
                           >
-                            {item.equipped ? 'UNEQUIP' : 'EQUIP'}
+                            {item.equipped ? '卸下' : '装备'}
                           </Button>
                         )}
                         <Button
@@ -311,15 +312,15 @@ export const InventoryList: React.FC<InventoryListProps> = ({
                           onClick={() => handleUseItem(item.id)}
                           disabled={usingItemId !== null || item.quantity <= 0}
                         >
-                          {usingItemId === item.id ? 'USING...' : 'USE'}
+                          {usingItemId === item.id ? "使用中..." : '使用'}
                         </Button>
                         <Button
                           className="manuscript-inventory-action-button"
                           variant="ghost"
                           onClick={() => openDropDialog(item)}
-                          aria-label={`Drop ${item.name}`}
+                          aria-label={`丢弃 ${item.name}`}
                         >
-                          DROP
+                          丢弃
                         </Button>
                       </div>
                     </div>

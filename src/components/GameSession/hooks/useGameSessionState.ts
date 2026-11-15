@@ -168,7 +168,7 @@ export const useGameSessionState = ({
     if (actualSessionState.initializeSession) {
       if (!sessionCharacterId) {
         logger.warn('No character available for this world');
-        setError(new Error('Please create a character for this world before starting the game'));
+        setError(new Error("开始游戏前，请先为这个世界创建一个角色"));
         return;
       }
       actualSessionState.initializeSession(worldId, sessionCharacterId, onSessionStart);
@@ -191,8 +191,8 @@ export const useGameSessionState = ({
     if (actualSessionState.initializeSession) {
       if (!sessionCharacterId) {
         logger.warn('No character available for this world');
-        setError(new Error('Please create a character for this world before starting the game'));
-        setSessionState(prev => ({ ...prev, error: 'Please create a character for this world before starting the game' }));
+        setError(new Error("开始游戏前，请先为这个世界创建一个角色"));
+        setSessionState(prev => ({ ...prev, error: "开始游戏前，请先为这个世界创建一个角色" }));
         return;
       }
       actualSessionState.initializeSession(worldId, sessionCharacterId, onSessionStart);

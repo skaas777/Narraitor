@@ -37,7 +37,7 @@ describe('Play Page', () => {
     render(<PlayPage />);
     
     // Assert - should show loading message
-    expect(screen.getByText('Creating your game...')).toBeInTheDocument();
+    expect(screen.getByText("正在创建你的游戏……")).toBeInTheDocument();
     expect(screen.queryByTestId('mock-game-session')).not.toBeInTheDocument();
   });
 
@@ -134,7 +134,7 @@ describe('Play Page', () => {
 
       const headings = screen.getAllByRole('heading', { level: 1 });
       expect(headings).toHaveLength(1);
-      expect(headings[0]).toHaveTextContent('Playing in Neo-Tokyo');
+      expect(headings[0]).toHaveTextContent("正在 Neo-Tokyo 中进行冒险");
       expect(headings[0]).toHaveClass('sr-only');
     });
 
@@ -145,7 +145,7 @@ describe('Play Page', () => {
 
       render(<PlayPage />);
 
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Story Complete');
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("故事完结");
     });
   });
 });

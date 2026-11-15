@@ -124,7 +124,7 @@ export const useWorldThreadStore = create<WorldThreadStore>()(
       update: (threadId, updates) => {
         const existingThread = get().threads[threadId];
         if (!existingThread) {
-          set({ error: createStoreError('Thread Not Found', 'The specified thread could not be found.') });
+          set({ error: createStoreError("未找到线索", "找不到指定的线索。") });
           return;
         }
 
@@ -193,7 +193,7 @@ export const useWorldThreadStore = create<WorldThreadStore>()(
       setCurrent: (id) => {
         if (id && !get().threads[id]) {
           set({
-            error: createStoreError('Thread Not Found', 'The specified thread could not be found.'),
+            error: createStoreError("未找到线索", "找不到指定的线索。"),
             currentEntityId: null,
           });
           return;
@@ -274,7 +274,7 @@ export const useWorldThreadStore = create<WorldThreadStore>()(
               summary: entry.summary,
               lastAdvancedAtTurn: currentTurn,
               firedAtTurn: covered.firedAtTurn ?? currentTurn,
-              notes: [...covered.notes, `${entry.summary} (was: ${covered.summary})`],
+              notes: [...covered.notes, `${entry.summary}（原为：${covered.summary}）`],
               ...(firing
                 ? fuse
                 : entry.dueByTurn !== undefined

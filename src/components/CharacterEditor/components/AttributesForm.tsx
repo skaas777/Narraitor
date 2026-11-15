@@ -53,7 +53,7 @@ export const AttributesForm: React.FC<AttributesFormProps> = ({
   return (
     <div className="component-attributes-form">
       <div className="attributes-form-header">
-        <PointPoolDisplay pool={pool} label="Attribute Points" />
+        <PointPoolDisplay pool={pool} label="属性点" />
       </div>
 
       <div className="attributes-form-list">
@@ -72,7 +72,7 @@ export const AttributesForm: React.FC<AttributesFormProps> = ({
           return (
             <div key={uniqueKey} className="attributes-form-row">
               <Label>
-              {worldAttr?.name || `Attribute ${index + 1}`}
+              {worldAttr?.name || `属性 ${index + 1}`}
               </Label>
               {worldAttr?.description && (
                 <p className="attributes-form-description">
@@ -81,7 +81,7 @@ export const AttributesForm: React.FC<AttributesFormProps> = ({
               )}
               {cannotIncrease && currentValue < attr.maxValue && (
                 <p className="attributes-form-constraint">
-                  No points remaining. Reduce other attributes to increase this one.
+                  没有剩余点数。降低其他属性以提高此属性。
                 </p>
               )}
               <RangeSlider
@@ -93,11 +93,11 @@ export const AttributesForm: React.FC<AttributesFormProps> = ({
                 onChange={newValue => handleValueChange(attr.id, newValue)}
                 disabled={false}
                 showLabel={false}
-                ariaLabel={`${worldAttr?.name || `Attribute ${index + 1}`} value`}
+                ariaLabel={`${worldAttr?.name || `属性 ${index + 1}`} 值`}
                 testId={`attribute-${attr.id}`}
               />
               <div className="attributes-form-meta">
-                Range: {attr.minValue} - {attr.maxValue}
+                范围： {attr.minValue} - {attr.maxValue}
               </div>
             </div>
           );

@@ -40,10 +40,10 @@ interface DescriptionStepProps {
 }
 
 const SUGGESTION_SOURCE_LABELS: Record<AIGuidanceSource, string> = {
-  ai: 'Generated from your description',
-  fallback: 'Using fallback starter suggestions',
-  template: 'Copied from the selected template',
-  initial: 'Loaded from saved data',
+  ai: "根据你的描述生成",
+  fallback: "使用备用初始建议",
+  template: "已从所选模板复制",
+  initial: "已从保存的数据加载",
 };
 
 export default function DescriptionStep({
@@ -88,9 +88,9 @@ export default function DescriptionStep({
         <div data-testid="ai-suggestion-empty">
           {canGenerateSuggestions
             ? meetsAIMinimumLength
-              ? 'Generate suggestions to see examples tailored to your description.'
-              : 'Add at least 50 characters so we can understand your world before generating suggestions.'
-            : 'Suggestions are pre-filled from your chosen template.'}
+              ? "生成建议以查看根据你的描述定制的示例。"
+              : "请至少添加 50 个字符，以便我们在生成建议前了解你的世界。"
+            : "建议已根据你选择的模板预先填入。"}
         </div>
       );
     }
@@ -101,7 +101,7 @@ export default function DescriptionStep({
     return (
       <div className="wizard-suggestion-preview" data-testid="ai-suggestion-preview">
         <div className="wizard-suggestion-preview-group">
-          <h4 className="wizard-suggestion-preview-heading">Attributes to explore</h4>
+          <h4 className="wizard-suggestion-preview-heading">可探索的属性</h4>
           <ul className="wizard-suggestion-preview-list">
             {attributeList.length > 0 ? (
               attributeList.map((attribute, index) => (
@@ -120,12 +120,12 @@ export default function DescriptionStep({
                 </li>
               ))
             ) : (
-              <li>No attribute suggestions yet.</li>
+              <li>还没有属性建议。</li>
             )}
           </ul>
         </div>
         <div className="wizard-suggestion-preview-group">
-          <h4 className="wizard-suggestion-preview-heading">Skill ideas</h4>
+          <h4 className="wizard-suggestion-preview-heading">技能灵感</h4>
           <ul className="wizard-suggestion-preview-list">
             {skillList.length > 0 ? (
               skillList.map((skill, index) => (
@@ -144,7 +144,7 @@ export default function DescriptionStep({
                 </li>
               ))
             ) : (
-              <li>No skill suggestions yet.</li>
+              <li>还没有技能建议。</li>
             )}
           </ul>
         </div>
@@ -155,11 +155,11 @@ export default function DescriptionStep({
   return (
     <div data-testid="description-step">
       <WizardFormSection
-        title="Describe Your World"
-        description="Describe your world's setting, tone, and major themes. This shapes the attributes and skills we suggest."
+        title="描述你的世界"
+        description="描述你的世界背景、叙事风格和主要主题。这将影响我们建议的属性和技能。"
       >
         <WizardFormGroup
-          label="Full Description"
+          label="完整描述"
           error={errors.description}
           required
           helpText={guidance.descriptionPrompt}
@@ -167,7 +167,7 @@ export default function DescriptionStep({
           <WizardTextArea
             value={description}
             onChange={handleDescriptionChange}
-            placeholder="Describe your world in detail..."
+            placeholder="详细描述你的世界……"
             rows={12}
             error={errors.description}
             disabled={isProcessing}
@@ -175,14 +175,14 @@ export default function DescriptionStep({
             dataTutorial="world-description"
           />
           <div data-testid="description-char-count">
-            {descriptionLength} / {MAX_DESCRIPTION_LENGTH} characters
+            {descriptionLength} / {MAX_DESCRIPTION_LENGTH} 个字符
           </div>
         </WizardFormGroup>
       </WizardFormSection>
 
       <WizardFormSection
-        title="Attribute & Skill Suggestions"
-        description="Suggested attributes and skills based on your world description."
+        title="属性与技能建议"
+        description="根据你的世界描述给出的属性与技能建议。"
       >
         <div className="wizard-suggestion-section">
           <div className="wizard-suggestion-actions">
@@ -197,10 +197,10 @@ export default function DescriptionStep({
               data-tutorial="ai-suggestions-actions"
             >
               {isProcessing
-                ? 'Analyzing description...'
+                ? "正在分析描述……"
                 : hasAISuggestions
-                  ? 'Regenerate suggestions'
-                  : 'Generate suggestions'}
+                  ? "重新生成建议"
+                  : "生成建议"}
             </Button>
             {hasAISuggestions && suggestionMeta?.source && (
               <span className="wizard-suggestion-hint">
@@ -226,8 +226,7 @@ export default function DescriptionStep({
               aria-live="polite"
             >
               <AlertDescription>
-                Your description has changed since the last generation.
-                Regenerate suggestions to keep them aligned.
+                自上次生成后，你的描述已发生变化。请重新生成建议以保持一致。
               </AlertDescription>
             </Alert>
           )}
@@ -242,9 +241,9 @@ export default function DescriptionStep({
         <div data-testid="processing-overlay">
           <div>
             <div role="status">
-              <span>Loading...</span>
+              <span>加载中……</span>
             </div>
-            <p aria-live="polite">Analyzing your world description...</p>
+            <p aria-live="polite">正在分析你的世界描述……</p>
           </div>
         </div>
       )}

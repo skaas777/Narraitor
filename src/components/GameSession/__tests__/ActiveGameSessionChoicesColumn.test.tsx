@@ -111,7 +111,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
     );
 
     expect(
-      screen.queryByRole('button', { name: 'Suggested Actions' })
+      screen.queryByRole('button', { name: "建议行动" })
     ).toBeNull();
     expect(
       screen.getByRole('button', { name: 'End Story' })
@@ -149,7 +149,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Suggested Actions' })
+      screen.getByRole('button', { name: "建议行动" })
     ).toBeInTheDocument();
   });
 
@@ -161,10 +161,10 @@ describe('ActiveGameSessionChoicesColumn', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Suggested Actions' }));
+    fireEvent.click(screen.getByRole('button', { name: "建议行动" }));
 
     expect(
-      screen.getByRole('button', { name: 'Hide Suggested Actions' })
+      screen.getByRole('button', { name: "隐藏建议行动" })
     ).toBeInTheDocument();
   });
 
@@ -206,7 +206,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
       message: 'We lost the connection needed to continue your story.',
       suggestion: 'Check that you are online, then pick up where you left off.',
       retryable: true,
-      retryLabel: 'Continue the story',
+      retryLabel: '继续故事',
       severity: 'error' as const,
     };
 
@@ -215,7 +215,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
       message: 'Your story can\'t continue until your account settings are sorted out.',
       suggestion: 'Open Settings to check your access, then return to your story.',
       retryable: false,
-      retryLabel: 'Continue the story',
+      retryLabel: '继续故事',
       severity: 'critical' as const,
     };
 
@@ -231,7 +231,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
       );
 
       expect(screen.getByRole('alert')).toHaveTextContent('The story paused');
-      const retry = screen.getByRole('button', { name: 'Continue the story' });
+      const retry = screen.getByRole('button', { name: "继续故事" });
       fireEvent.click(retry);
       expect(onRetryGeneration).toHaveBeenCalledTimes(1);
       // The skeleton/choices are suppressed in favor of the error surface.
@@ -250,7 +250,7 @@ describe('ActiveGameSessionChoicesColumn', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent('can\'t continue');
       expect(
-        screen.queryByRole('button', { name: 'Continue the story' })
+        screen.queryByRole('button', { name: "继续故事" })
       ).toBeNull();
     });
 
@@ -280,8 +280,8 @@ describe('ActiveGameSessionChoicesColumn', () => {
         />
       );
 
-      expect(screen.getByRole('alert')).toHaveTextContent('The story stumbled');
-      const retry = screen.getByRole('button', { name: 'Continue the story' });
+      expect(screen.getByRole('alert')).toHaveTextContent("故事出了岔子");
+      const retry = screen.getByRole('button', { name: "继续故事" });
       expect(retry).toBeInTheDocument();
       fireEvent.click(retry);
       expect(onRetryGeneration).toHaveBeenCalledTimes(1);

@@ -41,7 +41,7 @@ export const JsonViewer = ({ data, className = '' }: JsonViewerProps) => {
       // Format with indentation
       return JSON.stringify(sanitized, null, 2);
     } catch (error) {
-      return `Error formatting JSON: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      return `格式化 JSON 时出错：${error instanceof Error ? error.message : "未知错误"}`;
     }
   }, [data]);
 
@@ -65,7 +65,7 @@ export const JsonViewer = ({ data, className = '' }: JsonViewerProps) => {
     >
       {!isMounted ? (
         // Simple content for server-side rendering
-        'Loading JSON...'
+        "正在加载 JSON……"
       ) : (
         // Render with dangerouslySetInnerHTML only on the client
         <div dangerouslySetInnerHTML={{ __html: styledJson }} />

@@ -39,10 +39,10 @@ export default function WorldViewPage() {
   if (!world) {
     return (
       <NotFoundState
-        title="World Not Found"
-        message="The world you're looking for doesn't exist."
+        title="未找到世界"
+        message="你查找的世界不存在。"
         backUrl="/worlds"
-        backLabel="Back to Worlds"
+        backLabel="返回世界列表"
       />
     );
   }
@@ -64,12 +64,12 @@ export default function WorldViewPage() {
   const actionButtons = [
     // Only show Make Active button if world is not currently active
     ...(!isActive ? [{
-      label: 'Make Active',
+      label: "设为当前",
       onClick: handleMakeActive,
       variant: 'secondary' as const
     }] : []),
     {
-      label: 'View Characters',
+      label: "查看角色",
       onClick: () => router.push(`/characters?worldId=${worldId}`),
       variant: 'secondary' as const,
       icon: (
@@ -77,7 +77,7 @@ export default function WorldViewPage() {
       )
     },
     {
-      label: 'Edit World',
+      label: "编辑世界",
       onClick: () => router.push(`/worlds/${worldId}/edit`),
       variant: 'secondary' as const,
       icon: (
@@ -85,7 +85,7 @@ export default function WorldViewPage() {
       )
     },
     {
-      label: 'Play in World',
+      label: "在世界中游玩",
       onClick: handlePlayInWorld,
       variant: 'default' as const,
       icon: (
@@ -99,7 +99,7 @@ export default function WorldViewPage() {
       <Hero
         image={{
           url: world.image.url,
-          alt: `${world.name} world`,
+          alt: `${world.name} 世界`,
         }}
         treatment="colour"
       />
@@ -123,7 +123,7 @@ export default function WorldViewPage() {
       headerBackground={headerBackground}
       headerClassName="characters-world-masthead world-detail-masthead"
     >
-      <section className="world-detail-body" aria-label="World details">
+      <section className="world-detail-body" aria-label="世界详情">
         <WorldDetailsDisplay world={world} />
       </section>
     </PageLayout>

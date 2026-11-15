@@ -57,13 +57,13 @@ describe('JournalTable', () => {
       />
     );
 
-    const table = screen.getByRole('table', { name: 'Journal entries table' });
+    const table = screen.getByRole('table', { name: "日志条目表格" });
     expect(within(table).getByText('Found the hidden cave')).toBeInTheDocument();
     expect(within(table).getByText('Ambushed on the road')).toBeInTheDocument();
-    expect(within(table).getByText('Discovery')).toBeInTheDocument();
-    expect(within(table).getByText('Combat')).toBeInTheDocument();
-    expect(within(table).getByText('Major')).toBeInTheDocument();
-    expect(within(table).getByText('Critical')).toBeInTheDocument();
+    expect(within(table).getByText("发现")).toBeInTheDocument();
+    expect(within(table).getByText("战斗")).toBeInTheDocument();
+    expect(within(table).getByText("重要")).toBeInTheDocument();
+    expect(within(table).getByText('关键')).toBeInTheDocument();
   });
 
   it('calls onEntrySelect when a title cell is clicked', () => {
@@ -90,7 +90,7 @@ describe('JournalTable', () => {
     );
 
     fireEvent.click(
-      screen.getByRole('button', { name: 'View Ambushed on the road' })
+      screen.getByRole('button', { name: "查看 Ambushed on the road" })
     );
 
     expect(mockOnEntrySelect).toHaveBeenCalledWith(mockEntries[1]);
@@ -105,7 +105,7 @@ describe('JournalTable', () => {
       />
     );
 
-    fireEvent.change(screen.getByLabelText('Filter by entry type'), {
+    fireEvent.change(screen.getByLabelText("按条目类型筛选"), {
       target: { value: 'combat' },
     });
 
@@ -122,7 +122,7 @@ describe('JournalTable', () => {
       />
     );
 
-    fireEvent.change(screen.getByPlaceholderText('Search entries...'), {
+    fireEvent.change(screen.getByPlaceholderText("搜索条目……"), {
       target: { value: 'cave' },
     });
 

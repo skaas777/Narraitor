@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/select';
 import type { LoreCategory, LoreFact } from '@/types/lore.types';
 import type { EntityID } from '@/types/common.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface LoreManagementBrowseTabProps {
   categoryFilter: LoreCategory | '';
@@ -54,20 +55,20 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
         value={categoryFilter}
         onChange={(e) => onCategoryFilterChange(e.target.value as LoreCategory | '')}
       >
-        <option value="">All Categories</option>
-        <option value="characters">Characters</option>
-        <option value="locations">Locations</option>
-        <option value="events">Events</option>
-        <option value="rules">Rules</option>
+        <option value="">全部分类</option>
+        <option value="characters">角色</option>
+        <option value="locations">地点</option>
+        <option value="events">事件</option>
+        <option value="rules">规则</option>
       </Select>
       <Select
         
         value={sessionFilter}
         onChange={(e) => onSessionFilterChange(e.target.value as typeof sessionFilter)}
       >
-        <option value="all">All Sessions</option>
+        <option value="all">全部冒险记录</option>
         {currentSessionId && currentSessionWorldId === selectedWorldId && (
-          <option value="current">Current Session ({currentSessionId})</option>
+          <option value="current">当前冒险记录（{currentSessionId})</option>
         )}
         {sessionOptions
           .filter((id) => id !== currentSessionId)
@@ -82,25 +83,25 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
         value={visibilityFilter}
         onChange={(e) => onVisibilityFilterChange(e.target.value as typeof visibilityFilter)}
       >
-        <option value="all">All Visibility</option>
-        <option value="session-private">Session Private Only</option>
-        <option value="world-shared">World Shared Only</option>
+        <option value="all">全部可见性</option>
+        <option value="session-private">仅冒险记录私有</option>
+        <option value="world-shared">仅世界共享</option>
       </Select>
       <div>
-        Total facts: {facts.length}
+        事实总数： {facts.length}
       </div>
     </div>
 
     <div>
       <div>
-        Visibility totals (world): {visibilityStats.total} total • {visibilityStats.worldShared} world-shared •{' '}
-        {visibilityStats.sessionPrivate} session-private
+        可见性统计（世界）： {visibilityStats.total} 总计 • {visibilityStats.worldShared} 世界共享 •{' '}
+        {visibilityStats.sessionPrivate} 冒险记录私有
       </div>
       <div>
-        Narrative facts: {visibilityStats.narrativeWorldShared} world-shared • {visibilityStats.narrativeSessionPrivate}{' '}
-        session-private
+        叙事事实： {visibilityStats.narrativeWorldShared} 世界共享 • {visibilityStats.narrativeSessionPrivate}{' '}
+        冒险记录私有
       </div>
-      <div>Note: AI-extracted lore uses session-private visibility when a session is active.</div>
+      <div>注意：当冒险记录处于活动状态时，AI 提取的设定使用冒险记录私有可见性。</div>
     </div>
 
     <div>
@@ -128,11 +129,11 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
                             : ''
                     }`}
                   >
-                    {importance.toUpperCase()}
+                    {displayLabel(importance.toUpperCase())}
                   </span>
                 ) : (
                   <span>
-                    NO IMPORTANCE
+                    无重要度
                   </span>
                 );
 
@@ -144,7 +145,7 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
                         : ''
                     }`}
                   >
-                    {fact.visibility === 'session-private' ? 'Session Private' : 'World Shared'}
+                    {fact.visibility === 'session-private' ? "冒险记录私有" : "世界共享"}
                   </span>
                 );
 
@@ -168,7 +169,7 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
                           onSelectFact(fact.id);
                         }}
                       >
-                        Edit
+                        编辑
                       </Button>
                       <Button
                         size="sm"
@@ -178,7 +179,7 @@ export const LoreManagementBrowseTab: React.FC<LoreManagementBrowseTabProps> = (
                           onDeleteFact(fact.id);
                         }}
                       >
-                        Delete
+                        删除
                       </Button>
                     </div>
                   </div>

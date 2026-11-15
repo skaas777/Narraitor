@@ -84,17 +84,17 @@ describe('WorldCreationWizard untouched-field validation (#2178)', () => {
     const nameInput = await screen.findByTestId('world-name-input');
     await user.type(nameInput, 'Aldenreach');
 
-    expect(screen.queryByText(/world genre is required/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/世界类型为必填项/i)).not.toBeInTheDocument();
   });
 
   it('shows the genre-required error once the player presses Next with genre empty', async () => {
     const user = userEvent.setup();
     render(<WorldCreationWizard />);
 
-    const nextButton = await screen.findByRole('button', { name: /next/i });
+    const nextButton = await screen.findByRole('button', { name: /下一步/i });
     await user.click(nextButton);
 
-    expect(screen.getByText(/world genre is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/世界类型为必填项/i)).toBeInTheDocument();
   });
 
   it('keeps Next usable after an optional edit so pressing it reveals the genre error', async () => {
@@ -102,12 +102,12 @@ describe('WorldCreationWizard untouched-field validation (#2178)', () => {
     render(<WorldCreationWizard />);
 
     await user.type(await screen.findByTestId('world-name-input'), 'Aldenreach');
-    const nextButton = screen.getByRole('button', { name: /next/i });
+    const nextButton = screen.getByRole('button', { name: /下一步/i });
     expect(nextButton).toBeEnabled();
 
     await user.click(nextButton);
 
-    expect(screen.getByText(/world genre is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/世界类型为必填项/i)).toBeInTheDocument();
     expect(screen.getByTestId('world-name-input')).toBeInTheDocument();
   });
 });

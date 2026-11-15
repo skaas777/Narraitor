@@ -6,6 +6,7 @@ import {
 import { PointPoolManager, PointAllocation } from '@/components/shared/PointPoolManager';
 import { World } from '@/types/world.types';
 import { validateAttributes } from '../utils/validation';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface CharacterWizardAttribute {
   attributeId: string;
@@ -78,14 +79,14 @@ export const AttributesStep: React.FC<AttributesStepProps> = ({
   return (
     <div className="component-attributes-step">
       <WizardFormSection
-        title="Allocate Attribute Points"
-        description="Distribute points across your character's attributes. Each attribute affects different aspects of gameplay."
+        title="分配属性点"
+        description="将点数分配给你的角色属性。每项属性会影响游戏玩法的不同方面。"
       >
       <PointPoolManager
         allocations={allocations}
         poolConfig={{
           total: data.pointPools.attributes.total,
-          label: 'Attribute Points'
+          label: "属性点"
         }}
         onChange={handleAttributeChange}
         dataTutorial="attribute-allocation"
@@ -96,7 +97,7 @@ export const AttributesStep: React.FC<AttributesStepProps> = ({
         <div className={wizardStyles.errorContainer}>
           {validation.errors.map((error: string, index: number) => (
             <p key={index} className={wizardStyles.form.error}>
-              {error}
+              {localizeErrorMessage(error)}
             </p>
           ))}
         </div>
@@ -105,7 +106,7 @@ export const AttributesStep: React.FC<AttributesStepProps> = ({
       {remaining > 0 && (
         <div className={wizardStyles.card.base}>
           <p>
-            Unspent points can be allocated now to strengthen your character, or you can continue as you are.
+            未使用的点数可以现在分配，以强化你的角色；你也可以保持现状继续。
           </p>
         </div>
       )}

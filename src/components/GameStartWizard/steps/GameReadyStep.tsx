@@ -30,21 +30,21 @@ export function GameReadyStep({
   return (
     <div data-testid="game-ready-step" >
       <h3>
-        Ready to Begin Your Story!
+        准备好开始你的故事！
       </h3>
       
       <div>
         <div>
           <div>
-            <span>World:</span>
+            <span>世界：</span>
             <p>{world?.name}</p>
-            <p>{world?.genre ? getGenreLabel(world.genre) : 'Unknown'}</p>
+            <p>{world?.genre ? getGenreLabel(world.genre) : "未知"}</p>
           </div>
           <div>
-            <span>Character:</span>
+            <span>角色：</span>
             <p>{character?.name}</p>
             <p>
-              {character?.background?.personality || 'No description available'}
+              {character?.background?.personality || "暂无描述"}
             </p>
           </div>
         </div>
@@ -60,10 +60,10 @@ export function GameReadyStep({
           {isStarting ? (
             <>
               <span>⏳</span>
-              Starting Game...
+              正在开始游戏...
             </>
           ) : (
-            'Start Playing'
+            "开始游玩"
           )}
         </Button>
         
@@ -74,7 +74,7 @@ export function GameReadyStep({
             
             variant="ghost"
           >
-            ← Change Character
+            ← 更换角色
           </Button>
         </div>
       </div>

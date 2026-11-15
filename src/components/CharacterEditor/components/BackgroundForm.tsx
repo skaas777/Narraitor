@@ -31,70 +31,70 @@ export const BackgroundForm: React.FC<BackgroundFormProps> = ({
       <div className="background-form-fields">
         <div className="form-group">
           <Label>
-            History
+            历史
           </Label>
           <Textarea
             value={background.history || ''}
             onChange={(e) => handleChange('history', e.target.value)}
             rows={4}
-            placeholder="Describe your character's history and background..."
+            placeholder="描述你角色的经历与背景……"
           />
         </div>
 
         <div className="form-group">
           <Label>
-            Personality
+            性格
           </Label>
           <Textarea
             value={background.personality || ''}
             onChange={(e) => handleChange('personality', e.target.value)}
             rows={3}
-            placeholder="Describe your character's personality traits..."
+            placeholder="描述你角色的性格特征……"
           />
         </div>
 
         <div className="form-group">
           <Label>
-            Goals & Motivations
+            目标与动机
           </Label>
           <Textarea
             value={background.goals?.join('\n') || ''}
             onChange={(e) => handleChange('goals', e.target.value.split('\n').filter(g => g.trim()))}
             rows={3}
-            placeholder="List your character's goals and motivations (one per line)"
+            placeholder="列出你角色的目标与动机（每行一个）"
           />
           <p className="form-help-text">
-            Enter each goal on a separate line
+            每行输入一个目标
           </p>
         </div>
 
         <div className="form-group">
           <Label>
-            Fears
+            恐惧
           </Label>
           <Textarea
             value={background.fears?.join('\n') || ''}
             onChange={(e) => handleChange('fears', e.target.value.split('\n').filter(f => f.trim()))}
             rows={2}
-            placeholder="What does your character fear? (one per line)"
+            placeholder="你的角色害怕什么？（每行一个）"
           />
           <p className="form-help-text">
-            Enter each fear on a separate line
+            每行输入一项恐惧
           </p>
         </div>
 
         <div className="form-group">
           <Label>
-            Physical Description
+            外貌描述
           </Label>
           <Textarea
             value={background.physicalDescription || ''}
             onChange={(e) => handleChange('physicalDescription', e.target.value)}
             rows={3}
-            placeholder="Describe your character's appearance, distinctive features, clothing style..."
+            placeholder="描述你角色的外貌、显著特征和穿衣风格……"
           />
           <p className="form-help-text">
-            This description will be used when generating character portraits. Tip: Add &quot;looks like [actor name]&quot; to generate a portrait resembling a specific person.
+            此描述将用于生成角色肖像。提示：添加 “长得像 [演员姓名]” 可生成与特定人物相似的肖像。
           </p>
         </div>
       </div>

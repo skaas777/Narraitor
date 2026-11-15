@@ -23,7 +23,7 @@ describe('CharacterPortrait', () => {
         />
       );
 
-      const img = screen.getByRole('img', { name: 'Test Hero portrait' });
+      const img = screen.getByRole('img', { name: "Test Hero的肖像" });
       expect(img).toHaveAttribute('src', portrait.url);
     });
 
@@ -40,7 +40,7 @@ describe('CharacterPortrait', () => {
         );
 
         expect(
-          screen.getByRole('img', { name: 'Test Hero portrait' })
+          screen.getByRole('img', { name: "Test Hero的肖像" })
         ).toHaveAttribute('src', portrait.url);
       }
     );
@@ -134,7 +134,7 @@ describe('CharacterPortrait', () => {
       );
 
       expect(screen.getByRole('status')).toBeInTheDocument();
-      expect(screen.getByText('Generating portrait...')).toBeInTheDocument();
+      expect(screen.getByText("正在生成肖像……")).toBeInTheDocument();
     });
 
     it('should show error state', () => {
@@ -146,7 +146,7 @@ describe('CharacterPortrait', () => {
         />
       );
 
-      expect(screen.getByText('Failed to generate portrait')).toBeInTheDocument();
+      expect(screen.getByText("操作未能完成，请稍后重试。")).toBeInTheDocument();
     });
   });
 

@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { SimpleModal } from '@/components/shared/SimpleModal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { EntityID } from '@/types/common.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface FactInspectorProps {
   factId: EntityID;
@@ -39,17 +40,17 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
     <SimpleModal
       isOpen={true}
       onClose={onClose}
-      title="Fact Inspector"
+      title="事实检查器"
     >
       <div>
-        Inspect and edit lore fact details, history, and relationships.
+        查看并编辑设定事实的详情、历史与关联。
       </div>
 
         <Tabs defaultValue="details" >
           <TabsList>
-            <TabsTrigger value="details">Details</TabsTrigger>
-            <TabsTrigger value="edit">Edit</TabsTrigger>
-            <TabsTrigger value="history">History</TabsTrigger>
+            <TabsTrigger value="details">详情</TabsTrigger>
+            <TabsTrigger value="edit">编辑</TabsTrigger>
+            <TabsTrigger value="history">历史</TabsTrigger>
           </TabsList>
 
           {/* Details Tab */}
@@ -57,64 +58,64 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
             <div>
               <div>
                 <div>
-                  <span>ID:</span>
+                  <span>ID：</span>
                   <span>{fact.id}</span>
                 </div>
                 <div>
-                  <span>World ID:</span>
+                  <span>世界 ID：</span>
                   <span>{fact.worldId}</span>
                 </div>
               </div>
 
               <div>
-                <span>Key:</span>
+                <span>键名：</span>
                 <span>{fact.key}</span>
               </div>
 
               <div>
-                <span>Value:</span>
+                <span>值：</span>
                 <div>{fact.value}</div>
               </div>
 
               <div>
-                <span>Category:</span>
-                <span>{fact.category}</span>
+                <span>类别：</span>
+                <span>{displayLabel(fact.category)}</span>
               </div>
 
               <div>
-                <span>Source:</span>
-                <span>{fact.source}</span>
+                <span>来源：</span>
+                <span>{displayLabel(fact.source)}</span>
               </div>
 
               {fact.sessionId && (
                 <div>
-                  <span>Session ID:</span>
+                  <span>冒险记录 ID：</span>
                   <span>{fact.sessionId}</span>
                 </div>
               )}
 
               {fact.metadata && (
                 <div>
-                  <span>Metadata:</span>
+                  <span>元数据：</span>
                   <div>
                     {fact.metadata.description && (
                       <div>
-                        <span>Description:</span> {fact.metadata.description}
+                        <span>描述：</span> {fact.metadata.description}
                       </div>
                     )}
                     {fact.metadata.importance && (
                       <div>
-                        <span>Importance:</span> {fact.metadata.importance}
+                        <span>重要性：</span> {displayLabel(fact.metadata.importance)}
                       </div>
                     )}
                     {fact.metadata.type && (
                       <div>
-                        <span>Type:</span> {fact.metadata.type}
+                        <span>类型：</span> {displayLabel(fact.metadata.type)}
                       </div>
                     )}
                     {fact.metadata.tags && fact.metadata.tags.length > 0 && (
                       <div>
-                        <span>Tags:</span>
+                        <span>标签：</span>
                         <div>
                           {fact.metadata.tags.map((tag, index) => (
                             <span key={index} >
@@ -126,7 +127,7 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
                     )}
                     {fact.metadata.relatedEntities && fact.metadata.relatedEntities.length > 0 && (
                       <div>
-                        <span>Related Entities:</span>
+                        <span>相关实体：</span>
                         <div>
                           {fact.metadata.relatedEntities.map((entity, index) => (
                             <span key={index} >
@@ -142,12 +143,12 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
 
               <div>
                 <div>
-                  <span>Created:</span>
-                  <span>{new Date(fact.createdAt).toLocaleString()}</span>
+                  <span>创建时间：</span>
+                  <span>{new Date(fact.createdAt).toLocaleString('zh-CN')}</span>
                 </div>
                 <div>
-                  <span>Updated:</span>
-                  <span>{new Date(fact.updatedAt).toLocaleString()}</span>
+                  <span>更新时间：</span>
+                  <span>{new Date(fact.updatedAt).toLocaleString('zh-CN')}</span>
                 </div>
               </div>
             </div>
@@ -168,23 +169,23 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
             {history.length > 0 ? (
               <div>
                 <div>
-                  Showing {history.length} version(s) of this fact
+                  显示 {history.length} 个该事实的版本
                 </div>
                 {history.map((version, index) => (
                   <div key={index} >
                     <div>
-                      <span>Version {history.length - index}</span>
+                      <span>版本 {history.length - index}</span>
                       <span>
-                        {new Date(version.updatedAt).toLocaleString()}
+                        {new Date(version.updatedAt).toLocaleString('zh-CN')}
                       </span>
                     </div>
                     <div>
                       <div>
-                        <span>Value:</span> {version.value}
+                        <span>值：</span> {version.value}
                       </div>
                       {version.metadata?.description && (
                         <div>
-                          <span>Description:</span> {version.metadata.description}
+                          <span>描述：</span> {version.metadata.description}
                         </div>
                       )}
                     </div>
@@ -193,7 +194,7 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
               </div>
             ) : (
               <div>
-                No history available for this fact
+                此事实暂无历史记录
               </div>
             )}
           </TabsContent>
@@ -201,7 +202,7 @@ export const FactInspector: React.FC<FactInspectorProps> = ({
 
         <div>
           <Button variant="outline" onClick={onClose}>
-            Close
+            关闭
           </Button>
         </div>
     </SimpleModal>

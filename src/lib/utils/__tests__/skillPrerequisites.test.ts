@@ -75,7 +75,7 @@ describe('skillPrerequisites', () => {
         [{ attributeId: 'attr-str', minValue: 2 }],
         []
       );
-      expect(unmet[0].attributeName).toBe('Unknown attribute');
+      expect(unmet[0].attributeName).toBe("未知属性");
     });
   });
 
@@ -89,7 +89,7 @@ describe('skillPrerequisites', () => {
           currentValue: 3,
         },
       ]);
-      expect(text).toBe('Requires Strength 5 (you have 3)');
+      expect(text).toBe("需要 Strength 5（你当前为 3）");
     });
 
     it('returns an empty string when nothing is unmet', () => {

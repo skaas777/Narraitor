@@ -1,4 +1,5 @@
 import React from 'react';
+import { displayLabel } from '@/lib/i18n/zhCN';
 import { Badge } from '@/components/ui/badge';
 import { RequirementLogic } from '@/types/narrative.types';
 
@@ -15,12 +16,12 @@ export const AlignmentBadge: React.FC<AlignmentBadgeProps> = ({
 }) => {
   if (!alignment || alignment === 'neutral') return null;
 
-  const label = alignment.charAt(0).toUpperCase() + alignment.slice(1);
+  const label = displayLabel(alignment);
 
   return (
     <span
       className={`manuscript-alignment-badge manuscript-alignment-badge-${alignment}`}
-      aria-label={`${label} alignment`}
+      aria-label={`${label} 阵营`}
     >
       {label}
     </span>
@@ -73,17 +74,17 @@ export const SkillRequirementBadges: React.FC<SkillRequirementBadgesProps> = ({
     requirements.find(
       (requirement) =>
         Boolean(requirement.skillName) &&
-        requirement.skillName !== 'Unknown Skill'
+        !['Unknown Skill', '未知技能'].includes(requirement.skillName ?? '')
     ) ?? requirements[0];
 
   const hasNamedSkill =
     Boolean(primaryRequirement.skillName) &&
-    primaryRequirement.skillName !== 'Unknown Skill';
+    !['Unknown Skill', '未知技能'].includes(primaryRequirement.skillName ?? '');
   const badgeLabel = hasNamedSkill
     ? primaryRequirement.skillName!
-    : 'Skill';
+    : "技能";
   const isAnyRisky = requirements.some((req) => req.met === false);
-  const displayLabel = isAnyRisky ? `${badgeLabel} · RISKY` : badgeLabel;
+  const displayLabel = isAnyRisky ? `${badgeLabel} · 有风险` : badgeLabel;
   const dataMet = isAnyRisky
     ? 'false'
     : requirements.every((req) => req.met === true)
@@ -97,10 +98,10 @@ export const SkillRequirementBadges: React.FC<SkillRequirementBadgesProps> = ({
       data-met={dataMet}
       aria-label={
         isAnyRisky
-          ? `${badgeLabel} check, risky for this character`
+          ? `${badgeLabel} 检定，对该角色有风险`
           : hasNamedSkill
-            ? `${badgeLabel} check`
-            : 'Skill check required'
+            ? `${badgeLabel} 检定`
+            : "需要技能检定"
       }
     >
       {displayLabel}
@@ -124,7 +125,7 @@ export const ItemRequirementBadges: React.FC<ItemRequirementBadgesProps> = ({
       {groups.map((group, groupIndex) => (
         <div key={`${optionId}-item-group-${groupIndex}`}>
           <p>
-            {group.logic === 'any' ? 'Requires any of:' : 'Requires all:'}
+            {group.logic === 'any' ? "需要满足以下任一条件：" : "需要满足以下全部条件："}
           </p>
           <div>
             {group.requirements.map((itemReq, reqIndex) => {
@@ -138,7 +139,7 @@ export const ItemRequirementBadges: React.FC<ItemRequirementBadgesProps> = ({
                   variant={itemReq.met ? 'success' : 'destructive'}
                 >
                   {label}
-                  {!itemReq.met && <span> - missing</span>}
+                  {!itemReq.met && <span> - 未满足</span>}
                 </Badge>
               );
             })}

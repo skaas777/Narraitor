@@ -99,7 +99,7 @@ describe('InventoryList - Item Usage', () => {
       renderInventoryList();
 
       // Verify Use button appears
-      const useButtons = screen.getAllByRole('button', { name: /use/i });
+      const useButtons = screen.getAllByRole('button', { name: /使用/i });
       expect(useButtons.length).toBeGreaterThan(0);
     });
 
@@ -126,7 +126,7 @@ describe('InventoryList - Item Usage', () => {
 
       renderInventoryList();
 
-      const useButton = screen.getByRole('button', { name: /use/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
       expect(useButton).toBeDisabled();
     });
   });
@@ -172,7 +172,7 @@ describe('InventoryList - Item Usage', () => {
       renderInventoryList();
 
       // Click Use button
-      const useButton = screen.getByRole('button', { name: /use/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
       await user.click(useButton);
 
       expect(processItemUsage).toHaveBeenCalledWith({
@@ -223,14 +223,14 @@ describe('InventoryList - Item Usage', () => {
 
       renderInventoryList();
 
-      const useButton = screen.getByRole('button', { name: /USE/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
 
       // Click and check for loading state
       user.click(useButton);
 
       // Button should show loading state during usage
       await waitFor(() => {
-        expect(useButton).toHaveTextContent('USING...');
+        expect(useButton).toHaveTextContent("使用中...");
       });
     });
 
@@ -275,15 +275,15 @@ describe('InventoryList - Item Usage', () => {
       expect(antidoteCard).not.toBeNull();
 
       const healthPotionButton = within(healthPotionCard!).getByRole('button', {
-        name: 'USE',
+        name: '使用',
       });
       const antidoteButton = within(antidoteCard!).getByRole('button', {
-        name: 'USE',
+        name: '使用',
       });
 
       await user.click(healthPotionButton);
 
-      expect(healthPotionButton).toHaveTextContent('USING...');
+      expect(healthPotionButton).toHaveTextContent("使用中...");
       expect(healthPotionButton).toBeDisabled();
       expect(antidoteButton).toBeDisabled();
 
@@ -300,7 +300,7 @@ describe('InventoryList - Item Usage', () => {
       });
 
       await waitFor(() => {
-        expect(healthPotionButton).toHaveTextContent('USE');
+        expect(healthPotionButton).toHaveTextContent('使用');
         expect(healthPotionButton).toBeEnabled();
         expect(antidoteButton).toBeEnabled();
       });
@@ -341,7 +341,7 @@ describe('InventoryList - Item Usage', () => {
       expect(screen.getByText('Magic Berry')).toBeInTheDocument();
 
       // Use the item
-      const useButton = screen.getByRole('button', { name: /use/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
       await user.click(useButton);
 
       // Verify item no longer appears
@@ -391,7 +391,7 @@ describe('InventoryList - Item Usage', () => {
 
       renderInventoryList();
 
-      const useButton = screen.getByRole('button', { name: /use/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
       await user.click(useButton);
 
       await waitFor(() => {
@@ -436,7 +436,7 @@ describe('InventoryList - Item Usage', () => {
 
       renderInventoryList();
 
-      const useButton = screen.getByRole('button', { name: /use/i });
+      const useButton = screen.getByRole('button', { name: /使用/i });
       await user.click(useButton);
 
       // Should show error message

@@ -25,17 +25,17 @@ export function CharacterSelectionStep({ worldId, onNext, onBack }: CharacterSel
     return (
       <div>
         <h3>
-          No Characters Yet
+          尚无角色
         </h3>
         <p>
-          Create a character for {world?.name} to continue
+          为 {world?.name} 创建一个角色以继续
         </p>
         <div>
           <Link
             href="/characters/create"
             
           >
-            Create Your Character
+            创建你的角色
           </Link>
           <div>
             <Button
@@ -43,7 +43,7 @@ export function CharacterSelectionStep({ worldId, onNext, onBack }: CharacterSel
               
               variant="ghost"
             >
-              ← Back to World Selection
+              ← 返回世界选择
             </Button>
           </div>
         </div>
@@ -54,10 +54,10 @@ export function CharacterSelectionStep({ worldId, onNext, onBack }: CharacterSel
   return (
     <div data-testid="character-selection-step">
       <h3>
-        Choose Your Character
+        选择你的角色
       </h3>
       <p>
-        World: {world?.name}
+        世界： {world?.name}
       </p>
       
       <div>
@@ -72,11 +72,11 @@ export function CharacterSelectionStep({ worldId, onNext, onBack }: CharacterSel
               <div>
                 <h4>{character.name}</h4>
                 <p>
-                  {character.background.personality || 'No description available'}
+                  {character.background.personality || "暂无描述"}
                 </p>
               </div>
               <span>
-                Select →
+                选择 →
               </span>
             </div>
           </Button>
@@ -89,13 +89,13 @@ export function CharacterSelectionStep({ worldId, onNext, onBack }: CharacterSel
           
           variant="ghost"
         >
-          ← Back
+          ← 返回
         </Button>
         <Link
           href="/characters/create"
           
         >
-          Create New Character
+          创建新角色
         </Link>
       </div>
     </div>

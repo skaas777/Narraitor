@@ -85,10 +85,10 @@ export const LoreManagementSection: React.FC = () => {
   };
 
   const handleDeleteFact = (factId: EntityID) => {
-    if (window.confirm('Are you sure you want to delete this fact?')) {
+    if (window.confirm("确定要删除这条设定吗？")) {
       deleteFact(factId);
       setSelectedFactId(null);
-      setMessage({ type: 'success', text: 'Fact deleted successfully' });
+      setMessage({ type: 'success', text: "设定删除成功" });
     }
   };
 
@@ -97,7 +97,7 @@ export const LoreManagementSection: React.FC = () => {
     
     const data = exportFacts(selectedWorldId);
     setExportedData(data);
-    setMessage({ type: 'success', text: 'Facts exported successfully' });
+    setMessage({ type: 'success', text: "设定导出成功" });
     
     // Copy to clipboard
     navigator.clipboard.writeText(data);
@@ -110,10 +110,10 @@ export const LoreManagementSection: React.FC = () => {
       importFacts(selectedWorldId, importData);
       setImportData('');
       setShowImportDialog(false);
-      setMessage({ type: 'success', text: 'Facts imported successfully' });
+      setMessage({ type: 'success', text: "设定导入成功" });
     } catch (e) {
       logger.error('Error importing facts', { error: e });
-      setMessage({ type: 'error', text: `Failed to import facts: ${e instanceof Error ? e.message : 'Check the JSON format.'}` });
+      setMessage({ type: 'error', text: `导入设定失败：${e instanceof Error ? e.message : "请检查 JSON 格式。"}` });
     }
   };
 
@@ -126,25 +126,25 @@ export const LoreManagementSection: React.FC = () => {
 
   const handleClearUsage = () => {
     if (!selectedWorldId) return;
-    if (window.confirm('Are you sure you want to clear all lore usage data for this world? This cannot be undone.')) {
+    if (window.confirm("确定要清除此世界的所有设定使用数据吗？此操作无法撤销。")) {
       clearLoreUsage(selectedWorldId);
-      setMessage({ type: 'success', text: 'Lore usage data cleared successfully' });
+      setMessage({ type: 'success', text: "设定使用数据已清除" });
     }
   };
 
   return (
-    <DevToolsSection title="Lore Management">
+    <DevToolsSection title="设定管理">
       {/* World Selector */}
       <div>
         <label htmlFor="world-select" >
-          Select World
+          选择世界
         </label>
         <Select 
           id="world-select"
           value={selectedWorldId} 
           onChange={(e) => handleWorldChange(e.target.value)}
         >
-          <option value="">Choose a world</option>
+          <option value="">选择世界</option>
           {Object.values(worlds).map(world => (
             <option key={world.id} value={world.id}>
               {world.name}
@@ -156,11 +156,11 @@ export const LoreManagementSection: React.FC = () => {
       {selectedWorldId && (
         <Tabs defaultValue="browse" >
           <TabsList>
-            <TabsTrigger value="browse">Browse</TabsTrigger>
-            <TabsTrigger value="create">Create</TabsTrigger>
-            <TabsTrigger value="search">Search</TabsTrigger>
-            <TabsTrigger value="import-export">Import/Export</TabsTrigger>
-            <TabsTrigger value="usage">Usage</TabsTrigger>
+            <TabsTrigger value="browse">浏览</TabsTrigger>
+            <TabsTrigger value="create">创建</TabsTrigger>
+            <TabsTrigger value="search">搜索</TabsTrigger>
+            <TabsTrigger value="import-export">导入/导出</TabsTrigger>
+            <TabsTrigger value="usage">使用情况</TabsTrigger>
           </TabsList>
 
           {/* Browse Tab */}
@@ -190,7 +190,7 @@ export const LoreManagementSection: React.FC = () => {
             <FactEditor
               worldId={selectedWorldId}
               onSave={() => {
-                setMessage({ type: 'success', text: 'Fact created successfully' });
+                setMessage({ type: 'success', text: "设定创建成功" });
               }}
             />
           </TabsContent>
@@ -253,7 +253,7 @@ export const LoreManagementSection: React.FC = () => {
           factId={selectedFactId}
           onClose={() => setSelectedFactId(null)}
           onUpdate={() => {
-            setMessage({ type: 'success', text: 'Fact updated successfully' });
+            setMessage({ type: 'success', text: "设定更新成功" });
           }}
         />
       )}

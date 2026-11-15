@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { displayLabel } from '@/lib/i18n/zhCN';
 import { DataField } from '@/components/shared/DataField';
 import { ToneSettings } from '@/types/tone-settings.types';
 import {
@@ -29,13 +30,13 @@ export function ToneSettingsDisplay({
   const getNarrativeStyleDisplay = () => {
     const style = toneSettings.narrativeStyle;
     const description = NARRATIVE_STYLE_DESCRIPTIONS[style];
-    return `${style.charAt(0).toUpperCase() + style.slice(1)} - ${description}`;
+    return `${displayLabel(style)} - ${description}`;
   };
 
   const getLanguageComplexityDisplay = () => {
     const complexity = toneSettings.languageComplexity;
     const description = LANGUAGE_COMPLEXITY_DESCRIPTIONS[complexity];
-    return `${complexity.charAt(0).toUpperCase() + complexity.slice(1)} - ${description}`;
+    return `${displayLabel(complexity)} - ${description}`;
   };
 
   return (
@@ -43,30 +44,30 @@ export function ToneSettingsDisplay({
       className="world-detail-section"
       aria-labelledby="tone-settings-heading"
     >
-      <h2 id="tone-settings-heading">Narrative tone settings</h2>
+      <h2 id="tone-settings-heading">叙事风格设置</h2>
       <p>
-        These settings guide how the narrative is written for this world.
+        这些设置决定这个世界的叙事写作方式。
       </p>
 
       <div className="world-detail-meta-grid">
         <DataField
-          label="Content Rating"
+          label="内容分级"
           value={getContentRatingDisplay()}
           variant="stacked"
         />
         <DataField
-          label="Narrative Style"
+          label="叙事风格"
           value={getNarrativeStyleDisplay()}
           variant="stacked"
         />
         <DataField
-          label="Language Complexity"
+          label="语言复杂度"
           value={getLanguageComplexityDisplay()}
           variant="stacked"
         />
         {toneSettings.customInstructions && (
           <DataField
-            label="Custom Instructions"
+            label="自定义指令"
             value={toneSettings.customInstructions}
             variant="stacked"
           />

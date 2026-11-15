@@ -35,7 +35,7 @@ export function DropConfirmationDialog({
     <SimpleModal
       isOpen={isOpen}
       onClose={onClose}
-      title="Drop Item"
+      title="丢弃物品"
       showCloseButton={false}
       footer={
         <div>
@@ -45,7 +45,7 @@ export function DropConfirmationDialog({
             variant="outline"
             autoFocus
           >
-            Cancel
+            取消
           </Button>
 
           <Button
@@ -53,14 +53,14 @@ export function DropConfirmationDialog({
             onClick={onConfirm}
             variant="destructive"
           >
-            Drop
+            丢弃
           </Button>
         </div>
       }
     >
       <div>
         <p>
-          Are you sure you want to drop <strong>{item.name}</strong>?
+          确定要丢弃 <strong>{item.name}</strong>?
         </p>
 
         {storeError && (
@@ -73,7 +73,7 @@ export function DropConfirmationDialog({
         {item.stackable && item.quantity > 1 && (
           <div>
             <Label htmlFor="drop-quantity">
-              Quantity to drop
+              丢弃数量
             </Label>
             <Input
               id="drop-quantity"
@@ -85,7 +85,7 @@ export function DropConfirmationDialog({
               aria-invalid={!!quantityError}
               aria-describedby={quantityError ? "quantity-error" : undefined}
             />
-            <p>Available: {item.quantity}</p>
+            <p>可用： {item.quantity}</p>
             {quantityError && (
               <p id="quantity-error" >
                 {quantityError}

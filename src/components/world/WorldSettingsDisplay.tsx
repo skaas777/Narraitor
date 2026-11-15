@@ -24,26 +24,26 @@ export function WorldSettingsDisplay({ settings }: WorldSettingsDisplayProps) {
       className="world-detail-section"
       aria-labelledby="settings-heading"
     >
-      <h2 id="settings-heading">Character creation rules for this world</h2>
+      <h2 id="settings-heading">此世界的角色创建规则</h2>
       <div className="world-detail-meta-grid">
         <DataField
-          label="Max Attributes"
-          value={settings?.maxAttributes || 'Not set'}
+          label="属性上限"
+          value={settings?.maxAttributes || "未设置"}
           variant="outline"
         />
         <DataField
-          label="Max Skills"
-          value={settings?.maxSkills || 'Not set'}
+          label="技能上限"
+          value={settings?.maxSkills || "未设置"}
           variant="outline"
         />
         <DataField
-          label="Attribute Point Pool"
-          value={settings?.attributePointPool || 'Not set'}
+          label="属性点池"
+          value={settings?.attributePointPool || "未设置"}
           variant="outline"
         />
         <DataField
-          label="Skill Point Pool"
-          value={settings?.skillPointPool || 'Not set'}
+          label="技能点池"
+          value={settings?.skillPointPool || "未设置"}
           variant="outline"
         />
       </div>

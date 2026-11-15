@@ -16,7 +16,7 @@ describe('LoadingOverlay', () => {
       render(<LoadingOverlay isVisible={true} />);
       
       expect(screen.getByRole('dialog')).toBeInTheDocument();
-      expect(screen.getByText('Please wait')).toBeInTheDocument();
+      expect(screen.getByText("请稍候")).toBeInTheDocument();
     });
 
     it('should display custom message when provided', () => {
@@ -62,7 +62,7 @@ describe('LoadingOverlay', () => {
         />
       );
 
-      const cancelButton = screen.getByText('Cancel');
+      const cancelButton = screen.getByText("取消");
       expect(cancelButton).toBeInTheDocument();
 
       fireEvent.click(cancelButton);

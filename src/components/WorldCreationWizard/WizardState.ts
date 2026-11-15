@@ -40,11 +40,11 @@ export const WIZARD_MAX_ATTRIBUTES = 6;
 export const WIZARD_MAX_SKILLS = 12;
 
 export const WIZARD_STEPS = [
-  { id: 'basic-info', label: 'Basic Information' },
-  { id: 'description', label: 'World Description' },
-  { id: 'attributes', label: 'Review Attributes' },
-  { id: 'skills', label: 'Review Skills' },
-  { id: 'finalize', label: 'Finalize' },
+  { id: 'basic-info', label: "基本信息" },
+  { id: 'description', label: "世界描述" },
+  { id: 'attributes', label: "查看属性" },
+  { id: 'skills', label: "查看技能" },
+  { id: 'finalize', label: "完成" },
 ];
 
 // Draft auto-save (useDraftAutoSave) configuration for world creation.

@@ -143,7 +143,7 @@ describe('ChoiceSelector - Inventory Requirements', () => {
     const handleSelect = jest.fn();
     render(<ChoiceSelector decision={decision} onSelect={handleSelect} inventoryItems={mockInventoryItems} />);
 
-    expect(screen.getByText(/Requires all:/i)).toBeInTheDocument();
+    expect(screen.getByText(/需要满足以下全部条件：/i)).toBeInTheDocument();
     const optionButton = screen.getByTestId('choice-option-opt-1');
     const requirementBadge = within(optionButton).getByText(/Magic Key\s*\(0\/1\)/i);
     expect(requirementBadge).toBeInTheDocument();
@@ -162,7 +162,7 @@ describe('ChoiceSelector - Inventory Requirements', () => {
     render(<ChoiceSelector decision={decision} onSelect={handleSelect} inventoryItems={mockInventoryItems} />);
 
     // Should show current quantity vs required
-    expect(screen.getByText(/Requires all:/i)).toBeInTheDocument();
+    expect(screen.getByText(/需要满足以下全部条件：/i)).toBeInTheDocument();
     const optionButton = screen.getByTestId('choice-option-opt-1');
     const requirementBadge = within(optionButton).getByText(/Healing Potion\s*\(3\/5\)/i);
     expect(requirementBadge).toBeInTheDocument();
@@ -228,7 +228,7 @@ describe('ChoiceSelector - Inventory Requirements', () => {
 
     const doorButton = screen.getByTestId('choice-option-opt-1');
     expect(doorButton).not.toBeDisabled();
-    expect(screen.getByText(/Requires any of:/i)).toBeInTheDocument();
+    expect(screen.getByText(/需要满足以下任一条件：/i)).toBeInTheDocument();
     const optionButton = screen.getByTestId('choice-option-opt-1');
     expect(within(optionButton).getByText(/^Lockpick$/i)).toBeInTheDocument();
     expect(within(optionButton).getByText(/Magic Key\s*\(0\/1\)/i)).toBeInTheDocument();

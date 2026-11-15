@@ -3,22 +3,22 @@ import { Step } from 'react-joyride';
 export const worldGenerationTour: Step[] = [
   {
     target: '[aria-describedby="generate-world-desc"]',
-    content: 'This generates a complete world setup for you — a fast way to get started.',
+    content: "这会为你生成完整的世界设定——助你快速上手。",
     placement: 'center',
   },
   {
     target: '#world-name',
-    content: 'Here you can name your world, or leave it blank to let the system invent one for you.',
+    content: "你可以在这里为世界命名，也可以留空，让系统为你创造一个名字。",
     placement: 'auto',
   },
   {
     target: '[role="radiogroup"]', // Targets the WorldTypeSelector
-    content: 'You can choose "Original" for a unique setting, or use "Inspired By" / "Set Within" to draw on existing fiction or history.',
+    content: "你可以选择“原创”来打造独特设定，或使用“灵感来自”/“设定于”来借鉴现有虚构作品或历史。",
     placement: 'auto',
   },
   {
     target: '[data-tutorial="generate-world-button"]',
-    content: "When you're ready, this creates your world — attributes, skills, and a cover image, generated automatically.",
+    content: "准备好后，这里会创建你的世界——属性、技能和封面图都会自动生成。",
     placement: 'auto',
   },
 ];

@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="component-loading-center">
       <LoadingState
-        message="Loading..."
+        message="加载中……"
         size="lg"
       />
     </div>

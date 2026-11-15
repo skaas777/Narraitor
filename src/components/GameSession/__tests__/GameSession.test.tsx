@@ -138,10 +138,10 @@ describe('GameSession', () => {
     it('shows the world-not-found error when the world does not exist', () => {
       renderGameSession({ worldId: 'world-does-not-exist' });
       expect(screen.getByTestId('game-session-error-container')).toBeInTheDocument();
-      expect(screen.getByText(/World Not Found/i)).toBeInTheDocument();
+      expect(screen.getByText(/未找到世界/i)).toBeInTheDocument();
       // #1479: every play-entry early-exit state offers a way back to navigation
       // rather than stranding the player on the chrome-free manuscript surface.
-      expect(screen.getByRole('button', { name: /back to worlds/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /返回世界列表/i })).toBeInTheDocument();
     });
 
     it('shows the no-characters CTA when initializing with no characters for the world', () => {
@@ -159,9 +159,9 @@ describe('GameSession', () => {
 
       renderGameSession();
       expect(screen.getByTestId('game-session-no-characters')).toBeInTheDocument();
-      expect(screen.getByText(/No Characters Found/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /create character/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /back to worlds/i })).toBeInTheDocument();
+      expect(screen.getByText(/未找到角色/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /创建角色/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /返回世界列表/i })).toBeInTheDocument();
 
       // Restore default character store for following tests.
       (require('@/state/characterStore').useCharacterStore as jest.Mock).mockReturnValue(characterStore);
@@ -171,8 +171,8 @@ describe('GameSession', () => {
       sessionStore = createMockSessionStore({ status: 'initializing' });
       renderGameSession();
       expect(screen.getByTestId('game-session-initializing')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /start session/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /back to worlds/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /开始冒险记录/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /返回世界列表/i })).toBeInTheDocument();
     });
 
     it('shows the resume prompt when a saved session is present and no session has started', () => {

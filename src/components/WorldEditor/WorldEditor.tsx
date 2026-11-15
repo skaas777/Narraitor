@@ -37,7 +37,7 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
   useEffect(() => {
     fetchWorlds().catch((err) => {
       logger.error('Failed to load worlds:', err);
-      setError("Couldn't load this world. Try refreshing the page.");
+      setError("无法加载此世界。请尝试刷新页面。");
       setLoading(false);
     });
   }, [fetchWorlds]);
@@ -61,7 +61,7 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
     }
 
     // Store is hydrated and has worlds, but not this id
-    setError('World not found');
+    setError("未找到世界");
     setLoading(false);
   }, [storeWorld, storeWorlds, storeLoading, worldId]);
 
@@ -78,7 +78,7 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
 
       router.push('/worlds'); // Navigate back to worlds list
     } catch {
-      setError("Couldn't save your changes. Try again.");
+      setError("无法保存你的更改。请重试。");
     } finally {
       setSaving(false);
     }
@@ -97,8 +97,8 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
 
   if (loading) {
     return (
-      <div className="world-editor-loading" role="status" aria-label="Loading world data">
-        <div>Loading world data...</div>
+      <div className="world-editor-loading" role="status" aria-label="正在加载世界数据">
+        <div>正在加载世界数据……</div>
       </div>
     );
   }
@@ -106,8 +106,8 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
   if (error || !world) {
     return (
       <div className="world-editor-error" role="alert">
-        <div>{error || 'World not found'}</div>
-        <Button onClick={() => router.push('/worlds')}>Return to Worlds</Button>
+        <div>{error || "未找到世界"}</div>
+        <Button onClick={() => router.push('/worlds')}>返回世界列表</Button>
       </div>
     );
   }
@@ -121,15 +121,15 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
         handleSave();
       }}
     >
-      <CollapsibleSection title="Basic Information">
+      <CollapsibleSection title="基本信息">
         <WorldBasicInfoForm world={world} onChange={handleWorldChange} />
       </CollapsibleSection>
 
-      <CollapsibleSection title="World Image" initialCollapsed={true}>
+      <CollapsibleSection title="世界图片" initialCollapsed={true}>
         <WorldImageForm world={world} onChange={handleWorldChange} />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Attributes" initialCollapsed={true}>
+      <CollapsibleSection title="属性" initialCollapsed={true}>
         <WorldAttributesForm
           attributes={world.attributes}
           skills={world.skills}
@@ -139,7 +139,7 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="Skills" initialCollapsed={true}>
+      <CollapsibleSection title="技能" initialCollapsed={true}>
         <WorldSkillsForm
           skills={world.skills}
           attributes={world.attributes}
@@ -148,7 +148,7 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title="World Settings" initialCollapsed={true}>
+      <CollapsibleSection title="世界设置" initialCollapsed={true}>
         <WorldSettingsForm
           settings={world.settings}
           toneSettings={world.toneSettings}
@@ -165,13 +165,13 @@ const WorldEditor: React.FC<WorldEditorProps> = ({ worldId }) => {
           gap="md"
           actions={[
             {
-              label: 'Cancel',
+              label: "取消",
               onClick: handleCancel,
               variant: 'secondary',
               disabled: saving,
             },
             {
-              label: saving ? 'Saving...' : 'Save Changes',
+              label: saving ? "保存中……" : "保存更改",
               onClick: () => handleSave(), // Wrap in arrow to avoid event object issues
               variant: 'primary',
               disabled: saving,

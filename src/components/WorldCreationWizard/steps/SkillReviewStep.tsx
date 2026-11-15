@@ -29,6 +29,7 @@ import {
   WizardSelect,
 } from '@/components/shared/wizard';
 import { Button } from '@/components/ui/button';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 /** A skill suggestion plus the edit tracking the review step keeps on it. */
 interface ReviewedSkill extends SkillSuggestion {
@@ -262,8 +263,8 @@ export default function SkillReviewStep({
   return (
     <div data-testid="skill-review-step">
       <WizardFormSection
-        title="Review Skills"
-        description={`Keep the skills that fit your world. At least one, up to ${maxSkills}.`}
+        title="查看技能"
+        description={`保留适合你的世界的技能。至少 1 个，最多 ${maxSkills} 个。`}
         dataTutorial="skill-editor"
       >
         {showClearButton && (
@@ -275,7 +276,7 @@ export default function SkillReviewStep({
               size="sm"
               data-testid="clear-ai-suggestions-button"
             >
-              Clear Suggestions
+              清除建议
             </Button>
           </div>
         )}
@@ -286,7 +287,7 @@ export default function SkillReviewStep({
               className="wizard-difficulty-legend"
               data-testid="skill-difficulty-legend"
             >
-              <span className="wizard-difficulty-legend-label">Difficulty</span>
+              <span className="wizard-difficulty-legend-label">难度</span>
               {SKILL_DIFFICULTIES.map((difficulty) => (
                 <span
                   key={difficulty.value}
@@ -301,9 +302,9 @@ export default function SkillReviewStep({
           <div className="wizard-review-suggestions">
             {suggestions.length === 0 ? (
               <div className="wizard-empty-state">
-                <p>No skill suggestions available</p>
+                <p>暂无技能建议</p>
                 <p>
-                  You can add skills to your world later in the world editor.
+                  之后你可以在世界编辑器中为世界添加技能。
                 </p>
               </div>
             ) : (
@@ -320,12 +321,12 @@ export default function SkillReviewStep({
                     <div className="wizard-review-card-meta">
                       <span>{suggestion.name}</span>
                       <span className={difficultyBadgeClass(suggestion.difficulty)}>
-                        {suggestion.difficulty}
+                        {displayLabel(suggestion.difficulty)}
                       </span>
-                      {suggestion.isModified && <span>Modified</span>}
+                      {suggestion.isModified && <span>已修改</span>}
                       {attributes.some((a) => suggestion.attributeIds?.includes(a.id)) && (
                         <span>
-                          Linked:{' '}
+                          关联：{' '}
                           {attributes
                             .filter((a) => suggestion.attributeIds?.includes(a.id))
                             .map((a) => a.name)
@@ -344,7 +345,7 @@ export default function SkillReviewStep({
                           toggleDetails(index);
                         }}
                       >
-                        {expanded.has(index) ? 'Hide details' : 'Customize'}
+                        {expanded.has(index) ? "隐藏详情" : "自定义"}
                       </Button>
                       <Button
                         type="button"
@@ -355,7 +356,7 @@ export default function SkillReviewStep({
                         aria-pressed={suggestion.accepted}
                         disabled={!suggestion.accepted && acceptedCount >= maxSkills}
                       >
-                        {suggestion.accepted ? 'Selected' : 'Excluded'}
+                        {suggestion.accepted ? "已选择" : "已排除"}
                       </Button>
                     </div>
                   </div>
@@ -365,7 +366,7 @@ export default function SkillReviewStep({
                       key={`skill-expanded-${index}`}
                       className="wizard-review-card-detail"
                     >
-                      <WizardFormGroup label="Name">
+                      <WizardFormGroup label="名称">
                         <WizardTextField
                           value={suggestion.name}
                           onChange={(value) =>
@@ -375,7 +376,7 @@ export default function SkillReviewStep({
                         />
                       </WizardFormGroup>
 
-                      <WizardFormGroup label="Description">
+                      <WizardFormGroup label="描述">
                         <WizardTextArea
                           value={suggestion.description}
                           onChange={(value) =>
@@ -388,7 +389,7 @@ export default function SkillReviewStep({
 
                       <div className="wizard-review-detail-row">
                         <div>
-                          <WizardFormGroup label="Difficulty">
+                          <WizardFormGroup label="难度">
                             <WizardSelect
                               value={suggestion.difficulty}
                               onChange={(value) =>
@@ -404,10 +405,9 @@ export default function SkillReviewStep({
                         </div>
 
                         <div>
-                          <WizardFormGroup label="Linked Attributes">
+                          <WizardFormGroup label="关联属性">
                             <div className="form-help-text">
-                              Select one or more attributes this skill depends
-                              on
+                              选择该技能依赖的一项或多项属性
                             </div>
                             <div
                               className="wizard-skill-attr-grid"
@@ -442,8 +442,7 @@ export default function SkillReviewStep({
                                 ))
                               ) : (
                                 <p>
-                                  No attributes available. Skills will not be
-                                  linked to any attributes.
+                                  没有可用的属性。技能将不会关联任何属性。
                                 </p>
                               )}
                             </div>
@@ -466,7 +465,7 @@ export default function SkillReviewStep({
                         )}
 
                         <div>
-                          <p>Values range from 1 (Novice) to 5 (Master).</p>
+                          <p>数值范围为 1（新手）到 5（大师）。</p>
                         </div>
                       </div>
                     </div>
@@ -480,10 +479,10 @@ export default function SkillReviewStep({
           <div className="wizard-review-custom" data-tutorial="skill-custom">
             <div className="wizard-review-custom-head">
               <div className="wizard-review-custom-heading">
-                <h3 className="wizard-subheading">Custom Skills</h3>
+                <h3 className="wizard-subheading">自定义技能</h3>
                 <p>
-                  Create your own unique skills for this world ({acceptedCount}
-                  /{maxSkills} slots used)
+                  为这个世界创建你自己的独特技能（{acceptedCount}
+                  /{maxSkills} 个槽位已使用）
                 </p>
               </div>
               <Button
@@ -494,17 +493,17 @@ export default function SkillReviewStep({
                 data-testid="add-custom-skill-button"
                 disabled={acceptedCount >= maxSkills}
               >
-                + Add Custom Skill
+                + 添加自定义技能
               </Button>
             </div>
 
             {customSkills.length === 0 && !isCreatingCustomSkill ? (
               <div className="wizard-empty-state">
-                <p>No custom skills yet</p>
+                <p>还没有自定义技能</p>
                 <p>
                   {acceptedCount < maxSkills
-                    ? `You have ${maxSkills - acceptedCount} skill slot${maxSkills - acceptedCount !== 1 ? 's' : ''} available for custom skills`
-                    : 'Remove some suggested skills to add custom ones'}
+                    ? `你有 ${maxSkills - acceptedCount} 个技能槽位${''} 可用于自定义技能`
+                    : "移除一些系统建议的技能，以添加自定义技能"}
                 </p>
               </div>
             ) : (
@@ -518,14 +517,14 @@ export default function SkillReviewStep({
                     <div className="wizard-review-card-head">
                       <div className="wizard-review-card-meta">
                         <span>{skill.name}</span>
-                        <span>Custom</span>
+                        <span>自定义</span>
                         <span className={difficultyBadgeClass(skill.difficulty)}>
-                          {skill.difficulty}
+                          {displayLabel(skill.difficulty)}
                         </span>
                         {skill.attributeIds &&
                           skill.attributeIds.length > 0 && (
                             <span>
-                                                          Linked:{' '}
+                                                          关联：{' '}
                                                           {skill.attributeIds
                                                             .map(
                                                               (attrId) =>
@@ -545,7 +544,7 @@ export default function SkillReviewStep({
                           size="sm"
                           data-testid={`edit-custom-skill-${skill.id}`}
                         >
-                          Edit
+                          编辑
                         </Button>
                         <Button
                           type="button"
@@ -554,7 +553,7 @@ export default function SkillReviewStep({
                           size="sm"
                           data-testid={`delete-custom-skill-${skill.id}`}
                         >
-                          Delete
+                          删除
                         </Button>
                       </div>
                     </div>
@@ -592,13 +591,13 @@ export default function SkillReviewStep({
         >
           <div className="wizard-slot-summary-text">
             <div className="wizard-slot-summary-count">
-              <span>Skills Selected: {acceptedCount} / {maxSkills}</span>
-              {acceptedCount >= maxSkills && <span>(Maximum reached)</span>}
+              <span>已选技能： {acceptedCount} / {maxSkills}</span>
+              {acceptedCount >= maxSkills && <span>（已达上限）</span>}
             </div>
             <div className="wizard-slot-summary-note">
               {acceptedCount < maxSkills
-                ? `${maxSkills - acceptedCount} slot${maxSkills - acceptedCount !== 1 ? 's' : ''} available`
-                : 'All slots filled'}
+                ? `有 ${maxSkills - acceptedCount} 个槽位${''} 可用`
+                : "所有槽位已满"}
             </div>
           </div>
           <div className="wizard-slot-meter-wrap">
@@ -626,11 +625,11 @@ export default function SkillReviewStep({
         isOpen={showClearConfirmation}
         onClose={() => setShowClearConfirmation(false)}
         onConfirm={handleClearSuggestions}
-        title="Clear Suggestions?"
-        message="This removes every suggested attribute and skill, on both review steps. Custom attributes and skills you added stay. You can generate new suggestions from the description step."
+        title="清除建议？"
+        message="这会移除两个审核步骤中的所有建议属性和技能。你添加的自定义属性和技能会保留。你可以从描述步骤重新生成建议。"
         variant="destructive"
-        confirmText="Clear Suggestions"
-        cancelText="Cancel"
+        confirmText="清除建议"
+        cancelText="取消"
       />
     </div>
   );

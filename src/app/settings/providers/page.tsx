@@ -74,24 +74,24 @@ function LocalProvidersSettingsPage() {
   const removeMessage = !providerToRemove
     ? ''
     : list.length === 1
-      ? "Removing your only provider also clears the encryption key stored in this browser. You'll need to set up a provider again before playing."
+      ? "移除你唯一的模型服务也会清除存储在此浏览器中的加密密钥。游玩前你需要重新设置模型服务。"
       : providerToRemove.id === activeProviderId
-        ? 'This provider is currently in use. Another saved provider will take over.'
-        : 'Are you sure you want to remove this provider? Its saved key will be deleted from this browser.';
+        ? "此模型服务当前正在使用。将改用另一个已保存的模型服务。"
+        : "确定要移除此模型服务吗？其已保存的密钥将从此浏览器中删除。";
 
   return (
     <PageLayout
-      title="Providers"
-      description="Add the provider key used to generate your stories. It stays in this browser, encrypted, and is only ever used to make your own requests."
+      title="模型服务"
+      description="添加用于生成故事的模型服务密钥。它会加密保存在此浏览器中，仅用于发起你自己的请求。"
       actions={
         hasHydrated && !showWizard && list.length > 0 ? (
-          <Button onClick={() => setShowWizard(true)}>Add provider</Button>
+          <Button onClick={() => setShowWizard(true)}>添加模型服务</Button>
         ) : undefined
       }
     >
       <div className="component-providers-page">
         {!hasHydrated ? (
-          <LoadingState variant="skeleton" message="Loading providers..." />
+          <LoadingState variant="skeleton" message="正在加载模型服务..." />
         ) : showWizard ? (
           <ProviderWizard
             onComplete={() => setShowWizard(false)}
@@ -99,11 +99,11 @@ function LocalProvidersSettingsPage() {
           />
         ) : list.length === 0 ? (
           <div className="providers-empty">
-            <p>No provider yet. Add one to start playing.</p>
-            <Button onClick={() => setShowWizard(true)}>Set up a provider</Button>
+            <p>尚无模型服务。添加一个即可开始游玩。</p>
+            <Button onClick={() => setShowWizard(true)}>设置模型服务</Button>
             <p className="providers-empty-help">
-              Not sure why you need your own key, or what it costs?{' '}
-              <Link href="/faq#why-my-own-key">The FAQ covers it</Link>.
+              不确定为什么需要自己的密钥，或者费用是多少？{' '}
+              <Link href="/faq#why-my-own-key">常见问题中有说明</Link>.
             </p>
           </div>
         ) : (
@@ -129,10 +129,10 @@ function LocalProvidersSettingsPage() {
           isOpen={providerToRemoveId !== null}
           onClose={handleCloseRemoveDialog}
           onConfirm={handleConfirmRemove}
-          title="Remove Provider"
+          title="移除模型服务"
           description={removeMessage}
-          itemName={providerToRemove?.name || 'this provider'}
-          confirmButtonText="Remove"
+          itemName={providerToRemove?.name || '此模型服务'}
+          confirmButtonText="移除"
           isDeleting={isRemoving}
         />
       </div>

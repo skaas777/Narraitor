@@ -158,41 +158,48 @@ CRITICAL INSTRUCTIONS:
     // Clean the JSON string before parsing
     let jsonString = json;
     
-    // Remove any comments that might have been included
-    jsonString = jsonString.replace(/\/\/.*$/gm, ''); // Remove single-line comments
-    jsonString = jsonString.replace(/\/\*[\s\S]*?\*\//g, ''); // Remove multi-line comments
+    // Preserve valid JSON verbatim: normalizing Chinese quotation marks inside
+    // a string turns them into unescaped JSON delimiters.
+    try {
+      JSON.parse(jsonString);
+    } catch {
+      // Remove any comments that might have been included
+      jsonString = jsonString.replace(/\/\/.*$/gm, ''); // Remove single-line comments
+      jsonString = jsonString.replace(/\/\*[\s\S]*?\*\//g, ''); // Remove multi-line comments
     
-    // Remove any placeholder text that wasn't replaced with random values within ranges
-    jsonString = jsonString.replace(/REPLACE_WITH_NUMBER_(\d+)_TO_(\d+)/g, (match: string, min: string, max: string) => {
-      const minVal = parseInt(min, 10);
-      const maxVal = parseInt(max, 10);
-      const randomValue = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-      return String(randomValue);
-    });
+      // Remove any placeholder text that wasn't replaced with random values within ranges
+      jsonString = jsonString.replace(/REPLACE_WITH_NUMBER_(\d+)_TO_(\d+)/g, (match: string, min: string, max: string) => {
+        const minVal = parseInt(min, 10);
+        const maxVal = parseInt(max, 10);
+        const randomValue = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        return String(randomValue);
+      });
     
-    // Fallback for any remaining number placeholders
-    jsonString = jsonString.replace(/<number>/g, () => {
-      return '5';
-    });
+      // Fallback for any remaining number placeholders
+      jsonString = jsonString.replace(/<number>/g, () => {
+        return '5';
+      });
     
-    // Remove trailing commas before closing brackets/braces
-    jsonString = jsonString.replace(/,\s*([}\]])/g, '$1');
+      // Remove trailing commas before closing brackets/braces
+      jsonString = jsonString.replace(/,\s*([}\]])/g, '$1');
     
-    // Fix common JSON issues
-    // Normalize quotes to ensure valid JSON
-    const { normalizeQuotationMarks } = await import('@/lib/utils/textNormalization');
-    jsonString = normalizeQuotationMarks(jsonString);
+      // Fix common JSON issues
+      // Normalize quotes to ensure valid JSON
+      const { normalizeQuotationMarks } = await import('@/lib/utils/textNormalization');
+      jsonString = normalizeQuotationMarks(jsonString);
     
-    // Remove any non-printable characters
-    jsonString = jsonString.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
+      // Remove any non-printable characters
+      jsonString = jsonString.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
     
-    // Ensure proper escaping of quotes inside strings
-    jsonString = jsonString.replace(/"([^"]*)":/g, (_: string, key: string) => {
-      // Escape any unescaped quotes inside the key
-      const escapedKey = key.replace(/\\"/g, '"').replace(/"/g, '\\"');
-      return `"${escapedKey}":`;
-    });
+      // Ensure proper escaping of quotes inside strings
+      jsonString = jsonString.replace(/"([^"]*)":/g, (_: string, key: string) => {
+        // Escape any unescaped quotes inside the key
+        const escapedKey = key.replace(/\\"/g, '"').replace(/"/g, '\\"');
+        return `"${escapedKey}":`;
+      });
     
+    }
+
     let characterData: GeneratedCharacterData;
     try {
       characterData = JSON.parse(jsonString) as GeneratedCharacterData;
@@ -321,28 +328,28 @@ CRITICAL INSTRUCTIONS:
     if (!characterData.background || typeof characterData.background !== 'object') {
       logger.warn('CharacterGenerator', 'AI generated invalid background, using defaults');
       characterData.background = {
-        description: 'A mysterious character with an unknown past.',
-        personality: 'Determined and resourceful.',
-        motivation: 'Seeking their place in the world.',
-        fears: ['The unknown', 'Being forgotten']
+        description: "一位过去未知的神秘角色。",
+        personality: "意志坚定，足智多谋。",
+        motivation: "寻找自己在世界中的位置。",
+        fears: ["未知之事", "被人遗忘"]
       };
     }
     
     // Ensure background has required fields
     if (!characterData.background.description || typeof characterData.background.description !== 'string') {
-      characterData.background.description = 'A mysterious character with an unknown past.';
+      characterData.background.description = "一位过去未知的神秘角色。";
     }
     characterData.background.description = truncate(characterData.background.description, MAX_BACKGROUND_TEXT_LENGTH - 3);
 
     if (!characterData.background.personality || typeof characterData.background.personality !== 'string') {
-      characterData.background.personality = 'Determined and resourceful.';
+      characterData.background.personality = "意志坚定，足智多谋。";
     }
     characterData.background.personality = truncate(characterData.background.personality, MAX_BACKGROUND_TEXT_LENGTH - 3);
     if (!characterData.background.motivation || typeof characterData.background.motivation !== 'string') {
-      characterData.background.motivation = 'Seeking their place in the world.';
+      characterData.background.motivation = "寻找自己在世界中的位置。";
     }
     if (!Array.isArray(characterData.background.fears) || characterData.background.fears.length === 0) {
-      characterData.background.fears = ['The unknown', 'Being forgotten'];
+      characterData.background.fears = ["未知之事", "被人遗忘"];
     }
     
     // Check for duplicate names (case-insensitive)

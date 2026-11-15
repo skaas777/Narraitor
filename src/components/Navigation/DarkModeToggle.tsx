@@ -7,9 +7,9 @@ import { useTheme } from '@/lib/theme';
 import type { ColorScheme } from '@/lib/theme';
 
 const schemes: { id: ColorScheme; label: string; Icon: typeof Sun }[] = [
-  { id: 'light', label: 'Light', Icon: Sun },
-  { id: 'dark', label: 'Dark', Icon: Moon },
-  { id: 'system', label: 'System', Icon: Monitor },
+  { id: 'light', label: "浅色", Icon: Sun },
+  { id: 'dark', label: "深色", Icon: Moon },
+  { id: 'system', label: "系统", Icon: Monitor },
 ];
 
 interface DarkModeToggleProps {
@@ -22,7 +22,7 @@ export function DarkModeToggle({ compact, showLabels }: DarkModeToggleProps) {
   const { colorScheme, setColorScheme } = useTheme();
 
   return (
-    <div className="dark-mode-toggle" role="radiogroup" aria-label="Color scheme">
+    <div className="dark-mode-toggle" role="radiogroup" aria-label="配色方案">
       {schemes.map(({ id, label, Icon }) => (
         <button
           key={id}

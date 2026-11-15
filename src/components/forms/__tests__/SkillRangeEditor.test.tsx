@@ -34,7 +34,7 @@ describe('SkillRangeEditor', () => {
     );
 
     expect(
-      screen.getByRole('slider', { name: 'Test Skill skill level' })
+      screen.getByRole('slider', { name: "Test Skill的技能等级" })
     ).toBeInTheDocument();
   });
 
@@ -118,8 +118,8 @@ describe('SkillRangeEditor', () => {
     );
 
     // Level for value 3 is "Competent"
-    expect(screen.getByText('Competent')).toBeInTheDocument();
-    expect(screen.getByText('Solid performance in most situations')).toBeInTheDocument();
+    expect(screen.getByText("熟练")).toBeInTheDocument();
+    expect(screen.getByText("在大多数情况下表现稳定")).toBeInTheDocument();
   });
 
   it('updates level description when value changes', () => {
@@ -132,13 +132,13 @@ describe('SkillRangeEditor', () => {
     );
 
     // Initial level for value 3 is "Competent"
-    expect(screen.getByText('Competent')).toBeInTheDocument();
+    expect(screen.getByText("熟练")).toBeInTheDocument();
     
     // Change to level 5 "Master"
     const slider = screen.getByRole('slider');
     fireEvent.change(slider, { target: { value: '5' } });
     
-    expect(screen.getByText('Master')).toBeInTheDocument();
-    expect(screen.getByText('Complete mastery at professional level')).toBeInTheDocument();
+    expect(screen.getByText("大师")).toBeInTheDocument();
+    expect(screen.getByText("达到专业水平的完全精通")).toBeInTheDocument();
   });
 });

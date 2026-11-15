@@ -55,7 +55,7 @@ const buildConsequenceChips = (
         key: `relationship-${consequence.targetId}-${index}`,
         kind: 'relationship',
         direction: delta > 0 ? 'positive' : 'negative',
-        label: `${npcName} ${delta > 0 ? '+' : '−'}${Math.abs(delta)} trust`,
+        label: `${npcName} 信任 ${delta > 0 ? '+' : '−'}${Math.abs(delta)}`,
       });
       return;
     }
@@ -69,7 +69,7 @@ const buildConsequenceChips = (
         key: `alignment-${index}`,
         kind: 'alignment',
         direction: value > 0 ? 'positive' : 'negative',
-        label: `${value > 0 ? 'Order' : 'Chaos'} +${magnitude}`,
+        label: `${value > 0 ? "秩序" : "混乱"} +${magnitude}`,
       });
     }
   });
@@ -82,11 +82,11 @@ const buildConsequenceChips = (
  * (Show decision consequences in narrative UI)
  */
 const outcomeLabels: Record<DecisionOutcome, string> = {
-  success: 'Success',
-  failure: 'Failure',
-  mixed: 'Mixed',
-  'critical-success': 'Critical success',
-  'critical-failure': 'Critical failure',
+  success: "成功",
+  failure: "失败",
+  mixed: "混合",
+  'critical-success': "大成功",
+  'critical-failure': "大失败",
 };
 
 const buildOutcomeDecisionText = (
@@ -101,14 +101,16 @@ const buildOutcomeDecisionText = (
   const trimmed = decisionText.trim();
   if (!trimmed) return decisionText;
   if (/^you\s+attempt\s+to\s+/i.test(trimmed)) {
-    return trimmed;
+    return trimmed.replace(/^you\s+attempt\s+to\s+/i, '你尝试');
   }
   if (/^you\s+choose\s+to\s+/i.test(trimmed)) {
-    return trimmed.replace(/^you\s+choose\s+to\s+/i, 'You attempt to ');
+    return trimmed.replace(/^you\s+choose\s+to\s+/i, '你尝试');
   }
   if (/^you\s+/i.test(trimmed)) {
-    return trimmed.replace(/^you\s+/i, 'You attempt to ');
+    return trimmed.replace(/^you\s+/i, '你尝试');
   }
+
+  if (/^你(?:选择|尝试)/.test(trimmed)) return trimmed.replace(/^你(?:选择|尝试)/, '你尝试');
 
   const firstChar = trimmed.charAt(0);
   const normalized =
@@ -116,7 +118,7 @@ const buildOutcomeDecisionText = (
       ? `${firstChar.toLowerCase()}${trimmed.slice(1)}`
       : trimmed;
 
-  return `You attempt to ${normalized}`;
+  return `你尝试${normalized}`;
 };
 
 export const ChoiceOutcomeCallout: React.FC<ChoiceOutcomeCalloutProps> = ({
@@ -158,7 +160,7 @@ export const ChoiceOutcomeCallout: React.FC<ChoiceOutcomeCalloutProps> = ({
 
   const baseOutcomeLabel = decisionOutcome
     ? outcomeLabels[decisionOutcome]
-    : 'Decision Logged';
+    : "选择已记录";
   // Fold contributing skills into the gutter label so the player knows which
   // check(s) produced this outcome without needing the toast that was deleted.
   const outcomeLabel =

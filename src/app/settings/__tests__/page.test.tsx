@@ -43,10 +43,10 @@ describe('SettingsPage', () => {
     render(<SettingsPage />);
     
     // Test that the page has the correct title
-    expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "设置" })).toBeInTheDocument();
     
     // Test that the description mentions backup and restore functionality
-    expect(screen.getAllByText(/backup.*restore/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/备份.*恢复/i).length).toBeGreaterThan(0);
   });
 
   test('uses PageLayout component structure', () => {
@@ -56,20 +56,20 @@ describe('SettingsPage', () => {
     expect(screen.getByRole('main')).toBeInTheDocument();
     
     // Test that the content is properly structured
-    expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "设置" })).toBeInTheDocument();
   });
 
   test('includes data management section', () => {
     render(<SettingsPage />);
     
     // Test that there's a clear data management section
-    expect(screen.getByText(/data management/i)).toBeInTheDocument();
+    expect(screen.getByText(/数据管理/i)).toBeInTheDocument();
   });
 
   test('renders providers and appearance controls', () => {
     render(<SettingsPage />);
 
-    expect(screen.getByRole('link', { name: /manage providers/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /管理模型服务/i })).toHaveAttribute(
       'href',
       '/settings/providers'
     );

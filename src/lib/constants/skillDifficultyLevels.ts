@@ -27,17 +27,17 @@ export const DEFAULT_SKILL_DIFFICULTY: SkillDifficulty = 'medium';
 export const SKILL_DIFFICULTIES: SkillDifficultyDescription[] = [
   { 
     value: 'easy', 
-    label: 'Easy', 
-    description: 'Quick to learn and apply, even for beginners'
+    label: "简单",
+    description: "易学易用，初学者也能快速上手"
   },
   { 
     value: 'medium', 
-    label: 'Medium', 
-    description: 'Requires moderate practice to become proficient'
+    label: "中等",
+    description: "需要适度练习才能熟练"
   },
   { 
     value: 'hard', 
-    label: 'Hard', 
-    description: 'Requires extensive practice and natural talent to master'
+    label: "困难",
+    description: "需要大量练习和天赋才能掌握"
   }
 ];

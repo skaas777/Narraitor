@@ -71,7 +71,7 @@ export function WorldTable({
     () => [
       {
         accessorKey: 'name',
-        header: 'Name',
+        header: "名称",
         cell: ({ row }) => (
           <div
             className="component-world-table-name"
@@ -89,7 +89,7 @@ export function WorldTable({
       },
       {
         accessorKey: 'genre',
-        header: 'Genre',
+        header: "类型",
         cell: ({ row }) => {
           const genre = row.getValue('genre') as string;
           return <Badge variant="secondary">{getGenreLabel(genre)}</Badge>;
@@ -98,21 +98,21 @@ export function WorldTable({
       },
       {
         id: 'attributes',
-        header: 'Attributes',
+        header: "属性",
         accessorFn: (row) => row.attributes?.length || 0,
         cell: ({ row }) => <div>{row.original.attributes?.length || 0}</div>,
         enableSorting: true,
       },
       {
         id: 'skills',
-        header: 'Skills',
+        header: "技能",
         accessorFn: (row) => row.skills?.length || 0,
         cell: ({ row }) => <div>{row.original.skills?.length || 0}</div>,
         enableSorting: true,
       },
       {
         id: 'characters',
-        header: 'Characters',
+        header: "角色",
         accessorFn: (row) => worldCharacterIds[row.id]?.length || 0,
         cell: ({ row }) => (
           <div>{worldCharacterIds[row.original.id]?.length || 0}</div>
@@ -121,21 +121,21 @@ export function WorldTable({
       },
       {
         accessorKey: 'createdAt',
-        header: 'Created',
+        header: "创建时间",
         cell: ({ row }) => <div>{formatDate(row.getValue('createdAt'))}</div>,
         enableSorting: true,
       },
       {
         id: 'actions',
-        header: 'Actions',
+        header: "操作",
         cell: ({ row }) => (
           <div>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => handleViewWorld(row.original.id)}
-              aria-label={`View ${row.original.name}`}
-              title="View world"
+              aria-label={`查看 ${row.original.name}`}
+              title="查看世界"
             >
               <Eye />
             </Button>
@@ -143,8 +143,8 @@ export function WorldTable({
               variant="ghost"
               size="icon"
               onClick={(e) => handleEditWorld(row.original.id, e)}
-              aria-label={`Edit ${row.original.name}`}
-              title="Edit world"
+              aria-label={`编辑 ${row.original.name}`}
+              title="编辑世界"
             >
               <Pencil />
             </Button>
@@ -152,8 +152,8 @@ export function WorldTable({
               variant="ghost"
               size="icon"
               onClick={(e) => onDeleteWorld(row.original.id, e)}
-              aria-label={`Delete ${row.original.name}`}
-              title="Delete world"
+              aria-label={`删除 ${row.original.name}`}
+              title="删除世界"
             >
               <Trash2 />
             </Button>
@@ -168,7 +168,7 @@ export function WorldTable({
   if (worlds.length === 0) {
     return (
       <div>
-        <p>No worlds yet. Create one to get started.</p>
+        <p>还没有世界。创建一个开始吧。</p>
       </div>
     );
   }
@@ -188,9 +188,9 @@ export function WorldTable({
       }}
       searchable={{
         enabled: true,
-        placeholder: 'Search worlds...',
+        placeholder: "搜索世界……",
       }}
-      ariaLabel="Worlds table"
+      ariaLabel="世界表格"
       customRowRenderer={customRowRenderer}
     />
   );

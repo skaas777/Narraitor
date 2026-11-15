@@ -34,7 +34,7 @@ export const JournalEntryDetail: React.FC<JournalEntryDetailProps> = ({
       {showBackButton && onBack && (
         <div>
           <Button variant="ghost" size="sm" onClick={onBack}>
-            &larr; Back to Entries
+            ← 返回条目
           </Button>
         </div>
       )}
@@ -42,7 +42,7 @@ export const JournalEntryDetail: React.FC<JournalEntryDetailProps> = ({
       <div className="journal-entry-header">
         <h3>
           {isSystemEvent && (
-            <span aria-label="System event">
+            <span aria-label="系统事件">
               {entry.type === 'session_start' && <Play aria-hidden="true" />}
               {entry.type === 'session_end' && <Square aria-hidden="true" />}
               {entry.type !== 'session_start' &&
@@ -63,13 +63,13 @@ export const JournalEntryDetail: React.FC<JournalEntryDetailProps> = ({
           </span>
           {!entry.isRead && (
             <Badge variant="secondary-static" size="sm">
-              Unread
+              未读
             </Badge>
           )}
           {/* Show session duration for session_end events */}
           {entry.type === 'session_end' && entry.metadata.sessionDuration && (
             <Badge variant="outline" size="sm">
-              Duration: {formatSessionDuration(entry.metadata.sessionDuration)}
+              时长： {formatSessionDuration(entry.metadata.sessionDuration)}
             </Badge>
           )}
         </div>
@@ -91,7 +91,7 @@ export const JournalEntryDetail: React.FC<JournalEntryDetailProps> = ({
 
         {entry.relatedEntities && entry.relatedEntities.length > 0 && (
           <div>
-            <h4>Related</h4>
+            <h4>相关</h4>
             <div>
               {entry.relatedEntities.map((entity, index) => (
                 <Badge key={index} variant="outline" size="sm">
@@ -104,7 +104,7 @@ export const JournalEntryDetail: React.FC<JournalEntryDetailProps> = ({
 
         {entry.metadata.tags && entry.metadata.tags.length > 0 && (
           <div>
-            <h4>Tags</h4>
+            <h4>标签</h4>
             <div>
               {entry.metadata.tags.map((tag, index) => (
                 <Badge key={index} variant="secondary-static" size="sm">

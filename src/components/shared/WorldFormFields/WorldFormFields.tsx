@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { LoadingState as UILoadingState } from '@/components/ui/LoadingState/LoadingState';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 interface WorldNameInputProps {
   value: string;
@@ -31,17 +32,17 @@ function WorldNameInput({
   return (
     <div className={className}>
       <Label htmlFor="world-name">
-        World Name {required && <span>*</span>}
+        世界名称 {required && <span>*</span>}
       </Label>
       <Input
         id="world-name"
         type="text"
-        placeholder={placeholder || 'E.g., Neo-Tokyo...'}
+        placeholder={placeholder || "例如：新东京……"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
       />
-      {error && <p>{error}</p>}
+      {error && <p>{localizeErrorMessage(error)}</p>}
     </div>
   );
 }
@@ -62,12 +63,12 @@ function GenreSelect({
   error,
   disabled = false,
   required = true,
-  placeholder = 'Select a genre',
+  placeholder = "选择类型",
   className = '',
 }: GenreSelectProps) {
   return (
     <div className={className}>
-      <Label htmlFor="world-genre">Genre {required && <span>*</span>}</Label>
+      <Label htmlFor="world-genre">题材 {required && <span>*</span>}</Label>
       <Select
         id="world-genre"
         value={value}
@@ -81,7 +82,7 @@ function GenreSelect({
           </option>
         ))}
       </Select>
-      {error && <p>{error}</p>}
+      {error && <p>{localizeErrorMessage(error)}</p>}
     </div>
   );
 }
@@ -103,8 +104,8 @@ function DescriptionTextArea({
   value,
   onChange,
   error,
-  label = 'Description',
-  placeholder = 'Describe your world...',
+  label = "描述",
+  placeholder = "描述你的世界……",
   rows = 4,
   disabled = false,
   required = true,
@@ -131,7 +132,7 @@ function DescriptionTextArea({
       {/* Character count */}
       {maxLength && (
         <div>
-          <div>{error && <p>{error}</p>}</div>
+          <div>{error && <p>{localizeErrorMessage(error)}</p>}</div>
           <p>
             {characterCount}/{maxLength}
           </p>
@@ -139,7 +140,7 @@ function DescriptionTextArea({
       )}
 
       {/* Error without character count */}
-      {!maxLength && error && <p>{error}</p>}
+      {!maxLength && error && <p>{localizeErrorMessage(error)}</p>}
     </div>
   );
 }
@@ -153,7 +154,7 @@ interface LoadingStateProps {
 
 function LoadingState({
   isLoading,
-  message = 'Loading...',
+  message = "加载中…",
   details,
   className = '',
 }: LoadingStateProps) {
@@ -188,15 +189,15 @@ function ErrorDisplay({
     <div className={`${className}`}>
       <div>
         <div>
-          <h3>Error</h3>
-          <p>{error}</p>
+          <h3>错误</h3>
+          <p>{localizeErrorMessage(error)}</p>
         </div>
 
         {(onRetry || onDismiss) && (
           <div>
             {onRetry && (
               <Button onClick={onRetry} variant="ghost">
-                Retry
+                重试
               </Button>
             )}
             {onDismiss && (

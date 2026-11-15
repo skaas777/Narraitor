@@ -19,7 +19,7 @@ describe('ImageUploadPicker', () => {
     render(<ImageUploadPicker onPreview={onPreview} />);
 
     await user.upload(
-      screen.getByLabelText(/choose an image file/i),
+      screen.getByLabelText(/选择图片文件/i),
       makeFile('hero.png', 'image/png')
     );
 
@@ -38,11 +38,11 @@ describe('ImageUploadPicker', () => {
     render(<ImageUploadPicker onPreview={onPreview} />);
 
     await user.upload(
-      screen.getByLabelText(/choose an image file/i),
+      screen.getByLabelText(/选择图片文件/i),
       makeFile('hero.gif', 'image/gif')
     );
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(/JPG, PNG or WebP/i);
+    expect(await screen.findByRole('alert')).toHaveTextContent(/JPG、PNG 或 WebP/i);
     expect(onPreview).not.toHaveBeenCalled();
   });
 
@@ -52,7 +52,7 @@ describe('ImageUploadPicker', () => {
     render(<ImageUploadPicker onPreview={onPreview} />);
 
     await user.upload(
-      screen.getByLabelText(/choose an image file/i),
+      screen.getByLabelText(/选择图片文件/i),
       makeFile('huge.png', 'image/png', MAX_PORTRAIT_UPLOAD_BYTES + 1)
     );
 

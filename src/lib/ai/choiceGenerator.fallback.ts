@@ -7,8 +7,8 @@ export const generateFallbackChoices = (
   world: World,
   narrativeContext: NarrativeContext
 ): Decision => {
-  const location = narrativeContext?.currentLocation || 'here';
-  const prompt = `What will you do in ${location}?`;
+  const location = narrativeContext?.currentLocation || '这里';
+  const prompt = `在${location}，你打算怎么做？`;
   const options: DecisionOption[] = [];
   const genre = (world?.genre || 'fantasy').toLowerCase();
 
@@ -20,15 +20,15 @@ export const generateFallbackChoices = (
       options.push(
         {
           id: generateUniqueId('option'),
-          text: 'Search for clues',
+          text: "搜索线索",
           alignment: 'neutral',
-          hint: 'Look around carefully for important details',
+          hint: "仔细观察，寻找重要细节",
         },
         {
           id: generateUniqueId('option'),
-          text: 'Talk to nearby characters',
+          text: "与附近的角色交谈",
           alignment: 'lawful',
-          hint: 'Gather information through conversation',
+          hint: "通过交谈收集信息",
           requirements: [
             {
               type: 'skill',
@@ -40,9 +40,9 @@ export const generateFallbackChoices = (
         },
         {
           id: generateUniqueId('option'),
-          text: 'Cast a spell to illuminate the area',
+          text: "施放法术照亮该区域",
           alignment: 'neutral',
-          hint: 'Use magic to reveal hidden things',
+          hint: "用魔法揭示隐藏之物",
           requirements: [
             {
               type: 'skill',
@@ -57,33 +57,33 @@ export const generateFallbackChoices = (
     case 'sci-fi':
     case 'science fiction':
       options.push(
-        { id: generateUniqueId('option'), text: 'Scan the area', alignment: 'neutral' },
-        { id: generateUniqueId('option'), text: 'Access the terminal', alignment: 'lawful' },
+        { id: generateUniqueId('option'), text: "扫描区域", alignment: 'neutral' },
+        { id: generateUniqueId('option'), text: "访问终端", alignment: 'lawful' },
         {
           id: generateUniqueId('option'),
-          text: 'Override the airlock and vent the corridor',
+          text: "强行打开气闸，排空走廊",
           alignment: 'chaotic',
         }
       );
       break;
     case 'horror':
       options.push(
-        { id: generateUniqueId('option'), text: 'Hide', alignment: 'neutral' },
-        { id: generateUniqueId('option'), text: 'Call for help', alignment: 'lawful' },
+        { id: generateUniqueId('option'), text: "躲藏", alignment: 'neutral' },
+        { id: generateUniqueId('option'), text: "呼救", alignment: 'lawful' },
         {
           id: generateUniqueId('option'),
-          text: 'Set the room ablaze and run for the door',
+          text: "放火烧房，冲向门口",
           alignment: 'chaotic',
         }
       );
       break;
     default:
       options.push(
-        { id: generateUniqueId('option'), text: 'Look around', alignment: 'neutral' },
-        { id: generateUniqueId('option'), text: 'Talk to someone', alignment: 'lawful' },
+        { id: generateUniqueId('option'), text: "环顾四周", alignment: 'neutral' },
+        { id: generateUniqueId('option'), text: "找人交谈", alignment: 'lawful' },
         {
           id: generateUniqueId('option'),
-          text: 'Upend the table and seize the upper hand',
+          text: "掀翻桌子，抢占上风",
           alignment: 'chaotic',
         }
       );

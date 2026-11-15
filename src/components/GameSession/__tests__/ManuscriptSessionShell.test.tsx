@@ -96,6 +96,6 @@ describe('ManuscriptSessionShell', () => {
 
     const stage = shell.querySelector('.manuscript-overlay-main');
     expect(stage?.tagName).toBe('SECTION');
-    expect(stage).toHaveAttribute('aria-label', 'Story');
+    expect(stage).toHaveAttribute('aria-label', "故事");
   });
 });

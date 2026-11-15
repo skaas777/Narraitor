@@ -98,13 +98,13 @@ const ActiveGameSessionChoicesColumn: React.FC<
       {isEvaluatingAction ? (
         <div className="manuscript-evaluating-indicator" role="status">
           <span className="manuscript-evaluating-die" aria-hidden="true" />
-          <span className="manuscript-evaluating-label">Evaluating action...</span>
+          <span className="manuscript-evaluating-label">正在评估行动...</span>
         </div>
       ) : (
         (isGenerating || isGeneratingChoices) && (
           <div className="manuscript-streaming-indicator">
             <span className="manuscript-streaming-dot" />
-            <span className="manuscript-streaming-label">Continuing your story...</span>
+            <span className="manuscript-streaming-label">正在继续你的故事...</span>
           </div>
         )
       )}
@@ -150,8 +150,8 @@ const ActiveGameSessionChoicesColumn: React.FC<
                 onClick={() => setShowSuggestedActions(!showSuggestedActions)}
               >
                 {showSuggestedActions
-                  ? 'Hide Suggested Actions'
-                  : 'Suggested Actions'}
+                  ? "隐藏建议行动"
+                  : "建议行动"}
               </button>
             )}
             <span className="manuscript-end-story-mobile">{renderEndStoryAction()}</span>

@@ -20,7 +20,7 @@ describe('ManuscriptFloatingHud accessibility', () => {
     );
 
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
-    expect(ref.current?.textContent).toContain('Character');
+    expect(ref.current?.textContent).toContain("角色");
   });
 
   it('attaches characterButtonRef with a custom character name', () => {
@@ -90,7 +90,7 @@ describe('ManuscriptFloatingHud accessibility', () => {
       <ManuscriptFloatingHud {...baseProps} isCharacterSummaryExpanded={false} />
     );
 
-    const button = screen.getByRole('button', { name: /character/i });
+    const button = screen.getByRole('button', { name: /角色/i });
     expect(button).toHaveAttribute('aria-expanded', 'false');
 
     rerender(
@@ -128,7 +128,7 @@ describe('ManuscriptFloatingHud accessibility', () => {
   it('marks the keyboard shortcuts trigger so it can be hidden on mobile (#276)', () => {
     render(<ManuscriptFloatingHud {...baseProps} onShowShortcuts={jest.fn()} />);
 
-    const button = screen.getByRole('button', { name: /keyboard shortcuts/i });
+    const button = screen.getByRole('button', { name: /键盘快捷键/i });
     expect(button).toHaveClass('manuscript-hud-shortcuts-button');
   });
 
@@ -145,7 +145,7 @@ describe('ManuscriptFloatingHud accessibility', () => {
       render(<ManuscriptFloatingHud {...baseProps} onShowShortcuts={jest.fn()} />);
 
       expect(
-        screen.getByRole('toolbar', { name: 'Session tools' })
+        screen.getByRole('toolbar', { name: "冒险记录工具" })
       ).toHaveClass('manuscript-ds3-controls');
     });
 
@@ -161,7 +161,7 @@ describe('ManuscriptFloatingHud accessibility', () => {
     it('moves between tools with arrow keys, wrapping at both ends', () => {
       render(<ManuscriptFloatingHud {...baseProps} onShowShortcuts={jest.fn()} />);
 
-      const toolbar = screen.getByRole('toolbar', { name: 'Session tools' });
+      const toolbar = screen.getByRole('toolbar', { name: "冒险记录工具" });
       const tools = getTools();
       const last = tools[tools.length - 1];
 
@@ -185,15 +185,15 @@ describe('ManuscriptFloatingHud accessibility', () => {
     it('skips tools hidden by CSS', () => {
       render(<ManuscriptFloatingHud {...baseProps} onShowShortcuts={jest.fn()} />);
 
-      const toolbar = screen.getByRole('toolbar', { name: 'Session tools' });
+      const toolbar = screen.getByRole('toolbar', { name: "冒险记录工具" });
       const shortcuts = screen.getByRole('button', {
-        name: /keyboard shortcuts/i,
+        name: /键盘快捷键/i,
       });
       const choiceHistory = screen.getByRole('button', {
-        name: /choice history/i,
+        name: /选项历史/i,
       });
       const resetSession = screen.getByRole('button', {
-        name: /reset session/i,
+        name: /重置冒险记录/i,
       });
       shortcuts.style.display = 'none';
 

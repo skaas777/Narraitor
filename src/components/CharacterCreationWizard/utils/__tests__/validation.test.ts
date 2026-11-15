@@ -53,13 +53,13 @@ describe('Character Creation Validation', () => {
     it('returns error when points exceed the pool', () => {
       const result = validateAttributes(mockAttributes, 10); // 15 spent, 10 available
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('You have allocated more attribute points than available.');
+      expect(result.errors).toContain("分配的属性点已超过可用数量。");
     });
 
     it('handles empty attributes array', () => {
       const result = validateAttributes([], 20);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('At least one attribute is required.');
+      expect(result.errors).toContain("至少需要分配一项属性。");
     });
 
     it('allows progression when pool exceeds total attribute capacity', () => {
@@ -90,7 +90,7 @@ describe('Character Creation Validation', () => {
       const noSelectedSkills = mockSkills.map(s => ({ ...s, isSelected: false }));
       const result = validateSkills(noSelectedSkills, 3, { skills: mockWorldSkills });
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Select at least one skill');
+      expect(result.errors).toContain("请至少选择一项技能");
     });
 
     it('returns error when too many skills selected', () => {
@@ -102,7 +102,7 @@ describe('Character Creation Validation', () => {
       }));
       const result = validateSkills(manySkills, 0, { skills: mockWorldSkills });
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Maximum 8 skills allowed');
+      expect(result.errors).toContain("最多只能选择 8 个技能");
     });
 
     it("enforces the world's maxSkills when it is below the hard limit", () => {
@@ -111,7 +111,7 @@ describe('Character Creation Validation', () => {
         settings: { maxSkills: 1 },
       });
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Maximum 1 skills allowed');
+      expect(result.errors).toContain("最多只能选择 1 个技能");
     });
 
     it('validates successfully with valid skill selection', () => {
@@ -129,7 +129,7 @@ describe('Character Creation Validation', () => {
     it('returns error when skill points exceed the pool', () => {
       const result = validateSkills(mockSkills, 2, { skills: mockWorldSkills });
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('You have allocated more skill points than available.');
+      expect(result.errors).toContain("分配的技能点超过了可用点数。");
     });
 
     it('flags skills that cannot be leveled due to identical bounds', () => {
@@ -139,7 +139,7 @@ describe('Character Creation Validation', () => {
 
       expect(result.valid).toBe(false);
       expect(result.errors).toContain(
-        'Skill Locked Skill cannot be leveled because its configuration has no available range.'
+        "技能 Locked Skill 无法升级，因为其配置中没有可用范围。"
       );
     });
 
@@ -184,14 +184,14 @@ describe('Character Creation Validation', () => {
       const shortHistory = { ...mockBackground, history: 'Too short' };
       const result = validateBackground(shortHistory);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Character history must be at least 50 characters');
+      expect(result.errors).toContain("角色经历至少需要 50 个字符");
     });
 
     it('returns error when personality is too short', () => {
       const shortPersonality = { ...mockBackground, personality: 'Short' };
       const result = validateBackground(shortPersonality);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain('Personality description must be at least 20 characters');
+      expect(result.errors).toContain("性格描述至少需要 20 个字符");
     });
 
     it('validates successfully with valid background', () => {

@@ -82,7 +82,7 @@ export const ManuscriptDrawer: React.FC<ManuscriptDrawerProps> = ({
                 )}
               </div>
               <DialogPrimitive.Close className="manuscript-drawer-close-text">
-                Close
+                关闭
               </DialogPrimitive.Close>
             </div>
             <div className="manuscript-drawer-content">

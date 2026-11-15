@@ -25,7 +25,7 @@ const START_HREF = '/worlds/create';
    same overstatement the hero copy already had to walk back, one level down.
    It also sells the wizard as the payoff rather than the tollbooth, which is
    what the whole page below has spent its length arguing. */
-const START_LABEL = 'Build your world';
+const START_LABEL = "创建你的世界";
 
 export default function Landing() {
   return (
@@ -53,7 +53,7 @@ export default function Landing() {
 
         <div className="component-landing-band-inner component-landing-hero-copy">
           <h1 id="landing-hero-heading" className="component-landing-title">
-            Play a story that answers to the world you built
+            游玩一段呼应你所建世界的故事
           </h1>
           {/* Not "you describe the world". Describing it is one step of five,
               and the other four turn that description into attributes and
@@ -73,15 +73,14 @@ export default function Landing() {
               a story bound by rules it did not choose, and the lead is where
               the binding gets named. */}
           <p className="component-landing-lead">
-            That world has attributes and skills. The story is written from
-            them, and your choices are tested against them.
+            那个世界拥有属性与技能。故事由它们书写，你的选择也要接受它们的考验。
           </p>
           <div className="component-landing-actions">
             <Link href={START_HREF} className="component-landing-cta">
               {START_LABEL}
             </Link>
             <Link href="/about" className="component-landing-cta-secondary">
-              How it works
+              运作方式
             </Link>
           </div>
         </div>
@@ -94,13 +93,13 @@ export default function Landing() {
             className="component-landing-showing"
             data-world={world.id}
           >
-            <span className="component-landing-label">Now showing</span>
+            <span className="component-landing-label">正在展示</span>
             <span className="component-landing-selector-title">{world.caption}</span>
           </p>
         ))}
 
         <fieldset className="component-landing-plates">
-          <legend className="sr-only">Choose a world to preview</legend>
+          <legend className="sr-only">选择要预览的世界</legend>
           {HOMEPAGE_SHOWCASE.map((world, index) => (
             <div key={world.id} className="component-landing-plate">
               <input
@@ -141,10 +140,7 @@ export default function Landing() {
       >
         <div className="component-landing-band-inner component-landing-closing-inner">
           <h2 id="landing-closing-heading" className="component-landing-closing-text">
-            Bring your own key. A Google Gemini one takes about two minutes and
-            costs nothing, or use OpenAI, OpenRouter, or a model you host
-            yourself. It stays in your browser, and there&apos;s no account to
-            make.
+            自带密钥。Google Gemini 的密钥大约两分钟就能拿到，而且完全免费；也可以使用 OpenAI、OpenRouter 或你自己托管的模型。密钥只保存在你的浏览器中，无需创建账号。
           </h2>
           <div className="component-landing-actions">
             {/* Secondary, not the solid-accent style the hero CTA above
@@ -160,27 +156,27 @@ export default function Landing() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Get a Gemini key
+              获取 Gemini 密钥
             </a>
             <Link href="/faq" className="component-landing-cta-secondary">
-              Read the FAQ
+              阅读常见问题
             </Link>
           </div>
         </div>
       </section>
 
-      <nav className="component-landing-footer" aria-label="Site information">
+      <nav className="component-landing-footer" aria-label="站点信息">
         <Link href="/about" className="component-landing-footer-link">
-          About
+          关于
         </Link>
         <Link href="/faq" className="component-landing-footer-link">
-          FAQ
+          常见问题
         </Link>
         <Link href="/privacy" className="component-landing-footer-link">
-          Privacy
+          隐私
         </Link>
         <Link href="/terms" className="component-landing-footer-link">
-          Terms
+          条款
         </Link>
       </nav>
     </div>

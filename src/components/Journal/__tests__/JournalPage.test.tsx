@@ -149,9 +149,9 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    expect(screen.getByText('This journal awaits its first entry')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Journal in Test World' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Back to Play' })).toHaveAttribute('data-href', `/worlds/${worldId}/play`);
+    expect(screen.getByText("这本日志正等待第一条记录")).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "Test World中的日志" })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: "返回游戏" })).toHaveAttribute('data-href', `/worlds/${worldId}/play`);
   });
 
   it('renders entries and marks them as read when selected', () => {
@@ -167,7 +167,7 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    const card = screen.getByRole('button', { name: /select entry: a new lead/i });
+    const card = screen.getByRole('button', { name: /选择条目：a new lead/i });
     fireEvent.click(card);
 
     expect(journalStore.markAsRead).toHaveBeenCalledWith('entry-1');
@@ -187,10 +187,10 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Table view' }));
+    fireEvent.click(screen.getByRole('button', { name: "表格视图" }));
 
     const table = await screen.findByRole('table', {
-      name: 'Journal entries table',
+      name: "日志条目表格",
     });
     expect(within(table).getByText('Entry 1')).toBeInTheDocument();
     expect(window.localStorage.getItem('journal-view-mode')).toBe('table');
@@ -210,15 +210,15 @@ describe('JournalPage', () => {
     render(<JournalPage worldId={worldId} />);
 
     // Narrow the list view so "Entry 2" is excluded from filteredEntries.
-    fireEvent.change(screen.getByLabelText('Search entries'), {
+    fireEvent.change(screen.getByLabelText("搜索条目"), {
       target: { value: 'Entry 1' },
     });
     expect(screen.queryByText('Entry 2')).not.toBeInTheDocument();
 
     // Table view ignores the stale list-view query and shows every entry.
-    fireEvent.click(screen.getByRole('button', { name: 'Table view' }));
+    fireEvent.click(screen.getByRole('button', { name: "表格视图" }));
     const table = await screen.findByRole('table', {
-      name: 'Journal entries table',
+      name: "日志条目表格",
     });
     fireEvent.click(within(table).getByText('Entry 2'));
 
@@ -241,9 +241,9 @@ describe('JournalPage', () => {
     render(<JournalPage worldId={worldId} />);
 
     expect(
-      await screen.findByRole('table', { name: 'Journal entries table' })
+      await screen.findByRole('table', { name: "日志条目表格" })
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Table view' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: "表格视图" })).toHaveAttribute(
       'aria-pressed',
       'true'
     );
@@ -266,7 +266,7 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    expect(screen.getByText('Unable to load journal')).toBeInTheDocument();
+    expect(screen.getAllByText("操作未能完成，请稍后重试。")[0]).toBeInTheDocument();
   });
 
   it('shows loading state when journal is loading', () => {
@@ -280,7 +280,7 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    expect(screen.getByText('Loading journal entries...')).toBeInTheDocument();
+    expect(screen.getByText("正在加载日志条目……")).toBeInTheDocument();
   });
 
   it('returns to list view when back button is clicked', () => {
@@ -296,8 +296,8 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    fireEvent.click(screen.getByRole('button', { name: /select entry: a new lead/i }));
-    fireEvent.click(screen.getByRole('button', { name: /back to entries/i }));
+    fireEvent.click(screen.getByRole('button', { name: /选择条目：a new lead/i }));
+    fireEvent.click(screen.getByRole('button', { name: /返回条目/i }));
 
     expect(screen.getByTestId('journal-list-pane').className).not.toMatch(/hidden/);
     expect(screen.getByTestId('journal-detail-pane').className).toMatch(/hidden/);
@@ -312,7 +312,7 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    expect(screen.getByRole('heading', { name: 'No active session' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: "没有进行中的冒险记录" })).toBeInTheDocument();
   });
 
   it('loads more entries when requested', () => {
@@ -334,7 +334,7 @@ describe('JournalPage', () => {
     expect(listScope.getByText('Entry 25')).toBeInTheDocument();
     expect(listScope.queryByText('Entry 15')).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /load more/i }));
+    fireEvent.click(screen.getByRole('button', { name: /加载更多/i }));
 
     expect(listScope.getByText('Entry 15')).toBeInTheDocument();
   });
@@ -355,7 +355,7 @@ describe('JournalPage', () => {
 
     render(<JournalPage worldId={worldId} />);
 
-    fireEvent.change(screen.getByPlaceholderText('Search entries...'), { target: { value: 'map' } });
+    fireEvent.change(screen.getByPlaceholderText("搜索条目……"), { target: { value: 'map' } });
 
     const listPane = screen.getByTestId('journal-list-pane');
     const listScope = within(listPane);

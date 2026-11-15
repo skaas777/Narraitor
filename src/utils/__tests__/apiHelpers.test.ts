@@ -141,9 +141,9 @@ describe('processAIStreamingTextRequest', () => {
     expect(global.fetch).not.toHaveBeenCalled();
     expect(response.status).toBe(412);
     const data = await response.json();
-    expect(data.title).toBe('API Key Required');
-    expect(data.error).toBe('No API key configured for this provider.');
-    expect(data.suggestion).toBe('Add your API key in Settings > Provider Setup to play.');
+    expect(data.title).toBe("需要 API 密钥");
+    expect(data.error).toBe("此模型服务未配置 API 密钥。");
+    expect(data.suggestion).toBe("请在设置 > 模型服务设置中添加 API 密钥以开始游戏。");
     expect(data.retryable).toBe(false);
   });
 
@@ -152,9 +152,9 @@ describe('processAIStreamingTextRequest', () => {
     expect(global.fetch).not.toHaveBeenCalled();
     expect(response.status).toBe(412);
     const data = await response.json();
-    expect(data.title).toBe('API Key Required');
-    expect(data.error).toBe('No API key configured for this provider.');
-    expect(data.suggestion).toBe('Add your API key in Settings > Provider Setup to play.');
+    expect(data.title).toBe("需要 API 密钥");
+    expect(data.error).toBe("此模型服务未配置 API 密钥。");
+    expect(data.suggestion).toBe("请在设置 > 模型服务设置中添加 API 密钥以开始游戏。");
   });
 
   it('surfaces an upstream non-ok response as an error instead of streaming', async () => {

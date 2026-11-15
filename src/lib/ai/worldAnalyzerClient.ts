@@ -20,7 +20,7 @@ export async function analyzeWorldDescriptionClient(description: string): Promis
     if (!response.ok) {
       const errorData = await response.json();
       logger.error('API request failed:', errorData);
-      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      throw new Error(errorData.error || `HTTP 错误！状态码：${response.status}`);
     }
 
     const analysis = await response.json() as WorldAnalysisResult;

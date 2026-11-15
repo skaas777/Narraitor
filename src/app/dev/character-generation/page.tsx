@@ -7,6 +7,8 @@ import {
   generateAICharacter,
   type GeneratedCharacterData,
 } from '@/lib/generators/characterGenerator';
+import { displayLabel } from '@/lib/i18n/zhCN';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 export default function CharacterGenerationTestPage() {
   const [generationType, setGenerationType] = useState<
@@ -27,7 +29,7 @@ export default function CharacterGenerationTestPage() {
 
   const handleGenerate = async () => {
     if (!selectedWorldId) {
-      setError('Please select a world');
+      setError("请选择一个世界");
       return;
     }
 
@@ -50,7 +52,7 @@ export default function CharacterGenerationTestPage() {
 
       setGeneratedCharacter(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation failed');
+      setError(err instanceof Error ? err.message : "生成失败");
     } finally {
       setIsGenerating(false);
     }
@@ -71,7 +73,7 @@ export default function CharacterGenerationTestPage() {
         return {
           id: `attr-${Date.now()}-${Math.random()}`,
           characterId: '',
-          name: worldAttr?.name || 'Unknown',
+          name: worldAttr?.name || "未知",
           baseValue: attr.value,
           modifiedValue: attr.value,
         };
@@ -81,7 +83,7 @@ export default function CharacterGenerationTestPage() {
         return {
           id: `skill-${Date.now()}-${Math.random()}`,
           characterId: '',
-          name: worldSkill?.name || 'Unknown',
+          name: worldSkill?.name || "未知",
           level: skill.level,
         };
       }),
@@ -116,21 +118,21 @@ export default function CharacterGenerationTestPage() {
   return (
     <div>
       <h1>
-        Character Generation Test Harness
+        角色生成测试工具
       </h1>
 
       <div>
         {/* World Selection */}
         <div>
-          <h2>Select World</h2>
+          <h2>选择世界</h2>
           <select
             value={selectedWorldId}
             onChange={(e) => setSelectedWorldId(e.target.value)}
           >
-            <option value="">-- Select a World --</option>
+            <option value="">—— 请选择世界 ——</option>
             {Object.entries(worlds).map(([id, world]) => (
               <option key={id} value={id}>
-                {world.name} ({world.genre})
+                {world.name} ({displayLabel(world.genre)})
               </option>
             ))}
           </select>
@@ -138,7 +140,7 @@ export default function CharacterGenerationTestPage() {
 
         {/* Generation Type */}
         <div>
-          <h2>Generation Type</h2>
+          <h2>生成类型</h2>
           <div>
             <label>
               <input
@@ -149,7 +151,7 @@ export default function CharacterGenerationTestPage() {
                   setGenerationType(e.target.value as typeof generationType)
                 }
               />
-              <span>Known Figure (canonical character from source)</span>
+              <span>已知人物（来源作品中的原作角色）</span>
             </label>
             <label>
               <input
@@ -160,7 +162,7 @@ export default function CharacterGenerationTestPage() {
                   setGenerationType(e.target.value as typeof generationType)
                 }
               />
-              <span>Original Character (new character fitting the world)</span>
+              <span>原创角色（适合该世界的新角色）</span>
             </label>
             <label>
               <input
@@ -171,20 +173,20 @@ export default function CharacterGenerationTestPage() {
                   setGenerationType(e.target.value as typeof generationType)
                 }
               />
-              <span>Specific Character (provide name)</span>
+              <span>指定角色（提供名称）</span>
             </label>
           </div>
 
           {generationType === 'specific' && (
             <div>
               <label>
-                Character Name
+                角色名称
               </label>
               <input
                 type="text"
                 value={suggestedName}
                 onChange={(e) => setSuggestedName(e.target.value)}
-                placeholder="Enter character name"
+                placeholder="输入角色名称"
               />
             </div>
           )}
@@ -196,50 +198,50 @@ export default function CharacterGenerationTestPage() {
             onClick={handleGenerate}
             disabled={isGenerating || !selectedWorldId}
           >
-            {isGenerating ? 'Generating...' : 'Generate Character'}
+            {isGenerating ? "正在生成……" : "生成角色"}
           </button>
         </div>
 
         {/* Error Display */}
         {error && (
           <div>
-            <p>{error}</p>
+            <p>{localizeErrorMessage(error)}</p>
           </div>
         )}
 
         {/* Generated Character Display */}
         {generatedCharacter && (
           <div>
-            <h2>Generated Character</h2>
+            <h2>已生成的角色</h2>
 
             <div>
               <div>
-                <h3>Name:</h3>
+                <h3>名称：</h3>
                 <p>{generatedCharacter.name}</p>
               </div>
 
               <div>
-                <h3>Level:</h3>
+                <h3>等级：</h3>
                 <p>{generatedCharacter.level || 1}</p>
               </div>
 
               <div>
-                <h3>Background:</h3>
+                <h3>背景：</h3>
                 <div>
                   <div>
-                    <span>Description:</span>
+                    <span>描述：</span>
                     <p>
                       {generatedCharacter.background.description}
                     </p>
                   </div>
                   <div>
-                    <span>Personality:</span>
+                    <span>性格：</span>
                     <p>
                       {generatedCharacter.background.personality}
                     </p>
                   </div>
                   <div>
-                    <span>Motivation:</span>
+                    <span>动机：</span>
                     <p>
                       {generatedCharacter.background.motivation}
                     </p>
@@ -248,7 +250,7 @@ export default function CharacterGenerationTestPage() {
               </div>
 
               <div>
-                <h3>Attributes:</h3>
+                <h3>属性：</h3>
                 <div>
                   {generatedCharacter.attributes.map((attr) => {
                     const world = worlds[selectedWorldId];
@@ -266,7 +268,7 @@ export default function CharacterGenerationTestPage() {
               </div>
 
               <div>
-                <h3>Skills:</h3>
+                <h3>技能：</h3>
                 <div>
                   {generatedCharacter.skills.map((skill) => {
                     const world = worlds[selectedWorldId];
@@ -287,7 +289,7 @@ export default function CharacterGenerationTestPage() {
                 <button
                   onClick={handleCreateCharacter}
                 >
-                  Create This Character
+                  创建此角色
                 </button>
               </div>
             </div>
@@ -297,7 +299,7 @@ export default function CharacterGenerationTestPage() {
         {/* Existing Characters */}
         <div>
           <h2>
-            Existing Characters in Selected World
+            所选世界中的现有角色
           </h2>
           {selectedWorldId ? (
             <div>
@@ -307,18 +309,18 @@ export default function CharacterGenerationTestPage() {
                   <div key={char.id}>
                     <p>{char.name}</p>
                     <p>
-                      Level {char.level || 1} &bull; {char.description}
+                      等级 {char.level || 1} &bull; {char.description}
                     </p>
                   </div>
                 ))}
               {(Object.values(characters) as StoreCharacter[]).filter(
                 (c) => c.worldId === selectedWorldId
               ).length === 0 && (
-                <p>No characters in this world yet</p>
+                <p>此世界中尚无角色</p>
               )}
             </div>
           ) : (
-            <p>Select a world to see characters</p>
+            <p>选择世界以查看角色</p>
           )}
         </div>
       </div>

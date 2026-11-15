@@ -36,14 +36,14 @@ describe('Landing page', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: /answers to the world you built/i,
+        name: /呼应你所建世界/i,
       })
     ).toBeInTheDocument();
 
     // Two of them on purpose, the hero and the closing band. The CTAs used to
     // disagree about both verb and destination, so the point of the count is
     // that both now say the same thing and go the same place.
-    const ctas = screen.getAllByRole('link', { name: 'Build your world' });
+    const ctas = screen.getAllByRole('link', { name: "创建你的世界" });
     expect(ctas).toHaveLength(2);
     ctas.forEach((cta) => expect(cta).toHaveAttribute('href', START_HREF));
   });
@@ -64,7 +64,7 @@ describe('Landing page', () => {
     // The label lookup is scoped to the fieldset because each pane carries the
     // same caption as its aria-label, so an unscoped query matches both.
     const switcher = screen.getByRole('group', {
-      name: /choose a world to preview/i,
+      name: /选择要预览的世界/i,
     });
 
     HOMEPAGE_SHOWCASE.forEach((world) => {
@@ -105,9 +105,9 @@ describe('Landing page', () => {
   it('makes the Gemini key ask actionable', () => {
     render(<Landing />);
 
-    const keyLink = screen.getByRole('link', { name: /gemini key/i });
+    const keyLink = screen.getByRole('link', { name: /Gemini 密钥/i });
     expect(keyLink).toHaveAttribute('href', GEMINI_KEY_URL);
-    expect(screen.getByText(/two minutes/i)).toBeInTheDocument();
+    expect(screen.getByText(/两分钟/i)).toBeInTheDocument();
   });
 
   it('keeps "free" and "AI" out of the rendered page', () => {

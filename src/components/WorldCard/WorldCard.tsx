@@ -100,10 +100,10 @@ const WorldCard: React.FC<WorldCardProps> = ({
 
   // Play says what it will do: resume, start, or send you to make someone first.
   const playLabel = !sessionCharacterId
-    ? 'Create a character'
+    ? "创建角色"
     : savedSession
-      ? 'Continue'
-      : 'Play';
+      ? "继续"
+      : '开始冒险';
 
   return (
     <ActiveStateCard
@@ -153,10 +153,10 @@ const WorldCard: React.FC<WorldCardProps> = ({
                     key={char.id}
                     className="world-card-character-pill"
                     onClick={() => router.push(`/characters/${char.id}`)}
-                    title={`View ${char.name} - Level ${char.level}`}
+                    title={`查看 ${char.name}，等级 ${char.level}`}
                     // The visible name hides on phones, so the button carries
                     // it in a label rather than relying on its contents.
-                    aria-label={`${char.name}, level ${char.level}`}
+                    aria-label={`${char.name}，等级 ${char.level}`}
                   >
                     {/* Character portrait or placeholder */}
                     {char.portrait?.url ? (
@@ -181,8 +181,8 @@ const WorldCard: React.FC<WorldCardProps> = ({
                     className="world-card-character-pills-more"
                     data-testid="world-card-character-pills-more"
                   >
-                    +{characters.length - MAX_CHARACTER_PILLS} more
-                    <span className="sr-only"> characters in {world.name}</span>
+                    另有 {characters.length - MAX_CHARACTER_PILLS} 个
+                    <span className="sr-only"> 角色，位于 {world.name}</span>
                   </span>
                 )}
               </div>
@@ -193,7 +193,7 @@ const WorldCard: React.FC<WorldCardProps> = ({
             <div className="world-card-type-badge">
               {world.reference && (
                 <span className="world-card-type" data-testid="world-card-type">
-                  {world.relationship === 'set_within' ? 'Set in' : 'Inspired by'} {world.reference}
+                  {world.relationship === 'set_within' ? "设定于" : "灵感来自"} {world.reference}
                 </span>
               )}
               <ActiveStateLabel
@@ -208,11 +208,11 @@ const WorldCard: React.FC<WorldCardProps> = ({
           <div className="world-card-footer-meta">
             {savedSession ? (
               <time data-testid="world-card-lastPlayed" dateTime={savedSession.lastPlayed}>
-                Last played: {formatDate(savedSession.lastPlayed)}
+                上次游玩： {formatDate(savedSession.lastPlayed)}
               </time>
             ) : (
               <time data-testid="world-card-createdAt" dateTime={world.createdAt}>
-                Created: {formatDate(world.createdAt)}
+                创建时间： {formatDate(world.createdAt)}
               </time>
             )}
           </div>
@@ -224,7 +224,7 @@ const WorldCard: React.FC<WorldCardProps> = ({
                   text: playLabel,
                   ariaLabel: sessionCharacterId
                     ? `${playLabel} ${world.name}`
-                    : `Create a character for ${world.name}`,
+                    : `为 ${world.name} 创建角色`,
                   onClick: handlePlayClick,
                   variant: 'accent',
                   flex: true,
@@ -235,8 +235,8 @@ const WorldCard: React.FC<WorldCardProps> = ({
               secondaryActions={[
                 {
                   key: 'characters',
-                  text: 'Characters',
-                  ariaLabel: `Characters in ${world.name}`,
+                  text: "角色",
+                  ariaLabel: `${world.name} 中的角色`,
                   onClick: () => router.push(`/characters?worldId=${world.id}`),
                   variant: 'quiet',
                   flex: true,
@@ -245,8 +245,8 @@ const WorldCard: React.FC<WorldCardProps> = ({
                 },
                 {
                   key: 'edit',
-                  text: 'Edit',
-                  ariaLabel: `Edit ${world.name}`,
+                  text: "编辑",
+                  ariaLabel: `编辑 ${world.name}`,
                   onClick: handleEditClick,
                   variant: 'quiet',
                   flex: true,
@@ -255,8 +255,8 @@ const WorldCard: React.FC<WorldCardProps> = ({
                 },
                 {
                   key: 'delete',
-                  text: 'Delete',
-                  ariaLabel: `Delete ${world.name}`,
+                  text: "删除",
+                  ariaLabel: `删除 ${world.name}`,
                   onClick: handleDeleteClick,
                   variant: 'quiet-danger',
                   flex: true,

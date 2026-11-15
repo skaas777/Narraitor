@@ -21,8 +21,8 @@ export const createEquipmentActions = (
       // Validate item exists
       if (!item) {
         const error = createStoreError(
-          'Item Not Found',
-          'The specified item could not be found.',
+          "未找到物品",
+          "找不到指定的物品。",
           ErrorType.VALIDATION
         );
         set({ error });
@@ -40,8 +40,8 @@ export const createEquipmentActions = (
       const characterItems = ensureCharacterInventory(characterId, state);
       if (!characterItems.includes(itemId)) {
         const error = createStoreError(
-          'Item Not Available',
-          'This item is not in your inventory.',
+          "物品不可用",
+          "该物品不在你的背包中。",
           ErrorType.VALIDATION
         );
         set({ error });
@@ -58,8 +58,8 @@ export const createEquipmentActions = (
       // Validate item has quantity > 0
       if (item.quantity <= 0) {
         const error = createStoreError(
-          'Item Not Available',
-          'This item is no longer available.',
+          "物品不可用",
+          "该物品已不可用。",
           ErrorType.VALIDATION
         );
         set({ error });
@@ -112,8 +112,8 @@ export const createEquipmentActions = (
 
       if (!item) {
         const error = createStoreError(
-          'Item Not Found',
-          'The specified item could not be found.',
+          "未找到物品",
+          "找不到指定的物品。",
           ErrorType.VALIDATION
         );
         set({ error });
@@ -130,8 +130,8 @@ export const createEquipmentActions = (
       const characterItems = ensureCharacterInventory(characterId, state);
       if (!characterItems.includes(itemId)) {
         const error = createStoreError(
-          'Item Not In Inventory',
-          "The specified item is not in this character's inventory.",
+          "物品不在背包中",
+          "指定物品不在该角色的背包中。",
           ErrorType.VALIDATION
         );
         set({ error });
@@ -151,8 +151,8 @@ export const createEquipmentActions = (
         const eligibility = canEquipItem(item);
         if (!eligibility.allowed) {
           const error = createStoreError(
-            'Cannot Equip Item',
-            eligibility.reason ?? 'This item cannot be equipped.',
+            "无法装备物品",
+            eligibility.reason ?? "该物品无法装备。",
             ErrorType.VALIDATION
           );
           set({ error });

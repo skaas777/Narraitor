@@ -8,7 +8,7 @@ interface GameSessionLoadingProps {
 }
 
 const GameSessionLoading: React.FC<GameSessionLoadingProps> = ({
-  loadingMessage = 'Loading your game...',
+  loadingMessage = "正在加载你的游戏……",
 }) => {
   return (
     <div data-testid="game-session-loading" className="component-loading-center">

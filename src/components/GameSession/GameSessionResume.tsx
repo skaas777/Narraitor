@@ -21,11 +21,11 @@ const GameSessionResume: React.FC<GameSessionResumeProps> = ({
   return (
     <div data-testid="game-session-resume" >
       <div>
-        <h2>Continue Your Story?</h2>
+        <h2>继续你的故事？</h2>
         
         <div>
-          <p>Last played: {formattedDate}</p>
-          <p>Progress: {savedSession.narrativeCount} scenes</p>
+          <p>上次游玩： {formattedDate}</p>
+          <p>进度： {savedSession.narrativeCount} 个场景</p>
         </div>
         
         <div>
@@ -35,7 +35,7 @@ const GameSessionResume: React.FC<GameSessionResumeProps> = ({
             data-testid="resume-session-button"
             variant="default"
           >
-            Continue Adventure
+            继续冒险
           </Button>
           
           <Button
@@ -44,12 +44,12 @@ const GameSessionResume: React.FC<GameSessionResumeProps> = ({
             data-testid="new-session-button"
             variant="secondary"
           >
-            Start New Adventure
+            开始新冒险
           </Button>
         </div>
         
         <p>
-          Starting a new adventure will save your current progress
+          开始新冒险将保存当前进度
         </p>
       </div>
     </div>

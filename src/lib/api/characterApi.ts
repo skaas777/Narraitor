@@ -26,7 +26,7 @@ export const characterApi = {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error((errorData as { error?: string }).error || 'Failed to generate character');
+      throw new Error((errorData as { error?: string }).error || "生成角色失败");
     }
 
     return response.json();

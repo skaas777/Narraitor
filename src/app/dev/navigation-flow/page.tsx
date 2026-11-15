@@ -9,6 +9,7 @@ import { useSessionStore } from '@/state/sessionStore';
 import { useNavigationFlow } from '@/hooks/useNavigationFlow';
 import { formatDateTime } from '@/lib/utils';
 import Logger from '@/lib/utils/logger';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 const logger = new Logger('NavigationFlowDev');
 
@@ -30,15 +31,15 @@ export default function NavigationFlowTestPage() {
     <div>
       <div>
         <header>
-          <h1>Navigation Flow Test Harness</h1>
+          <h1>导航流程测试台</h1>
           <p>
-            Test the enhanced navigation components and flow logic
+            测试增强的导航组件与流程逻辑
           </p>
         </header>
 
         {/* Test Navigation */}
         <div>
-          <h2>Test Components</h2>
+          <h2>测试组件</h2>
           <div>
             <button
               onClick={() => setActiveTest('wizard')}
@@ -48,7 +49,7 @@ export default function NavigationFlowTestPage() {
                   : ''
               }`}
             >
-              Game Start Wizard
+              游戏开始向导
             </button>
             <button
               onClick={() => setActiveTest('breadcrumbs')}
@@ -58,7 +59,7 @@ export default function NavigationFlowTestPage() {
                   : ''
               }`}
             >
-              Enhanced Breadcrumbs
+              增强面包屑导航
             </button>
             <button
               onClick={() => setActiveTest('flow')}
@@ -68,52 +69,52 @@ export default function NavigationFlowTestPage() {
                   : ''
               }`}
             >
-              Flow Logic
+              流程逻辑
             </button>
           </div>
         </div>
 
         {/* Current State Display */}
         <div>
-          <h2>Current App State</h2>
+          <h2>当前应用状态</h2>
           <div>
             <div>
-              <h3>Worlds ({worldList.length})</h3>
+              <h3>世界（{worldList.length})</h3>
               <div>
                 {worldList.length === 0 ? (
-                  <p>No worlds created</p>
+                  <p>尚未创建世界</p>
                 ) : (
                   worldList.map(world => (
                     <div key={world.id} >
-                      {world.name} ({world.genre})
+                      {world.name} ({displayLabel(world.genre)})
                     </div>
                   ))
                 )}
               </div>
             </div>
             <div>
-              <h3>Characters ({characterList.length})</h3>
+              <h3>角色（{characterList.length})</h3>
               <div>
                 {characterList.length === 0 ? (
-                  <p>No characters created</p>
+                  <p>尚未创建角色</p>
                 ) : (
                   characterList.map(character => (
                     <div key={character.id} >
-                      {character.name} ({worlds[character.worldId]?.name || 'Unknown World'})
+                      {character.name} ({worlds[character.worldId]?.name || "未知世界"})
                     </div>
                   ))
                 )}
               </div>
             </div>
             <div>
-              <h3>Saved Sessions ({sessionList.length})</h3>
+              <h3>已保存的冒险记录（{sessionList.length})</h3>
               <div>
                 {sessionList.length === 0 ? (
-                  <p>No saved sessions</p>
+                  <p>暂无已保存的冒险记录</p>
                 ) : (
                   sessionList.map(session => (
                     <div key={session.id} >
-                      {worlds[session.worldId]?.name || 'Unknown'} / {characters[session.characterId]?.name || 'Unknown'}
+                      {worlds[session.worldId]?.name || "未知"} / {characters[session.characterId]?.name || "未知"}
                     </div>
                   ))
                 )}
@@ -126,19 +127,19 @@ export default function NavigationFlowTestPage() {
         <div>
           {activeTest === 'wizard' && (
             <div>
-              <h2>Game Start Wizard</h2>
+              <h2>游戏开始向导</h2>
               <div>
-                <h3>Wizard Configuration</h3>
+                <h3>向导配置</h3>
                 <div>
                   <div>
                     <label>
-                      Initial World ID (optional)
+                      初始世界 ID（可选）
                     </label>
                     <select
                       value={wizardWorldId}
                       onChange={(e) => setWizardWorldId(e.target.value)}
                     >
-                      <option value="">No pre-selection</option>
+                      <option value="">不预选</option>
                       {worldList.map(world => (
                         <option key={world.id} value={world.id}>{world.name}</option>
                       ))}
@@ -146,14 +147,14 @@ export default function NavigationFlowTestPage() {
                   </div>
                   <div>
                     <label>
-                      Initial Character ID (optional)
+                      初始角色 ID（可选）
                     </label>
                     <select
                       value={wizardCharacterId}
                       onChange={(e) => setWizardCharacterId(e.target.value)}
                       disabled={!wizardWorldId}
                     >
-                      <option value="">No pre-selection</option>
+                      <option value="">不预选</option>
                       {characterList
                         .filter(char => !wizardWorldId || char.worldId === wizardWorldId)
                         .map(character => (
@@ -173,16 +174,16 @@ export default function NavigationFlowTestPage() {
 
           {activeTest === 'breadcrumbs' && (
             <div>
-              <h2>Enhanced Breadcrumbs</h2>
+              <h2>增强面包屑导航</h2>
               <div>
                 <div>
-                  <h3>Standard Breadcrumbs</h3>
+                  <h3>标准面包屑导航</h3>
                   <div>
                     <Breadcrumbs />
                   </div>
                 </div>
                 <div>
-                  <h3>With Next Step Guidance</h3>
+                  <h3>带下一步引导</h3>
                   <div>
                     <Breadcrumbs showNextStep />
                   </div>
@@ -193,38 +194,38 @@ export default function NavigationFlowTestPage() {
 
           {activeTest === 'flow' && (
             <div>
-              <h2>Navigation Flow Logic</h2>
+              <h2>导航流程逻辑</h2>
               <div>
                 <div>
                   <div>
-                    <h3>Current Flow State</h3>
+                    <h3>当前流程状态</h3>
                     <div>
                       <div>
-                        <span>Current Step:</span>{' '}
+                        <span>当前步骤：</span>{' '}
                         <span>{getCurrentFlowStep()}</span>
                       </div>
                       <div>
-                        <span>Can Quick Start:</span>{' '}
+                        <span>可快速开始：</span>{' '}
                         <span>
-                          {canQuickStart() ? 'Yes' : 'No'}
+                          {canQuickStart() ? "是" : "否"}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h3>Next Step</h3>
+                    <h3>下一步</h3>
                     <div>
                       {(() => {
                         const nextStep = getNextStep();
                         if (!nextStep) {
-                          return <p>No next step (already playing)</p>;
+                          return <p>没有下一步（已在游玩中）</p>;
                         }
                         return (
                           <div>
-                            <div><span>Label:</span> {nextStep.label}</div>
-                            <div><span>Action:</span> {nextStep.action}</div>
-                            <div><span>Href:</span> {nextStep.href}</div>
-                            <div><span>Enabled:</span> {nextStep.isEnabled ? 'Yes' : 'No'}</div>
+                            <div><span>标签：</span> {nextStep.label}</div>
+                            <div><span>操作：</span> {nextStep.action}</div>
+                            <div><span>链接：</span> {nextStep.href}</div>
+                            <div><span>已启用：</span> {nextStep.isEnabled ? "是" : "否"}</div>
                           </div>
                         );
                       })()}
@@ -233,19 +234,19 @@ export default function NavigationFlowTestPage() {
                 </div>
                 
                 <div>
-                  <h3>Quick Start Info</h3>
+                  <h3>快速开始信息</h3>
                   <div>
                     {(() => {
                       const quickStartInfo = getQuickStartInfo();
                       if (!quickStartInfo) {
-                        return <p>No quick start available</p>;
+                        return <p>暂无快速开始</p>;
                       }
                       return (
                         <div>
-                          <div><span>World:</span> {quickStartInfo.worldName}</div>
-                          <div><span>Character:</span> {quickStartInfo.characterName}</div>
-                          <div><span>Progress:</span> {quickStartInfo.narrativeCount} entries</div>
-                          <div><span>Last Played:</span> {formatDateTime(quickStartInfo.lastPlayed)}</div>
+                          <div><span>世界：</span> {quickStartInfo.worldName}</div>
+                          <div><span>角色：</span> {quickStartInfo.characterName}</div>
+                          <div><span>进度：</span> {quickStartInfo.narrativeCount} 条</div>
+                          <div><span>上次游玩：</span> {formatDateTime(quickStartInfo.lastPlayed)}</div>
                         </div>
                       );
                     })()}

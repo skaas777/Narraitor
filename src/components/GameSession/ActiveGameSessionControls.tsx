@@ -60,7 +60,7 @@ const ActiveGameSessionControls: React.FC<ActiveGameSessionControlsProps> = ({
           className="manuscript-support-inventory"
           data-testid="inventory-collapsible"
         >
-          <CollapsibleSection title="Inventory" initialCollapsed>
+          <CollapsibleSection title="背包" initialCollapsed>
             <InventoryList
               characterId={characterId}
               worldId={worldId}
@@ -97,7 +97,7 @@ const ActiveGameSessionControls: React.FC<ActiveGameSessionControlsProps> = ({
             className="manuscript-journal-button"
           >
             <span className="manuscript-journal-button-label">
-              Open Journal
+              打开日志
             </span>
           </Button>
         </div>
@@ -118,12 +118,12 @@ const ActiveGameSessionControls: React.FC<ActiveGameSessionControlsProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="manuscript-end-story-header">
-              <h2 id="end-story-title" className="manuscript-end-story-title">End Story</h2>
+              <h2 id="end-story-title" className="manuscript-end-story-title">结束故事</h2>
             </div>
             
             <div className="manuscript-end-story-body">
               <p className="manuscript-end-story-message">
-                Are you sure you want to end your story? This will write a final ending based on your current progress and cannot be undone.
+                确定要结束你的故事吗？这将根据你当前的进度撰写最终结局，且无法撤销。
               </p>
             </div>
             
@@ -134,14 +134,14 @@ const ActiveGameSessionControls: React.FC<ActiveGameSessionControlsProps> = ({
                 className="manuscript-end-story-cancel"
                 onClick={onCloseEndStory}
               >
-                Cancel
+                取消
               </button>
               <button
                 type="button"
                 className="manuscript-end-story-confirm"
                 onClick={onConfirmEndStory}
               >
-                Confirm End Story
+                确认结束故事
               </button>
             </div>
           </div>

@@ -59,7 +59,7 @@ const DialogContent = React.forwardRef<
               {showCloseButton && (
                 <DialogPrimitive.Close>
                   <X aria-hidden="true" />
-                  <span>Close</span>
+                  <span>关闭</span>
                 </DialogPrimitive.Close>
               )}
             </DialogPrimitive.Content>
@@ -80,7 +80,7 @@ const DialogContent = React.forwardRef<
           {showCloseButton && (
             <DialogPrimitive.Close>
               <X aria-hidden="true" />
-              <span>Close</span>
+              <span>关闭</span>
             </DialogPrimitive.Close>
           )}
         </DialogPrimitive.Content>

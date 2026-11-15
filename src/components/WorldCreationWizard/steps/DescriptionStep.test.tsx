@@ -77,7 +77,7 @@ describe('DescriptionStep', () => {
     );
 
     // Check that fantasy genre guidance is shown in the description help text
-    expect(screen.getByText(/Describe iconic locations, magical traditions, and the looming prophecy or crisis the world must solve/i)).toBeInTheDocument();
+    expect(screen.getByText(/描述标志性地点、魔法传统，以及这个世界必须应对的迫近预言或危机/i)).toBeInTheDocument();
   });
 
   it('disables suggestion generation until description is long enough', async () => {
@@ -91,9 +91,9 @@ describe('DescriptionStep', () => {
       />
     );
 
-    const button = screen.getByRole('button', { name: /generate suggestions/i });
+    const button = screen.getByRole('button', { name: /生成建议/i });
     expect(button).toBeDisabled();
-    expect(screen.getByText(/Add at least 50 characters/i)).toBeInTheDocument();
+    expect(screen.getByText(/请至少添加 50 个字符，以便我们在生成建议前了解你的世界。/i)).toBeInTheDocument();
 
     const textarea = screen.getByTestId('world-full-description');
     const newDescription = 'This is now a much longer description that should satisfy the requirement for AI analysis.';
@@ -146,6 +146,6 @@ describe('DescriptionStep', () => {
       />
     );
 
-    expect(screen.getByText(/description has changed/i)).toBeInTheDocument();
+    expect(screen.getByText(/你的描述已发生变化/i)).toBeInTheDocument();
   });
 });

@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { CollapsibleSection } from '@/components/ui/CollapsibleSection';
+import { displayLabel } from '@/lib/i18n/zhCN';
+import { localizeErrorMessage } from '@/lib/i18n/errors';
 
 /**
  * Component for displaying and managing runtime errors in DevTools
@@ -91,7 +93,7 @@ export const ErrorSection = () => {
 
   // Format timestamp
   const formatTimestamp = (timestamp: Date) => {
-    return timestamp.toLocaleTimeString();
+    return timestamp.toLocaleTimeString('zh-CN');
   };
 
   return (
@@ -99,7 +101,7 @@ export const ErrorSection = () => {
       {/* Error Statistics */}
       <div>
         <div>
-          <h4>Runtime Errors</h4>
+          <h4>运行时错误</h4>
           {statistics && statistics.total > 0 && (
             <Button
               onClick={handleClearAll}
@@ -107,7 +109,7 @@ export const ErrorSection = () => {
               size="sm"
               
             >
-              Clear All
+              全部清除
             </Button>
           )}
         </div>
@@ -115,14 +117,14 @@ export const ErrorSection = () => {
         {statistics && (
           <div>
             <div>
-              <span>Total: {statistics.total}</span>
-              <span>Recent: {statistics.recentCount}</span>
+              <span>总计： {statistics.total}</span>
+              <span>最近： {statistics.recentCount}</span>
             </div>
             <div>
               {Object.entries(statistics.bySeverity).map(([severity, count]) => 
                 count > 0 && (
                   <span key={severity} >
-                    {severity}: {count}
+                    {displayLabel(severity)}: {count}
                   </span>
                 )
               )}
@@ -132,20 +134,20 @@ export const ErrorSection = () => {
       </div>
 
       {/* Filters */}
-      <CollapsibleSection title="Filters" initialCollapsed={true}>
+      <CollapsibleSection title="筛选" initialCollapsed={true}>
         <div>
           {/* Severity Filter */}
           <div>
-            <h5>Severity</h5>
+            <h5>严重程度</h5>
             <div>
               {Object.values(ErrorSeverity).map(severity => (
                 <label key={severity} >
                   <Checkbox
                     checked={(filter.severity || []).includes(severity)}
                     onChange={(e) => handleSeverityFilter(severity, e.target.checked)}
-                    aria-label={`Filter by ${severity.charAt(0).toUpperCase() + severity.slice(1)} severity errors`}
+                    aria-label={`按 ${severity.charAt(0).toUpperCase() + severity.slice(1)} 严重程度筛选错误`}
                   />
-                  <span>{severity}</span>
+                  <span>{displayLabel(severity)}</span>
                 </label>
               ))}
             </div>
@@ -153,14 +155,14 @@ export const ErrorSection = () => {
 
           {/* Category Filter */}
           <div>
-            <h5>Category</h5>
+            <h5>分类</h5>
             <div>
               {Object.values(ErrorCategory).map(category => (
                 <label key={category} >
                   <Checkbox
                     checked={(filter.category || []).includes(category)}
                     onChange={(e) => handleCategoryFilter(category, e.target.checked)}
-                    aria-label={`Filter by ${category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ')} category errors`}
+                    aria-label={`按 ${category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' ')} 类别筛选错误`}
                   />
                   <span>{category.replace('_', ' ')}</span>
                 </label>
@@ -174,9 +176,9 @@ export const ErrorSection = () => {
               <Checkbox
                 checked={filter.dismissed || false}
                 onChange={(e) => handleShowDismissed(e.target.checked)}
-                aria-label="Show dismissed errors in addition to active errors"
+                aria-label="除活动错误外，还显示已忽略的错误"
               />
-              <span>Show dismissed errors</span>
+              <span>显示已忽略的错误</span>
             </label>
           </div>
 
@@ -185,7 +187,7 @@ export const ErrorSection = () => {
             size="sm" 
             
           >
-            Apply Filters
+            应用筛选
           </Button>
         </div>
       </CollapsibleSection>
@@ -194,7 +196,7 @@ export const ErrorSection = () => {
       <div>
         {errors.length === 0 ? (
           <div>
-            No runtime errors captured
+            未捕获到运行时错误
           </div>
         ) : (
           errors.map((error) => (
@@ -206,14 +208,14 @@ export const ErrorSection = () => {
                 <div>
                   <div>
                     <Badge>
-                      {error.severity.toUpperCase()}
+                      {displayLabel(error.severity.toUpperCase())}
                     </Badge>
                     <Badge variant="outline" >
-                      {error.category}
+                      {displayLabel(error.category)}
                     </Badge>
                     {error.count > 1 && (
                       <Badge variant="secondary-static" >
-                        {error.count}x
+                        {error.count}次
                       </Badge>
                     )}
                     <span>
@@ -221,7 +223,7 @@ export const ErrorSection = () => {
                     </span>
                   </div>
                   <p>
-                    {error.message}
+                    {localizeErrorMessage(error.message)}
                   </p>
                 </div>
                 
@@ -231,7 +233,7 @@ export const ErrorSection = () => {
                     variant="ghost"
                     size="sm"
                     
-                    aria-label="View error details"
+                    aria-label="查看错误详情"
                   >
                     {expandedErrors.has(error.id) ? '−' : '+'}
                   </Button>
@@ -241,7 +243,7 @@ export const ErrorSection = () => {
                       variant="ghost"
                       size="sm"
                       
-                      aria-label="Dismiss error"
+                      aria-label="忽略错误"
                     >
                       ×
                     </Button>
@@ -255,7 +257,7 @@ export const ErrorSection = () => {
                   {/* Stack Trace */}
                   {error.stack && (
                     <div>
-                      <h6>Stack Trace</h6>
+                      <h6>堆栈跟踪</h6>
                       <pre>
                         {error.stack}
                       </pre>
@@ -265,9 +267,9 @@ export const ErrorSection = () => {
                   {/* Component Context */}
                   {error.componentContext && (
                     <div>
-                      <h6>Component Context</h6>
+                      <h6>组件上下文</h6>
                       <div>
-                        <div>Component: {error.componentContext.componentName}</div>
+                        <div>组件： {error.componentContext.componentName}</div>
                         <pre>
                           {error.componentContext.componentStack}
                         </pre>
@@ -278,11 +280,11 @@ export const ErrorSection = () => {
                   {/* State Snapshot */}
                   {error.stateSnapshot && (
                     <div>
-                      <h6>State Snapshot</h6>
+                      <h6>状态快照</h6>
                       <div>
-                        <div>Route: {error.stateSnapshot.route}</div>
-                        <div>URL: {error.stateSnapshot.url}</div>
-                        <div>User Agent: {error.stateSnapshot.userAgent}</div>
+                        <div>路由： {error.stateSnapshot.route}</div>
+                        <div>URL： {error.stateSnapshot.url}</div>
+                        <div>用户代理： {error.stateSnapshot.userAgent}</div>
                       </div>
                     </div>
                   )}

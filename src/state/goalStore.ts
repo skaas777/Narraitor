@@ -131,7 +131,7 @@ export const useGoalStore = create<GoalStore>()(
       update: (goalId, updates) => {
         const existingGoal = get().goals[goalId];
         if (!existingGoal) {
-          set({ error: createStoreError('Goal Not Found', 'The specified goal could not be found.') });
+          set({ error: createStoreError("未找到目标", "找不到指定的目标。") });
           return;
         }
 
@@ -223,7 +223,7 @@ export const useGoalStore = create<GoalStore>()(
       setCurrent: (id) => {
         if (id && !get().goals[id]) {
           set({
-            error: createStoreError('Goal Not Found', 'The specified goal could not be found.'),
+            error: createStoreError("未找到目标", "找不到指定的目标。"),
             currentEntityId: null,
           });
           return;
@@ -269,7 +269,7 @@ export const useGoalStore = create<GoalStore>()(
       incrementMentionCount: (goalId) => {
         const goal = get().goals[goalId];
         if (!goal) {
-          set({ error: createStoreError('Goal Not Found', 'The specified goal could not be found.') });
+          set({ error: createStoreError("未找到目标", "找不到指定的目标。") });
           return;
         }
 
@@ -282,7 +282,7 @@ export const useGoalStore = create<GoalStore>()(
       addProgressNote: (goalId, note) => {
         const goal = get().goals[goalId];
         if (!goal) {
-          set({ error: createStoreError('Goal Not Found', 'The specified goal could not be found.') });
+          set({ error: createStoreError("未找到目标", "找不到指定的目标。") });
           return;
         }
 
@@ -307,12 +307,12 @@ export const useGoalStore = create<GoalStore>()(
         set({ loading: true, error: null });
         try {
           if (!segment) {
-            const error = createStoreError('Segment Not Found', 'Narrative segment not found for goal processing.', ErrorType.SERVICE, true);
+            const error = createStoreError("未找到叙事片段", "未找到用于目标处理的叙事片段。", ErrorType.SERVICE, true);
             return { newGoalsCreated: 0, goalsUpdated: 0, goalsCompleted: 0, error };
           }
 
           if (!sessionId) {
-            const error = createStoreError('Session Not Found', 'No session could be determined for the provided segment.', ErrorType.SERVICE, true);
+            const error = createStoreError("未找到冒险记录", "无法为提供的片段确定冒险记录。", ErrorType.SERVICE, true);
             return { newGoalsCreated: 0, goalsUpdated: 0, goalsCompleted: 0, error };
           }
 
@@ -371,8 +371,8 @@ export const useGoalStore = create<GoalStore>()(
           };
         } catch (error) {
           const friendlyError = createStoreError(
-            'Goal Processing Failed',
-            error instanceof Error ? error.message : 'Failed to process goals for the segment.',
+            "目标处理失败",
+            error instanceof Error ? error.message : "无法处理该片段的目标。",
             ErrorType.SERVICE,
             true
           );

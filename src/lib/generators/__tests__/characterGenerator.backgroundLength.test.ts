@@ -50,3 +50,23 @@ describe('characterGenerator background length clamping', () => {
     expect(character.background.personality.length).toBeLessThanOrEqual(1000);
   });
 });
+
+it('preserves Chinese dialogue and URLs inside a valid character response', async () => {
+  const description = '她被称为“听风者”，日记记在 https://example.com/journal。';
+  const world = createMockWorld({
+    attributes: [createMockWorldAttribute({ id: 'attr-1' })],
+    skills: [createMockWorldSkill({ id: 'skill-1' })],
+  });
+  (createDefaultGeminiClient as jest.Mock).mockReturnValue({
+    generateContent: jest.fn().mockResolvedValue({
+      content: JSON.stringify({
+        name: '林舟',
+        background: { description, personality: '耐心而好奇', motivation: '寻找老师', fears: ['迷失'], physicalDescription: '黑发' },
+        attributes: [{ id: 'attr-1', value: 7 }], skills: [{ id: 'skill-1', level: 3 }],
+      }),
+      finishReason: 'STOP',
+    }),
+  });
+  const character = await generateAICharacter(world, [], undefined, 'original');
+  expect(character.background.description).toBe(description);
+});

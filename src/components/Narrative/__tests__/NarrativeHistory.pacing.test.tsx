@@ -55,7 +55,7 @@ describe('NarrativeHistory session pacing and history collapse', () => {
     expect(screen.queryByText(/Beat 1 of the story/i)).not.toBeInTheDocument();
     expect(screen.getByText(/Beat 12 of the story/i)).toBeInTheDocument();
 
-    const expandButton = screen.getByRole('button', { name: /show earlier story/i });
+    const expandButton = screen.getByRole('button', { name: /显示更早的故事/i });
     expect(expandButton).toBeInTheDocument();
     expect(expandButton).toHaveClass('narrative-history-expand-button');
   });
@@ -65,7 +65,7 @@ describe('NarrativeHistory session pacing and history collapse', () => {
       <NarrativeHistory segments={twelveSegments} disableInitialAutoScroll />
     );
 
-    const expandButton = screen.getByRole('button', { name: /show earlier story/i });
+    const expandButton = screen.getByRole('button', { name: /显示更早的故事/i });
     fireEvent.click(expandButton);
 
     const allSegmentElements = container.querySelectorAll('.narrative-segment');
@@ -73,7 +73,7 @@ describe('NarrativeHistory session pacing and history collapse', () => {
 
     expect(screen.getByText(/Beat 1 of the story/i)).toBeInTheDocument();
     expect(screen.getByText(/Beat 12 of the story/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /show earlier story/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /显示更早的故事/i })).not.toBeInTheDocument();
   });
 
   it('preserves keyboard navigation when collapsed and when expanded', () => {
@@ -91,7 +91,7 @@ describe('NarrativeHistory session pacing and history collapse', () => {
     expect(scrollToSpy).toHaveBeenCalled();
 
     // Expand
-    const expandButton = screen.getByRole('button', { name: /show earlier story/i });
+    const expandButton = screen.getByRole('button', { name: /显示更早的故事/i });
     fireEvent.click(expandButton);
 
     // Arrow keys while expanded

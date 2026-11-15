@@ -48,23 +48,20 @@ const WorldList: React.FC<WorldListProps> = ({
       >
         <div className="world-list-empty-lead">
           <h2 className="world-list-empty-title">
-            Every story starts with a world.
+            每个故事都始于一个世界。
           </h2>
           <p className="world-list-empty-lede">
-            A world holds the setting, the rules your characters are measured
-            by, and the tone the story is told in. Build one and the rest of
-            Narraitor has somewhere to happen.
+            世界承载着背景设定、衡量角色的规则，以及故事的叙事风格。创建一个世界，Narraitor 的其余内容才有发生的舞台。
           </p>
           <p className="world-list-empty-description">
-            You can keep as many worlds as you like and switch between them
-            whenever you want.
+            你可以保留任意数量的世界，并随时在它们之间切换。
           </p>
           <ActionButtonGroup
             layout="horizontal"
             gap="sm"
             actions={[
               {
-                label: 'Create World',
+                label: "创建世界",
                 onClick: handleCreateWorld,
                 variant: 'primary',
                 size: 'lg',
@@ -75,25 +72,23 @@ const WorldList: React.FC<WorldListProps> = ({
 
         <ol className="world-list-empty-steps">
           <li>
-            <span className="world-list-empty-step-title">Create a world</span>
+            <span className="world-list-empty-step-title">创建世界</span>
             <span className="world-list-empty-step-body">
-              Set the theme, the attributes characters are built from, and the
-              rules play runs on.
+              设定主题、构建角色所依据的属性，以及游玩所遵循的规则。
             </span>
           </li>
           <li>
             <span className="world-list-empty-step-title">
-              Build characters
+              创建角色
             </span>
             <span className="world-list-empty-step-body">
-              Write them yourself or have one generated from the world you just
-              described.
+              你可以自行编写角色，也可以根据刚才描述的世界生成一个。
             </span>
           </li>
           <li>
-            <span className="world-list-empty-step-title">Start playing</span>
+            <span className="world-list-empty-step-title">开始游玩</span>
             <span className="world-list-empty-step-body">
-              Choose what happens next, and the story keeps the consequences.
+              选择接下来发生什么，故事会保留相应的后果。
             </span>
           </li>
         </ol>

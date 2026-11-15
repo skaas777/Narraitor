@@ -25,15 +25,15 @@ export const QuickSetup = () => {
 
       // Create a simple test world
       const worldData = {
-        name: 'Test World',
-        description: 'Quick test world for development',
+        name: '测试世界',
+        description: "用于开发的快速测试世界",
         genre: 'fantasy' as GenreValue,
         attributes: [
           {
             id: 'attr-strength',
             worldId: '',
-            name: 'Strength',
-            description: 'Physical power and endurance',
+            name: "力量",
+            description: '身体力量与耐力',
             baseValue: 10,
             minValue: 1,
             maxValue: 20,
@@ -41,8 +41,8 @@ export const QuickSetup = () => {
           {
             id: 'attr-intelligence',
             worldId: '',
-            name: 'Intelligence',
-            description: 'Reasoning and problem solving',
+            name: "智力",
+            description: "推理与解决问题",
             baseValue: 10,
             minValue: 1,
             maxValue: 20,
@@ -50,8 +50,8 @@ export const QuickSetup = () => {
           {
             id: 'attr-charisma',
             worldId: '',
-            name: 'Charisma',
-            description: 'Presence and persuasion',
+            name: "魅力",
+            description: "存在感与说服力",
             baseValue: 10,
             minValue: 1,
             maxValue: 20,
@@ -61,8 +61,8 @@ export const QuickSetup = () => {
           {
             id: 'skill-combat',
             worldId: '',
-            name: 'Combat',
-            description: 'General combat effectiveness',
+            name: "战斗",
+            description: "综合战斗能力",
             difficulty: 'medium' as const,
             attributeIds: ['attr-strength'],
             baseValue: 3,
@@ -72,8 +72,8 @@ export const QuickSetup = () => {
           {
             id: 'skill-stealth',
             worldId: '',
-            name: 'Stealth',
-            description: 'Move unseen and unheard',
+            name: "潜行",
+            description: "悄无声息地移动",
             difficulty: 'medium' as const,
             attributeIds: ['attr-intelligence'],
             baseValue: 3,
@@ -98,15 +98,15 @@ export const QuickSetup = () => {
       // Create a test character
       const characterData = {
         worldId,
-        name: 'Test Character',
-        description: 'Quick test character for development',
+        name: '测试角色',
+        description: "用于开发的快速测试角色",
         level: 1,
         attributes: [
           {
             id: 'char-attr-strength',
             characterId: '',
             worldAttributeId: 'attr-strength',
-            name: 'Strength',
+            name: "力量",
             baseValue: 10,
             modifiedValue: 10,
             category: 'Physical',
@@ -115,7 +115,7 @@ export const QuickSetup = () => {
             id: 'char-attr-intelligence',
             characterId: '',
             worldAttributeId: 'attr-intelligence',
-            name: 'Intelligence',
+            name: "智力",
             baseValue: 10,
             modifiedValue: 10,
             category: 'Mental',
@@ -124,7 +124,7 @@ export const QuickSetup = () => {
             id: 'char-attr-charisma',
             characterId: '',
             worldAttributeId: 'attr-charisma',
-            name: 'Charisma',
+            name: "魅力",
             baseValue: 10,
             modifiedValue: 10,
             category: 'Social',
@@ -135,18 +135,18 @@ export const QuickSetup = () => {
             id: 'char-skill-combat',
             characterId: '',
             worldSkillId: 'skill-combat',
-            name: 'Combat',
+            name: "战斗",
             level: 3,
-            category: 'Generated',
+            category: "生成",
           },
         ],
         derivedStats: [],
         background: {
-          history: 'A traveler drawn into a mysterious realm.',
-          personality: 'Curious and resilient.',
-          goals: ['Find answers', 'Survive the unknown'],
-          fears: ['Losing control'],
-          physicalDescription: 'Worn cloak and focused eyes',
+          history: "一名被卷入神秘国度的旅人。",
+          personality: "好奇而坚韧。",
+          goals: ["寻找答案", "在未知中生存"],
+          fears: ["失去控制"],
+          physicalDescription: "破旧斗篷，目光专注",
           relationships: [],
         },
         isPlayer: true,
@@ -183,7 +183,7 @@ export const QuickSetup = () => {
       variant="success"
       size="sm"
     >
-      {isGenerating ? 'Generating...' : '⚡ Quick Setup (World + Character)'}
+      {isGenerating ? "正在生成……" : "⚡ 快速设置（世界 + 角色）"}
     </Button>
   );
 };

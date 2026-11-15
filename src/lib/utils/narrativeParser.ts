@@ -34,7 +34,7 @@ export function parseNarrativeContent(content: string): string {
     content.toLowerCase().includes('starting location:') ||
     (content.toLowerCase().includes('scene') && trimmedContent.length < 20)
   )) {
-    return 'The story is beginning... (Content generation in progress)';
+    return "故事即将开始……（内容生成中）";
   }
   
   // Check if content starts with ```json

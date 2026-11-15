@@ -118,8 +118,8 @@ describe('POST /api/ai/analyze-world', () => {
 
     // The wizard always gets something to work with rather than an error page.
     expect(response.status).toBe(200);
-    expect(data.attributes.map((a: { name: string }) => a.name)).toContain('Strength');
-    expect(data.skills.map((s: { name: string }) => s.name)).toContain('Perception');
+    expect(data.attributes.map((a: { name: string }) => a.name)).toContain('力量');
+    expect(data.skills.map((s: { name: string }) => s.name)).toContain("察觉");
   });
 
   it('returns 500 when the body is not JSON', async () => {

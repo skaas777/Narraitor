@@ -35,12 +35,12 @@ export function ConfirmationDialog({
   title,
   message,
   variant = 'default',
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText = "确认",
+  cancelText = "取消",
   confirmAriaLabel,
   cancelAriaLabel,
   isLoading = false,
-  loadingText = 'Loading...',
+  loadingText = "加载中…",
 }: ConfirmationDialogProps) {
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
@@ -63,7 +63,7 @@ export function ConfirmationDialog({
     <SimpleModal
       isOpen={isOpen}
       onClose={onClose}
-      title={title || 'Confirmation Required'}
+      title={title || "需要确认"}
       showCloseButton={false}
       description={message}
       footer={(

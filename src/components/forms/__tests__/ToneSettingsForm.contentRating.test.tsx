@@ -15,7 +15,7 @@ describe('ToneSettingsForm - content rating labels', () => {
       />
     );
 
-    const select = screen.getByLabelText('Content Rating');
+    const select = screen.getByLabelText("内容分级");
     const options = Array.from(select.querySelectorAll('option')).map(
       (option) => option.textContent
     );

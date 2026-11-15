@@ -38,8 +38,8 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
     const newSkill: WorldSkill = {
       id: generateUniqueId('skill'),
       worldId,
-      name: 'New Skill',
-      description: 'Description of the new skill',
+      name: "新技能",
+      description: "新技能描述",
       difficulty: DEFAULT_SKILL_DIFFICULTY,
       attributeIds: attributes.length > 0 ? [attributes[0].id] : [],
       baseValue: SKILL_DEFAULT_VALUE,  // Default base value
@@ -66,18 +66,18 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
   return (
     <section className="component-world-skills-form">
       <div>
-        <h3>Skills</h3>
+        <h3>技能</h3>
         <Button
           onClick={handleAddSkill}
           variant="secondary"
           size="sm"
         >
-          Add Skill
+          添加技能
         </Button>
       </div>
       
       {skills.length === 0 ? (
-        <p>No skills defined yet.</p>
+        <p>尚未定义技能。</p>
       ) : (
         <div>
           {skills.map((skill, index) => (
@@ -89,7 +89,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                   variant="destructive"
                   size="sm"
                 >
-                  Remove
+                  移除
                 </Button>
               </div>
               
@@ -97,7 +97,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                 <div>
                   <div>
                     <Label htmlFor={`skill-name-${index}`}>
-                      Name
+                      名称
                     </Label>
                     <Input
                       id={`skill-name-${index}`}
@@ -109,7 +109,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                   
                   <div>
                     <Label htmlFor={`skill-category-${index}`}>
-                      Category
+                      分类
                     </Label>
                     <Input
                       id={`skill-category-${index}`}
@@ -122,7 +122,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                 
                 <div>
                   <Label htmlFor={`skill-description-${index}`}>
-                    Description
+                    描述
                   </Label>
                   <Textarea
                     id={`skill-description-${index}`}
@@ -135,7 +135,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                 <div>
                   <div>
                     <Label htmlFor={`skill-difficulty-${index}`}>
-                      Difficulty
+                      难度
                     </Label>
                     <Select
                       id={`skill-difficulty-${index}`}
@@ -154,10 +154,10 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                   
                   <div>
                     <Label>
-                      Linked Attributes
+                      关联属性
                     </Label>
                     {attributes.length === 0 ? (
-                      <p>No attributes available</p>
+                      <p>没有可用属性</p>
                     ) : (
                       <div>
                         {attributes.map((attr, aIndex) => (
@@ -183,7 +183,7 @@ const WorldSkillsForm: React.FC<WorldSkillsFormProps> = ({
                 </div>
                 
                 <div>
-                  <h5>Skill Default Level</h5>
+                  <h5>技能默认等级</h5>
                   <div>
                     {/* Use the SkillRangeEditor component */}
                     <SkillRangeEditor

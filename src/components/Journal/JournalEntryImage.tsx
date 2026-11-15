@@ -32,7 +32,7 @@ const EntryImagePreview: React.FC<{
     return (
       <div className="journal-entry-image-preview" data-state="error">
         <AlertCircle aria-hidden="true" />
-        <p>Error loading image</p>
+        <p>图片加载失败</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ const EntryImagePreview: React.FC<{
         className="journal-entry-image-preview"
         data-state="empty"
         role="img"
-        aria-label="No image"
+        aria-label="无图片"
       >
         <ImageOff aria-hidden="true" />
       </div>
@@ -54,7 +54,7 @@ const EntryImagePreview: React.FC<{
     <div className="journal-entry-image-preview" data-state="ready">
       <Image
         src={image.url}
-        alt={`Illustration for ${title}`}
+        alt={`为 ${title} 绘制的插图`}
         width={640}
         height={360}
         onError={() => setLoadFailed(true)}
@@ -70,7 +70,7 @@ export const JournalEntryImage: React.FC<JournalEntryImageProps> = ({ entry }) =
   const [error, setError] = useState<string | null>(null);
 
   const image = entry.metadata.image;
-  const entryTitle = entry.title || 'this entry';
+  const entryTitle = entry.title || "此条目";
 
   const persistImage = (next: GeneratedImage) => {
     updateEntry(entry.id, {
@@ -86,7 +86,7 @@ export const JournalEntryImage: React.FC<JournalEntryImageProps> = ({ entry }) =
       const generated = await generateJournalImage(entry, world, customPrompt);
       persistImage(generated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate image');
+      setError(err instanceof Error ? err.message : "图片生成失败");
     } finally {
       setIsGenerating(false);
     }
@@ -100,8 +100,8 @@ export const JournalEntryImage: React.FC<JournalEntryImageProps> = ({ entry }) =
     <ImageGenerationSection
       className="journal-entry-image"
       headingLevel="h4"
-      title="Entry Image"
-      description="An illustration generated for this moment in your story."
+      title="条目图片"
+      description="为故事中的这一时刻生成的插图。"
       currentImageUrl={image?.url}
       currentImageType={image?.type}
       generatedAt={image?.generatedAt}
@@ -110,13 +110,13 @@ export const JournalEntryImage: React.FC<JournalEntryImageProps> = ({ entry }) =
       onGenerate={handleGenerate}
       onRemove={handleRemove}
       error={error}
-      customPromptLabel="Customize description for this image"
-      customPromptPlaceholder="Describe the specific visual details you want in the image..."
-      customPromptHelpText="This will override the auto-generated prompt based on the entry content for this generation only"
+      customPromptLabel="自定义此图像的描述"
+      customPromptPlaceholder="描述你希望在图片中看到的具体细节……"
+      customPromptHelpText="这将覆盖基于该条目内容自动生成的提示词，仅对本次生成生效"
       generateButtonVariant="secondary"
-      generateButtonText="Generate Image"
-      regenerateButtonText="Regenerate Image"
-      removeButtonText="Remove Image"
+      generateButtonText="生成图片"
+      regenerateButtonText="重新生成图像"
+      removeButtonText="移除图像"
       imageComponent={
         <EntryImagePreview image={image} title={entryTitle} error={error} />
       }

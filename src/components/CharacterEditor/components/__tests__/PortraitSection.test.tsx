@@ -17,8 +17,8 @@ describe('PortraitSection', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /regenerate portrait/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /remove portrait/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /重新生成肖像/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /移除肖像/i })).toBeInTheDocument();
   });
 
   test('renders generate button when portrait is placeholder', () => {
@@ -35,7 +35,7 @@ describe('PortraitSection', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: /generate portrait/i })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /remove portrait/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /生成肖像/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /移除肖像/i })).not.toBeInTheDocument();
   });
 });

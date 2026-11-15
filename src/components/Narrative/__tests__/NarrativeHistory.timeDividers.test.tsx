@@ -37,7 +37,7 @@ describe('NarrativeHistory (session-relative time dividers)', () => {
       createMockNarrativeSegment({ id: 'seg-1', content: 'First segment.' }),
     ];
     render(<NarrativeHistory segments={segments} />);
-    expect(screen.queryByText('BEGINNING OF SESSION')).not.toBeInTheDocument();
+    expect(screen.queryByText("冒险记录开始")).not.toBeInTheDocument();
   });
 
   it('labels the divider between two segments with the elapsed-time bucket', () => {
@@ -52,6 +52,6 @@ describe('NarrativeHistory (session-relative time dividers)', () => {
       timestamp: new Date('2026-08-09T12:05:00Z'),
     });
     render(<NarrativeHistory segments={[first, second]} />);
-    expect(screen.getByText('5 MINUTES AGO')).toBeInTheDocument();
+    expect(screen.getByText("5 分钟前")).toBeInTheDocument();
   });
 });

@@ -81,10 +81,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   // when the request merely ran long sends them to fix the wrong thing.
   if (message.includes('timeout')) {
     return {
-      title: 'Request Timed Out',
-      message: 'The request is taking too long. Try again.',
-      suggestion: 'This is usually temporary — wait a moment and try again.',
-      actionLabel: 'Try Again',
+      title: "请求超时",
+      message: "请求耗时过长，请重试。",
+      suggestion: "这通常是暂时的——稍等片刻再试一次。",
+      actionLabel: "重试",
       retryable: true,
       type: ErrorType.NETWORK,
       severity: 'warning'
@@ -95,10 +95,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   // a dropped connection, and the player can pick the story back up either way.
   if (message.includes('network') || isAbortError(error)) {
     return {
-      title: 'Connection Problem',
-      message: 'Unable to connect. Please check your internet connection.',
-      suggestion: 'Make sure you are online, then try again.',
-      actionLabel: 'Try Again',
+      title: "连接问题",
+      message: "无法连接，请检查你的网络连接。",
+      suggestion: "确认网络正常后，再试一次。",
+      actionLabel: "重试",
       retryable: true,
       type: ErrorType.NETWORK,
       severity: 'error'
@@ -108,10 +108,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   // Rate limit errors
   if (message.includes('429') || message.includes('rate limit')) {
     return {
-      title: 'Too Many Requests',
-      message: 'Too many requests. Please wait a moment before trying again.',
-      suggestion: 'Wait a minute or so before trying again.',
-      actionLabel: 'Try Again Later',
+      title: "请求过多",
+      message: "请求过多。请稍等片刻后重试。",
+      suggestion: "请等待约一分钟后再试。",
+      actionLabel: "稍后重试",
       retryable: true,
       type: ErrorType.SERVICE,
       severity: 'warning'
@@ -121,9 +121,9 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   // Authentication errors
   if (message.includes('401') || message.includes('unauthorized')) {
     return {
-      title: 'Authentication Error',
-      message: 'Authentication failed. Please check your credentials.',
-      suggestion: 'Check that your API key is set correctly in Settings.',
+      title: "身份验证错误",
+      message: "身份验证失败。请检查你的凭据。",
+      suggestion: "请在设置中检查 API 密钥是否正确配置。",
       retryable: false,
       type: ErrorType.AUTH,
       severity: 'critical'
@@ -136,9 +136,9 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
     message.includes('no api key')
   ) {
     return {
-      title: 'API Key Required',
-      message: 'No API key configured for this provider.',
-      suggestion: 'Add your API key in Settings > Provider Setup to play.',
+      title: "需要 API 密钥",
+      message: "此模型服务未配置 API 密钥。",
+      suggestion: "请在设置 > 模型服务设置中添加 API 密钥以开始游戏。",
       retryable: false,
       type: ErrorType.AUTH,
       severity: 'critical'
@@ -150,10 +150,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
   // their input — when the input was fine and the provider simply refused it.
   if (message.includes('blocked this content') || message.includes('content filter')) {
     return {
-      title: 'Provider Blocked This',
-      message: "Your provider refused to generate this. That's their moderation, not a problem with your story.",
-      suggestion: 'Try the scene again, or switch to a provider whose moderation suits your world.',
-      actionLabel: 'Try Again',
+      title: "模型服务已拦截此内容",
+      message: "你的模型服务拒绝生成此内容。这是其内容审核所致，不是你的故事有问题。",
+      suggestion: "重试该场景，或切换到内容审核更适合你所在世界的模型服务。",
+      actionLabel: "重试",
       retryable: true,
       type: ErrorType.SERVICE,
       severity: 'warning'
@@ -167,10 +167,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
     message.includes('413')
   ) {
     return {
-      title: 'Payload Too Large',
-      message: "Couldn't generate this content because the input is too large.",
-      suggestion: 'Try shortening your physical description or prompt and try again.',
-      actionLabel: 'Try Again',
+      title: "请求内容过大",
+      message: "输入内容过大，无法生成此内容。",
+      suggestion: "请缩短外貌描述或提示词后重试。",
+      actionLabel: "重试",
       retryable: false,
       type: ErrorType.VALIDATION,
       severity: 'warning'
@@ -182,9 +182,9 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
       message.includes('malformed') || message.includes('bad request') ||
       message.includes('400')) {
     return {
-      title: 'Check Your Input',
-      message: "Some of what you entered doesn't look right.",
-      suggestion: 'Review the highlighted fields and fix anything marked.',
+      title: "检查输入",
+      message: "你输入的部分内容似乎不正确。",
+      suggestion: "请检查高亮字段并修正标记的问题。",
       retryable: false,
       type: ErrorType.VALIDATION,
       severity: 'warning'
@@ -193,10 +193,10 @@ export function getUserFriendlyError(error: Error): UserFriendlyError {
 
   // Default for unknown errors
   return {
-    title: 'Something Went Wrong',
-    message: "That didn't work.",
-    suggestion: 'If this keeps happening, try reloading the page.',
-    actionLabel: 'Try Again',
+    title: "出错了",
+    message: "操作未成功。",
+    suggestion: "如果问题持续出现，请尝试重新加载页面。",
+    actionLabel: "重试",
     retryable: isRetryableError(error),
     type: ErrorType.UNKNOWN,
     severity: 'error'
@@ -211,7 +211,7 @@ export function formatPlainLanguageError(error: unknown): string {
   const err =
     error instanceof Error
       ? error
-      : new Error(typeof error === 'string' ? error : 'Generation failed');
+      : new Error(typeof error === 'string' ? error : "生成失败");
 
   const friendly = getUserFriendlyError(err);
   if (friendly.suggestion) {

@@ -28,19 +28,19 @@ export const PortraitSection: React.FC<PortraitSectionProps> = ({
 }) => {
   return (
     <ImageGenerationSection
-      title="Character Portrait"
-      description="A portrait generated from this character's details."
+      title="角色肖像"
+      description="根据此角色详情生成的肖像。"
       currentImageUrl={portrait?.url}
       currentImageType={portrait?.type}
       isGenerating={generatingPortrait}
       onGenerate={onGeneratePortrait}
       onRemove={onRemovePortrait}
-      customPromptLabel="Customize physical description for portrait generation"
-      customPromptPlaceholder="Describe specific visual details for the portrait (clothing, pose, expression, etc.)"
-      customPromptHelpText="This will override the character's physical description for this portrait generation only. Tip: Add 'looks like [actor name]' to generate a portrait resembling a specific person."
-      generateButtonText="Generate Portrait"
-      regenerateButtonText="Regenerate Portrait"
-      removeButtonText="Remove Portrait"
+      customPromptLabel="自定义用于肖像生成的外貌描述"
+      customPromptPlaceholder="描述角色肖像的细节，例如服装、姿势和表情。"
+      customPromptHelpText="这会仅覆盖本次肖像生成所用的角色外貌描述。提示：添加“长得像 [演员姓名]”可生成与特定人物相似的肖像。"
+      generateButtonText="生成肖像"
+      regenerateButtonText="重新生成肖像"
+      removeButtonText="移除肖像"
       generateButtonVariant="secondary"
       defaultCustomPromptChecked={false}
       error={error}

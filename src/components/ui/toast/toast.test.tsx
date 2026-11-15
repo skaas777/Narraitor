@@ -79,7 +79,7 @@ describe('Toast Component', () => {
       />
     );
     
-    const dismissButton = screen.getByRole('button', { name: /dismiss/i });
+    const dismissButton = screen.getByRole('button', { name: /关闭/i });
     await user.click(dismissButton);
     
     expect(onDismiss).toHaveBeenCalledTimes(1);

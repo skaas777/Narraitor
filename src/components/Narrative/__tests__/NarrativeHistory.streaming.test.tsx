@@ -104,7 +104,7 @@ describe('NarrativeHistory (Streaming & Anchoring)', () => {
       );
 
       expect(screen.getByText(/The door creaks/)).toBeInTheDocument();
-      expect(screen.queryByText('Writing your story...')).not.toBeInTheDocument();
+      expect(screen.queryByText("正在书写你的故事……")).not.toBeInTheDocument();
     });
 
     it('falls back to the spinner before the first token arrives', () => {
@@ -113,7 +113,7 @@ describe('NarrativeHistory (Streaming & Anchoring)', () => {
         <NarrativeHistory segments={[]} isLoading={true} streamingContent="" />
       );
 
-      expect(screen.getByText('Writing your story...')).toBeInTheDocument();
+      expect(screen.getByText("正在书写你的故事……")).toBeInTheDocument();
     });
 
     it('appends the live preview after existing segments while generating the next one', () => {

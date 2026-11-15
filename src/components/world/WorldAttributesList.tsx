@@ -17,7 +17,7 @@ export function WorldAttributesList({ attributes }: WorldAttributesListProps) {
       className="world-detail-section world-detail-attributes"
       aria-labelledby="world-attributes-heading"
     >
-      <h2 id="world-attributes-heading">Attributes</h2>
+      <h2 id="world-attributes-heading">属性</h2>
       <div className="world-detail-stat-list">
         {attributes.map((attr, index) => (
           <div key={`${attr.id ?? attr.name ?? index}`} className="world-detail-stat">

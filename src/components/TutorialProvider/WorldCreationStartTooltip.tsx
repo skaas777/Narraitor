@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useTutorial } from './useTutorial';
 import { useSessionStore } from '@/state/sessionStore';
 
-const CONTINUE_LABEL = 'Continue';
+const CONTINUE_LABEL = "继续";
 
 /** Custom data attached to tour steps via Joyride's Step.data property */
 interface TourStepData {
@@ -44,15 +44,15 @@ export function WorldCreationStartTooltip({
       ? title
       : typeof content === 'string'
         ? content
-        : 'Tutorial step';
+        : "教程步骤";
 
   const stepData = step.data as TourStepData | undefined;
   const isEndOfPage = stepData?.isEndOfPage;
 
   const primaryLabel =
     primaryProps.title || primaryProps['aria-label'] || CONTINUE_LABEL;
-  const backLabel = backProps.title || backProps['aria-label'] || 'Back';
-  const skipLabel = skipProps.title || skipProps['aria-label'] || 'Skip world creation tutorial';
+  const backLabel = backProps.title || backProps['aria-label'] || "返回";
+  const skipLabel = skipProps.title || skipProps['aria-label'] || "跳过世界创建教程";
   // react-joyride's skipProps doesn't formally include className, but the
   // rendered <button> accepts one. Widening here lets us strip-and-merge.
   const { className: skipClassName, ...skipButtonProps } =
@@ -106,13 +106,13 @@ export function WorldCreationStartTooltip({
                 data-test-id="button-pause"
                 style={styles.buttonNext}
                 type="button"
-                aria-label="Continue"
-                title="Continue"
+                aria-label="继续"
+                title="继续"
                 variant="default"
                 size="sm"
                 onClick={handleContinueClick}
               >
-                Continue
+                继续
               </Button>
             ) : (
               <Button

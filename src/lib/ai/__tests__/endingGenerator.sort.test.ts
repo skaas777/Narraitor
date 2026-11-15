@@ -39,7 +39,7 @@ describe('extractRecentNarrative', () => {
     expect(result[0]).toBe('Segment 3 content');
     expect(result[1]).toBe('Segment 4 content');
     expect(result[2]).toBe('Segment 5 content');
-    expect(result[3]).toBe('Dialogue: Hello from segment 6');
+    expect(result[3]).toBe("对话：Hello from segment 6");
     expect(result[4]).toBe('Segment 7 content');
     expect(result[5]).toBe('Segment 8 content');
     expect(result[6]).toBe('Segment 9 content');

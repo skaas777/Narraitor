@@ -54,7 +54,7 @@ const renderPanel = async () => {
     />
   );
   await userEvent.click(
-    screen.getByRole('button', { name: 'Expand Portrait Generation Debug' })
+    screen.getByRole('button', { name: "展开 肖像生成调试" })
   );
 };
 
@@ -75,7 +75,7 @@ describe('PortraitDebugSection', () => {
 
     await renderPanel();
     await userEvent.click(
-      screen.getByRole('button', { name: 'Test Full Generation' })
+      screen.getByRole('button', { name: "测试完整生成" })
     );
 
     await waitFor(() =>
@@ -85,7 +85,7 @@ describe('PortraitDebugSection', () => {
     const request = mockGeneratePortrait.mock.calls[0][0];
     expect(request.promptOnly).toBeUndefined();
     expect(request.customDescription).toBe('weathered, close-cropped hair');
-    expect(screen.getByAltText('Generated portrait')).toBeInTheDocument();
+    expect(screen.getByAltText("生成的头像")).toBeInTheDocument();
   });
 
   it('reports the failure instead of the prompt when the request fails', async () => {
@@ -93,15 +93,15 @@ describe('PortraitDebugSection', () => {
 
     await renderPanel();
     await userEvent.click(
-      screen.getByRole('button', { name: 'Test Full Generation' })
+      screen.getByRole('button', { name: "测试完整生成" })
     );
 
     await waitFor(() =>
       expect(
-        screen.getByText('Generation failed: Provider key rejected')
+        screen.getByText("生成失败：Provider key rejected")
       ).toBeInTheDocument()
     );
-    expect(screen.queryByAltText('Generated portrait')).not.toBeInTheDocument();
+    expect(screen.queryByAltText("生成的头像")).not.toBeInTheDocument();
   });
 
   it('asks for the prompt only when previewing', async () => {
@@ -109,7 +109,7 @@ describe('PortraitDebugSection', () => {
 
     await renderPanel();
     await userEvent.click(
-      screen.getByRole('button', { name: 'Generate Prompt Preview' })
+      screen.getByRole('button', { name: "生成提示词预览" })
     );
 
     await waitFor(() =>

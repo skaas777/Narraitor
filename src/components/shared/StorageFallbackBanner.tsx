@@ -42,7 +42,7 @@ export function StorageFallbackBanner({ className }: StorageFallbackBannerProps)
   // IndexedDB, quota, read/write error), so the banner stays on what the
   // player can actually do about it.
   const message =
-    "Narraitor can't save to this browser right now. Keep this tab open, and export your data from Settings so you don't lose your progress.";
+    "Narraitor 目前无法保存到此浏览器。请保持此标签页打开，并从设置中导出数据，以免丢失进度。";
 
   return (
     <aside

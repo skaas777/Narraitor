@@ -20,7 +20,7 @@ describe('EndingSuggestionBanner', () => {
       />
     );
 
-    expect(screen.getByText('Your story could end here')).toBeInTheDocument();
+    expect(screen.getByText("你的故事可以在此结束")).toBeInTheDocument();
     expect(screen.getByText('The protagonist has achieved their goal')).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe('EndingSuggestionBanner', () => {
       />
     );
 
-    const acceptButton = screen.getByRole('button', { name: /view ending/i });
+    const acceptButton = screen.getByRole('button', { name: /查看结局/i });
     await user.click(acceptButton);
 
     expect(mockOnAccept).toHaveBeenCalledTimes(1);
@@ -53,7 +53,7 @@ describe('EndingSuggestionBanner', () => {
       />
     );
 
-    const dismissButton = screen.getByRole('button', { name: /continue playing/i });
+    const dismissButton = screen.getByRole('button', { name: /继续游玩/i });
     await user.click(dismissButton);
 
     expect(mockOnDismiss).toHaveBeenCalledTimes(1);
