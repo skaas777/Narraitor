@@ -8,9 +8,11 @@
 
 /**
  * Server budget for a single provider attempt: makeRequest / provider client's
- * AbortController timeout and per-attempt abort signal.
+ * AbortController timeout and per-attempt abort signal. Personal cloud uses
+ * a reasoning model, which can take longer before returning text.
  */
-export const AI_ATTEMPT_TIMEOUT_MS = 30_000;
+const isPersonalCloud = process.env.NEXT_PUBLIC_PERSONAL_CLOUD === 'true';
+export const AI_ATTEMPT_TIMEOUT_MS = isPersonalCloud ? 90_000 : 30_000;
 
 /**
  * Headroom the browser grants on top of the server budget it's waiting on:
@@ -30,7 +32,8 @@ export const SINGLE_ATTEMPT_TEXT_TIMEOUT_MS =
 
 /**
  * Browser ceiling for routes that run GeminiClient's retry loop server-side
- * (3 attempts x 30s + exponential backoff ≈ 93s worst case) or image
- * generation. Also aiFetch's default when no tighter budget is given.
+ * (3 attempts plus exponential backoff) or image generation. Includes the
+ * longer personal cloud attempt budget. Also aiFetch's default when no
+ * tighter budget is given.
  */
-export const RETRYING_ROUTE_TIMEOUT_MS = 120_000;
+export const RETRYING_ROUTE_TIMEOUT_MS = isPersonalCloud ? 300_000 : 120_000;
