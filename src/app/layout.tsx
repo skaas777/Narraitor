@@ -32,6 +32,7 @@ import { getSiteUrl, SITE_NAME } from '@/lib/constants/site';
 import { THEME_INIT_SCRIPT } from '@/lib/theme/themeInitScript';
 import { Analytics } from '@vercel/analytics/next';
 import { FunnelAnalytics } from '@/components/analytics/FunnelAnalytics';
+import { PersonalCloudGate } from '@/components/cloud/PersonalCloudGate';
 
 const newsreader = Newsreader({
   subsets: ['latin'],
@@ -106,6 +107,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body suppressHydrationWarning>
+        <PersonalCloudGate>
         <SkipLinks />
         <ThemeProvider>
           <NavigationLoadingProvider>
@@ -125,6 +127,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </ThemeProvider>
         <FunnelAnalytics />
         <Analytics />
+        </PersonalCloudGate>
       </body>
     </html>
   );

@@ -10,6 +10,8 @@ import {
   type StorageFallbackNotice,
 } from '../lib/storage/resilientStorage';
 import Logger from '@/lib/utils/logger';
+import { PERSONAL_CLOUD_ENABLED, isCloudStore } from '@/lib/cloud/schema';
+import { readCloudRecord, writeCloudRecord } from '@/lib/cloud/client';
 
 const logger = new Logger('Persistence');
 
@@ -137,7 +139,8 @@ export const createIndexedDBStorage = <T = unknown>(): PersistStorage<T> => ({
   getItem: async (name: string): Promise<{ state: T; version?: number } | null> => {
     try {
       const storage = await getResilientStorage();
-      const result = await storage.getItem(name);
+      const result = PERSONAL_CLOUD_ENABLED && typeof window !== 'undefined' && isCloudStore(name)
+        ? await readCloudRecord(name) : await storage.getItem(name);
 
       if (!result) return null;
       // Parse the JSON string into a StorageValue object
@@ -153,6 +156,7 @@ export const createIndexedDBStorage = <T = unknown>(): PersistStorage<T> => ({
       const storage = await getResilientStorage();
       // Convert the StorageValue object to a JSON string
       await storage.setItem(name, JSON.stringify(value));
+      if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, JSON.stringify(value));
     } catch (error) {
       logger.error('Failed to set item', error);
     }
@@ -162,6 +166,7 @@ export const createIndexedDBStorage = <T = unknown>(): PersistStorage<T> => ({
     try {
       const storage = await getResilientStorage();
       await storage.removeItem(name);
+      if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, null);
     } catch (error) {
       logger.error('Failed to remove item', error);
     }

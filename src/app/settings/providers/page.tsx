@@ -12,6 +12,8 @@ import { useProviderStore } from '@/state/providerStore';
 import { useProviderHydration } from '@/hooks/useProviderHydration';
 import { presetHasFixedSamplingControlsForEndpoint } from '@/lib/ai/presets';
 import '@/components/ai/provider-config.css';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
+import { PersonalModelSettings } from '@/components/cloud/PersonalModelSettings';
 
 /**
  * Provider management — list saved providers, switch / re-check / remove them,
@@ -19,6 +21,10 @@ import '@/components/ai/provider-config.css';
  * stored in this browser.
  */
 export default function ProvidersSettingsPage() {
+  return PERSONAL_CLOUD_ENABLED ? <PersonalModelSettings /> : <LocalProvidersSettingsPage />;
+}
+
+function LocalProvidersSettingsPage() {
   const hasHydrated = useProviderHydration();
   const providers = useProviderStore((s) => s.providers);
   const activeProviderId = useProviderStore((s) => s.activeProviderId);

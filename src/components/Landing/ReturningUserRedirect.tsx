@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useWorldStore } from '@/state/worldStore';
 import { useCharacterStore } from '@/state/characterStore';
 import { useSessionStore } from '@/state/sessionStore';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 
 type PersistApi = {
   persist?: {
@@ -45,7 +46,7 @@ export function ReturningUserRedirect() {
 
   useEffect(() => {
     const redirectIfReturning = () => {
-      if (hasLocalAppState()) {
+      if (PERSONAL_CLOUD_ENABLED || hasLocalAppState()) {
         router.replace('/dashboard');
       }
     };

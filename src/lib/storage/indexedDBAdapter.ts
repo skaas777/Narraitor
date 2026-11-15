@@ -141,11 +141,6 @@ export class IndexedDBAdapter {
           value: dataToStore 
         }, key);
 
-        request.onsuccess = () => {
-          // Don't wait for oncomplete in the request handler
-          resolve();
-        };
-
         request.onerror = (event) => {
           const error = (event.target as IDBRequest).error;
           if (error?.name === 'QuotaExceededError') {
@@ -157,8 +152,9 @@ export class IndexedDBAdapter {
 
         // Use transaction oncomplete
         transaction.oncomplete = () => {
-          // Already resolved in onsuccess
+          resolve();
         };
+        transaction.onabort = () => reject(transaction.error ?? new Error('Save transaction aborted'));
       } catch (error) {
         reject(error);
       }

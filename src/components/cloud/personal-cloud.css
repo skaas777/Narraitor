@@ -1,0 +1,40 @@
+.personal-cloud-status {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  min-height: 2rem;
+  padding: .35rem 1rem;
+  background: #eaf3ed;
+  color: #234d38;
+  font-size: .8rem;
+}
+.personal-cloud-offline { background: #fff1ce; color: #62460d; }
+.personal-cloud-screen {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+.personal-cloud-screen h1 { font-size: 1.5rem; }
+.personal-cloud-screen button, .personal-cloud-status button {
+  padding: .5rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: .4rem;
+  cursor: pointer;
+}
+.personal-model-card {
+  padding: 1.5rem;
+  border: 1px solid #b6b6aa;
+  border-radius: .75rem;
+  display: grid;
+  gap: 1rem;
+  overflow-wrap: anywhere;
+}

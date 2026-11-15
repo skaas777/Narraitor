@@ -90,10 +90,11 @@ describe('IndexedDBAdapter - Initialization', () => {
     // unusable — prove the adapter can actually read/write through it.
     const mockStore = createMockStore();
     mockStore.put.mockImplementation(() => createMockRequest());
-    setupMockTransaction(mockDB, mockStore);
+    const transaction = setupMockTransaction(mockDB, mockStore);
 
     const setPromise = adapter.setItem('smoke-key', JSON.stringify({ ok: true }));
     triggerSuccess(mockStore.put.mock.results[0].value);
+    transaction.oncomplete?.();
     await expect(setPromise).resolves.toBeUndefined();
   });
 

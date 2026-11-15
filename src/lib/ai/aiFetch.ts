@@ -20,6 +20,7 @@ import {
 } from '@/state/providerStore';
 import { anySignal, timeoutSignal } from './abortTimeout';
 import { RETRYING_ROUTE_TIMEOUT_MS } from '@/lib/constants/aiTimeouts';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 
 /**
  * fetch() wrapper for browser -> our own AI routes.
@@ -60,6 +61,12 @@ export async function aiFetch(
   init: RequestInit = {},
   options: AiFetchOptions = {}
 ): Promise<Response> {
+  if (PERSONAL_CLOUD_ENABLED) {
+    return fetch(input, {
+      ...init, redirect: 'error',
+      signal: anySignal(init.signal ?? undefined, timeoutSignal(options.timeoutMs ?? RETRYING_ROUTE_TIMEOUT_MS)),
+    });
+  }
   // Checked first and unconditionally: a player who turned this on wants it
   // enforced before anything else about the request is even built.
   if (!checkActiveProviderRateLimit()) throw new ProviderRateLimitError();

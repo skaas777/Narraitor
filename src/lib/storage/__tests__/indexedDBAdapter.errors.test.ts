@@ -43,7 +43,12 @@ describe('IndexedDBAdapter - Error Scenarios', () => {
       return request;
     });
 
-    setupMockTransaction(mockDB, mockStore);
+    const transactions: ReturnType<typeof setupMockTransaction>[] = [];
+    mockDB.transaction.mockImplementation(() => {
+      const transaction = { objectStore: jest.fn(() => mockStore), oncomplete: null as (() => void) | null, onerror: null };
+      transactions.push(transaction);
+      return transaction;
+    });
 
     // Initiate concurrent operations
     const promise1 = adapter.setItem('key1', JSON.stringify({ data: 1 }));
@@ -54,6 +59,7 @@ describe('IndexedDBAdapter - Error Scenarios', () => {
       mockRequests.forEach(req => {
         if (req.onsuccess) req.onsuccess({} as Event);
       });
+      transactions.forEach(transaction => transaction.oncomplete?.());
     }, 0);
 
     await Promise.all([promise1, promise2]);

@@ -23,6 +23,8 @@ import { isSafeProviderEndpoint } from './providers/endpointGuard';
 import { isValidBodyModel, isValidGeminiModel } from './modelSyntax';
 import type { ProviderDescriptor } from './providers/types';
 import type { ProviderType } from '@/types/provider.types';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
+import { personalProvider } from '@/lib/cloud/server';
 
 /**
  * Turns a request into the provider it should be served by.
@@ -58,6 +60,10 @@ export type ProviderResolution =
  * SECURITY: never substitute a server-owned key into player-controlled routing.
  */
 export function resolveProvider(request?: NextRequest): ProviderResolution {
+  if (PERSONAL_CLOUD_ENABLED) {
+    const descriptor = personalProvider();
+    return descriptor ? { ok: true, descriptor } : { ok: false, reason: 'NO_KEY' };
+  }
   const headerKey = request?.headers.get(PROVIDER_API_KEY_HEADER)?.trim();
 
   if (!headerKey) return { ok: false, reason: 'NO_KEY' };

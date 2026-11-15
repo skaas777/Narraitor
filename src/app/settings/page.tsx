@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { PageLayout } from '@/components/shared/PageLayout';
 import { ExportImportControls } from '@/components/shared/ExportImportControls';
 import { DarkModeToggle } from '@/components/Navigation/DarkModeToggle';
+import { PERSONAL_CLOUD_ENABLED } from '@/lib/cloud/schema';
 
 /**
  * SettingsPage - Application settings and configuration
@@ -24,9 +25,9 @@ export default function SettingsPage() {
         <section className="settings-section">
           <h2>Providers</h2>
           <p className="settings-section-description">
-            Connect the provider key used to generate your stories. It stays
-            in this browser, encrypted, and is only ever used to make your
-            own requests.
+            {PERSONAL_CLOUD_ENABLED
+              ? '模型已在服务端配置好。登录同一个账号后，所有设备都能直接使用，无需再填写密钥。'
+              : 'Connect the provider key used to generate your stories. It stays in this browser, encrypted, and is only ever used to make your own requests.'}
           </p>
           <div className="settings-section-actions">
             <Link
@@ -52,7 +53,9 @@ export default function SettingsPage() {
         <section className="settings-section">
           <h2>Data Management</h2>
           <p className="settings-section-description">
-            Backup and restore your worlds, characters, and game progress.
+            {PERSONAL_CLOUD_ENABLED
+              ? '世界、角色和游戏进度会自动保存到私有云端。换设备前，等顶部显示“已保存到云端”即可。你也可以额外导出备份。'
+              : 'Backup and restore your worlds, characters, and game progress.'}
           </p>
           <ExportImportControls />
         </section>

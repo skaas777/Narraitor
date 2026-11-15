@@ -104,10 +104,11 @@ describe('IndexedDBAdapter - CRUD Operations', () => {
         createMockRequest(backing.has(key) ? { value: backing.get(key) } : undefined)
       );
 
-      setupMockTransaction(mockDB, mockStore);
+      const transaction = setupMockTransaction(mockDB, mockStore);
 
       const setPromise = adapter.setItem('test-key', JSON.stringify(testData));
       triggerSuccess(mockStore.put.mock.results[0].value);
+      transaction.oncomplete?.();
       await setPromise;
 
       const getPromise = adapter.getItem('test-key');
@@ -123,10 +124,11 @@ describe('IndexedDBAdapter - CRUD Operations', () => {
       const mockStore = createMockStore();
       mockStore.put.mockReturnValue(mockRequest);
 
-      setupMockTransaction(mockDB, mockStore);
+      const transaction = setupMockTransaction(mockDB, mockStore);
 
       const setPromise = adapter.setItem('existing-key', JSON.stringify(newData));
       triggerSuccess(mockRequest);
+      transaction.oncomplete?.();
 
       await setPromise;
 
@@ -145,10 +147,11 @@ describe('IndexedDBAdapter - CRUD Operations', () => {
       const mockStore = createMockStore();
       mockStore.put.mockReturnValue(mockRequest);
 
-      setupMockTransaction(mockDB, mockStore);
+      const transaction = setupMockTransaction(mockDB, mockStore);
 
       const setPromise = adapter.setItem('large-data', JSON.stringify(largeData));
       triggerSuccess(mockRequest);
+      transaction.oncomplete?.();
 
       await setPromise;
 

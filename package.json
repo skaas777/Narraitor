@@ -73,6 +73,7 @@
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.9.0",
     "clsx": "^2.1.1",
     "fastest-levenshtein": "^1.0.16",
     "lucide-react": "^0.548.0",

@@ -40,11 +40,12 @@ export interface ResilientStorageConfig {
 export class ResilientStorageMiddleware {
   private adapter: IndexedDBAdapter | null = null;
   private memoryStorage: Map<string, string> = new Map();
+  private initialization: Promise<void>;
   private readonly onStatusChange: (status: StorageStatus, notice?: StorageFallbackNotice | null) => void;
 
   constructor(config: ResilientStorageConfig = {}) {
     this.onStatusChange = config.onStatusChange ?? (() => {});
-    this.initializeAdapter();
+    this.initialization = this.initializeAdapter();
   }
 
   /**
@@ -86,6 +87,7 @@ export class ResilientStorageMiddleware {
    * Get item from storage (IndexedDB or memory fallback)
    */
   async getItem(key: string): Promise<string | null> {
+    await this.initialization;
     // Try IndexedDB first
     if (this.adapter) {
       try {
@@ -107,6 +109,7 @@ export class ResilientStorageMiddleware {
    * Set item in storage (IndexedDB or memory fallback)
    */
   async setItem(key: string, value: string): Promise<void> {
+    await this.initialization;
     // Try IndexedDB first
     if (this.adapter) {
       try {
@@ -131,6 +134,7 @@ export class ResilientStorageMiddleware {
    * Remove item from storage
    */
   async removeItem(key: string): Promise<void> {
+    await this.initialization;
     if (this.adapter) {
       try {
         await this.adapter.removeItem(key);
