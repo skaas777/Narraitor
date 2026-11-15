@@ -889,6 +889,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
   };
 
   const handleRetry = () => {
+    if (isLoading) return;
     setError(null);
     clearGenerationError();
 
@@ -896,12 +897,8 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
     if (segments.length === 0) {
       generateInitialNarrative();
     } else if (choiceId && processedChoices.has(choiceId)) {
-      // If we were trying to generate from a choice, remove it from processed and retry
-      setProcessedChoices((prev) => {
-        const updated = new Set(prev);
-        updated.delete(choiceId);
-        return updated;
-      });
+      // Keep the choice marked as processed. Clearing it here lets the primary
+      // generation effect start a second turn as soon as this retry settles.
       generateNextSegment(choiceId);
     } else {
       // Otherwise just clear the error

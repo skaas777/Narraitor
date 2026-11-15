@@ -233,4 +233,40 @@ describe('NarrativeController — generation error capture (#1478)', () => {
       expect.objectContaining({ retryable: false })
     );
   });
+
+  it('retries a failed choice once without advancing another turn automatically', async () => {
+    mockResolveTurn
+      .mockRejectedValueOnce(new Error('network request failed'))
+      .mockResolvedValue({
+        segment: { ...existingSegment, id: 'seg-retried', content: 'You arrive safely.' },
+        snapshot: { sessionId: 'test-session' },
+        status: 'settled',
+        isFatal: false,
+        isEnding: false,
+        reconciliationErrors: [],
+      });
+
+    const controller = (retryToken: number) => (
+      <ToastProvider>
+        <NarrativeController
+          worldId="test-world"
+          sessionId="test-session"
+          triggerGeneration={true}
+          generateChoices={false}
+          choiceId="choice-1"
+          retryToken={retryToken}
+        />
+      </ToastProvider>
+    );
+    const { rerender } = render(controller(0));
+    await flush();
+    expect(mockResolveTurn).toHaveBeenCalledTimes(1);
+
+    rerender(controller(1));
+    await flush();
+    await flush();
+
+    expect(mockResolveTurn).toHaveBeenCalledTimes(2);
+    expect(narrativeStoreMock.setGenerationError).toHaveBeenCalledTimes(1);
+  });
 });
