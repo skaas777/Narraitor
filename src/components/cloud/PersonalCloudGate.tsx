@@ -74,13 +74,11 @@ export function PersonalCloudGate({ children }: { children: React.ReactNode }) {
     </div>;
   }
   if (!hydrated) return <div className="personal-cloud-screen" role="status">正在恢复你的云端冒险……</div>;
-  const message = status.phase === 'offline' ? '连接中断，进度已保留在此设备，正在重试同步'
-    : status.pending || status.phase === 'saving' ? '正在保存到云端……' : '已保存到云端';
   return <>
-    <div className={`personal-cloud-status personal-cloud-${status.phase}`} role="status">
-      <span>{message}</span>
-      {status.phase === 'offline' && <button onClick={() => { void flushCloud(); }}>立即重试</button>}
-    </div>
+    {status.phase === 'offline' && <div className="personal-cloud-status personal-cloud-offline" role="status">
+      <span>连接中断，进度已保留在此设备，正在重试同步</span>
+      <button onClick={() => { void flushCloud(); }}>立即重试</button>
+    </div>}
     {children}
   </>;
 }

@@ -28,9 +28,9 @@ When no cloud save exists, it imports all existing IndexedDB game stores. Provid
 credentials, local encryption keys, and appearance preferences are not uploaded.
 
 Writes are compressed and debounced, with an IndexedDB copy and a durable outbox
-marker for failed uploads. The banner only reports success after the storage
-service acknowledges a write. Wait for “已保存到云端” before changing devices or
-closing the browser. Background tabs attempt to flush pending changes.
+marker for failed uploads. Routine saving and success indicators are hidden;
+connection failures and conflicts remain visible. Background tabs attempt to
+flush pending changes.
 
 The storage ETag is used for conditional writes; private reads skip the CDN cache.
 An old tab cannot overwrite a newer cloud revision. A conflict pauses gameplay and
@@ -38,12 +38,13 @@ offers the current local branch as a download. Choosing the cloud version also
 retains the displaced branch in IndexedDB under `narraitor-cloud-recovery-*`.
 
 The server accepts at most 4 MB per compressed upload and 32 MB after decompression.
-If a save exceeds these limits or connectivity fails, the UI reports pending
-changes and keeps retrying; it does not claim the upload succeeded.
+If a save exceeds these limits or connectivity fails, the UI warns that progress
+is kept on the current device and keeps retrying.
 
 Model requests always resolve the secret, model and endpoint together from server
-configuration. Browser headers cannot redirect the server secret. The settings
-screen exposes only model metadata and a server-side connectivity test.
+configuration. Browser headers cannot redirect the server secret. The provider
+section is hidden from Settings in personal mode. The direct model settings page
+exposes only model metadata and a server-side connectivity test.
 
 ## Verification
 
