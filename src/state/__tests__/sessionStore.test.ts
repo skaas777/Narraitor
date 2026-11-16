@@ -1,9 +1,10 @@
 import { useSessionStore } from '../sessionStore';
+import { storeEvents, StoreEventTypes } from '@/lib/state/storePubSub';
 
 describe('useSessionStore', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     // Reset the store before each test
-    useSessionStore.getState().endSession();
+    await useSessionStore.getState().endSession();
   });
 
   it('initializes a session with the given worldId', async () => {
@@ -41,6 +42,40 @@ describe('useSessionStore', () => {
     expect(state.characterId).toBe(null);
     expect(state.currentSceneId).toBe(null);
     expect(state.playerChoices).toHaveLength(0);
+  });
+
+  it('preserves a new adventure when the previous session finishes saving later', async () => {
+    await useSessionStore.getState().initializeSession('world-one', 'character-one');
+    const previousId = useSessionStore.getState().id!;
+    useSessionStore.getState().updateSavedSessionNarrativeCount(previousId, 3);
+    let finishSaving!: () => void;
+    const pendingSave = new Promise<void>((resolve) => { finishSaving = resolve; });
+    const subscription = storeEvents.subscribe(StoreEventTypes.SESSION_ENDED, () => pendingSave);
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(Date.now() + 1000);
+
+    try {
+      const ending = useSessionStore.getState().endSession();
+      await useSessionStore.getState().initializeSession('world-one', 'character-one', undefined, true);
+      const replacementId = useSessionStore.getState().id;
+      expect(replacementId).not.toBe(previousId);
+      useSessionStore.getState().setCurrentScene('new-scene');
+      finishSaving();
+      await ending;
+
+      const state = useSessionStore.getState();
+      expect(state.id).toBe(replacementId);
+      expect(state.characterId).toBe('character-one');
+      expect(state.worldId).toBe('world-one');
+      expect(state.status).toBe('active');
+      expect(state.currentSceneId).toBe('new-scene');
+      expect(state.sessionLifecycle[replacementId!].status).toBe('active');
+      expect(state.savedSessions[previousId].narrativeCount).toBe(3);
+      expect(state.sessionLifecycle[previousId].status).toBe('ended');
+    } finally {
+      finishSaving();
+      clock.mockRestore();
+      subscription.unsubscribe();
+    }
   });
 
   it('allows setting session status', () => {

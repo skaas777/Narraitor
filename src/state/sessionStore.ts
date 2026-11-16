@@ -273,7 +273,7 @@ export const useSessionStore = create<SessionStore>()(
             worldId: state.worldId!,
             characterId: state.characterId!,
             lastPlayed: getTimestamp(),
-            narrativeCount: 0, // Will be updated by narrative store
+            narrativeCount: prevState.savedSessions[sessionId]?.narrativeCount ?? 0,
           }
         };
         
@@ -295,8 +295,12 @@ export const useSessionStore = create<SessionStore>()(
           },
         };
         
+        // A new adventure may have started while the old journal was saving.
+        // Archive the captured session without clearing the replacement's identity.
+        const isCurrentSession = prevState.id === sessionId &&
+          prevState.worldId === state.worldId && prevState.characterId === state.characterId;
         return {
-          ...initialState,
+          ...(isCurrentSession ? initialState : {}),
           savedSessions: newSavedSessions,
           tutorialProgress: prevState.tutorialProgress,
           sessionLifecycle: updatedLifecycle
