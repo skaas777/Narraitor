@@ -272,7 +272,9 @@ export const useSessionStore = create<SessionStore>()(
             id: sessionId,
             worldId: state.worldId!,
             characterId: state.characterId!,
-            lastPlayed: getTimestamp(),
+            // A delayed archive must not make an older session newer than
+            // the replacement adventure that started while it was saving.
+            lastPlayed: lifecycleUpdateTime,
             narrativeCount: prevState.savedSessions[sessionId]?.narrativeCount ?? 0,
           }
         };
@@ -365,10 +367,12 @@ export const useSessionStore = create<SessionStore>()(
   
   getSavedSession: (worldId: string, characterId: string) => {
     const { savedSessions } = get();
-    const found = Object.values(savedSessions).find(
-      session => session.worldId === worldId && session.characterId === characterId
-    );
-    return found;
+    // Several archived adventures can belong to the same character. Resume
+    // the most recently played one, independent of persistence key order.
+    return Object.values(savedSessions)
+      .filter(session => session.worldId === worldId && session.characterId === characterId)
+      .reverse()
+      .sort((a, b) => (Date.parse(b.lastPlayed) || 0) - (Date.parse(a.lastPlayed) || 0))[0];
   },
   
   resumeSavedSession: (sessionId: string) => {
