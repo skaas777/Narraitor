@@ -46,12 +46,10 @@ export const formatNarrativeResponse = async (
     finalCharacterIds,
     geminiClient
   );
-  const confirmedCharacterIds =
-    metadataAnalysis.presentCharacterIds.length > 0
-      ? metadataAnalysis.presentCharacterIds
-      : finalCharacterIds;
+  // An explicitly empty result means no NPC is physically present.
+  const confirmedCharacterIds = metadataAnalysis.presentCharacterIds;
   const analyzedItems =
-    extractedMetadata.itemsAcquired && extractedMetadata.itemsAcquired.length > 0
+    Array.isArray(extractedMetadata.itemsAcquired)
       ? extractedMetadata.itemsAcquired
       : metadataAnalysis.items;
   const sanitizedMajorEvent =

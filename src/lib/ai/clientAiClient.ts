@@ -85,8 +85,11 @@ export class ClientAIClient implements AIClient {
     endpoint: string,
     body: unknown,
     logContext: string,
-    options: AIGenerateOptions & { timeoutMs?: number } = {}
+    options: AIGenerateOptions & { timeoutMs?: number } = {},
+    attempt = 0
   ): Promise<AIResponse> {
+    let receivedDelta = false;
+    let finalEvent: NarrativeStreamDone | null = null;
     try {
       const response = await aiFetch(
         `${this.baseUrl}${endpoint}`,
@@ -116,7 +119,6 @@ export class ClientAIClient implements AIClient {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
-      let finalEvent: NarrativeStreamDone | null = null;
 
       const consumeLine = (line: string) => {
         const trimmed = line.trim();
@@ -127,6 +129,7 @@ export class ClientAIClient implements AIClient {
         } else if ('done' in event) {
           finalEvent = event;
         } else {
+          receivedDelta ||= Boolean(event.delta);
           options.onChunk?.(event.delta);
         }
       };
@@ -151,8 +154,18 @@ export class ClientAIClient implements AIClient {
 
       return this.toAIResponse(finalEvent);
     } catch (error) {
+      const cause = error instanceof Error ? error : new Error('Unknown error');
+      // A completed generation remains valid if its connection closes late.
+      if (finalEvent && !options.signal?.aborted) return this.toAIResponse(finalEvent);
+      const disconnected = /^(terminated|connection reset|Stream ended without a completion event)$/i.test(cause.message)
+        || (cause instanceof TypeError && /fetch|network|load failed/i.test(cause.message));
+      // Retry only before any visible output or completion. Replaying a stream
+      // with a preview would concatenate two versions of the same scene.
+      if (attempt === 0 && !receivedDelta && disconnected && !options.signal?.aborted) {
+        return this.postNdjsonStream(endpoint, body, logContext, options, attempt + 1);
+      }
       logger.error(`ClientAIClient ${logContext} error:`, error);
-      const friendlyMessage = userFriendlyError(error instanceof Error ? error : new Error('Unknown error'));
+      const friendlyMessage = userFriendlyError(cause);
       throw new Error(friendlyMessage);
     }
   }

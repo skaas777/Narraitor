@@ -98,6 +98,54 @@ describe('ClientAIClient.generateContent', () => {
     await expect(client.generateContent('a prompt')).rejects.toThrow();
   });
 
+  it('retries a disconnected stream once before any visible output', async () => {
+    mockedAiFetch.mockResolvedValueOnce(fakeStreamingResponse([
+      JSON.stringify({ error: 'terminated' }),
+    ]) as unknown as Response).mockResolvedValueOnce(fakeStreamingResponse([
+      JSON.stringify({ delta: 'Recovered scene' }),
+      JSON.stringify({ done: true, content: 'Recovered scene' }),
+    ]) as unknown as Response);
+    const onChunk = jest.fn();
+    const result = await new ClientAIClient().generateContent('same action', { onChunk });
+    expect(result.content).toBe('Recovered scene');
+    expect(mockedAiFetch).toHaveBeenCalledTimes(2);
+    expect(mockedAiFetch.mock.calls[0][1]?.body).toBe(mockedAiFetch.mock.calls[1][1]?.body);
+    expect(onChunk.mock.calls).toEqual([['Recovered scene']]);
+  });
+
+  it('does not concatenate a retry onto an already visible partial scene', async () => {
+    mockedAiFetch.mockResolvedValue(fakeStreamingResponse([
+      JSON.stringify({ delta: 'Partial scene' }), JSON.stringify({ error: 'terminated' }),
+    ]) as unknown as Response);
+    await expect(new ClientAIClient().generateContent('a prompt', { onChunk: jest.fn() })).rejects.toThrow();
+    expect(mockedAiFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('bounds automatic retries when the upstream keeps disconnecting', async () => {
+    mockedAiFetch.mockImplementation(async () => fakeStreamingResponse([
+      JSON.stringify({ error: 'terminated' }),
+    ]) as unknown as Response);
+    await expect(new ClientAIClient().generateContent('a prompt')).rejects.toThrow();
+    expect(mockedAiFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not retry a cancelled request', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    mockedAiFetch.mockRejectedValue(new Error('terminated'));
+    await expect(new ClientAIClient().generateContent('a prompt', { signal: controller.signal })).rejects.toThrow();
+    expect(mockedAiFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps a completed generation when the connection errors after its done event', async () => {
+    mockedAiFetch.mockResolvedValue(fakeStreamingResponse([
+      JSON.stringify({ done: true, content: 'Complete scene' }), JSON.stringify({ error: 'terminated' }),
+    ]) as unknown as Response);
+    const result = await new ClientAIClient().generateContent('a prompt');
+    expect(result.content).toBe('Complete scene');
+    expect(mockedAiFetch).toHaveBeenCalledTimes(1);
+  });
+
   it('rejects when the HTTP response itself is not ok', async () => {
     mockedAiFetch.mockResolvedValue({
       ok: false,
