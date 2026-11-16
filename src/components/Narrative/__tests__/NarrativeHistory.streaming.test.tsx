@@ -93,6 +93,21 @@ describe('NarrativeHistory (Streaming & Anchoring)', () => {
   // It needs the play surface's real scroller, which jsdom never resolves.
 
   describe('streamingContent (real API streaming)', () => {
+    it('shows a committed passage once while post-generation work is still loading', () => {
+      mockIsFeatureEnabled.mockReturnValue(false);
+      const preview = '你沿B-3返回侧舱——苏挽仍在等待。';
+      const committed = createMockNarrativeSegment({ id: 'seg-2', content: '你沿B-3返回侧舱--苏挽仍在等待。' });
+      const { rerender, container } = render(
+        <NarrativeHistory segments={segments} isLoading={true} streamingContent={preview} />
+      );
+      expect(container.querySelectorAll('.narrative-segment')).toHaveLength(2);
+      rerender(<NarrativeHistory segments={[...segments, committed]} isLoading={true} streamingContent={preview} />);
+      expect(container.querySelectorAll('.narrative-segment')).toHaveLength(2);
+      rerender(<NarrativeHistory segments={[...segments, committed]} isLoading={false} streamingContent="" />);
+      rerender(<NarrativeHistory segments={[...segments, committed]} isLoading={true} streamingContent="下一个回合开始。" />);
+      expect(screen.getByText('下一个回合开始。')).toBeInTheDocument();
+    });
+
     it('shows the live preview instead of the spinner once tokens arrive, with no segments yet', () => {
       mockIsFeatureEnabled.mockReturnValue(false);
       render(
