@@ -217,6 +217,7 @@ PIVOTAL DECISION (HIGH STAKES):
 `) : ''}
 
 CRITICAL CONTINUITY RULES:
+- Resolve only the submitted action and its explicit conditions. Preserve resources the player reserves; stop before an ally spends them or a time cut would require another consequential player decision. If a requested route is blocked, honor the stated fallback and report the blockage before choosing a different route.
 ${segmentType === 'transition'
     ? `- Preserve cause and effect from the last scene, then cross the requested scene boundary
 - Time may move FORWARD as far as the transition requires, never backward
