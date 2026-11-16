@@ -187,11 +187,10 @@ export const stripNonNarrativeBlocks = (content: string): string => {
 };
 
 const comparableWords = (text: string): string[] =>
-  text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean);
+  // Han characters do not need spaces between words. Dropping them made
+  // unrelated Chinese scenes identical whenever both mentioned e.g. B-3.
+  text.toLowerCase().replace(/(\p{Script=Han})/gu, ' $1 ')
+    .match(/[\p{L}\p{N}]+/gu) ?? [];
 
 const wordBigrams = (words: string[]): string[] =>
   words.length < 2
@@ -248,7 +247,7 @@ export const dedupeAgainstRecent = (
       )
   );
 
-  if (kept.length === 0) return content;
+  if (!kept.some((paragraph) => /[\p{L}\p{N}]/u.test(paragraph))) return content;
 
   return kept.join('\n\n');
 };

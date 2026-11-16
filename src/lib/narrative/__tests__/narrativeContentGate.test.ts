@@ -170,6 +170,26 @@ describe('stripNonNarrativeBlocks', () => {
 });
 
 describe('dedupeAgainstRecent', () => {
+  it('keeps different Chinese events that share only the same route code', () => {
+    const prior = '周岚在通讯中说明前往第三气闸的路线，必须穿过主温室东侧外环廊B-3。电动阀已经烧毁，摇柄挂在阀箱里面，需要先核对压差再按标识操作。';
+    const next = '你沿B-3的格栅走到阀箱旁，把原摇柄匀速转到规程刻度。两侧压力终于平衡，内门缓缓打开，你通过气闸后将摇柄挂回箱内，并向柯维报告已经抵达。';
+    const content = `${next}\n\n苏挽通过通讯报告侧舱门封完好。`;
+
+    expect(dedupeAgainstRecent(content, [prior])).toBe(content);
+  });
+
+  it('still removes an actual Chinese repeat while keeping a new event', () => {
+    const prior = '观察窗的玻璃上结着细密的霜花，你用袖口抹开一小块，看见柯维半跪在备用气瓶旁，手搭在瓶阀上，另一只手在膝头无声地数着数，指节白得发亮。';
+    expect(dedupeAgainstRecent(`${prior}\n\n你等压差回落后打开内门。`, [prior]))
+      .toBe('你等压差回落后打开内门。');
+  });
+
+  it('keeps prose when removing repeats would leave only an ellipsis', () => {
+    const prior = 'The bell over the door rang twice before Mira realised nobody had opened it. She stood very still, counting the seconds against the sound of her own breathing.';
+    const content = `${prior}\n\n...`;
+    expect(dedupeAgainstRecent(content, [prior])).toBe(content);
+  });
+
   const shown =
     'The bell over the door rang twice before Mira realised nobody had opened it. She stood very still, counting the seconds against the sound of her own breathing, and found that the count would not settle.';
   const alsoShown =
