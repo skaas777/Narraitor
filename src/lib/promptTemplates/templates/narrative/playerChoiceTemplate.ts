@@ -34,7 +34,7 @@ export const playerChoiceTemplate = (context: PlayerChoiceTemplateContext): stri
   
   // Extract recent narrative content to provide context
   const recentContent = narrativeContext?.recentSegments
-    ?.slice(-1) // Use only the latest segment to reduce context size
+    ?.slice(-3) // Immediate continuity; older canon arrives in persistent memory.
     .map(segment => segment.content)
     .join('\n\n') || '';
   

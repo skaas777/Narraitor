@@ -67,6 +67,7 @@ export const formatNarrativeResponse = async (
       | 'action'
       | 'transition',
     metadata: {
+      storyMemory: extractedMetadata.storyMemory,
       characterIds: confirmedCharacterIds,
       ...(isFeatureEnabled('SCENE_STATE') ? {
         ...(extractedMetadata.sceneBeat ? { sceneBeat: extractedMetadata.sceneBeat } : {}),

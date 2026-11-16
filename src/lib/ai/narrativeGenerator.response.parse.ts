@@ -6,6 +6,7 @@ import type { GeneratedCharacterMetadata, LostItemMetadata } from '@/types/narra
 import type { ParsedNarrativeResponse, NarrativeExtractedMetadata } from './narrativeGenerator.response.types';
 import { validateMood, validateLossReason } from './narrativeGenerator.response.helpers';
 import { stripMarkdownFences, extractJsonObject } from './parseJSON';
+import { parseStoryMemory } from '@/lib/narrative/storyMemory';
 
 /**
  * A passage salvaged from a cut-off response is at minimum a full sentence, so
@@ -167,6 +168,7 @@ export const parseNarrativeResponse = (
         }
         if (parsed.metadata) {
           extractedMetadata = {
+            storyMemory: parseStoryMemory(parsed.metadata.storyMemory),
             location: parsed?.metadata?.location,
             mood: validateMood(parsed?.metadata?.mood),
             tags: Array.isArray(parsed?.metadata?.tags)

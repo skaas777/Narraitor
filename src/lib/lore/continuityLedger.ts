@@ -80,8 +80,8 @@ export function ledgerFacts(facts: LoreFact[]): LoreFact[] {
 
 function mentionsPlayer(text: string, playerName?: string): boolean {
   const name = playerName?.trim();
-  if (!name || name.length < MIN_TERM_LENGTH) return false;
-  return new RegExp(`\\b${escapeRegExp(name)}\\b`, 'i').test(text);
+  if (!name || name.length < (/[\p{Script=Han}]/u.test(name) ? 2 : MIN_TERM_LENGTH)) return false;
+  return termPattern(name).test(text);
 }
 
 function isPlayerSpeaker(speaker: string, playerName?: string): boolean {
@@ -126,7 +126,7 @@ const REPROMISE_LEXICON =
 
 /** Word-start match, so "document" also catches "documents". */
 export function termPattern(term: string): RegExp {
-  return new RegExp(`\\b${escapeRegExp(term)}`, 'i');
+  return new RegExp(`${/[\p{Script=Han}]/u.test(term) ? '' : '\\b'}${escapeRegExp(term)}`, 'i');
 }
 
 /**
@@ -298,7 +298,7 @@ export function buildSceneChanges(ledger: LoreFact[]): ContinuitySceneChange[] {
 function significantTerms(label: string): string[] {
   return normalizeTopic(label)
     .split(' ')
-    .filter((term) => term.length >= MIN_TOPIC_TERM_LENGTH && !TOPIC_STOPWORDS.has(term));
+    .filter((term) => term.length >= (/[\p{Script=Han}]/u.test(term) ? 2 : MIN_TOPIC_TERM_LENGTH) && !TOPIC_STOPWORDS.has(term));
 }
 
 /** Significant words of a topic label; all must appear in a sentence for a stale-promise hit. */

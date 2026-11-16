@@ -6,6 +6,8 @@
  */
 
 import { NarrativeGenerator } from '../narrativeGenerator';
+import { enhancePromptWithPersonalization } from '../narrativeGenerator.prompt.personalization';
+import { useWorldStore } from '@/state/worldStore';
 import { MockAIClient } from '../../__mocks__/mockAiClient';
 import { NarrativeGenerationRequest } from '@/types/narrative.types';
 import { PlayerDecision } from '@/types/personalization.types';
@@ -76,6 +78,21 @@ describe('NarrativeGenerator - Past Decision Integration', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+  });
+
+  test('does not inject another save’s crossed character storyline into the prompt', async () => {
+    const state = useWorldStore.getState();
+    const getWorldState = jest.fn().mockReturnValue({ playerCharacterThreads: {}, characterRelationships: {} });
+    (useWorldStore.getState as jest.Mock).mockReturnValue({ ...state, getWorldState,
+      worldStates: { 'world-1': { playerCharacterThreads: { other: {
+        characterId: 'other', summary: 'OLD SAVE SECRET', highlights: ['OLD SAVE SECRET'],
+        lastUpdated: '2026-01-01T00:00:00Z',
+        crossCharacterReferences: [{ characterId: 'char-1', summary: 'OLD SAVE SECRET' }],
+      } } } },
+    });
+    const prompt = await enhancePromptWithPersonalization('Base prompt', 'world-1', ['char-1'], 'fresh-session');
+    expect(prompt).not.toContain('OLD SAVE SECRET');
+    expect(getWorldState).toHaveBeenCalledWith('world-1', { sessionId: 'fresh-session' });
   });
 
   test('should include specific past decisions in AI prompts', async () => {

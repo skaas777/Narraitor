@@ -99,12 +99,12 @@ describe('featureFlags', () => {
     ).toBe(true);
   });
 
-  it('defaults SETTLED_COMMITMENT_CHOICES to false and enables it only for the exact string "true"', () => {
+  it('defaults SETTLED_COMMITMENT_CHOICES on and disables it only for the exact string "false"', () => {
     expect(
       load({ NEXT_PUBLIC_FEATURE_SETTLED_COMMITMENT_CHOICES: undefined }).isFeatureEnabled(
         'SETTLED_COMMITMENT_CHOICES'
       )
-    ).toBe(false);
+    ).toBe(true);
     jest.resetModules();
     expect(
       load({ NEXT_PUBLIC_FEATURE_SETTLED_COMMITMENT_CHOICES: 'true' }).isFeatureEnabled(
@@ -113,7 +113,7 @@ describe('featureFlags', () => {
     ).toBe(true);
     jest.resetModules();
     expect(
-      load({ NEXT_PUBLIC_FEATURE_SETTLED_COMMITMENT_CHOICES: 'TRUE' }).isFeatureEnabled(
+      load({ NEXT_PUBLIC_FEATURE_SETTLED_COMMITMENT_CHOICES: 'false' }).isFeatureEnabled(
         'SETTLED_COMMITMENT_CHOICES'
       )
     ).toBe(false);

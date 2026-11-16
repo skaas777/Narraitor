@@ -65,8 +65,8 @@ storeEvents.subscribe<CharacterDeletedEvent>(
 // so the clear isn't overwritten by rehydrating stale data.
 storeEvents.subscribe<SessionFreshStartEvent>(
   StoreEventTypes.SESSION_FRESH_START,
-  ({ characterId, isForcedFresh }) => {
-    if (!isForcedFresh) return;
+  async ({ characterId, isForcedFresh, hasPreviousSession }) => {
+    if (!isForcedFresh || !hasPreviousSession) return;
 
     const clearInventory = () => {
       try {
@@ -83,12 +83,17 @@ storeEvents.subscribe<SessionFreshStartEvent>(
       };
     }).persist;
 
-    if (persistApi?.hasHydrated?.()) {
+    if (persistApi?.hasHydrated?.() || !persistApi?.onFinishHydration) {
       clearInventory();
-    } else if (persistApi?.onFinishHydration) {
-      persistApi.onFinishHydration(clearInventory);
-    } else {
-      clearInventory();
+      return;
     }
+
+    await new Promise<void>((resolve) => {
+      const unsubscribe = persistApi.onFinishHydration?.(() => {
+        unsubscribe?.();
+        clearInventory();
+        resolve();
+      });
+    });
   }
 );

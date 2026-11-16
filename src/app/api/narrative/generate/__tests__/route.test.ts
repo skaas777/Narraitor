@@ -80,6 +80,16 @@ describe('/api/narrative/generate', () => {
     expect(body.generationConfig.maxOutputTokens).toBe(2048);
   });
 
+  it.each([30_000, 120_000])('streams Chinese long-session context of %i characters through the real request guard', async (length) => {
+    const upstream = stubUpstreamStream(geminiStreamFrames(['{"content":"曹济舟完成了包扎。"}']));
+    const prompt = '沈砚在港务局核对证词。'.repeat(Math.ceil(length / 11)).slice(0, length);
+    const response = await POST(generateRequest({ prompt, config: { maxTokens: 4096 } }));
+    expect(response.status).toBe(200);
+    const events = await readNdjsonEvents(response);
+    expect(events.at(-1)).toMatchObject({ done: true, content: '{"content":"曹济舟完成了包扎。"}' });
+    expect(JSON.stringify(sentUpstreamBody(upstream))).toContain(prompt);
+  });
+
   it('honors caller maxTokens up to the server ceiling unclamped', async () => {
     const upstream = stubUpstreamStream(geminiStreamFrames(['{"content":"Hello"}']));
 

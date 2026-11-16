@@ -44,8 +44,8 @@ const FEATURE_FLAG_DEFAULTS = {
   // byte-identical prompt and no extra calls.
   UNRECORDED_EXCHANGE_GUARD: true,
   // Feeds delivered commitments into the live aligned-choice prompt as a short
-  // already-settled block. Off by default until live evaluation passes.
-  SETTLED_COMMITMENT_CHOICES: false,
+  // already-settled block. Await extraction before the next choices read canon.
+  SETTLED_COMMITMENT_CHOICES: true,
   // Attributes world costs to the player decision that directly incurred them.
   // Shipped default-on following successful paired live evaluation.
   DECISION_ATTRIBUTED_WORLD_COSTS: true,

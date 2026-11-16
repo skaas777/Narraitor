@@ -23,6 +23,7 @@ import { isFeatureEnabled } from '@/lib/featureFlags';
 import { buildContinuityContractFromStores } from './narrativeGenerator.continuity';
 import type { SettledCommitmentDTO } from '../promptTemplates/templates/narrative/context';
 import type { SessionSnapshot } from '@/types/turnResolver.types';
+import { buildStoryMemoryContext } from '@/lib/narrative/storyMemory';
 
 interface ChoicePromptInput {
   world: World;
@@ -92,6 +93,9 @@ export const buildChoicePrompt = ({
         snapshot
       )
     : undefined;
+  const sharedMemory = snapshot
+    ? buildStoryMemoryContext(snapshot.segments, snapshot.inventory, narrativeContext.currentSituation, snapshot.conditions)
+    : narrativeContext.storyMemory ?? '';
   const context = buildContext(
     world,
     narrativeContext,
@@ -101,7 +105,7 @@ export const buildChoicePrompt = ({
     settledCommitments,
     snapshot
   );
-  const basePrompt = template(context);
+  const basePrompt = `${template(context)}\n${sharedMemory}\nChoose new actions that use already established evidence. Never offer a completed investigation or delivery as an uncompleted prerequisite. A historical item is not available unless CURRENT POSSESSION lists it.`;
   const inventoryAwarePrompt = enhancePromptWithInventory(
     basePrompt,
     resolvedCharacterIds,

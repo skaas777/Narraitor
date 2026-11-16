@@ -27,12 +27,13 @@ const makeCharacter = (id: string, conditions: string[]): StoreCharacter =>
   }) as StoreCharacter;
 
 describe('worldCostBlock', () => {
-  it('names what the character carries and says a landing costs something recordable', () => {
+  it('carries existing conditions while allowing resolution without repeated damage', () => {
     const block = worldCostBlock(['gashed left forearm', 'discredited before the council']);
 
     expect(block).toContain('gashed left forearm; discredited before the council');
     expect(block).toContain('itemsLost');
-    expect(block).toContain('takes nothing has not landed');
+    expect(block).toContain('loss is NOT mandatory');
+    expect(block).toContain('Never confiscate the same evidence again');
   });
 
   it('still states the rule when the character carries nothing', () => {
@@ -55,7 +56,7 @@ describe('enhancePromptWithWorldCost', () => {
 
     expect(prompt.startsWith('BASE')).toBe(true);
     expect(prompt).toContain('gashed left forearm');
-    expect(prompt).toContain('takes nothing has not landed');
+    expect(prompt).toContain('loss is NOT mandatory');
   });
 
   it('with the flag off, returns the prompt byte-identical', () => {

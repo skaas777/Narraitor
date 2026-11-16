@@ -188,7 +188,7 @@ describe('buildChoicePrompt', () => {
       worldId: 'world-1',
       characterId: 'char-snapshot',
       turnIndex: 3,
-      segments: [],
+      segments: [{ content: '梁信已被扣押。', metadata: { tags: [], itemsLost: [{ name: '梁信' }], storyMemory: { completedSteps: [{ key: '核炉号', value: '已交六枚铜板核对' }] } } }],
       decisions: [],
       character: {
         id: 'char-snapshot',
@@ -227,6 +227,9 @@ describe('buildChoicePrompt', () => {
     expect(prompt).toContain('SnapshotHero');
     expect(prompt).toContain('CHARACTER SKILLS CONTEXT:');
     expect(prompt).toContain('SNAPSHOT_LORE_CONTEXT');
+    expect(prompt).toContain('核炉号: 已交六枚铜板核对');
+    expect(prompt).toContain('NO LONGER HELD');
+    expect(prompt).toContain('梁信: lost');
   });
 
   it('proves generated choice prompt still reflects the snapshot even after stores are mutated', () => {

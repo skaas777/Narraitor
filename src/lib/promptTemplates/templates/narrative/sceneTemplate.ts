@@ -149,7 +149,7 @@ ${recentContent}
 ${narrativeContext?.currentSituation ? `PLAYER ACTION: ${narrativeContext.currentSituation}` : ''}${scenePresenceEnabled && narrativeContext?.sceneState ? `
 CURRENT PLACE: ${narrativeContext.sceneState.location ?? 'not yet established'}
 PRESENT NPCS: ${narrativeContext.sceneState.presentNpcNames.join(', ') || 'none'}
-When the action moves to a new place, report metadata.sceneTransition as {"to":"new place"}; otherwise omit it. metadata.location is only a label.` : ''}
+metadata.location must name the player's actual location at the END of this passage, using the established name when stationary. When the action moves to a new place, also report metadata.sceneTransition as {"to":"new place"}; otherwise omit sceneTransition. Never leave the old location in metadata after travel.` : ''}
 
 ${skillResult ? `
 SKILL CHECK RESULT GUIDANCE:

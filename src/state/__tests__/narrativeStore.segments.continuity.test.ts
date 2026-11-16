@@ -81,4 +81,31 @@ describe('addSegment continuity metadata', () => {
     const segment = useNarrativeStore.getState().segments[segmentId];
     expect(segment.metadata.continuity).toBeUndefined();
   });
+
+  it('persists story memory and legacy backfill markers', () => {
+    const segmentId = useNarrativeStore.getState().addSegment(sessionId, {
+      worldId,
+      content: 'The archivist confirms the letter came from the north gate.',
+      type: 'scene',
+      metadata: {
+        tags: [],
+        storyMemory: {
+          facts: [{ key: '来信来源', value: '北门' }],
+          completedSteps: [{ key: '核对来信', value: '已确认来源' }],
+        },
+        storyMemoryBackfilled: true,
+        storyMemoryBackfillAttempts: 1,
+      },
+      timestamp: new Date(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    const segment = useNarrativeStore.getState().segments[segmentId];
+    expect(segment.metadata.storyMemory).toEqual({
+      facts: [{ key: '来信来源', value: '北门' }],
+      completedSteps: [{ key: '核对来信', value: '已确认来源' }],
+    });
+    expect(segment.metadata.storyMemoryBackfilled).toBe(true);
+    expect(segment.metadata.storyMemoryBackfillAttempts).toBe(1);
+  });
 });

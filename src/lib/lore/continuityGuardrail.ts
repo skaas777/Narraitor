@@ -51,27 +51,27 @@ const MAX_EXCERPT_LENGTH = 240;
 // Lexicons are deliberately conservative: every false positive costs an AI
 // correction call, so prefer missing a soft contradiction over flagging
 // ordinary prose.
-const DEAD_STATUS = /\b(is dead|died|was killed|slain|deceased)\b/i;
+const DEAD_STATUS = /\b(is dead|died|was killed|slain|deceased)\b|已死|死于|死亡|遇害|身亡|去世/i;
 const DESTROYED_STATUS =
-  /\b(was destroyed|burned down|razed|no longer exists)\b/i;
+  /\b(was destroyed|burned down|razed|no longer exists)\b|已被摧毁|已经烧毁|被夷为平地|已不存在/i;
 const WARMTH_LEXICON =
-  /\b(warmly|embrac(?:e|es|ed|ing)|beam(?:s|ed|ing)|fondly|affectionate(?:ly)?|hug(?:s|ged|ging)?|old friend|dear friend|trusts? you)\b/i;
+  /\b(warmly|embrac(?:e|es|ed|ing)|beam(?:s|ed|ing)|fondly|affectionate(?:ly)?|hug(?:s|ged|ging)?|old friend|dear friend|trusts? you)\b|热情拥抱|亲切地|满怀信任|老朋友|亲昵/i;
 const NEGATION_GUARD =
-  /\b(not|never|no longer|coldly|icily|feigned|feigning|pretend(?:s|ed|ing)?|mockingly|sarcastically)\b|n['’]t\b/i;
+  /\b(not|never|no longer|coldly|icily|feigned|feigning|pretend(?:s|ed|ing)?|mockingly|sarcastically)\b|n['’]t\b|并不|没有|从未|不再|冷冷|假装|佯装|讥讽/i;
 const ACTIVE_PRESENCE_LEXICON =
-  /\b(says?|said|speak(?:s|ing)?|spoke|asks?|asked|repl(?:y|ies|ied)|smil(?:e|es|ed|ing)|laugh(?:s|ed|ing)?|walk(?:s|ed|ing)?|arriv(?:e|es|ed|ing)|greet(?:s|ed|ing)?|stands?|stood|nods?|nodded|hands you|waves?|waved)\b/i;
+  /\b(says?|said|speak(?:s|ing)?|spoke|asks?|asked|repl(?:y|ies|ied)|smil(?:e|es|ed|ing)|laugh(?:s|ed|ing)?|walk(?:s|ed|ing)?|arriv(?:e|es|ed|ing)|greet(?:s|ed|ing)?|stands?|stood|nods?|nodded|hands you|waves?|waved)\b|说道|说着|开口|问道|回答|笑了|走进|走来|站在|点头|递给你/i;
 const MEMORY_GUARD =
-  /\b(remember(?:s|ed|ing)?|recall(?:s|ed|ing)?|memor\w+|ghost(?:s|ly)?|spirit|vision|dream(?:s|ed|t|ing)?|grave\w*|tomb|dead|died|death|haunt\w*|once|used to|echo(?:es)?|portrait|statue)\b/i;
+  /\b(remember(?:s|ed|ing)?|recall(?:s|ed|ing)?|memor\w+|ghost(?:s|ly)?|spirit|vision|dream(?:s|ed|t|ing)?|grave\w*|tomb|dead|died|death|haunt\w*|once|used to|echo(?:es)?|portrait|statue)\b|回忆|想起|记得|曾经|当年|梦中|幽灵|幻象|遗像|坟墓|死者|死去/i;
 // A fresh promise of something the ledger says was already delivered.
 const PROMISE_LEXICON =
-  /\b(promis(?:e|es|ing)|vow(?:s|ing)?|swear(?:s)?|pledg(?:e|es|ing)|assur(?:e|es|ing) you|guarantee(?:s|ing)?|(?:I|we)(?:'ll| will| shall) (?:make sure|see to it|get you|bring you|have|provide|send|give))\b/i;
+  /\b(promis(?:e|es|ing)|vow(?:s|ing)?|swear(?:s)?|pledg(?:e|es|ing)|assur(?:e|es|ing) you|guarantee(?:s|ing)?|(?:I|we)(?:'ll| will| shall) (?:make sure|see to it|get you|bring you|have|provide|send|give))\b|答应|承诺|保证|发誓/i;
 // The other shape a re-promise takes: no promise verb at all, just a future
 // delivery aimed at the player ("You'll have a copy"). Second person only —
 // first-person futures are already the promise lexicon's job.
 const FUTURE_DELIVERY_LEXICON =
-  /\byou(?:['’]ll| will| shall| ['’]re going to| are going to)\s+(?:have|get|receive|be given|be handed)\b/i;
+  /\byou(?:['’]ll| will| shall| ['’]re going to| are going to)\s+(?:have|get|receive|be given|be handed)\b|你将得到|会给你|会交给你|会送给你/i;
 const RECAP_GUARD =
-  /\b(as (?:I |he |she |they |we )?promised|promised (?:earlier|before|you)|already|kept (?:his|her|their|my|our) (?:word|promise)|delivered|gave|handed|as agreed|in your (?:hands?|lap|possession))\b/i;
+  /\b(as (?:I |he |she |they |we )?promised|promised (?:earlier|before|you)|already|kept (?:his|her|their|my|our) (?:word|promise)|delivered|gave|handed|as agreed|in your (?:hands?|lap|possession))\b|已经|已交付|早就|兑现|如约|交给了|交到了|你手中/i;
 const BAIT_REFUSAL_GUARD =
   /\b(?:cannot|can['’]t|won['’]t|will not|refus\w*|make no (?:such )?promise|no (?:need|more|other) promise|nothing to promise|not going to promise|already (?:have|given|received|delivered|handed|settled))\b|n['’]t\s+(?:make|give|promise)\b/i;
 const BAIT_ASSENT_LEXICON =
@@ -136,7 +136,7 @@ function dedupeTerms(terms: Array<string | undefined>): string[] {
   const result: string[] = [];
   for (const term of terms) {
     const trimmed = term?.trim();
-    if (!trimmed || trimmed.length < MIN_TERM_LENGTH) continue;
+    if (!trimmed || trimmed.length < (/[\p{Script=Han}]/u.test(trimmed) ? 2 : MIN_TERM_LENGTH)) continue;
     const lower = trimmed.toLowerCase();
     if (seen.has(lower)) continue;
     seen.add(lower);
@@ -262,7 +262,7 @@ function findOffendingSentence(
   guardLexicon: RegExp
 ): string | null {
   const termPatterns = terms.map(
-    (term) => new RegExp(`\\b${escapeRegExp(term)}\\b`, 'i')
+    (term) => /[\p{Script=Han}]/u.test(term) ? termPattern(term) : new RegExp(`\\b${escapeRegExp(term)}\\b`, 'i')
   );
   for (const sentence of sentences) {
     if (!positiveLexicon.test(sentence) || guardLexicon.test(sentence))
@@ -284,7 +284,7 @@ export function detectContinuityIssues(
 ): ContinuityIssue[] {
   if (!content?.trim()) return [];
 
-  const sentences = content.split(/(?<=[.!?])\s+/);
+  const sentences = content.split(/(?<=[.!?])\s+|(?<=[。！？])\s*/);
   const issues: ContinuityIssue[] = [];
 
   for (const npc of contract.npcs) {

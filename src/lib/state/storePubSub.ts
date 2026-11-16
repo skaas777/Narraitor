@@ -118,6 +118,8 @@ export interface SessionFreshStartEvent {
   characterId: string;
   isNewSession: boolean;
   isForcedFresh: boolean;
+  /** True when this fresh start replaces an already-existing session. */
+  hasPreviousSession?: boolean;
 }
 
 /** Emitted after a session activates; drives the session-start journal entry. */

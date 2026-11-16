@@ -14,6 +14,7 @@ const LABELS: Readonly<Record<string, string>> = {
   easy: '简单', medium: '中等', hard: '困难', low: '低', high: '高',
   minor: '次要', major: '重要', critical: '关键',
   lawful: '守序', chaotic: '混乱', neutral: '中立', order: '秩序', chaos: '混乱',
+  hostile: '敌对', wary: '警惕', friendly: '友好', trusted: '信任',
   physical: '身体', mental: '心智', social: '社交', technical: '技术',
   combat: '战斗', magic: '魔法', magical: '魔法', knowledge: '知识',
   survival: '生存', general: '通用', creative: '创造', spiritual: '精神',

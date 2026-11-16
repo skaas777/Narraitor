@@ -23,11 +23,13 @@ interface SceneStatusProps {
  */
 export const SceneStatus: React.FC<SceneStatusProps> = ({ segment, className }) => {
   const getById = useNPCStore((state) => state.getById);
-  // Narrow slice on this world's npcRelationships so the panel re-renders
-  // when a choice shifts trust, without recomputing getWorldState.
-  const npcRelationships = useWorldStore((state) =>
-    segment?.worldId ? state.worldStates[segment.worldId]?.npcRelationships : undefined
-  );
+  // Select a stable relationship map from this save's archive. Legacy records
+  // are checked by session below until their first archived update.
+  const npcRelationships = useWorldStore((state) => {
+    const worldState = segment?.worldId ? state.worldStates[segment.worldId] : undefined;
+    return (segment?.sessionId ? worldState?.sessionStates?.[segment.sessionId]?.npcRelationships : undefined)
+      ?? worldState?.npcRelationships;
+  });
 
   const { participants } = useNarrativeParticipants({
     segment,
@@ -64,7 +66,9 @@ export const SceneStatus: React.FC<SceneStatusProps> = ({ segment, className }) 
             {participants.map((participant) => {
               // Disposition renders only when relationship state exists for
               // this NPC — no data, no label (keeps untouched scenes clean).
-              const relationship = npcRelationships?.[participant.id];
+              const candidate = npcRelationships?.[participant.id];
+              const relationship = !segment?.sessionId || candidate?.sessionId === segment.sessionId
+                ? candidate : undefined;
               const disposition = relationship
                 ? getTrustDisposition(relationship.trust)
                 : undefined;

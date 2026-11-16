@@ -17,7 +17,7 @@ import {
 import { UserFriendlyError, createStoreError } from '@/lib/utils/errorUtils';
 import { CrudStore } from './crudStore.types';
 import { calculateDerivedStat } from '@/lib/utils/derivedStatCalculator';
-import { storeEvents, StoreEventTypes, type CharacterDeletedEvent, type WorldDeletedEvent } from '@/lib/state/storePubSub';
+import { storeEvents, StoreEventTypes, type CharacterDeletedEvent, type WorldDeletedEvent, type SessionFreshStartEvent } from '@/lib/state/storePubSub';
 
 import { normalizeConditionLabel, isSameCondition } from '@/lib/narrative/normalizeCondition';
 import Logger from '@/lib/utils/logger';
@@ -115,6 +115,7 @@ export interface CharacterStore extends CrudStore<StoreCharacter> {
   addCondition: (characterId: EntityID, condition: string) => void;
   /** Clears a condition by text, case-insensitively. */
   removeCondition: (characterId: EntityID, condition: string) => void;
+  resetRuntimeState: (characterId: EntityID) => void;
   deleteCharacter: (id: EntityID) => Promise<void>;
   setCurrentCharacter: (id: EntityID) => void;
 
@@ -544,6 +545,19 @@ export const useCharacterStore: UseBoundStore<StoreApi<CharacterStore>> =
             });
           },
 
+          resetRuntimeState: (characterId) => {
+            const character = get().characters[characterId];
+            if (!character) return;
+            get().update(characterId, {
+              status: { ...character.status, conditions: [], location: undefined },
+              derivedStats: (character.derivedStats ?? []).map((stat) => ({
+                ...stat,
+                currentValue: stat.maxValue,
+                lastCalculated: getTimestamp(),
+              })),
+            });
+          },
+
           deleteCharacter: async (id) => await get().delete(id),
           setCurrentCharacter: (id) => get().setCurrent(id),
 
@@ -783,6 +797,29 @@ if (typeof window !== 'undefined' && shouldExposeStoreOnWindow()) {
 }
 
 // Subscribe to store events
+storeEvents.subscribe<SessionFreshStartEvent>(
+  StoreEventTypes.SESSION_FRESH_START,
+  async ({ characterId, isForcedFresh, hasPreviousSession }) => {
+    if (!isForcedFresh || !hasPreviousSession) return;
+
+    const persistApi = (useCharacterStore as unknown as {
+      persist?: {
+        hasHydrated?: () => boolean;
+        onFinishHydration?: (callback: () => void) => () => void;
+      };
+    }).persist;
+    if (!persistApi?.hasHydrated?.() && persistApi?.onFinishHydration) {
+      await new Promise<void>((resolve) => {
+        const unsubscribe = persistApi.onFinishHydration?.(() => {
+          unsubscribe?.();
+          resolve();
+        });
+      });
+    }
+    useCharacterStore.getState().resetRuntimeState(characterId);
+  }
+);
+
 storeEvents.subscribe<WorldDeletedEvent>(
   StoreEventTypes.WORLD_DELETED,
   ({ worldId }) => {

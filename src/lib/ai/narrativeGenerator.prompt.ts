@@ -10,6 +10,7 @@ import { safeTrim } from '@/lib/utils';
 import { buildInventoryContext } from '@/lib/promptContext/inventoryContextBuilder';
 import { worldCostBlock } from '@/lib/promptTemplates/templates/narrative/worldCostBlock';
 import { isFeatureEnabled } from '@/lib/featureFlags';
+import { STORY_MEMORY_INSTRUCTIONS } from '@/lib/narrative/storyMemory';
 
 import { buildNpcRoster } from './narrativeGenerator.npc';
 import { getLoreContextForPrompt } from './loreContextHelper';
@@ -308,6 +309,11 @@ export const enhancePromptWithWorldCost = (prompt: string, characterIds: string[
   }
   return prompt + '\n' + worldCostBlock(character.status.conditions);
 };
+
+/** Both canon and the delta contract must reach the actual scene generation call. */
+export function enhancePromptWithStoryMemory(prompt: string, request: NarrativeGenerationRequest): string {
+  return `${prompt}\n${request.narrativeContext?.storyMemory ?? ''}\n${STORY_MEMORY_INSTRUCTIONS}${request.narrativeContext?.continuityRepair ? `\nREPAIR THE REJECTED DRAFT:\n${request.narrativeContext.continuityRepair}\nReturn a fresh, consistent narrative JSON with matching metadata.` : ''}`;
+}
 
 function formatInventoryForPrompt(items: InventoryItem[]): string {
   if (!items || items.length === 0) {

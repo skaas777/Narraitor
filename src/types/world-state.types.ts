@@ -95,7 +95,11 @@ export interface WorldState {
   storyCheckpoints: StoryCheckpoint[];
   playerCharacterThreads: Record<EntityID, PlayerCharacterThread>;
   characterRelationships: Record<EntityID, Record<EntityID, CharacterRelationshipState>>;
+  /** Per-session runtime snapshots used to isolate same-key state across runs. */
+  sessionStates?: Record<EntityID, SessionWorldState>;
 }
+
+export type SessionWorldState = Omit<WorldState, 'sessionStates'>;
 
 /**
  * Partial update payload for world state changes.
@@ -164,4 +168,5 @@ export const createEmptyWorldState = (worldId: EntityID): WorldState => ({
   storyCheckpoints: [],
   playerCharacterThreads: {},
   characterRelationships: {},
+  sessionStates: {},
 });

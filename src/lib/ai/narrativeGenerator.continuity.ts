@@ -214,7 +214,7 @@ export const buildContinuityContractFromStores = (
     const worldState =
       snapshot?.worldState ??
       (typeof worldStoreState?.getWorldState === 'function'
-        ? worldStoreState.getWorldState(request.worldId)
+        ? worldStoreState.getWorldState(request.worldId, { sessionId: request.sessionId })
         : undefined);
     const npcRelationships = worldState?.npcRelationships ?? {};
 

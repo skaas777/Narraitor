@@ -169,4 +169,26 @@ describe('useSessionStore', () => {
     expect(freshSessionId).toBeTruthy();
     expect(freshSessionId).not.toBe(initialSessionId);
   });
+
+  it('treats a matching saved session as previous progress after the active id is cleared', async () => {
+    useSessionStore.setState({
+      id: null,
+      status: 'initializing',
+      worldId: null,
+      characterId: null,
+      savedSessions: {
+        old: {
+          id: 'old', worldId: 'test-world-id', characterId: 'test-character-id',
+          lastPlayed: new Date().toISOString(), narrativeCount: 3,
+        },
+      },
+      sessionLifecycle: {},
+    });
+
+    await useSessionStore.getState().initializeSession(
+      'test-world-id', 'test-character-id', undefined, true
+    );
+
+    expect(useSessionStore.getState().id).not.toBe('old');
+  });
 });

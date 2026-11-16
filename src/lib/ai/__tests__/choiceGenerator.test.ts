@@ -192,6 +192,11 @@ describe('ChoiceGenerator', () => {
       });
 
       expect(result.options).toHaveLength(3);
+      expect(result.options.map((option) => option.text)).toEqual([
+        '观察周围，寻找线索',
+        '核对已知线索与当前目标',
+        '暂缓行动，观察变化',
+      ]);
     });
 
     it('should handle AI errors and generate fallback choices', async () => {

@@ -7,6 +7,7 @@ import {
   NarrativeContext,
   NarrativeGenerationRequest,
   NarrativeGenerationResult,
+  NarrativeSegment,
   GenerationParameters,
 } from '@/types/narrative.types';
 import { World } from '@/types/world.types';
@@ -29,6 +30,8 @@ import { inferSegmentType } from '@/lib/utils/segmentTypeInference';
 import { logger } from '@/lib/utils/logger';
 import { useInventoryStore } from '@/state/inventoryStore';
 import { useSceneStore } from '@/state/sceneStore';
+import { bootstrapStoryMemory } from './storyMemoryBootstrap';
+import type { InventoryItem } from '@/types/inventory.types';
 import {
   recordRequestCalibration,
 } from './narrativeGenerator.calibration';
@@ -39,6 +42,7 @@ import {
   enhancePromptWithItemAcquisitionInstructions,
   enhancePromptWithItemLossInstructions,
   enhancePromptWithWorldCost,
+  enhancePromptWithStoryMemory,
   enhancePromptWithGoalContext,
   enhancePromptWithLore,
   enhancePromptWithPersonalization,
@@ -78,6 +82,11 @@ export class NarrativeGenerator {
   };
 
   constructor(private geminiClient: AIClient) {}
+
+  /** Migrate an old save's archive once; the resolver persists the returned canon. */
+  async prepareStoryMemory(segments: readonly NarrativeSegment[], inventory: readonly InventoryItem[], signal?: AbortSignal) {
+    return bootstrapStoryMemory(this.geminiClient, segments, inventory, signal);
+  }
 
   /**
    * options.onChunk streams the RAW model draft as it's generated, before
@@ -165,12 +174,14 @@ export class NarrativeGenerator {
       const continuityContract = buildContinuityContractFromStores(request, {
         playerName: context.playerCharacterName,
       });
-      const finalPrompt = enhancePromptWithContinuityExpectations(
+      const continuityPrompt = enhancePromptWithContinuityExpectations(
         phraseVarietyPrompt,
         continuityContract
       );
+      const finalPrompt = enhancePromptWithStoryMemory(continuityPrompt, request);
 
       const response = await this.geminiClient.generateContent(finalPrompt, {
+        maxTokens: 4096,
         signal: options?.signal,
         onChunk: options?.onChunk,
       });

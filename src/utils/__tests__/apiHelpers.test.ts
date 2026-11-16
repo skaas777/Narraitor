@@ -272,7 +272,7 @@ describe('withAIRoute', () => {
     const handler = jest.fn();
     const wrapped = withAIRoute(handler);
 
-    const req = createMockRequest({ contentLength: '70000' });
+    const req = createMockRequest({ contentLength: String(MAX_AI_BODY_BYTES + 1) });
     const response = await wrapped(req);
 
     expect(handler).not.toHaveBeenCalled();
@@ -289,6 +289,20 @@ describe('withAIRoute', () => {
 
     expect(handler).not.toHaveBeenCalled();
     expect(response.status).toBe(413);
+  });
+
+  it.each([true, false])('accepts a bounded Chinese archive measured in UTF-8 bytes (declared length: %s)', async (declared) => {
+    // The 120k-character migration archive plus context used to exceed 64 KiB.
+    const body = Buffer.from(JSON.stringify({ prompt: '沈砚在港务局核对证词。'.repeat(12_000), config: { maxTokens: 4096 } }));
+    expect(body.byteLength).toBeGreaterThan(65_536);
+    expect(body.byteLength).toBeLessThan(MAX_AI_BODY_BYTES);
+    const req = createMockRequest({
+      contentLength: declared ? String(body.byteLength) : undefined,
+      bodyBuffer: body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer,
+    });
+    const handler = jest.fn(async () => NextResponse.json({ ok: true }));
+    expect((await withAIRoute(handler)(req)).status).toBe(200);
+    expect(handler).toHaveBeenCalledWith(req);
   });
 
   it('returns 429 when rate limit is exceeded', async () => {

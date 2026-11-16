@@ -9,7 +9,7 @@ import { safeTrim, normalizeText, NORM_NAME, NORM_DESC, getTimestamp } from '@/l
 import { CrudStore } from './crudStore.types';
 import { createStoreError, ErrorType } from '@/lib/utils/errorUtils';
 import { WorldState, WorldStateUpdate, createEmptyWorldState } from '../types/world-state.types';
-import { applyWorldStateUpdate, getActiveWorldState, mergeState } from '@/lib/world';
+import { applyWorldStateUpdateForSession, getActiveWorldState, mergeState } from '@/lib/world';
 import Logger from '@/lib/utils/logger';
 import { storeEvents, StoreEventTypes, type WorldDeletedEvent } from '@/lib/state/storePubSub';
 import { useSessionStore } from './sessionStore';
@@ -64,7 +64,10 @@ export interface WorldStore extends CrudStore<World> {
   initializeWorldState: (worldId: EntityID) => void;
   updateWorldState: (worldId: EntityID, stateUpdate: WorldStateUpdate, sessionId: EntityID) => void;
   mergeWorldState: (incomingState: WorldState) => void;
-  getWorldState: (worldId: EntityID, options?: { includeEndedSessions?: boolean }) => WorldState;
+  getWorldState: (
+    worldId: EntityID,
+    options?: { includeEndedSessions?: boolean; sessionId?: EntityID }
+  ) => WorldState;
   getRawWorldState: (worldId: EntityID) => WorldState | undefined;
 }
 
@@ -431,7 +434,13 @@ export const useWorldStore = create<WorldStore>()(
           }
           set(state => {
             const currentState = state.worldStates[worldId];
-            const nextState = applyWorldStateUpdate(worldId, currentState, stateUpdate, sessionId);
+            const nextState = applyWorldStateUpdateForSession(
+              worldId,
+              currentState,
+              stateUpdate,
+              sessionId,
+              resolveSessionStatus,
+            );
 
             return {
               worldStates: {
@@ -464,7 +473,16 @@ export const useWorldStore = create<WorldStore>()(
             return rawState ?? createEmptyWorldState(worldId);
           }
 
-          return getActiveWorldState(worldId, rawState, resolveSessionStatus);
+          if (options?.sessionId && rawState?.sessionStates?.[options.sessionId]) {
+            return getActiveWorldState(
+              worldId,
+              rawState.sessionStates[options.sessionId],
+              resolveSessionStatus,
+              options.sessionId,
+            );
+          }
+
+          return getActiveWorldState(worldId, rawState, resolveSessionStatus, options?.sessionId);
         },
 
         getRawWorldState: (worldId) => {

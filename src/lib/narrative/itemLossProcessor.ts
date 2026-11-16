@@ -15,6 +15,7 @@ import {
   itemNamesMatch,
   runQueued,
 } from './itemProcessorShared';
+import { sameItemName } from './itemLossInference';
 
 type PreparedLossItem = LostItemMetadata & {
   normalizedName: string;
@@ -135,7 +136,7 @@ async function prepareItemForLoss(
 
   // 2. Exact name match (fallback)
   if (!matchedItem) {
-    matchedItem = inventory.find((i) => normalizeText(i.name, NORM_NAME).toLowerCase() === normalizedName) || null;
+    matchedItem = inventory.find((i) => sameItemName(i.name, item.name)) || null;
   }
 
   // 3. Semantic AI matching (fallback)

@@ -46,7 +46,6 @@ import {
 } from '@/lib/ai/loreContextHelper';
 import { collectContinuityTopicsFromStores } from '@/lib/ai/narrativeGenerator.continuity';
 import { logger } from '@/lib/utils/logger';
-import { inferItemsLostFromNarrative } from '@/lib/narrative/itemLossInference';
 import {
   mergeTurnTags,
   WORLD_CLOCK_TRANSITION_TAG,
@@ -60,6 +59,7 @@ import {
   generateItemUsageNarrative,
 } from '@/lib/inventory/itemUsageNarrative';
 import { isLethalNarrativeDraft } from './fatalDraftValidation';
+import { buildStoryMemoryContext, findStoryStateIssues, reconcileInferredLosses } from './storyMemory';
 
 /**
  * Per-session lock so concurrent resolveTurn calls execute sequentially.
@@ -298,7 +298,38 @@ async function resolveTurnInner(
   assertChapterRecapReady(sessionId);
 
   // Pre-turn snapshot for prompt context
-  const preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
+  let preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
+  const memorySegments = preTurnSnapshot.segments;
+  const hasBackfillAttempt = memorySegments.some((segment) =>
+    segment.metadata.storyMemoryBackfilled !== undefined || segment.metadata.storyMemoryBackfillAttempts !== undefined);
+  const backfillAttempts = memorySegments.reduce((max, segment) =>
+    Math.max(max, segment.metadata.storyMemoryBackfillAttempts ?? 0), 0);
+  // Older builds marked failed extractions as complete without storing any memory.
+  // Retry those too, even if a later turn has already produced its own small delta.
+  const needsBackfill = hasBackfillAttempt
+    ? !memorySegments.some((segment) => segment.metadata.storyMemoryBackfilled && segment.metadata.storyMemory)
+    : !memorySegments.some((segment) => segment.metadata.storyMemory);
+  if (preTurnSnapshot.segments.length > 3 &&
+      needsBackfill && backfillAttempts < 3 &&
+      typeof generator.prepareStoryMemory === 'function') {
+    const last = preTurnSnapshot.segments.at(-1)!;
+    let memory;
+    try {
+      memory = await awaitGeneration(() => generator.prepareStoryMemory(preTurnSnapshot.segments, preTurnSnapshot.inventory, command.signal), command.signal);
+    } catch (error) {
+      if (command.signal?.aborted) throw getAbortError(command.signal);
+      logger.warn('[TurnResolver] Legacy memory extraction unavailable; retaining original archive context', { error });
+    }
+    useNarrativeStore.getState().updateSegment(last.id, {
+      metadata: {
+        ...last.metadata,
+        storyMemoryBackfilled: Boolean(memory),
+        storyMemoryBackfillAttempts: backfillAttempts + 1,
+        ...(memory ? { storyMemory: memory } : {}),
+      },
+    });
+    preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
+  }
   const chapter = isFeatureEnabled('CHAPTERS') ? getChapterContext(preTurnSnapshot.segments) : undefined;
   const recentSegments = recentSceneSegments(chapter?.recentSegments ?? preTurnSnapshot.segments);
   const sceneState = preTurnSnapshot.sceneState;
@@ -352,7 +383,7 @@ async function resolveTurnInner(
         : undefined)
     : command.onChunk;
 
-  const generateSegment = (isStallRetry = false, isFatalRepair = false) => {
+  const generateSegment = (isStallRetry = false, isFatalRepair = false, continuityRepair?: string) => {
     if (isProtectedTurn) {
       bufferedChunks = [];
     }
@@ -368,7 +399,10 @@ async function resolveTurnInner(
             worldId,
             currentSceneId: `scene-${Date.now()}`,
             characterIds: characterId ? [characterId] : [],
-            ...(chapter ? { chapter, currentLocation: preTurnSnapshot.segments.at(-1)?.metadata.location } : {}),
+            ...(chapter ? { chapter } : {}),
+            currentLocation: sceneState?.location ?? preTurnSnapshot.segments.at(-1)?.metadata.location,
+            storyMemory: buildStoryMemoryContext(preTurnSnapshot.segments, preTurnSnapshot.inventory, command.choiceText, preTurnSnapshot.conditions),
+            ...(continuityRepair ? { continuityRepair } : {}),
             previousSegments: [...recentSegments],
             currentTags: mergeTurnTags(
               recentSegments[recentSegments.length - 1]?.metadata?.tags ?? [],
@@ -403,10 +437,10 @@ async function resolveTurnInner(
   };
 
   const fatalRepairBudget = { remaining: 1 };
-  const generateTurnSegment = (isStallRetry: boolean) =>
+  const generateTurnSegment = (isStallRetry: boolean, continuityRepair?: string) =>
     isProtectedTurn
       ? generateWithFatalRepair(
-          (isFatalRepair) => generateSegment(isStallRetry, isFatalRepair),
+          (isFatalRepair) => generateSegment(isStallRetry, isFatalRepair, continuityRepair),
           {
             playerCharacterName: preTurnSnapshot.character?.name,
             draftLabel: "受保护回合的草稿",
@@ -414,7 +448,7 @@ async function resolveTurnInner(
             repairBudget: fatalRepairBudget,
           }
         )
-      : generateSegment(isStallRetry);
+      : generateSegment(isStallRetry, false, continuityRepair);
 
   let result = await generateTurnSegment(false);
 
@@ -440,6 +474,15 @@ async function resolveTurnInner(
     }
   }
 
+  result = inferMissingItemLosses(result, characterId);
+  const stateIssues = findStoryStateIssues(result, preTurnSnapshot.segments, preTurnSnapshot.inventory);
+  if (stateIssues.length > 0) {
+    result = inferMissingItemLosses(await generateTurnSegment(false, stateIssues.join('\n')), characterId);
+    if (findStoryStateIssues(result, preTurnSnapshot.segments, preTurnSnapshot.inventory).length > 0) {
+      throw new Error('故事与已确认的存档事实冲突，未推进进度。请重试本次行动。');
+    }
+  }
+
   if (isProtectedTurn) {
     flushProtectedChunks(
       command.onChunk,
@@ -449,15 +492,13 @@ async function resolveTurnInner(
     );
   }
 
-  const resultWithInferredLosses = inferMissingItemLosses(result, characterId);
-
   return commitAndSettleGeneratedTurn({
     result: {
-      ...resultWithInferredLosses,
+      ...result,
       metadata: {
-        ...resultWithInferredLosses.metadata,
+        ...result.metadata,
         tags: [
-          ...(resultWithInferredLosses.metadata.tags || []),
+          ...(result.metadata.tags || []),
           ...command.skillCheckTags,
         ],
         decisionOutcome: command.decisionOutcome,
@@ -736,26 +777,14 @@ function inferMissingItemLosses(
   result: NarrativeGenerationResult,
   characterId: EntityID
 ): NarrativeGenerationResult {
-  if (result.metadata.itemsLost?.length || !result.content) {
+  if (!result.content) {
     return result;
   }
 
   const characterInventory = useInventoryStore
     .getState()
     .getCharacterItems(characterId);
-  const inferredLosses = inferItemsLostFromNarrative(
-    result.content,
-    characterInventory
-  );
-
-  if (inferredLosses.length === 0) {
-    return result;
-  }
-
-  return {
-    ...result,
-    metadata: { ...result.metadata, itemsLost: inferredLosses },
-  };
+  return reconcileInferredLosses(result, characterInventory);
 }
 
 function validationFailure(
@@ -899,14 +928,11 @@ async function commitAndSettleGeneratedTurn({
     useNarrativeStore.getState().segments[storedSegmentId] ?? newSegment;
   if (isFeatureEnabled('SCENE_STATE')) {
     const hadSceneRecord = Boolean(useSceneStore.getState().scenes[sessionId]);
-    const currentPlace = useSceneStore.getState().scenes[sessionId]?.location;
     const transitionTo = storedSegment.metadata.sceneTransition?.to;
     const transitionTarget = typeof transitionTo === 'string' ? transitionTo.trim() : '';
     const nextPlace = transitionTarget && transitionTarget !== FIRST_SEGMENT_LOCATION
       ? transitionTarget
-      : !currentPlace || currentPlace === FIRST_SEGMENT_LOCATION
-        ? storedSegment.metadata.location
-        : undefined;
+      : storedSegment.metadata.location;
     if (nextPlace && nextPlace !== FIRST_SEGMENT_LOCATION) {
       useSceneStore.getState().setLocation(sessionId, nextPlace);
     }

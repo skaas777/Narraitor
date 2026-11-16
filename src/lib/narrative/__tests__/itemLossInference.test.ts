@@ -35,4 +35,33 @@ describe('inferItemsLostFromNarrative', () => {
       { name: 'Health Potion', quantity: 1, lossReason: 'consumed' },
     ]);
   });
+
+  it('tracks Chinese confiscation without removing another item in the passage', () => {
+    const inventory = ['梁信', '马灯'].map((name) => createMockInventoryItem({ name }));
+    expect(inferItemsLostFromNarrative('稽查从你内袋拿走梁信，收进公文袋。你提起马灯。', inventory))
+      .toEqual([{ name: '梁信', quantity: 1, lossReason: 'stolen' }]);
+  });
+
+  it('removes the actual number of Chinese coins paid', () => {
+    const inventory = [createMockInventoryItem({ name: '铜板', stackable: true, quantity: 12 })];
+    expect(inferItemsLostFromNarrative('你把六枚铜板交给跑差。', inventory))
+      .toEqual([{ name: '铜板', quantity: 6, lossReason: 'delivered' }]);
+  });
+
+  it.each([
+    '稽查没有收走你的梁信。',
+    '你打算把梁信交给稽查。',
+    '如果稽查收走梁信，你就去找老周。',
+    '你想起昨天梁信被收走的事。',
+    '跑差把六枚铜板交还给你。',
+  ])('does not turn negation, plans, memories, or incoming items into losses: %s', (content) => {
+    const inventory = ['梁信', '铜板'].map((name) => createMockInventoryItem({ name }));
+    expect(inferItemsLostFromNarrative(content, inventory)).toEqual([]);
+  });
+
+  it('binds English losses to their clause instead of every mentioned item', () => {
+    const inventory = ['Rope', 'Lantern'].map((name) => createMockInventoryItem({ name }));
+    expect(inferItemsLostFromNarrative('You drop the rope. You check the lantern.', inventory))
+      .toEqual([{ name: 'Rope', quantity: 1, lossReason: 'dropped' }]);
+  });
 });
