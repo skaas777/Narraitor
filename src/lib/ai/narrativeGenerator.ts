@@ -198,6 +198,8 @@ export class NarrativeGenerator {
           heldItems: characterInventory,
           previousPassage: request.narrativeContext?.previousSegments?.at(-1)?.content,
           playerAction: request.narrativeContext?.currentSituation,
+          knownNpcs: context.npcRoster.map(({ id, name }) => ({ id, name })),
+          storyMemoryContext: request.narrativeContext?.storyMemory,
         }
       );
 
@@ -372,7 +374,7 @@ export class NarrativeGenerator {
         this.geminiClient,
         undefined,
         [],
-        { heldItems: characterInventory }
+        { heldItems: characterInventory, knownNpcs: npcRoster.map(({ id, name }) => ({ id, name })) }
       );
 
       result = await enforceLanguageComplexity(result, toneSettings, this.geminiClient);
