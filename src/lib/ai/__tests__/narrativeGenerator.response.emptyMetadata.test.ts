@@ -36,3 +36,40 @@ it('keeps an empty physical-presence result instead of restoring a remote NPC ca
   }) }, 'scene', client);
   expect(result.metadata.characterIds).toEqual([]);
 });
+
+it('recovers a final location, multi-sentence handover and memory when the response has only prose', async () => {
+  const memory = { facts: [{ key: '压力表持有人', value: '周岚持有压力表' }], completedSteps: [] };
+  mockAnalysis.mockResolvedValueOnce({
+    presentCharacterIds: ['zhou-lan'], items: [],
+    location: '主控外第三道加强环',
+    itemsLost: [{ name: '便携压力表', quantity: 1, lossReason: 'delivered' }],
+    storyMemory: memory,
+  });
+  const result = await formatNarrativeResponse({
+    content: '你在第三道加强环取出便携压力表。周岚接过，把它卡在自己腕带上。',
+  }, 'scene', client, '温室侧舱', [], {
+    heldItems: [{ name: '便携压力表', quantity: 1 }], knownNpcs: [{ id: 'zhou-lan', name: '周岚' }],
+  });
+  expect(result.metadata.location).toBe('主控外第三道加强环');
+  expect(result.metadata.itemsLost?.[0].name).toBe('便携压力表');
+  expect(result.metadata.storyMemory).toEqual(memory);
+  expect(result.metadata.characterIds).toEqual(['zhou-lan']);
+});
+
+it('preserves explicit no-loss and primary state when fallback analysis disagrees', async () => {
+  const memory = { facts: [{ key: '工具', value: '仍由方棠持有' }], completedSteps: [] };
+  mockAnalysis.mockResolvedValueOnce({ presentCharacterIds: [], items: [],
+    location: '别处', itemsLost: [{ name: '便携压力表', lossReason: 'delivered' }],
+    storyMemory: { facts: [{ key: '工具', value: '已交出' }], completedSteps: [] },
+  });
+  const result = await formatNarrativeResponse({ content: JSON.stringify({
+    content: '你仍在侧舱，收好压力表。',
+    metadata: { location: '温室侧舱', characterIds: [], itemsLost: [], storyMemory: memory },
+  }) }, 'scene', client, '走廊', [], {
+    heldItems: [{ name: '便携压力表', quantity: 1 }], knownNpcs: [{ id: 'zhou-lan', name: '周岚' }],
+  });
+  expect(result.metadata.itemsLost).toBeUndefined();
+  expect(result.metadata.location).toBe('温室侧舱');
+  expect(result.metadata.storyMemory).toEqual(memory);
+  expect(mockAnalysis.mock.calls.at(-1)?.[4]?.knownNpcs).toBeUndefined();
+});

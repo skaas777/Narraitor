@@ -176,7 +176,7 @@ export const parseNarrativeResponse = (
               : [],
             characterIds: Array.isArray(parsed?.metadata?.characterIds)
               ? parsed?.metadata?.characterIds
-              : [],
+              : undefined,
             ...(isFeatureEnabled('SCENE_STATE') ? {
               ...(typeof parsed.metadata.sceneBeat?.id === 'string' &&
               typeof parsed.metadata.sceneBeat?.text === 'string' &&

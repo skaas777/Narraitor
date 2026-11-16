@@ -47,7 +47,8 @@ export const formatNarrativeResponse = async (
     extractedMetadata.characters,
     finalCharacterIds,
     geminiClient,
-    acquisitionContext
+    { ...acquisitionContext, heldItems: acquisitionContext?.heldItems ?? [], previousLocation,
+      knownNpcs: Array.isArray(extractedMetadata.characterIds) ? undefined : acquisitionContext?.knownNpcs }
   );
   // An explicitly empty result means no NPC is physically present.
   const confirmedCharacterIds = metadataAnalysis.presentCharacterIds;
@@ -55,6 +56,8 @@ export const formatNarrativeResponse = async (
     Array.isArray(extractedMetadata.itemsAcquired)
       ? extractedMetadata.itemsAcquired
       : metadataAnalysis.items;
+  const analyzedLosses = Array.isArray(extractedMetadata.itemsLost)
+    ? extractedMetadata.itemsLost : metadataAnalysis.itemsLost;
   const sanitizedMajorEvent =
     extractedMetadata.majorEvent && safeTrim(extractedMetadata.majorEvent).length > 0
       ? safeTrim(extractedMetadata.majorEvent)
@@ -68,7 +71,7 @@ export const formatNarrativeResponse = async (
       | 'action'
       | 'transition',
     metadata: {
-      storyMemory: extractedMetadata.storyMemory,
+      storyMemory: extractedMetadata.storyMemory ?? metadataAnalysis.storyMemory,
       characterIds: confirmedCharacterIds,
       ...(isFeatureEnabled('SCENE_STATE') ? {
         ...(extractedMetadata.sceneBeat ? { sceneBeat: extractedMetadata.sceneBeat } : {}),
@@ -79,15 +82,13 @@ export const formatNarrativeResponse = async (
           : {}),
       } : {}),
       speakerId,
-      location: extractedMetadata.location || fallbackLocation,
+      location: extractedMetadata.location || metadataAnalysis.location || fallbackLocation,
       mood: extractedMetadata.mood || fallbackMood,
       tags: extractedMetadata.tags || [getWorldGenre() || 'fantasy', 'narrative'],
       itemsAcquired:
         analyzedItems && analyzedItems.length > 0 ? analyzedItems : undefined,
       itemsLost:
-        extractedMetadata.itemsLost && extractedMetadata.itemsLost.length > 0
-          ? extractedMetadata.itemsLost
-          : undefined,
+        analyzedLosses?.length ? analyzedLosses : undefined,
       characters: extractedMetadata.characters,
       majorEvent: sanitizedMajorEvent,
     },
