@@ -74,6 +74,7 @@ You are validating metadata for an already-written narrative segment. Do not wri
 Rules for presence:
 - Only mark an NPC as present if the narration makes it clear they are co-located with the protagonist during this scene.
 - Exclude NPCs who are merely referenced, remembered, mentioned as being elsewhere, or communicating remotely (phone, radio, etc.).
+- An NPC on the other side of a closed door, airlock, window, or other separating barrier is not in the protagonist's room. Coordinating through an intercom or operating an external connector does not establish co-location.
 - Only use the provided candidate IDs.
 
 Rules for items:
@@ -83,6 +84,8 @@ Rules for items:
 - Taking portable tools out of a storage cabinet for ongoing use IS acquisition, even if the character immediately uses them in the same passage. Do not confuse a newly taken portable tool with a fixed environmental instrument.
 - The player action describes an attempt, not proof of success. The current passage must actually show the item being taken and retained.
 - Ignore objects that are merely observed, touched briefly, or immediately set aside.
+- Possession is personal, not shared by the party. Items carried by an ally, kept outside a closed door, or connected to an external supply port are not in the protagonist's inventory. A promise, a radio report, or reserving an ally's spare does not complete a handover.
+- Require the passage to establish the protagonist taking or receiving the item. An unspecified "tool bag" does not establish whose bag it is; do not assume it belongs to the protagonist. If ownership or physical transfer is unclear, omit the acquisition and preserve that uncertainty in storyMemory instead.
 - Provide concise names and optional descriptions.
 
 Rules for state recovery:
