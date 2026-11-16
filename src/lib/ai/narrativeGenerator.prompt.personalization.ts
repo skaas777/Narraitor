@@ -88,7 +88,8 @@ export const enhancePromptWithPersonalization = async (
 
     const otherCharacterContext = buildOtherCharacterContext(
       worldId,
-      playerCharacterId
+      playerCharacterId,
+      sessionId
     );
     if (otherCharacterContext) {
       personalizationSection += `\n\n${otherCharacterContext}\nWeave these concurrent storylines naturally when they influence the current scene, but avoid forced references.`;
@@ -195,11 +196,12 @@ const calculateGoalProgress = (goal: NarrativeGoal): number => {
 
 const buildOtherCharacterContext = (
   worldId: EntityID,
-  activeCharacterId: EntityID
+  activeCharacterId: EntityID,
+  sessionId?: EntityID
 ): string | null => {
   try {
-    const { worldStates } = useWorldStore.getState();
-    const worldState = worldStates[worldId];
+    if (!sessionId) return null;
+    const worldState = useWorldStore.getState().getWorldState(worldId, { sessionId });
     if (!worldState?.playerCharacterThreads) {
       return null;
     }

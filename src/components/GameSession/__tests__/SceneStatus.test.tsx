@@ -97,4 +97,27 @@ describe('SceneStatus dispositions', () => {
     const disposition = screen.getByText('敌对');
     expect(disposition).toHaveAttribute('data-disposition', 'hostile');
   });
+  it('does not show another save’s NPC disposition in a fresh session', () => {
+    mockWorldStates({ 'world-1': { npcRelationships: {
+      'npc-guard': { trust: 22, sessionId: 'old-session' },
+    } } });
+    const { container } = render(<SceneStatus segment={makeSegment({
+      worldId: 'world-1', sessionId: 'new-session', characterIds: ['npc-guard'],
+    })} />);
+    expect(container.querySelector('.scene-status-disposition')).toBeNull();
+  });
+
+  it('shows the resumed save’s archived relationship rather than another save’s latest value', () => {
+    mockWorldStates({ 'world-1': {
+      npcRelationships: { 'npc-guard': { trust: 22, sessionId: 'other-session' } },
+      sessionStates: { 'my-session': {
+        npcRelationships: { 'npc-guard': { trust: 22, sessionId: 'my-session' } },
+      } },
+    } });
+    render(<SceneStatus segment={makeSegment({
+      worldId: 'world-1', sessionId: 'my-session', characterIds: ['npc-guard'],
+    })} />);
+    expect(screen.getByText('敌对')).toBeInTheDocument();
+  });
+
 });
