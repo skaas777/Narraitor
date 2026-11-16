@@ -260,6 +260,7 @@ Examples:
 Important:
 - Only include items the character ACTUALLY ACQUIRES AND KEEPS during this segment (not items they merely see, borrow momentarily, use as environmental tools, or were already carrying)
 - Taking a portable tool from a cabinet and keeping it after immediately using it counts as acquisition. Explicitly include that tool in metadata.itemsAcquired; do not return an empty array after narrating a successful collection.
+- Party possessions are not automatically player possessions. An ally's spare, an object beyond a closed door, or an externally connected supply stays with its actual holder until the prose establishes a physical handover. Do not put it in the player's bag to bridge a closed door; identify whose bag or hands hold it. If possession is unclear, do not report an acquisition.
 - Avoid duplicate entries for the same object; use the description to capture clarifications or additional detail
 - CRITICAL: Do NOT list the same item name twice. If the character gains multiple of the same item, set quantity accordingly on a single entry instead of repeating the name.
 - If you need to clarify an already listed item, update its description rather than adding another entry.
