@@ -66,6 +66,8 @@ export interface TurnCommand {
   signal?: AbortSignal;
   /** Streaming chunk callback for progressive rendering. */
   onChunk?: (chunk: string) => void;
+  /** Discard the previous draft before streaming an automatic replacement. */
+  onPreviewReset?: () => void;
 }
 
 /**

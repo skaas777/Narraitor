@@ -383,10 +383,14 @@ async function resolveTurnInner(
         : undefined)
     : command.onChunk;
 
+  let generationAttempts = 0;
   const generateSegment = (isStallRetry = false, isFatalRepair = false, continuityRepair?: string) => {
     if (isProtectedTurn) {
       bufferedChunks = [];
+    } else if (generationAttempts > 0) {
+      command.onPreviewReset?.();
     }
+    generationAttempts += 1;
     return awaitGeneration(
       () => generator.generateSegment(
         {

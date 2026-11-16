@@ -434,6 +434,34 @@ describe('TurnResolver', () => {
       expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(1);
     });
 
+    it.each([true, false])('replaces the streamed draft during continuity repair (fatalRiskAllowed=%s)', async (fatalRiskAllowed) => {
+      await resolveTurn(makeCommand(), makeMockGenerator(makeGenerationResult({
+        metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] },
+      })));
+      let preview = '';
+      const onChunk = jest.fn((chunk: string) => { preview += chunk; });
+      const onPreviewReset = jest.fn(() => { preview = ''; });
+      const generator = makeMockGenerator();
+      jest.mocked(generator.generateSegment)
+        .mockImplementationOnce(async (_request, options) => {
+          options?.onChunk?.('稽查又收走你的梁信。');
+          return makeGenerationResult({ content: '稽查又收走你的梁信。', metadata: {
+            characterIds: [], tags: [], itemsLost: [{ name: '梁信' }],
+          } });
+        })
+        .mockImplementationOnce(async (_request, options) => {
+          options?.onChunk?.('稽查核对已经扣押的梁信，');
+          options?.onChunk?.('确认了签名。');
+          return makeGenerationResult({ content: '稽查核对已经扣押的梁信，确认了签名。' });
+        });
+
+      const result = await resolveTurn(makeCommand({ choiceId: 'next', fatalRiskAllowed, onChunk, onPreviewReset }), generator);
+
+      expect(preview).toBe(result.segment.content);
+      expect(onPreviewReset).toHaveBeenCalledTimes(fatalRiskAllowed ? 1 : 0);
+      expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(2);
+    });
+
     describe('scene stall breaker', () => {
       const quietTurnLimit = 5;
 
@@ -516,6 +544,32 @@ describe('TurnResolver', () => {
           expect(sceneTemplate({ narrativeContext: retry.narrativeContext })).toContain('RETRY:');
         }
       );
+
+      it('clears a streamed draft before retrying a stalled scene', async () => {
+        const generator = makeMockGenerator();
+        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(makeCommand(), generator);
+        let preview = '';
+        const onPreviewReset = jest.fn(() => { preview = ''; });
+        jest.mocked(generator.generateSegment)
+          .mockImplementationOnce(async (_request, options) => {
+            options?.onChunk?.('You wait on the road.');
+            return makeGenerationResult({ content: 'You wait on the road.' });
+          })
+          .mockImplementationOnce(async (_request, options) => {
+            options?.onChunk?.('You reach the old mill.');
+            return makeGenerationResult({ content: 'You reach the old mill.', metadata: {
+              characterIds: [], tags: [], sceneTransition: { to: 'Old Mill' },
+            } });
+          });
+        const result = await resolveTurn(makeCommand({
+          fatalRiskAllowed: true,
+          onChunk: (chunk) => { preview += chunk; },
+          onPreviewReset,
+        }), generator);
+        expect(preview).toBe(result.segment.content);
+        expect(onPreviewReset).toHaveBeenCalledTimes(1);
+        expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(quietTurnLimit + 1);
+      });
 
 
       it('commits a recorded time skip and resets the counter when the model ignores the stall instruction twice', async () => {
