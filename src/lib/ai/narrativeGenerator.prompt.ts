@@ -259,6 +259,7 @@ Examples:
 
 Important:
 - Only include items the character ACTUALLY ACQUIRES AND KEEPS during this segment (not items they merely see, borrow momentarily, use as environmental tools, or were already carrying)
+- Taking a portable tool from a cabinet and keeping it after immediately using it counts as acquisition. Explicitly include that tool in metadata.itemsAcquired; do not return an empty array after narrating a successful collection.
 - Avoid duplicate entries for the same object; use the description to capture clarifications or additional detail
 - CRITICAL: Do NOT list the same item name twice. If the character gains multiple of the same item, set quantity accordingly on a single entry instead of repeating the name.
 - If you need to clarify an already listed item, update its description rather than adding another entry.

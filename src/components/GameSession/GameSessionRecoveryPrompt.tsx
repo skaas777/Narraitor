@@ -90,7 +90,7 @@ export function GameSessionRecoveryPrompt({
                 <div className="game-session-recovery-prompt-detail">
                   <dt>进度</dt>
                   <dd>
-                    {narrativeCount} {narrativeCount === 1 ? 'scene' : 'scenes'}
+                    {narrativeCount} 个场景
                   </dd>
                 </div>
               )}

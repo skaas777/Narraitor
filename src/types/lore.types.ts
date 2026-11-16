@@ -90,6 +90,8 @@ export interface LoreFact extends TimestampedEntity {
   visibility: 'session-private' | 'world-shared'; // Session-private or shared across all sessions
   // Rich metadata from AI extraction
   metadata?: {
+    /** Set only by the chapter carryover action, never by model extraction. */
+    sharedByChapter?: boolean;
     description?: string;
     importance?: 'low' | 'medium' | 'high';
     type?: string; // character role, location type, event type, etc.

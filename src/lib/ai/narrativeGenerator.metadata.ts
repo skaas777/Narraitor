@@ -4,11 +4,18 @@ import type { InventoryAcquisitionMethod } from '@/types/inventory.types';
 import { safeTrim } from '@/lib/utils';
 import { extractJsonObject } from './parseJSON';
 
+export interface AcquisitionContext {
+  heldItems: readonly { name: string; quantity: number }[];
+  previousPassage?: string;
+  playerAction?: string;
+}
+
 export const analyzeSegmentMetadata = async (
   content: string,
   characters: GeneratedCharacterMetadata[] | undefined,
   candidateIds: string[],
-  geminiClient: AIClient
+  geminiClient: AIClient,
+  acquisitionContext?: AcquisitionContext
 ): Promise<{
   presentCharacterIds: string[];
   items: Array<{
@@ -59,6 +66,8 @@ Rules for items:
 - Include an item only if the protagonist newly obtains it here and finishes the scene still holding or carrying it.
 - Using, testing, repositioning, or continuing to carry an existing item is NOT a new acquisition.
 - Do not rename or re-add tools already carried at the start of the scene. Return an empty items array when nothing new is acquired.
+- Taking portable tools out of a storage cabinet for ongoing use IS acquisition, even if the character immediately uses them in the same passage. Do not confuse a newly taken portable tool with a fixed environmental instrument.
+- The player action describes an attempt, not proof of success. The current passage must actually show the item being taken and retained.
 - Ignore objects that are merely observed, touched briefly, or immediately set aside.
 - Provide concise names and optional descriptions.
 
@@ -77,6 +86,13 @@ Respond with STRICT JSON in this shape (no commentary):
 
 CANDIDATE NPCS:
 ${rosterLines || '- (none)'}
+
+${acquisitionContext ? `POSSESSIONS BEFORE THIS PASSAGE (do not acquire these again merely by using them):
+${JSON.stringify(acquisitionContext.heldItems.map(({ name, quantity }) => ({ name, quantity })))}
+PREVIOUS PASSAGE (historical context, not a source of new acquisitions):
+${acquisitionContext.previousPassage?.slice(-2000) || '(none)'}
+PLAYER ACTION (attempt only):
+${acquisitionContext.playerAction?.slice(0, 1000) || '(none)'}` : ''}
 
 NARRATIVE:
 """
