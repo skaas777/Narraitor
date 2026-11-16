@@ -7,6 +7,17 @@ import { isFeatureEnabled } from '@/lib/featureFlags';
 jest.mock('@/lib/featureFlags', () => ({ isFeatureEnabled: jest.fn(() => false) }));
 
 describe('parseNarrativeResponse debris guard', () => {
+  it.each(['', '...', '……', ' \n ', '—'])('rejects placeholder-only prose %j before its metadata can advance the turn', (content) => {
+    expect(() => parseNarrativeResponse({ content: JSON.stringify({
+      content, metadata: { location: '第三气闸', itemsLost: [{ name: '手动阀摇柄', quantity: 1 }] },
+    }) }, 'action')).toThrow('Service error: malformed API response');
+  });
+
+  it('accepts a short Chinese narrative and meaningful ellipses inside it', () => {
+    expect(parseNarrativeResponse({ content: '{"content":"门开了……"}' }, 'action').actualContent)
+      .toBe('门开了……');
+  });
+
   it('keeps validated memory deltas even when experimental scene tracking is off', () => {
     const storyMemory = { facts: [{ key: '第十八件收件人', value: '周德海，不是沈秋' }], completedSteps: [{ key: '核对件单', value: '已确认收件人' }], time: { day: 1, minute: 345, label: '卯三刻' } };
     const parsed = parseNarrativeResponse({ content: JSON.stringify({ content: '你看清件单。', metadata: { storyMemory } }) }, 'scene');

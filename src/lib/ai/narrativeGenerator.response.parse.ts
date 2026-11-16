@@ -159,7 +159,7 @@ export const parseNarrativeResponse = (
         for (const character of Array.isArray(parsed?.metadata?.characters) ? parsed.metadata.characters : []) {
           if (typeof character?.id === 'string') knownSceneNpcIds.add(character.id);
         }
-        if (parsed.content) {
+        if (typeof parsed.content === 'string') {
           actualContent = parsed.content;
           contentFromClosedField = true;
         }
@@ -374,6 +374,12 @@ export const parseNarrativeResponse = (
   // there. Failing here hands the turn to the existing retry and
   // fallback-segment handling instead of shipping a one-character passage.
   if (looksLikeJson && !contentFromClosedField && isJsonDebris(actualContent)) {
+    throw new Error('Service error: malformed API response');
+  }
+
+  // An ellipsis is not a completed scene. Reject it before metadata can
+  // move the character or change inventory without a readable outcome.
+  if (!/[\p{L}\p{N}]/u.test(actualContent)) {
     throw new Error('Service error: malformed API response');
   }
 
