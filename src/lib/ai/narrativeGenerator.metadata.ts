@@ -48,7 +48,7 @@ export const analyzeSegmentMetadata = async (
   const prompt = `
 You are validating metadata for a narrative segment. Analyze the passage and produce two things:
 1. Which of the provided NPC IDs are PHYSICALLY present in the scene with the protagonist (sharing the same location, acting together, or speaking face-to-face).
-2. Any tangible items the protagonist ends the scene possessing.
+2. Any tangible items the protagonist newly acquires in this scene and still possesses at its end.
 
 Rules for presence:
 - Only mark an NPC as present if the narration makes it clear they are co-located with the protagonist during this scene.
@@ -56,7 +56,9 @@ Rules for presence:
 - Only use the provided candidate IDs.
 
 Rules for items:
-- Include an item only if the protagonist finishes the scene still holding or carrying it.
+- Include an item only if the protagonist newly obtains it here and finishes the scene still holding or carrying it.
+- Using, testing, repositioning, or continuing to carry an existing item is NOT a new acquisition.
+- Do not rename or re-add tools already carried at the start of the scene. Return an empty items array when nothing new is acquired.
 - Ignore objects that are merely observed, touched briefly, or immediately set aside.
 - Provide concise names and optional descriptions.
 
