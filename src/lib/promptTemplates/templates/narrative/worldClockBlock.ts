@@ -124,5 +124,11 @@ ${spendRule}
 - A thread marked IN THE SCENE has already arrived: never arrive it again or deliver it as news; what it owes now is its next move, its cost, or its outcome.
 - Do not invent a new threat when a thread above can carry the pressure. Do not restate the ledger to the player.
 - Nothing in this block reaches the passage. No "World Clock", no "thread", no "update", no turn number, no note from the storyteller, no bracketed or parenthetical line about what has landed, acted or been taken. Never copy a ledger line above into the passage as a heading, a label or a summary sentence, bold or plain; when a thread resolves, the prose shows the outcome happening and never captions it. The prose shows it as story; the record goes in metadata.${dueNow ? (dueNow.fired ? firedDueNowSection(dueNow, register) : dueNowSection(dueNow)) : ''}
+
+LIMITS ON EVERY CLOCK INSTRUCTION ABOVE, INCLUDING DEADLINES AND TIME CUTS:
+- Thread summaries describe unresolved pressures or possible futures, not proof that an event already happened. Current possession, the latest established facts, and the player's explicit action take precedence over a thread's assumptions. If the player changes the premise, resolve or update the thread accordingly rather than forcing its predicted outcome.
+- Advancing time never authorizes new player decisions. Stop at the first consequential choice outside the submitted action, even during a transition. Do not silently spend a reserve, take another route, leave a post, or complete a second mission to make a deadline land.
+- Respect explicit limits such as "keep the last one", "do not open", and "return if blocked". An ally may request the reserved resource or report the blocked route; they must not spend it on the player's behalf or teleport past the blockage. Environmental damage or hostile loss requires an established cause, not an invented workaround for this limit.
+- Keep movement causal: report the actual reachable destination and show any change of route before arrival. A character who turns back from a blocked route cannot already be at the destination in the next sentence.
 `;
 };
