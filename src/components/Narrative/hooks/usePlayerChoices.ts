@@ -41,7 +41,7 @@ function buildFallbackDecision(contextSummary: string): Decision {
   const fallbackId = `decision-fallback-${Date.now()}`;
   return {
     id: fallbackId,
-    prompt: 'What will you do?',
+    prompt: '接下来你会怎么做？',
     options: [
       {
         id: `option-${fallbackId}-1`,

@@ -33,7 +33,7 @@ describe('GameSessionRecoveryPrompt (issue #221)', () => {
 
     expect(screen.getByText('Aetheria')).toBeInTheDocument();
     expect(screen.getByText('Kael')).toBeInTheDocument();
-    expect(screen.getByText('4 scenes')).toBeInTheDocument();
+    expect(screen.getByText('4 个场景')).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: /继续已恢复的冒险/i })
     ).toBeInTheDocument();

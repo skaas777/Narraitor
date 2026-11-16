@@ -1,6 +1,7 @@
 import type { NarrativeGenerationResult } from '@/types/narrative.types';
 import type { AIClient } from './types';
 import { analyzeSegmentMetadata } from './narrativeGenerator.metadata';
+import type { AcquisitionContext } from './narrativeGenerator.metadata';
 import { parseNarrativeResponse } from './narrativeGenerator.response.parse';
 import { normalizeNarrativeContent } from './narrativeGenerator.response.normalize';
 import {
@@ -18,7 +19,8 @@ export const formatNarrativeResponse = async (
   segmentType: string,
   geminiClient: AIClient,
   previousLocation?: string,
-  currentSceneNpcIds: readonly string[] = []
+  currentSceneNpcIds: readonly string[] = [],
+  acquisitionContext?: AcquisitionContext
 ): Promise<NarrativeGenerationResult> => {
   const parsed = parseNarrativeResponse(response, segmentType, currentSceneNpcIds);
   const actualContent = parsed.actualContent;
@@ -44,7 +46,8 @@ export const formatNarrativeResponse = async (
     normalizedContent,
     extractedMetadata.characters,
     finalCharacterIds,
-    geminiClient
+    geminiClient,
+    acquisitionContext
   );
   // An explicitly empty result means no NPC is physically present.
   const confirmedCharacterIds = metadataAnalysis.presentCharacterIds;

@@ -11,6 +11,7 @@ import {
   MAX_EVENTS_PER_EXTRACTION,
 } from './loreStore.helpers';
 import type { EntityResolutionContext, ResolveEntityOptions } from './loreStore.resolution';
+import { isLoreVisibleToSession } from '@/lib/lore/visibility';
 
 /**
  * Structured lore extraction logic for the lore store
@@ -69,7 +70,9 @@ export function addStructuredLoreImpl(
     },
   });
 
-  const { addFact, setAliases, addAlias, getFacts, getFact, updateFact, resolveEntity } = context;
+  const { addFact, setAliases, addAlias, getFact, updateFact, resolveEntity } = context;
+  const getFacts: AddStructuredLoreContext['getFacts'] = (options) =>
+    context.getFacts(options).filter((fact) => isLoreVisibleToSession(fact, sessionId));
 
   const existingFacts = getFacts({ worldId });
   const existingKeys = new Set(existingFacts.map((fact) => fact.key));

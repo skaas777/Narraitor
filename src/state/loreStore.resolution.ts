@@ -10,6 +10,7 @@ import { generateLoreKey } from './loreStore.helpers';
 import { generateUniqueId } from '@/lib/utils/generateId';
 import { getTimestamp, safeTrim } from '@/lib/utils';
 import { normalizeText, NORM_NAME } from '../lib/utils/textNormalization';
+import { isLoreVisibleToSession } from '@/lib/lore/visibility';
 
 const AUTO_MERGE_THRESHOLD = 0.85;
 const MATCH_THRESHOLD = 0.6;
@@ -96,6 +97,7 @@ export function resolveEntityImpl(
 
   const candidates = context
     .getFacts({ worldId })
+    .filter((fact) => !options.sessionId || isLoreVisibleToSession(fact, options.sessionId))
     .filter((fact) => allowCrossCategory || fact.category === category);
 
   const bestMatch = findBestMatch(trimmedName, candidates);
@@ -135,7 +137,8 @@ export function resolveEntityImpl(
   if (!createdFact) {
     const fallback = context
       .getFacts({ worldId })
-      .find((fact) => fact.key === key && fact.value === trimmedName);
+      .find((fact) => fact.key === key && fact.value === trimmedName &&
+        (!options.sessionId || isLoreVisibleToSession(fact, options.sessionId)));
     if (!fallback) {
       throw new Error('Failed to create lore entity');
     }

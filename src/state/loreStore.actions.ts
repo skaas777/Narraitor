@@ -20,6 +20,7 @@ import {
 } from '@/lib/utils/errorUtils';
 import { isFeatureEnabled } from '@/lib/featureFlags';
 import { logger } from '@/lib/utils/logger';
+import { isLoreVisibleToSession } from '@/lib/lore/visibility';
 
 import { getInitialState } from './loreStore.state';
 import { importanceRank } from './loreStore.helpers';
@@ -216,7 +217,11 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
       return '' as EntityID;
     }
 
-    if (!get().validateFactUniqueness(worldId, key, value)) {
+    const unique = source === 'narrative' && sessionId
+      ? !Object.values(get().facts).some((fact) => fact.worldId === worldId &&
+          fact.key === key && fact.value === value && isLoreVisibleToSession(fact, sessionId))
+      : get().validateFactUniqueness(worldId, key, value);
+    if (!unique) {
       logger.debug('[LoreStore] addFact duplicate fact (skipping)', {
         key,
         value,
@@ -255,13 +260,7 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
       results = results.filter((fact) => fact.category === options.category);
     }
     if (options?.sessionId) {
-      results = results.filter((fact) => {
-        if (fact.visibility === 'world-shared') return true;
-        return (
-          fact.visibility === 'session-private' &&
-          fact.sessionId === options.sessionId
-        );
-      });
+      results = results.filter((fact) => isLoreVisibleToSession(fact, options.sessionId));
     }
 
     return results.sort(
@@ -301,12 +300,7 @@ export const createLoreFactActions = (set: SetState, get: GetState) => ({
   ): LoreContext => {
     const worldFacts = get().getFacts({ worldId });
 
-    const visibleFacts = worldFacts.filter((fact) => {
-      if (fact.visibility === 'world-shared') return true;
-      return (
-        fact.visibility === 'session-private' && fact.sessionId === sessionId
-      );
-    });
+    const visibleFacts = worldFacts.filter((fact) => isLoreVisibleToSession(fact, sessionId));
 
     const byImportance = (a: LoreFact, b: LoreFact) => {
       const rankA = importanceRank(a.metadata?.importance);
@@ -692,7 +686,8 @@ export const createLoreUsageActions = (set: SetState, get: GetState) => ({
         Object.entries(state.facts).map(([id, fact]) => [
           id,
           promotedSet.has(id)
-            ? { ...fact, visibility: 'world-shared' as const }
+            ? { ...fact, visibility: 'world-shared' as const,
+                metadata: { ...fact.metadata, sharedByChapter: true } }
             : fact,
         ])
       ),

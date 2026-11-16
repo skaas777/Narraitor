@@ -193,7 +193,12 @@ export class NarrativeGenerator {
         inferSegmentType(response.content || ''),
         this.geminiClient,
         getCarryForwardLocation(request.narrativeContext),
-        useSceneStore.getState().scenes[request.sessionId]?.presentNpcIds ?? []
+        useSceneStore.getState().scenes[request.sessionId]?.presentNpcIds ?? [],
+        {
+          heldItems: characterInventory,
+          previousPassage: request.narrativeContext?.previousSegments?.at(-1)?.content,
+          playerAction: request.narrativeContext?.currentSituation,
+        }
       );
 
       result = await enforceLanguageComplexity(result, toneSettings, this.geminiClient);
@@ -364,7 +369,10 @@ export class NarrativeGenerator {
       let result = await formatNarrativeResponse(
         response,
         inferSegmentType(response.content || ''),
-        this.geminiClient
+        this.geminiClient,
+        undefined,
+        [],
+        { heldItems: characterInventory }
       );
 
       result = await enforceLanguageComplexity(result, toneSettings, this.geminiClient);

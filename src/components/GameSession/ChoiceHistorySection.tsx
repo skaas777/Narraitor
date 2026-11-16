@@ -10,6 +10,7 @@ import type {
 } from '@/types/narrative.types';
 import { useNarrativeStore } from '@/state/narrativeStore';
 import type { EntityID } from '@/types/common.types';
+import { displayLabel } from '@/lib/i18n/zhCN';
 
 interface ChoiceHistorySectionProps {
   sessionId: string;
@@ -111,7 +112,7 @@ const ChoiceHistoryContent: React.FC<ChoiceHistoryContentProps> = ({
                 <div className="manuscript-choice-history-meta">
                   {decisionWeight && (
                     <span className="manuscript-choice-history-meta-item">
-                      {decisionWeight} 权重
+                      {displayLabel(decisionWeight)} 权重
                     </span>
                   )}
                   {decisionOutcome && (
