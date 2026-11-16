@@ -88,7 +88,7 @@ CANDIDATE NPCS:
 ${rosterLines || '- (none)'}
 
 ${acquisitionContext ? `POSSESSIONS BEFORE THIS PASSAGE (do not acquire these again merely by using them):
-${JSON.stringify(acquisitionContext.heldItems)}
+${JSON.stringify(acquisitionContext.heldItems.map(({ name, quantity }) => ({ name, quantity })))}
 PREVIOUS PASSAGE (historical context, not a source of new acquisitions):
 ${acquisitionContext.previousPassage?.slice(-2000) || '(none)'}
 PLAYER ACTION (attempt only):
