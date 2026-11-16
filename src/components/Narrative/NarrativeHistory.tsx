@@ -81,12 +81,12 @@ export const NarrativeHistory: React.FC<NarrativeHistoryProps> = ({
   const { renderedSegments } = useBufferedNarrativeSegments(segments, { isHydrating });
   const previewBaseSegmentRef = useRef<{ id: string | undefined } | null>(null);
   useEffect(() => {
-    if (!isLoading || !streamingContent) {
+    if (!isLoading || isHydrating) {
       previewBaseSegmentRef.current = null;
     } else if (!previewBaseSegmentRef.current) {
       previewBaseSegmentRef.current = { id: segments.at(-1)?.id };
     }
-  }, [isLoading, streamingContent, segments]);
+  }, [isLoading, isHydrating, segments]);
   // The resolver commits the passage before its slower state reconciliation
   // finishes. Once that new segment is visible, its preview is redundant,
   // even when normalization or the content gate changed the final text.

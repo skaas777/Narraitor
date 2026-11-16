@@ -122,6 +122,29 @@ describe('NarrativeHistory (Streaming & Anchoring)', () => {
       expect(screen.queryByText("正在书写你的故事……")).not.toBeInTheDocument();
     });
 
+    it('hides buffered preview when the first chunks and committed segment arrive together', () => {
+      mockIsFeatureEnabled.mockReturnValue(false);
+      const preview = '你点燃一支氧烛——另一支仍留在袋里。';
+      const committed = createMockNarrativeSegment({ id: 'seg-2', content: '你点燃一支氧烛--另一支仍留在袋里。' });
+      const { rerender, container } = render(
+        <NarrativeHistory segments={segments} isLoading={true} streamingContent="" />
+      );
+      rerender(<NarrativeHistory segments={[...segments, committed]} isLoading={true} streamingContent={preview} />);
+      expect(container.querySelectorAll('.narrative-segment')).toHaveLength(2);
+      expect(screen.queryByText(preview)).not.toBeInTheDocument();
+    });
+
+    it('keeps the turn baseline while an automatic rewrite temporarily clears the preview', () => {
+      mockIsFeatureEnabled.mockReturnValue(false);
+      const committed = createMockNarrativeSegment({ id: 'seg-2', content: '最终草稿。' });
+      const { rerender, container } = render(
+        <NarrativeHistory segments={segments} isLoading={true} streamingContent="旧草稿。" />
+      );
+      rerender(<NarrativeHistory segments={segments} isLoading={true} streamingContent="" />);
+      rerender(<NarrativeHistory segments={[...segments, committed]} isLoading={true} streamingContent="最终草稿。" />);
+      expect(container.querySelectorAll('.narrative-segment')).toHaveLength(2);
+    });
+
     it('falls back to the spinner before the first token arrives', () => {
       mockIsFeatureEnabled.mockReturnValue(false);
       render(
