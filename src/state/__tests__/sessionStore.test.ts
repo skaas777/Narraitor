@@ -1,5 +1,6 @@
 import { useSessionStore } from '../sessionStore';
 import { storeEvents, StoreEventTypes } from '@/lib/state/storePubSub';
+import * as timestamp from '@/lib/utils/timestamp';
 
 describe('useSessionStore', () => {
   beforeEach(async () => {
@@ -52,13 +53,18 @@ describe('useSessionStore', () => {
     const pendingSave = new Promise<void>((resolve) => { finishSaving = resolve; });
     const subscription = storeEvents.subscribe(StoreEventTypes.SESSION_ENDED, () => pendingSave);
     const clock = jest.spyOn(Date, 'now').mockReturnValue(Date.now() + 1000);
+    const endingTimestamp = '2026-11-16T19:00:00.000Z';
+    const saveClock = jest.spyOn(timestamp, 'getTimestamp').mockReturnValue(endingTimestamp);
 
     try {
       const ending = useSessionStore.getState().endSession();
+      saveClock.mockReturnValue('2026-11-16T19:00:01.000Z');
       await useSessionStore.getState().initializeSession('world-one', 'character-one', undefined, true);
       const replacementId = useSessionStore.getState().id;
       expect(replacementId).not.toBe(previousId);
       useSessionStore.getState().setCurrentScene('new-scene');
+      useSessionStore.getState().updateSavedSessionNarrativeCount(replacementId!, 1);
+      saveClock.mockReturnValue('2026-11-16T19:00:02.000Z');
       finishSaving();
       await ending;
 
@@ -70,10 +76,13 @@ describe('useSessionStore', () => {
       expect(state.currentSceneId).toBe('new-scene');
       expect(state.sessionLifecycle[replacementId!].status).toBe('active');
       expect(state.savedSessions[previousId].narrativeCount).toBe(3);
+      expect(state.savedSessions[previousId].lastPlayed).toBe(endingTimestamp);
+      expect(state.getSavedSession('world-one', 'character-one')?.id).toBe(replacementId);
       expect(state.sessionLifecycle[previousId].status).toBe('ended');
     } finally {
       finishSaving();
       clock.mockRestore();
+      saveClock.mockRestore();
       subscription.unsubscribe();
     }
   });

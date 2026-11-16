@@ -46,6 +46,42 @@ describe('Session Persistence: savedSessions collection', () => {
     resetSessionStore();
   });
 
+  describe('getSavedSession', () => {
+    it('resumes the most recently played matching adventure rather than the first saved key', () => {
+      const save = (id: string, lastPlayed: string, characterId = 'character-one', worldId = 'world-one') => ({
+        id, worldId, characterId, lastPlayed, narrativeCount: 4,
+      });
+      useSessionStore.setState({
+        savedSessions: {
+          oldest: save('oldest', '2026-11-16T18:00:00.000Z'),
+          newest: save('newest', '2026-11-16T19:00:00.000Z'),
+          middle: save('middle', '2026-11-16T18:30:00.000Z'),
+          otherCharacter: save('other-character', '2026-11-17T00:00:00.000Z', 'character-two'),
+          otherWorld: save('other-world', '2026-11-17T00:00:00.000Z', 'character-one', 'world-two'),
+        },
+      });
+
+      expect(useSessionStore.getState().getSavedSession('world-one', 'character-one')?.id).toBe('newest');
+      expect(useSessionStore.getState().getSavedSession('missing-world', 'character-one')).toBeUndefined();
+      expect(Object.keys(useSessionStore.getState().savedSessions)).toHaveLength(5);
+    });
+
+    it('prefers a newly saved adventure when timestamps tie and tolerates legacy invalid dates', () => {
+      const save = (id: string, lastPlayed: string) => ({
+        id, worldId: 'world-one', characterId: 'character-one', lastPlayed, narrativeCount: 1,
+      });
+      useSessionStore.setState({
+        savedSessions: {
+          old: save('old', '2026-11-16T19:00:00.000Z'),
+          fresh: save('fresh', '2026-11-16T19:00:00.000Z'),
+          legacy: save('legacy', 'invalid'),
+        },
+      });
+
+      expect(useSessionStore.getState().getSavedSession('world-one', 'character-one')?.id).toBe('fresh');
+    });
+  });
+
   describe('updateSavedSessionNarrativeCount', () => {
     const setActiveSessionState = (sessionId: string, worldId: string | null, characterId: string | null) => {
       useSessionStore.setState(state => ({
