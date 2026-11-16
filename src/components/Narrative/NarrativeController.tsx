@@ -821,6 +821,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
         },
         signal: segmentAbort.signal,
         onChunk: handleStreamChunk,
+        onPreviewReset: resetStreamingPreview,
       };
 
       const turnResult = await resolveTurn(command, narrativeGenerator);
