@@ -7,6 +7,7 @@
  */
 
 import { NarrativeGenerator } from '../narrativeGenerator';
+import { buildContinuityContractFromStores } from '../narrativeGenerator.continuity';
 import { CONTINUITY_CORRECTION_HEADER } from '@/lib/lore/continuityGuardrail';
 import { useContinuityStore } from '@/state/continuityStore';
 import { useWorldStore } from '@/state/worldStore';
@@ -201,6 +202,15 @@ describe('NarrativeGenerator - continuity guardrail', () => {
       recordLoreUsage: jest.fn(),
       addStructuredLore: jest.fn(),
     });
+  });
+
+  it('reads relationships from the requested session when no snapshot is supplied', () => {
+    const getWorldState = jest.fn(() => ({ npcRelationships: {} }));
+    (useWorldStore.getState as jest.Mock).mockReturnValue({ getWorldState });
+
+    buildContinuityContractFromStores(request);
+
+    expect(getWorldState).toHaveBeenCalledWith('world-1', { sessionId: 'session-1' });
   });
 
   it('catches a seeded contradiction (tanked trust written as warm) and corrects it', async () => {

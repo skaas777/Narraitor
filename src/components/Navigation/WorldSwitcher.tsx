@@ -88,8 +88,7 @@ export function WorldSwitcher() {
         </span>
         {currentWorld && worldCharacterCount > 0 && (
           <span className="world-switcher-count">
-            {worldCharacterCount}{' '}
-            {worldCharacterCount === 1 ? 'character' : 'characters'}
+            {worldCharacterCount} 个角色
           </span>
         )}
         <ChevronDown aria-hidden="true" />

@@ -152,21 +152,24 @@ export const createIndexedDBStorage = <T = unknown>(): PersistStorage<T> => ({
   },
   
   setItem: async (name: string, value: { state: T; version?: number }): Promise<void> => {
+    // Publish cloud-backed stores before awaiting IndexedDB. Zustand updates
+    // the in-memory store synchronously, so waiting for a disk transaction here
+    // can otherwise let an immediate navigation flush an older cloud snapshot.
+    const serialized = JSON.stringify(value);
+    if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, serialized);
     try {
       const storage = await getResilientStorage();
-      // Convert the StorageValue object to a JSON string
-      await storage.setItem(name, JSON.stringify(value));
-      if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, JSON.stringify(value));
+      await storage.setItem(name, serialized);
     } catch (error) {
       logger.error('Failed to set item', error);
     }
   },
   
   removeItem: async (name: string): Promise<void> => {
+    if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, null);
     try {
       const storage = await getResilientStorage();
       await storage.removeItem(name);
-      if (PERSONAL_CLOUD_ENABLED && isCloudStore(name)) writeCloudRecord(name, null);
     } catch (error) {
       logger.error('Failed to remove item', error);
     }

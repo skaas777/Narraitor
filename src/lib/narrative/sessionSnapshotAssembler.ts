@@ -78,7 +78,7 @@ export function assembleSessionSnapshot(
 
   const ws =
     typeof worldState?.getWorldState === 'function'
-      ? worldState.getWorldState(worldId)
+      ? worldState.getWorldState(worldId, { sessionId })
       : undefined;
 
   let loreContext = '';
