@@ -85,8 +85,8 @@ export function handleRateLimiting(request: NextRequest): {
   return { response: null, result: rateLimitResult };
 }
 
-/** Roughly 64KB. Gives ample room for multi-turn prompts and lore blocks while capping unbounded payloads. */
-export const MAX_AI_BODY_BYTES = 65_536;
+/** 512 KiB accommodates the bounded 120k-character archive in UTF-8, plus prompt/context overhead. */
+export const MAX_AI_BODY_BYTES = 524_288;
 
 /**
  * Shared wrapper for AI route handlers.

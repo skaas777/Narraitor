@@ -302,8 +302,10 @@ export interface NarrativeMetadata {
   majorEvent?: string;
   /** Only new or explicitly changed facts from this passage; stored with the save. */
   storyMemory?: StoryMemoryUpdate;
-  /** Legacy-history extraction has run for this session, even if it failed open. */
+  /** Legacy-history extraction succeeded; false permits a bounded retry after failure. */
   storyMemoryBackfilled?: boolean;
+  /** Failed extractions may retry on subsequent turns, at most three attempts per session. */
+  storyMemoryBackfillAttempts?: number;
   // Decision consequence tracking
   causedByDecisionId?: EntityID;
   causedByDecisionText?: string;

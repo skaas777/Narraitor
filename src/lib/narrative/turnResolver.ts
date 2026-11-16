@@ -299,8 +299,18 @@ async function resolveTurnInner(
 
   // Pre-turn snapshot for prompt context
   let preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
+  const memorySegments = preTurnSnapshot.segments;
+  const hasBackfillAttempt = memorySegments.some((segment) =>
+    segment.metadata.storyMemoryBackfilled !== undefined || segment.metadata.storyMemoryBackfillAttempts !== undefined);
+  const backfillAttempts = memorySegments.reduce((max, segment) =>
+    Math.max(max, segment.metadata.storyMemoryBackfillAttempts ?? 0), 0);
+  // Older builds marked failed extractions as complete without storing any memory.
+  // Retry those too, even if a later turn has already produced its own small delta.
+  const needsBackfill = hasBackfillAttempt
+    ? !memorySegments.some((segment) => segment.metadata.storyMemoryBackfilled && segment.metadata.storyMemory)
+    : !memorySegments.some((segment) => segment.metadata.storyMemory);
   if (preTurnSnapshot.segments.length > 3 &&
-      !preTurnSnapshot.segments.some((segment) => segment.metadata.storyMemory || segment.metadata.storyMemoryBackfilled) &&
+      needsBackfill && backfillAttempts < 3 &&
       typeof generator.prepareStoryMemory === 'function') {
     const last = preTurnSnapshot.segments.at(-1)!;
     let memory;
@@ -311,7 +321,12 @@ async function resolveTurnInner(
       logger.warn('[TurnResolver] Legacy memory extraction unavailable; retaining original archive context', { error });
     }
     useNarrativeStore.getState().updateSegment(last.id, {
-      metadata: { ...last.metadata, storyMemoryBackfilled: true, ...(memory ? { storyMemory: memory } : {}) },
+      metadata: {
+        ...last.metadata,
+        storyMemoryBackfilled: Boolean(memory),
+        storyMemoryBackfillAttempts: backfillAttempts + 1,
+        ...(memory ? { storyMemory: memory } : {}),
+      },
     });
     preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
   }

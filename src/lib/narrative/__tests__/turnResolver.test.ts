@@ -379,6 +379,40 @@ describe('TurnResolver', () => {
       expect(generator.prepareStoryMemory).toHaveBeenCalledTimes(1);
     });
 
+    it('retries a failed legacy extraction after reload, including the old failed-complete marker', async () => {
+      const seed = makeMockGenerator();
+      for (let turn = 0; turn < 5; turn++) await resolveTurn(makeCommand({ choiceId: `old-${turn}` }), seed);
+      const last = useNarrativeStore.getState().getSessionSegments('session-1').at(-1)!;
+      useNarrativeStore.getState().updateSegment(last.id, { metadata: { ...last.metadata, storyMemoryBackfilled: true } });
+      const generator = makeMockGenerator(makeGenerationResult({ metadata: {
+        characterIds: [], tags: [], storyMemory: { facts: [{ key: '本轮', value: '继续等待' }] },
+      } }));
+      generator.prepareStoryMemory = jest.fn()
+        .mockRejectedValueOnce(new Error('Payload too large'))
+        .mockResolvedValue({ facts: [{ key: '母亲', value: '下落仍不明' }] });
+      await resolveTurn(makeCommand({ choiceId: 'failed-migration' }), generator);
+      const saved = JSON.parse(JSON.stringify(useNarrativeStore.getState().getSessionSegments('session-1'))) as NarrativeSegment[];
+      expect(saved.find((entry) => entry.id === last.id)?.metadata).toMatchObject({
+        storyMemoryBackfilled: false, storyMemoryBackfillAttempts: 1,
+      });
+      useNarrativeStore.setState({ segments: Object.fromEntries(saved.map((entry) => [entry.id, entry])), sessionSegments: { 'session-1': saved.map((entry) => entry.id) } });
+      await resolveTurn(makeCommand({ choiceId: 'retry-migration' }), generator);
+      await resolveTurn(makeCommand({ choiceId: 'after-success' }), generator);
+      expect(generator.prepareStoryMemory).toHaveBeenCalledTimes(2);
+      expect(jest.mocked(generator.generateSegment).mock.calls.at(-1)?.[0].narrativeContext?.storyMemory).toContain('下落仍不明');
+      expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(8);
+    });
+
+    it('bounds unavailable legacy extraction to three attempts while retaining playable archive context', async () => {
+      const generator = makeMockGenerator();
+      for (let turn = 0; turn < 5; turn++) await resolveTurn(makeCommand({ choiceId: `old-${turn}` }), generator);
+      generator.prepareStoryMemory = jest.fn().mockRejectedValue(new Error('Unavailable'));
+      for (let turn = 0; turn < 5; turn++) await resolveTurn(makeCommand({ choiceId: `next-${turn}` }), generator);
+      expect(generator.prepareStoryMemory).toHaveBeenCalledTimes(3);
+      expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(10);
+      expect(jest.mocked(generator.generateSegment).mock.calls.at(-1)?.[0].narrativeContext?.storyMemory).toContain('EARLIER ORIGINAL EXCERPTS');
+    });
+
     it('repairs a repeated confiscation before storing exactly one new turn', async () => {
       const seed = makeMockGenerator(makeGenerationResult({ metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] } }));
       await resolveTurn(makeCommand(), seed);
