@@ -7,6 +7,12 @@ import { isFeatureEnabled } from '@/lib/featureFlags';
 jest.mock('@/lib/featureFlags', () => ({ isFeatureEnabled: jest.fn(() => false) }));
 
 describe('parseNarrativeResponse debris guard', () => {
+  it('keeps validated memory deltas even when experimental scene tracking is off', () => {
+    const storyMemory = { facts: [{ key: '第十八件收件人', value: '周德海，不是沈秋' }], completedSteps: [{ key: '核对件单', value: '已确认收件人' }], time: { day: 1, minute: 345, label: '卯三刻' } };
+    const parsed = parseNarrativeResponse({ content: JSON.stringify({ content: '你看清件单。', metadata: { storyMemory } }) }, 'scene');
+    expect(parsed.extractedMetadata.storyMemory).toEqual(storyMemory);
+  });
+
   it('parses only complete structured beats and ignores them with the flag off', () => {
     const response = (sceneBeat: unknown) => ({ content: JSON.stringify({
       content: 'The bus arrives.', metadata: { sceneBeat },

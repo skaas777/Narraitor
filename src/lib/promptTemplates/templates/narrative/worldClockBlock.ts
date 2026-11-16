@@ -57,9 +57,9 @@ const firedDueNowSection = (thread: PromptThread, register?: string): string => 
   if (thread.strikes >= FIRED_THREAD_MAX_STRIKES) return firedConcludeSection(thread);
   return `
 IN THE SCENE AND DUE NOW: ${thread.summary}. It has been in the scene since turn ${thread.firedAtTurn} and it has not yet acted.
-- In THIS segment it acts on the character, now, and the act costs them: something recordable they did not choose to give up, an item they hold (name it in itemsLost with lossReason "stolen" or "destroyed") or a lasting state they now carry, stated plainly in the prose. Or the matter is settled one way or the other, and the segment shows the outcome.
+- In THIS segment it acts on the character, now, or the matter is settled one way or the other. Show a concrete outcome: an answer, release, decision, gain, loss or changed objective. A recordable loss is appropriate only when established events justify it; it is NOT required for the world to move.
 - What the act looks like is this world's to decide, in its own register${register ? `: "${register}"` : ' (the Tone above)'}. A blow in one world is a vote lost, a name struck from a list, a debt called in; in another it is a blade. Do not borrow a harder genre's violence to make it land.
-- It does not wait, threaten again, announce itself, or take one more step closer. It is already here; no time cut is needed and none is granted. A thread that has arrived and takes nothing has not acted.`;
+- It does not wait, threaten again, announce itself, or take one more step closer. It is already here; no time cut is needed and none is granted. Do not demand another copy of already delivered evidence, replay a confiscation, or reopen an existing wound to postpone the outcome.`;
 };
 
 /**
@@ -109,7 +109,7 @@ export const worldClockBlock = (worldClock?: WorldClockPromptContext): string =>
         ? `- This segment MUST advance, bring due, or resolve at least ONE thread above, in the prose, as something the player did not do. The DUE NOW thread ${dueNow.fired ? 'acts' : 'lands'} this segment (see below); the rest may move or wait.
 - Advance means the world moves on it: the actor arrives or acts, the deadline lands or presses, the consequence comes home. Not a reminder that it exists.`
         : allFired
-          ? `- Every thread above is already in the scene, so this segment MUST move at least one of them by its next move, its cost, or its outcome, AND bring one new pressure in from off-stage: ${OFFSTAGE_MOVE_ASK}`
+          ? `- Every thread above is already in the scene, so this segment MUST move at least one of them to a concrete outcome. Resolve an existing matter before adding a new pressure; a quiet aftermath or success is allowed. Do not keep opening replacement obstacles.`
           : `- This segment MUST advance, bring due, or resolve at least ONE thread above, in the prose, as something the player did not do. Prefer an OVERDUE thread, then the oldest.
 - Advance means the world moves on it: the actor arrives or acts, the deadline lands or presses, the consequence comes home. Not a reminder that it exists.`;
 

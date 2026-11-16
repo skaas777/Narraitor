@@ -300,6 +300,10 @@ export interface NarrativeMetadata {
   itemsLost?: LostItemMetadata[];
   // Major event tracking
   majorEvent?: string;
+  /** Only new or explicitly changed facts from this passage; stored with the save. */
+  storyMemory?: StoryMemoryUpdate;
+  /** Legacy-history extraction has run for this session, even if it failed open. */
+  storyMemoryBackfilled?: boolean;
   // Decision consequence tracking
   causedByDecisionId?: EntityID;
   causedByDecisionText?: string;
@@ -329,6 +333,13 @@ export type DecisionOutcome =
   | 'critical-success'
   | 'critical-failure';
 
+/** Incremental, persisted canon. Keys identify questions/objects, never prose variants. */
+export interface StoryMemoryUpdate {
+  facts?: Array<{ key: string; value: string }>;
+  completedSteps?: Array<{ key: string; value: string }>;
+  time?: { day: number; minute: number; label: string };
+}
+
 /**
  * Represents a narrative generation request
  */
@@ -354,6 +365,10 @@ export interface ChapterContext {
 }
 
 export interface NarrativeContext {
+  /** Canon projected from the whole save, separate from the recent prose window. */
+  storyMemory?: string;
+  /** A failed pre-commit check's precise repair instruction. */
+  continuityRepair?: string;
   chapter?: ChapterContext;
   worldId: EntityID;
   currentSceneId: EntityID;
@@ -411,6 +426,7 @@ export interface NarrativeGenerationResult {
   content: string;
   segmentType: 'scene' | 'dialogue' | 'action' | 'transition';
   metadata: {
+    storyMemory?: StoryMemoryUpdate;
     characterIds: EntityID[];
     sceneEntries?: EntityID[];
     sceneExits?: EntityID[];

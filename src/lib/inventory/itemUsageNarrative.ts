@@ -9,6 +9,8 @@ import type { EntityID } from '@/types/common.types';
 import type { InventoryItem } from '@/types/inventory.types';
 import type { NarrativeGenerationResult } from '@/types/narrative.types';
 import { safeTrim } from '@/lib/utils';
+import { useInventoryStore } from '@/state/inventoryStore';
+import { buildStoryMemoryContext } from '@/lib/narrative/storyMemory';
 
 export interface ItemUsageNarrativeDetails {
   wasConsumed?: boolean;
@@ -178,6 +180,7 @@ export async function generateItemUsageNarrative(
           ...(chapter ? { chapter: { ...chapter, isEnding: false } } : {}),
           previousSegments,
           recentSegments,
+          storyMemory: buildStoryMemoryContext(allSegments, useInventoryStore.getState().getCharacterItems(characterId), item.name, character.status.conditions),
           currentTags,
           currentLocation: lastSegment?.metadata?.location,
           currentSituation: situationLines.join(' '),

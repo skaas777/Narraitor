@@ -10,7 +10,7 @@ import {
   formatContinuityExpectations,
   CONTINUITY_CORRECTION_HEADER,
 } from '../continuityGuardrail';
-import { collectContinuityTopics } from '../continuityLedger';
+import { collectContinuityTopics, termPattern, topicTerms } from '../continuityLedger';
 import type { EntityID } from '@/types/common.types';
 import type { LoreFact } from '@/types/lore.types';
 import type {
@@ -50,6 +50,24 @@ const buildMiraContract = (trust = 5, sentiment = -80): ContinuityContract =>
     npcNames: { 'npc-mira': 'Mira' },
     recentDecisions: [{ text: 'Betray the herbalist', outcome: 'success' }],
   });
+
+describe('Chinese continuity checks', () => {
+  it('matches short Chinese names and topics without ASCII word boundaries', () => {
+    expect(termPattern('老周').test('你找到老周，问他船的事。')).toBe(true);
+    expect(topicTerms('梁信')).toEqual(['梁信']);
+  });
+
+  it('detects a dead character returning in Chinese, without treating a memory as a return', () => {
+    const contract = buildContinuityContract({
+      facts: [makeFact({ value: '老周 - 船夫', aliases: [], metadata: { description: '老周已经身亡。' } })],
+      npcRelationships: {}, npcNames: {}, recentDecisions: [],
+    });
+    expect(detectContinuityIssues('老周走进门房，开口说道：“跟我来。”', contract)).toEqual([
+      expect.objectContaining({ type: 'reversed-fact', entity: '老周' }),
+    ]);
+    expect(detectContinuityIssues('你回忆起老周曾经站在船头的样子。', contract)).toEqual([]);
+  });
+});
 
 describe('buildContinuityContract', () => {
   it('joins relationships to lore aliases and derives tone from trust/sentiment', () => {

@@ -122,7 +122,7 @@ describe('sceneTemplate world clock block', () => {
     expect(prompt).not.toContain('Pick up IMMEDIATELY');
   });
 
-  it('renders a fired thread as already in the scene by its own summary, and asks for something new when everything has fired', () => {
+  it('renders an arrived thread once and resolves it before adding replacement obstacles', () => {
     const fired = {
       kind: 'actor' as const,
       summary: 'Henderson comes to collect the roof loan',
@@ -141,7 +141,8 @@ describe('sceneTemplate world clock block', () => {
     expect(oneFired).toContain('has already arrived');
     expect(oneFired).toContain('never arrive it again');
     expect(oneFired).toContain('Every thread above is already in the scene');
-    expect(oneFired).toContain('NPC roster who is not in the scene');
+    expect(oneFired).toContain('Resolve an existing matter before adding a new pressure');
+    expect(oneFired).not.toContain('AND bring one new pressure');
 
     const withUnfired = sceneTemplate(
       makeContext({
@@ -181,8 +182,8 @@ describe('sceneTemplate world clock block', () => {
     expect(prompt).toContain('The creature is inside the shed [IN THE SCENE since turn 12, DUE NOW]');
     expect(prompt).toContain('IN THE SCENE AND DUE NOW: The creature is inside the shed. It has been in the scene since turn 12');
     expect(prompt).toContain('The DUE NOW thread acts this segment');
-    expect(prompt).toContain('it acts on the character, now, and the act costs them');
-    expect(prompt).toContain('name it in itemsLost with lossReason "stolen" or "destroyed"');
+    expect(prompt).toContain('A recordable loss is appropriate only when established events justify it');
+    expect(prompt).toContain('Do not demand another copy of already delivered evidence');
     expect(prompt).toContain('no time cut is needed and none is granted');
     expect(prompt).not.toContain('this segment is a "transition"');
     expect(prompt).not.toContain('It has been overdue for');

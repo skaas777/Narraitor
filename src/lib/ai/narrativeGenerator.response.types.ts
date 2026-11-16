@@ -1,7 +1,8 @@
-import type { GeneratedCharacterMetadata, LostItemMetadata } from '@/types/narrative.types';
+import type { GeneratedCharacterMetadata, LostItemMetadata, StoryMemoryUpdate } from '@/types/narrative.types';
 import type { InventoryAcquisitionMethod, StandardInventoryCategory } from '@/types/inventory.types';
 
 export interface NarrativeExtractedMetadata {
+  storyMemory?: StoryMemoryUpdate;
   location?: string;
   mood?:
     | 'tense'

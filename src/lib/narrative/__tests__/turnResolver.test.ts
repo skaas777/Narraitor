@@ -64,6 +64,7 @@ jest.mock('../turnsSinceComplication', () => ({
 }));
 
 jest.mock('../itemLossInference', () => ({
+  ...jest.requireActual('../itemLossInference'),
   inferItemsLostFromNarrative: jest.fn(() => []),
 }));
 
@@ -363,6 +364,42 @@ describe('TurnResolver', () => {
   });
 
   describe('resolveTurn', () => {
+    it('migrates legacy memory once and carries it through a save reload without advancing extra turns', async () => {
+      const generator = makeMockGenerator();
+      for (let turn = 0; turn < 5; turn++) await resolveTurn(makeCommand({ choiceId: `old-${turn}` }), generator);
+      generator.prepareStoryMemory = jest.fn().mockResolvedValue({ facts: [{ key: '母亲', value: '下落仍不明' }], completedSteps: [] });
+      await resolveTurn(makeCommand({ choiceId: 'migrate' }), generator);
+      expect(generator.prepareStoryMemory).toHaveBeenCalledTimes(1);
+      expect(jest.mocked(generator.generateSegment).mock.calls.at(-1)?.[0].narrativeContext?.storyMemory).toContain('下落仍不明');
+      const saved = useNarrativeStore.getState().getSessionSegments('session-1');
+      expect(saved).toHaveLength(6);
+      const restored = JSON.parse(JSON.stringify(saved)) as NarrativeSegment[];
+      useNarrativeStore.setState({ segments: Object.fromEntries(restored.map((entry) => [entry.id, entry])), sessionSegments: { 'session-1': restored.map((entry) => entry.id) } });
+      await resolveTurn(makeCommand({ choiceId: 'after-reload' }), generator);
+      expect(generator.prepareStoryMemory).toHaveBeenCalledTimes(1);
+    });
+
+    it('repairs a repeated confiscation before storing exactly one new turn', async () => {
+      const seed = makeMockGenerator(makeGenerationResult({ metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] } }));
+      await resolveTurn(makeCommand(), seed);
+      const generator = makeMockGenerator();
+      jest.mocked(generator.generateSegment)
+        .mockResolvedValueOnce(makeGenerationResult({ content: '稽查又收走你的梁信。', metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] } }))
+        .mockResolvedValueOnce(makeGenerationResult({ content: '稽查核对已经扣押的梁信，确认了签名。' }));
+      const turn = await resolveTurn(makeCommand({ choiceId: 'next' }), generator);
+      expect(generator.generateSegment).toHaveBeenCalledTimes(2);
+      expect(jest.mocked(generator.generateSegment).mock.calls[1][0].narrativeContext?.continuityRepair).toContain('already lost');
+      expect(turn.segment.content).toContain('确认了签名');
+      expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(2);
+    });
+
+    it('rejects a persistently invalid draft without changing the saved story', async () => {
+      await resolveTurn(makeCommand(), makeMockGenerator(makeGenerationResult({ metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] } })));
+      const generator = makeMockGenerator(makeGenerationResult({ metadata: { characterIds: [], tags: [], itemsLost: [{ name: '梁信' }] } }));
+      await expect(resolveTurn(makeCommand({ choiceId: 'next' }), generator)).rejects.toThrow('未推进进度');
+      expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(1);
+    });
+
     describe('scene stall breaker', () => {
       const quietTurnLimit = 5;
 
