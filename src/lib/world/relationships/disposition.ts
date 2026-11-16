@@ -1,3 +1,5 @@
+import { displayLabel } from '@/lib/i18n/zhCN';
+
 /**
  * Maps an NPC trust value (0..100, default 50) to a player-facing
  * disposition label. Pure helper shared by SceneStatus and anything else
@@ -14,4 +16,4 @@ export const getTrustDisposition = (trust: number): TrustDisposition => {
 };
 
 export const formatDisposition = (disposition: TrustDisposition): string =>
-  disposition.charAt(0).toUpperCase() + disposition.slice(1);
+  displayLabel(disposition);

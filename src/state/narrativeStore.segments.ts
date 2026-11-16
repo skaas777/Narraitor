@@ -18,6 +18,7 @@ import type { NarrativeStoreSet, NarrativeStoreGet } from './narrativeStore.type
 
 const normalizeLocationKey = (value: string): string =>
   safeTrim(value)
+    .replace(/['’]s\b/gi, '')
     .replace(/[“”"‘’'`´]/g, '')
     .replace(/\s+/g, ' ')
     .toLowerCase();
@@ -75,7 +76,13 @@ export const createNarrativeSegmentActions = (
         ? safeTrim(metadata.location).replace(/\s+/g, ' ')
         : '';
       const previousLocation = previousSegment?.metadata?.location;
-      const location = [transitionTo, currentPlace, previousLocation, label]
+      // Models sometimes report the destination in location without also
+      // emitting sceneTransition. Keep that explicit new location rather than
+      // overwriting it with yesterday's scene record.
+      const canonicalLabel = label && currentPlace &&
+        normalizeLocationKey(label) === normalizeLocationKey(currentPlace)
+        ? currentPlace : label;
+      const location = [transitionTo, canonicalLabel, currentPlace, previousLocation]
         .find((place) => place && place !== FIRST_SEGMENT_LOCATION);
       if (location) {
         metadata = { ...(metadata ?? { tags: [] }), location };
@@ -145,6 +152,12 @@ export const createNarrativeSegmentActions = (
       speakerId: metadata?.speakerId,
       itemsAcquired: metadata?.itemsAcquired,
       itemsLost: metadata?.itemsLost,
+      // Preserve continuity metadata produced by the resolver. These fields
+      // are intentionally absent from the rendered UI but are the durable
+      // source for long-term memory and legacy-save migration.
+      storyMemory: metadata?.storyMemory,
+      storyMemoryBackfilled: metadata?.storyMemoryBackfilled,
+      storyMemoryBackfillAttempts: metadata?.storyMemoryBackfillAttempts,
       endingId: metadata?.endingId,
       endingData: metadata?.endingData,
       tone: metadata?.tone,

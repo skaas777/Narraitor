@@ -197,6 +197,25 @@ describe('itemLossProcessor', () => {
       expect(mockRemoveItem).toHaveBeenCalledWith('character-123', 'item-1', 1);
     });
 
+    it('removes an owned presentation alias using the canonical item name', async () => {
+      characterItems = [{
+        id: 'item-registration-page',
+        name: '撕走的登记页',
+        quantity: 1,
+        categoryId: 'quest-items',
+        stackable: false,
+      }] as InventoryItem[];
+
+      await processLostItems(
+        [{ name: '登记页', quantity: 1, lossReason: 'destroyed' }],
+        'character-123',
+        'session-456'
+      );
+
+      expect(mockRemoveItem).toHaveBeenCalledWith('character-123', 'item-registration-page', 1);
+      expect(mockCheckSimilarity).not.toHaveBeenCalled();
+    });
+
     it('uses exact itemId if provided', async () => {
       const lossMetadata: LostItemMetadata = {
         name: 'Wrong Name',

@@ -62,10 +62,10 @@ export const parseChoiceResponse = (
     if (promptMatch && promptMatch[1]) {
       prompt = safeTrim(promptMatch[1]);
       if (!prompt || prompt.length < 3) {
-        prompt = 'What will you do?';
+        prompt = '你准备怎么做？';
       }
     } else {
-      prompt = 'What will you do?';
+      prompt = '你准备怎么做？';
     }
 
     const options: DecisionOption[] = [];
@@ -174,7 +174,7 @@ export const parseChoiceResponse = (
     logger.error('Error parsing choice response:', error);
     return {
       id: decisionId,
-      prompt: 'What will you do?',
+      prompt: '你准备怎么做？',
       options: createDefaultOptions(),
     };
   }
@@ -183,7 +183,7 @@ export const parseChoiceResponse = (
 export const createFallbackContextSummary = (
   narrativeContext: NarrativeContext
 ): string => {
-  const location = narrativeContext.currentLocation || 'an unknown location';
+  const location = narrativeContext.currentLocation || '未知地点';
   const recentSegments =
     narrativeContext.recentSegments || narrativeContext.previousSegments || [];
   if (recentSegments.length > 0) {

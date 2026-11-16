@@ -31,6 +31,7 @@ const emitFreshStart = (isForcedFresh: boolean) =>
     characterId: 'char-1',
     isNewSession: true,
     isForcedFresh,
+    hasPreviousSession: true,
   });
 
 const ensureHydrated = async () => {

@@ -928,14 +928,11 @@ async function commitAndSettleGeneratedTurn({
     useNarrativeStore.getState().segments[storedSegmentId] ?? newSegment;
   if (isFeatureEnabled('SCENE_STATE')) {
     const hadSceneRecord = Boolean(useSceneStore.getState().scenes[sessionId]);
-    const currentPlace = useSceneStore.getState().scenes[sessionId]?.location;
     const transitionTo = storedSegment.metadata.sceneTransition?.to;
     const transitionTarget = typeof transitionTo === 'string' ? transitionTo.trim() : '';
     const nextPlace = transitionTarget && transitionTarget !== FIRST_SEGMENT_LOCATION
       ? transitionTarget
-      : !currentPlace || currentPlace === FIRST_SEGMENT_LOCATION
-        ? storedSegment.metadata.location
-        : undefined;
+      : storedSegment.metadata.location;
     if (nextPlace && nextPlace !== FIRST_SEGMENT_LOCATION) {
       useSceneStore.getState().setLocation(sessionId, nextPlace);
     }

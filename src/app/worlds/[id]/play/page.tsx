@@ -34,6 +34,7 @@ export default function PlayPage() {
   const [isClient, setIsClient] = useState(false);
   const [showStartNewConfirmation, setShowStartNewConfirmation] = useState(false);
   const [showExitConfirmation, setShowExitConfirmation] = useState(false);
+  const [freshGeneration, setFreshGeneration] = useState(0);
 
   // Check for test data to support visual regression tests (guarded for SSR)
   // Always call hooks and use persisted store data
@@ -46,6 +47,17 @@ export default function PlayPage() {
 
   // Check if this should be a fresh session (from "Start New Session" button)
   const disableAutoResume = searchParams?.get('fresh') === 'true';
+
+  // Advance the component generation during the render that receives a fresh
+  // request, so the remounted GameSession sees disableAutoResume=true from its
+  // first render. Consuming the query keeps this generation stable.
+  const previousFreshRequestRef = useRef(disableAutoResume);
+  if (disableAutoResume && !previousFreshRequestRef.current) {
+    previousFreshRequestRef.current = true;
+    setFreshGeneration((generation) => generation + 1);
+  } else if (!disableAutoResume) {
+    previousFreshRequestRef.current = false;
+  }
 
   const currentProgress = currentSessionId ? getSessionSegments(currentSessionId).length : 0;
 
@@ -102,19 +114,30 @@ export default function PlayPage() {
   }, []);
 
   // Handle Start New button click with confirmation
+  const startFreshSession = () => {
+    // Pushing the same URL again does not remount the play screen.
+    if (disableAutoResume) setFreshGeneration((generation) => generation + 1);
+    router.push(`/worlds/${worldId}/play?fresh=true`);
+  };
+
+  const handleSessionStarted = () => {
+    // Consume the request after initialization, so refreshing resumes this run.
+    if (disableAutoResume) router.replace(`/worlds/${worldId}/play`);
+  };
+
   const handleStartNewClick = () => {
     if (currentProgress > 0) {
       setShowStartNewConfirmation(true);
     } else {
       // No progress to lose, directly start new session
-      router.push(`/worlds/${worldId}/play?fresh=true`);
+      startFreshSession();
     }
   };
 
   // Handle confirmed start new session
   const handleConfirmedStartNew = () => {
     setShowStartNewConfirmation(false);
-    router.push(`/worlds/${worldId}/play?fresh=true`);
+    startFreshSession();
   };
 
   // Exit prompts confirmation only when there's narrative progress to abandon.
@@ -162,8 +185,10 @@ export default function PlayPage() {
       <ProviderGate />
 
       <GameSession
+        key={`${worldId}:${freshGeneration}`}
         worldId={worldId}
         disableAutoResume={disableAutoResume}
+        onSessionStart={handleSessionStarted}
         onStartNew={handleStartNewClick}
         onBack={handleBackClick}
       />

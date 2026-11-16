@@ -7,6 +7,7 @@
 import { distance } from 'fastest-levenshtein';
 import type { EntityID } from '@/types/common.types';
 import { normalizeText, NORM_NAME } from '@/lib/utils';
+import { sameItemName } from './itemLossInference';
 
 import Logger from '@/lib/utils/logger';
 const logger = new Logger('ItemProcessorShared');
@@ -35,6 +36,13 @@ function containsAsWholeWords(longer: string, shorter: string): boolean {
  */
 function namesAreObviousMatch(normalized1: string, normalized2: string): boolean {
   if (!normalized1 || !normalized2) return false;
+
+  // Edit-distance heuristics are useful for Latin typos, but a one-character
+  // difference in Chinese often changes the item's identity (红钥匙 vs 蓝钥匙).
+  // Chinese aliases are handled explicitly by sameItemName above.
+  if (/\p{Script=Han}/u.test(normalized1) || /\p{Script=Han}/u.test(normalized2)) {
+    return false;
+  }
 
   const shorter =
     normalized1.length <= normalized2.length ? normalized1 : normalized2;
@@ -66,7 +74,7 @@ export async function itemNamesMatch(name1: string, name2: string): Promise<bool
   const normalized1 = normalizeText(name1 || '', NORM_NAME).toLowerCase();
   const normalized2 = normalizeText(name2 || '', NORM_NAME).toLowerCase();
 
-  if (normalized1 === normalized2) return true;
+  if (normalized1 === normalized2 || sameItemName(name1, name2)) return true;
 
   // Resolve obvious duplicates locally before paying for an AI similarity call.
   if (namesAreObviousMatch(normalized1, normalized2)) return true;
@@ -76,8 +84,9 @@ export async function itemNamesMatch(name1: string, name2: string): Promise<bool
     const result = await checkItemSimilarityClient({ name1, name2 });
     return result.similar && result.confidence > 0.7;
   } catch (error) {
-    logger.warn('AI similarity check failed, using fallback:', error);
-    return normalized1.includes(normalized2) || normalized2.includes(normalized1);
+    logger.warn('AI similarity check failed; refusing to infer item equivalence:', error);
+    // A failed semantic check must not merge distinct inventory entries.
+    return false;
   }
 }
 

@@ -19,6 +19,6 @@ describe('getTrustDisposition', () => {
 
 describe('formatDisposition', () => {
   it('capitalizes the label', () => {
-    expect(formatDisposition('wary')).toBe('Wary');
+    expect(formatDisposition('wary')).toBe('警惕');
   });
 });

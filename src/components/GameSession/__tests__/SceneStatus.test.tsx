@@ -94,7 +94,7 @@ describe('SceneStatus dispositions', () => {
       <SceneStatus segment={makeSegment({ worldId: 'world-1', characterIds: ['npc-guard'] })} />
     );
 
-    const disposition = screen.getByText('Hostile');
+    const disposition = screen.getByText('敌对');
     expect(disposition).toHaveAttribute('data-disposition', 'hostile');
   });
 });

@@ -167,6 +167,17 @@ export const useSessionStore = create<SessionStore>()(
         characterId,
         isNewSession,
         isForcedFresh: force,
+        hasPreviousSession: Boolean(
+          (currentState.id &&
+            currentState.worldId === worldId &&
+            currentState.characterId === characterId) ||
+          Object.values(currentState.savedSessions).some((saved) =>
+            saved.worldId === worldId && saved.characterId === characterId
+          ) ||
+          Object.values(currentState.sessionLifecycle).some((entry) =>
+            entry.worldId === worldId && entry.characterId === characterId
+          )
+        ),
       });
     }
 

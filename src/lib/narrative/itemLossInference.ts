@@ -17,12 +17,31 @@ const LOSS_REASON_PATTERNS: Array<{ reason: ItemLossReason; pattern: RegExp }> =
 const normalizeForMatch = (value: string): string =>
   normalizeText(value, NORM_NAME).toLowerCase();
 
+// Remove only narrative presentation wrappers that do not identify an item.
+// Keep colors, owners, numbers, recipients, and other arbitrary descriptors:
+// "张三的信" and "李四的信" must remain different items.
+const PRESENTATION_PREFIXES = /^(?:撕走的|撕下的|无寄件人的)/u;
+
+const canonicalItemName = (value: string): string => {
+  let result = normalizeForMatch(value);
+  let previous = '';
+  while (result && result !== previous) {
+    previous = result;
+    result = result.replace(PRESENTATION_PREFIXES, '');
+  }
+  return result;
+};
+
 const NON_EVENT = /\b(not|never|didn't|don't|would|could|might|plan|intend|remember|recall|if)\b|没有|并未|尚未|不曾|不要|别把|不肯|拒绝|打算|准备|想要|如果|假如|倘若|想起|记得|回忆|此前|先前|昨天|早已/i;
 const INCOMING_ITEM = /\b(?:hands?|gives?|returns?)\s+(?:it\s+)?to you\b|\b(?:you receive|you accept)\b|交还给你|还给你|递给你|交给你|塞给你|送给你|你接过|你收下/i;
 
 /** Conservative identity match for inference and pre-commit inventory checks. */
 export function sameItemName(a: string, b: string): boolean {
-  return Boolean(a && b) && normalizeForMatch(a) === normalizeForMatch(b);
+  if (!a || !b) return false;
+  const normalizedA = canonicalItemName(a);
+  const normalizedB = canonicalItemName(b);
+  if (normalizedA === normalizedB) return true;
+  return false;
 }
 
 function quantityFromClause(clause: string, item: InventoryItem): number {

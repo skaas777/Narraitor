@@ -56,4 +56,30 @@ describe('itemNamesMatch dedup heuristics', () => {
 
     expect(mockCheckSimilarity).toHaveBeenCalledTimes(1);
   });
+
+  it.each([
+    ['无寄件人的旧信', '旧信'],
+    ['登记页', '撕走的登记页'],
+  ])('matches an explicit story-item alias without an AI call: %s / %s', async (first, second) => {
+    await expect(itemNamesMatch(first, second)).resolves.toBe(true);
+    expect(mockCheckSimilarity).not.toHaveBeenCalled();
+  });
+
+  it('defers semantic Chinese item aliases to the similarity model', async () => {
+    mockCheckSimilarity.mockResolvedValueOnce({ similar: true, confidence: 0.9 });
+    await expect(itemNamesMatch('旧布条', '缠手布条')).resolves.toBe(true);
+    expect(mockCheckSimilarity).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not merge unrelated Chinese items that share a generic noun', async () => {
+    await expect(itemNamesMatch('红钥匙', '蓝钥匙')).resolves.toBe(false);
+    expect(mockCheckSimilarity).toHaveBeenCalledTimes(1);
+  });
+
+  it('fails closed when the AI similarity service is unavailable', async () => {
+    mockCheckSimilarity.mockRejectedValueOnce(new Error('service unavailable'));
+
+    await expect(itemNamesMatch('登记页', '撕走的登记簿')).resolves.toBe(false);
+    expect(mockCheckSimilarity).toHaveBeenCalledTimes(1);
+  });
 });

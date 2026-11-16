@@ -723,7 +723,7 @@ describe('TurnResolver', () => {
       expect(promptContext.sceneState).toEqual({ location: 'Muddy Lake', presentNpcNames: ['Guard'], completedBeats: [] });
     });
 
-    it('moves the recorded place only for a structured transition', async () => {
+    it('moves the recorded place to the explicit transition target', async () => {
       const { sessionId, worldId, characterId } = seedItemUseStores();
       useSceneStore.setState({ scenes: {} });
       useSceneStore.getState().setLocation(sessionId, 'Muddy Lake');
@@ -740,6 +740,26 @@ describe('TurnResolver', () => {
       const result = await resolveTurn(makeCommand({ sessionId, worldId, characterId }), generator);
       expect(result.segment.metadata.location).toBe('Old Mill');
       expect(result.snapshot.sceneState?.location).toBe('Old Mill');
+    });
+
+    it('keeps a destination reported only in location and uses it on the next turn', async () => {
+      const { sessionId, worldId, characterId } = seedItemUseStores();
+      useSceneStore.setState({ scenes: {} });
+      useSceneStore.getState().setLocation(sessionId, '邮戳间');
+      const { isFeatureEnabled } = jest.requireMock('@/lib/featureFlags');
+      (isFeatureEnabled as jest.Mock).mockImplementation((flag: string) => flag === 'SCENE_STATE');
+      const generator = makeMockGenerator(makeGenerationResult({
+        content: '你沿楼梯来到二楼档案室。',
+        metadata: { characterIds: [], tags: [], location: '二楼档案室' },
+      }));
+
+      const result = await resolveTurn(makeCommand({ sessionId, worldId, characterId }), generator);
+      expect(result.segment.metadata.location).toBe('二楼档案室');
+      expect(result.snapshot.sceneState?.location).toBe('二楼档案室');
+
+      await resolveTurn(makeCommand({ sessionId, worldId, characterId }), generator);
+      expect(jest.mocked(generator.generateSegment).mock.calls[1][0].narrativeContext?.sceneState?.location)
+        .toBe('二楼档案室');
     });
 
     it('uses the transition target when the stored location label conflicts', async () => {
