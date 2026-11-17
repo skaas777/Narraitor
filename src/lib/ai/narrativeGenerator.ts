@@ -188,20 +188,22 @@ export class NarrativeGenerator {
       throwIfAborted(options?.signal);
       recordRequestCalibration(finalPrompt, response);
 
+      const acquisitionContext = {
+        heldItems: characterInventory,
+        previousPassage: request.narrativeContext?.previousSegments?.at(-1)?.content,
+        playerAction: request.narrativeContext?.currentSituation,
+        knownNpcs: context.npcRoster.map(({ id, name }) => ({ id, name })),
+        storyMemoryContext: request.narrativeContext?.storyMemory,
+      };
       let result = await formatNarrativeResponse(
         response,
         inferSegmentType(response.content || ''),
         this.geminiClient,
         getCarryForwardLocation(request.narrativeContext),
         useSceneStore.getState().scenes[request.sessionId]?.presentNpcIds ?? [],
-        {
-          heldItems: characterInventory,
-          previousPassage: request.narrativeContext?.previousSegments?.at(-1)?.content,
-          playerAction: request.narrativeContext?.currentSituation,
-          knownNpcs: context.npcRoster.map(({ id, name }) => ({ id, name })),
-          storyMemoryContext: request.narrativeContext?.storyMemory,
-        }
+        acquisitionContext
       );
+      const validatedContent = result.content;
 
       result = await enforceLanguageComplexity(result, toneSettings, this.geminiClient);
 
@@ -212,6 +214,19 @@ export class NarrativeGenerator {
         worldId: request.worldId,
         sessionId: request.sessionId,
       });
+
+      // A language/continuity rewrite invalidates state extracted from the
+      // original draft. Validate the final text before the resolver commits it.
+      if (result.content !== validatedContent) {
+        const refreshed = await formatNarrativeResponse({ content: JSON.stringify({
+          content: result.content, metadata: { characters: result.metadata.characters },
+        }) }, result.segmentType, this.geminiClient,
+        getCarryForwardLocation(request.narrativeContext), result.metadata.characterIds, acquisitionContext);
+        result = { ...result, metadata: {
+          ...result.metadata, ...refreshed.metadata,
+          tags: result.metadata.tags, mood: result.metadata.mood,
+        } };
+      }
 
       // A world-clock boundary is resolver-selected state, not a model
       // classification. Keep it recorded even if the response labels its own

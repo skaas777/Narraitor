@@ -71,5 +71,5 @@ it('preserves explicit no-loss and primary state when fallback analysis disagree
   expect(result.metadata.itemsLost).toBeUndefined();
   expect(result.metadata.location).toBe('温室侧舱');
   expect(result.metadata.storyMemory).toEqual(memory);
-  expect(mockAnalysis.mock.calls.at(-1)?.[4]?.knownNpcs).toBeUndefined();
+  expect(mockAnalysis.mock.calls.at(-1)?.[4]?.knownNpcs).toEqual([{ id: 'zhou-lan', name: '周岚' }]);
 });

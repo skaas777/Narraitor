@@ -39,10 +39,10 @@ const OFFSTAGE_MOVE_ASK = `pick someone from the NPC roster who is not in the sc
  * due-now section is the one place the prompt grants a forward cut, and it
  * names a single thread so the ask cannot be spread thin across four.
  */
-const dueNowSection = (thread: PromptThread): string => `
+const dueNowSection = (thread: PromptThread, allowTimeSkip = false): string => `
 DUE NOW: ${thread.summary}. It has been overdue for ${pluralTurns(thread.overdueByTurns)}.
 - In THIS segment it lands: the vote is held and decided, the report arrives, the actor walks in, the thing at the door comes through, the debt is collected. Show it happening and what it costs or changes; calling for it, hearing it again, or setting off toward it does not count.
-- If the scene as it stands cannot reach that moment, this segment is a "transition": let the story time pass and open at the moment it lands. For this one segment that overrides "pick up immediately"; time may jump FORWARD to reach it. Never backward.
+${allowTimeSkip ? '- If the player-authorized passage of time reaches that moment, this segment is a "transition"; time may jump FORWARD to reach it, within the requested duration. Never backward.' : '- Turn age is NOT elapsed story time. Do not jump ahead to make this deadline land. If it cannot occur during the submitted action, leave it pending without another reminder or demand.'}
 - It has already been announced. Do not deliver it as fresh news, do not have anyone remind the player it is coming, do not foreshadow it again. It happens, and the segment shows the consequence.`;
 
 /**
@@ -53,8 +53,8 @@ DUE NOW: ${thread.summary}. It has been overdue for ${pluralTurns(thread.overdue
  * world's own register: round 10's "strikes, seizes, the blow" pulled a
  * no-violence civic drama into a poisoned package.
  */
-const firedDueNowSection = (thread: PromptThread, register?: string): string => {
-  if (thread.strikes >= FIRED_THREAD_MAX_STRIKES) return firedConcludeSection(thread);
+const firedDueNowSection = (thread: PromptThread, register?: string, allowTimeSkip = false): string => {
+  if (thread.strikes >= FIRED_THREAD_MAX_STRIKES) return firedConcludeSection(thread, allowTimeSkip);
   return `
 IN THE SCENE AND DUE NOW: ${thread.summary}. It has been in the scene since turn ${thread.firedAtTurn} and it has not yet acted.
 - In THIS segment it acts on the character, now, or the matter is settled one way or the other. Show a concrete outcome: an answer, release, decision, gain, loss or changed objective. A recordable loss is appropriate only when established events justify it; it is NOT required for the world to move.
@@ -70,10 +70,10 @@ IN THE SCENE AND DUE NOW: ${thread.summary}. It has been in the scene since turn
  * closing, and a forward cut is granted because a scene that will not change
  * on its own may need one to end.
  */
-const firedConcludeSection = (thread: PromptThread): string => `
+const firedConcludeSection = (thread: PromptThread, allowTimeSkip = false): string => `
 IN THE SCENE AND DUE NOW: ${thread.summary}. It has been in the scene since turn ${thread.firedAtTurn} and it has acted ${pluralTimes(thread.strikes)} without the matter closing. It does not act again.
 - In THIS segment the matter CONCLUDES, one way or the other: it is settled (won, lost, paid, escaped, finished), or the actor is gone or permanently changed, or the character is somewhere else and out of its reach. Show the outcome happening, not a promise of it.
-- If the scene as it stands cannot reach that ending, this segment is a "transition": let the story time pass and open at the moment the matter has closed or the character is clear of it. For this one segment that overrides "pick up immediately"; time may jump FORWARD. Never backward.
+${allowTimeSkip ? '- Within the time passage the player authorized, this segment is a "transition": time may jump FORWARD, never backward, to a reachable outcome.' : '- Conclude only what can actually finish during this action. Do not move the player, skip hours/days, or spend their resources to force a conclusion.'}
 - Another blow, another wound, another escalation that leaves everything standing where it stood does not count. The scene ends, the state changes, or the character moves on.`;
 
 /**
@@ -88,7 +88,8 @@ IN THE SCENE AND DUE NOW: ${thread.summary}. It has been in the scene since turn
 export const worldClockBlock = (worldClock?: WorldClockPromptContext): string => {
   if (!worldClock) return '';
 
-  const { currentTurn, turnsSinceWorldMoved, threads, register } = worldClock;
+  const { currentTurn, turnsSinceWorldMoved, register } = worldClock;
+  const threads = worldClock.threads ?? [];
   const dueNow = threads.find((thread) => thread.dueNow);
 
   const ledgerLines =
@@ -100,6 +101,12 @@ export const worldClockBlock = (worldClock?: WorldClockPromptContext): string =>
           )
           .join('\n')
       : '- (nothing on the ledger yet)';
+
+  if (worldClock.quietAction) return `
+WORLD CLOCK — BACKGROUND CONTEXT ONLY FOR THIS QUIET ACTION:
+${ledgerLines}
+The player chose a quiet, bounded action. Complete it at its requested pace. A thread's turn age is not elapsed time; deadlines do not authorize a time jump. Leave unrelated threads pending. Do not add a visitor, reminder, shrinking seat count, changed ticket price, urgent booking deadline, or a replacement obstacle to redirect this action. A quiet successful aftermath is a valid scene. Only an established event that actually overlaps the requested duration can interrupt it; otherwise omit the pressure from the prose.
+`;
 
   const allFired = threads.length > 0 && threads.every((thread) => thread.fired);
   const spendRule =
@@ -123,7 +130,7 @@ ${spendRule}
 - Every thread above is already known to the player: never introduce one as new (a text that already arrived, a warning already given). Move it or land it.
 - A thread marked IN THE SCENE has already arrived: never arrive it again or deliver it as news; what it owes now is its next move, its cost, or its outcome.
 - Do not invent a new threat when a thread above can carry the pressure. Do not restate the ledger to the player.
-- Nothing in this block reaches the passage. No "World Clock", no "thread", no "update", no turn number, no note from the storyteller, no bracketed or parenthetical line about what has landed, acted or been taken. Never copy a ledger line above into the passage as a heading, a label or a summary sentence, bold or plain; when a thread resolves, the prose shows the outcome happening and never captions it. The prose shows it as story; the record goes in metadata.${dueNow ? (dueNow.fired ? firedDueNowSection(dueNow, register) : dueNowSection(dueNow)) : ''}
+- Nothing in this block reaches the passage. No "World Clock", no "thread", no "update", no turn number, no note from the storyteller, no bracketed or parenthetical line about what has landed, acted or been taken. Never copy a ledger line above into the passage as a heading, a label or a summary sentence, bold or plain; when a thread resolves, the prose shows the outcome happening and never captions it. The prose shows it as story; the record goes in metadata.${dueNow ? (dueNow.fired ? firedDueNowSection(dueNow, register, worldClock.allowTimeSkip) : dueNowSection(dueNow, worldClock.allowTimeSkip)) : ''}
 
 LIMITS ON EVERY CLOCK INSTRUCTION ABOVE, INCLUDING DEADLINES AND TIME CUTS:
 - Thread summaries describe unresolved pressures or possible futures, not proof that an event already happened. Current possession, the latest established facts, and the player's explicit action take precedence over a thread's assumptions. If the player changes the premise, resolve or update the thread accordingly rather than forcing its predicted outcome.

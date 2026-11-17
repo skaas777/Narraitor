@@ -47,8 +47,7 @@ export const formatNarrativeResponse = async (
     extractedMetadata.characters,
     finalCharacterIds,
     geminiClient,
-    { ...acquisitionContext, heldItems: acquisitionContext?.heldItems ?? [], previousLocation,
-      knownNpcs: Array.isArray(extractedMetadata.characterIds) ? undefined : acquisitionContext?.knownNpcs }
+    { ...acquisitionContext, heldItems: acquisitionContext?.heldItems ?? [], previousLocation }
   );
   // An explicitly empty result means no NPC is physically present.
   const confirmedCharacterIds = metadataAnalysis.presentCharacterIds;
@@ -71,8 +70,14 @@ export const formatNarrativeResponse = async (
       | 'action'
       | 'transition',
     metadata: {
-      storyMemory: extractedMetadata.storyMemory ?? metadataAnalysis.storyMemory,
+      storyMemory: extractedMetadata.storyMemory ? {
+        ...extractedMetadata.storyMemory,
+        ...(extractedMetadata.storyMemory.balances || !metadataAnalysis.storyMemory?.balances
+          ? {} : { balances: metadataAnalysis.storyMemory.balances }),
+      } : metadataAnalysis.storyMemory,
+      stateConflicts: metadataAnalysis.stateConflicts,
       characterIds: confirmedCharacterIds,
+      presenceVerified: metadataAnalysis.presenceVerified,
       ...(isFeatureEnabled('SCENE_STATE') ? {
         ...(extractedMetadata.sceneBeat ? { sceneBeat: extractedMetadata.sceneBeat } : {}),
         sceneEntries: extractedMetadata.sceneEntries ?? [],
@@ -82,14 +87,18 @@ export const formatNarrativeResponse = async (
           : {}),
       } : {}),
       speakerId,
-      location: extractedMetadata.location || metadataAnalysis.location || fallbackLocation,
+      // A successful end-of-passage validation can correct a stale primary
+      // location; unvalidated fallback data cannot override explicit state.
+      location: metadataAnalysis.presenceVerified
+        ? metadataAnalysis.location || extractedMetadata.location || fallbackLocation
+        : extractedMetadata.location || metadataAnalysis.location || fallbackLocation,
       mood: extractedMetadata.mood || fallbackMood,
       tags: extractedMetadata.tags || [getWorldGenre() || 'fantasy', 'narrative'],
       itemsAcquired:
         analyzedItems && analyzedItems.length > 0 ? analyzedItems : undefined,
       itemsLost:
         analyzedLosses?.length ? analyzedLosses : undefined,
-      characters: extractedMetadata.characters,
+      characters: [...(extractedMetadata.characters ?? []), ...(metadataAnalysis.identifiedCharacters ?? [])],
       majorEvent: sanitizedMajorEvent,
     },
     tokenUsage:

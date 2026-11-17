@@ -16,6 +16,7 @@ import { buildPromptDebugInfo, isDebugInfoEnabled, type DebugInfoContext } from 
 import { getActiveProviderModel } from '@/state/providerStore';
 import { DEFAULT_TEXT_MODEL } from './config';
 import type { SessionSnapshot } from '@/types/turnResolver.types';
+import { enforceChoiceState } from './choiceStateGuard';
 
 /**
  * Parameters for choice generation
@@ -84,7 +85,7 @@ export async function generateChoices(
 
     if (!response?.content || safeTrim(response?.content ?? '') === '') {
       const fallbackDecision = generateFallbackChoices(world, narrativeContext);
-      return applyAlignmentConsequences(attachSkillChecksWhereRelevant(fallbackDecision, world));
+      return enforceChoiceState(applyAlignmentConsequences(attachSkillChecksWhereRelevant(fallbackDecision, world)), snapshot);
     }
 
     const decision = parseChoiceResponse(response.content, narrativeContext, world, getKnownNpcs(worldId));
@@ -129,7 +130,7 @@ export async function generateChoices(
       decision.options = decision.options.slice(0, maxOptions);
     }
 
-    return applyAlignmentConsequences(attachSkillChecksWhereRelevant(decision, world));
+    return enforceChoiceState(applyAlignmentConsequences(attachSkillChecksWhereRelevant(decision, world)), snapshot);
   } catch (error) {
     const errorDetails = {
       error: error instanceof Error ? error.message : String(error),
@@ -145,7 +146,7 @@ export async function generateChoices(
 
     const world = getWorld(params.worldId);
     const fallbackDecision = generateFallbackChoices(world, params.narrativeContext);
-    return applyAlignmentConsequences(attachSkillChecksWhereRelevant(fallbackDecision, world));
+    return enforceChoiceState(applyAlignmentConsequences(attachSkillChecksWhereRelevant(fallbackDecision, world)), params.snapshot);
   }
 }
 

@@ -464,6 +464,7 @@ describe('TurnResolver', () => {
 
     describe('scene stall breaker', () => {
       const quietTurnLimit = 5;
+      const waitingCommand = (overrides: Partial<TurnCommand> = {}) => makeCommand({ choiceText: 'Wait until morning', ...overrides });
 
       beforeEach(() => {
         useSceneStore.setState({ scenes: {} });
@@ -475,7 +476,7 @@ describe('TurnResolver', () => {
       it('forces a cut after five quiet turns without a due clock thread', async () => {
         const generator = makeMockGenerator();
         for (let turn = 0; turn < quietTurnLimit; turn += 1) {
-          await resolveTurn(makeCommand(), generator);
+          await resolveTurn(waitingCommand(), generator);
           expect((generator.generateSegment as jest.Mock).mock.calls[turn][0].generationParameters)
             .not.toHaveProperty('segmentType');
         }
@@ -483,7 +484,7 @@ describe('TurnResolver', () => {
           segmentType: 'transition',
           metadata: { characterIds: [], tags: [], sceneTransition: { to: 'The road' } },
         }));
-        await resolveTurn(makeCommand(), generator);
+        await resolveTurn(waitingCommand(), generator);
         const request = (generator.generateSegment as jest.Mock).mock.calls[quietTurnLimit][0];
         expect(request.generationParameters.segmentType).toBe('transition');
         const prompt = sceneTemplate({ narrativeContext: request.narrativeContext, generationParameters: request.generationParameters });
@@ -492,7 +493,7 @@ describe('TurnResolver', () => {
         expect(prompt).toContain('metadata.sceneTransition');
         expect(prompt).not.toContain('"sceneTransition":');
         (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult());
-        await resolveTurn(makeCommand(), generator);
+        await resolveTurn(waitingCommand(), generator);
         expect((generator.generateSegment as jest.Mock).mock.calls[quietTurnLimit + 1][0].generationParameters)
           .not.toHaveProperty('segmentType');
       });
@@ -501,24 +502,24 @@ describe('TurnResolver', () => {
         'resets the quiet count on a recorded %s', async (progress) => {
           const generator = makeMockGenerator();
           for (let turn = 0; turn < quietTurnLimit - 1; turn += 1) {
-            await resolveTurn(makeCommand(), generator);
+            await resolveTurn(waitingCommand(), generator);
           }
           (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult({
             metadata: { characterIds: [], tags: [], ...(progress === 'transition'
               ? { sceneTransition: { to: 'Old Mill' } }
               : { sceneBeat: { id: 'reveal', text: 'The guard revealed the culprit.' } }) },
           }));
-          await resolveTurn(makeCommand(), generator);
+          await resolveTurn(waitingCommand(), generator);
           (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult());
           for (let turn = 0; turn < quietTurnLimit; turn += 1) {
-            await resolveTurn(makeCommand(), generator);
+            await resolveTurn(waitingCommand(), generator);
             const request = (generator.generateSegment as jest.Mock).mock.calls[quietTurnLimit + turn][0];
             expect(request.generationParameters).not.toHaveProperty('segmentType');
           }
           (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult({
             metadata: { characterIds: [], tags: [], sceneTransition: { to: 'The road' } },
           }));
-          await resolveTurn(makeCommand(), generator);
+          await resolveTurn(waitingCommand(), generator);
           expect((generator.generateSegment as jest.Mock).mock.lastCall[0].generationParameters.segmentType)
             .toBe('transition');
         }
@@ -527,7 +528,7 @@ describe('TurnResolver', () => {
       it.each([undefined, FIRST_SEGMENT_LOCATION])(
         'retries a forced cut without a usable transition target (%s)', async (target) => {
           const generator = makeMockGenerator();
-          for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(makeCommand(), generator);
+          for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(waitingCommand(), generator);
           (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult({
             metadata: { characterIds: [], tags: [], ...(target ? { sceneTransition: { to: target } } : {}) },
           }));
@@ -536,7 +537,7 @@ describe('TurnResolver', () => {
           })).mockResolvedValueOnce(makeGenerationResult({
             metadata: { characterIds: [], tags: [], sceneTransition: { to: 'Old Mill' } },
           }));
-          const result = await resolveTurn(makeCommand(), generator);
+          const result = await resolveTurn(waitingCommand(), generator);
           expect(result.status).toBe('settled');
           expect(result.segment.metadata.sceneTransition).toEqual({ to: 'Old Mill' });
           expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(quietTurnLimit + 1);
@@ -547,7 +548,7 @@ describe('TurnResolver', () => {
 
       it('clears a streamed draft before retrying a stalled scene', async () => {
         const generator = makeMockGenerator();
-        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(makeCommand(), generator);
+        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(waitingCommand(), generator);
         let preview = '';
         const onPreviewReset = jest.fn(() => { preview = ''; });
         jest.mocked(generator.generateSegment)
@@ -561,7 +562,7 @@ describe('TurnResolver', () => {
               characterIds: [], tags: [], sceneTransition: { to: 'Old Mill' },
             } });
           });
-        const result = await resolveTurn(makeCommand({
+        const result = await resolveTurn(waitingCommand({
           fatalRiskAllowed: true,
           onChunk: (chunk) => { preview += chunk; },
           onPreviewReset,
@@ -574,18 +575,18 @@ describe('TurnResolver', () => {
 
       it('commits a recorded time skip and resets the counter when the model ignores the stall instruction twice', async () => {
         const generator = makeMockGenerator();
-        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(makeCommand(), generator);
+        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(waitingCommand(), generator);
         const { logger } = jest.requireActual('@/lib/utils/logger');
         const warning = jest.spyOn(logger, 'warn').mockImplementation(() => {});
         try {
-          const result = await resolveTurn(makeCommand(), generator);
+          const result = await resolveTurn(waitingCommand(), generator);
           expect(generator.generateSegment).toHaveBeenCalledTimes(quietTurnLimit + 2);
           expect(result.status).toBe('settled');
           expect(result.segment.content).toBe(makeGenerationResult().content);
           expect(result.segment.metadata.sceneTransition).toEqual({ to: 'The road' });
           expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(quietTurnLimit + 1);
           expect(warning).toHaveBeenCalledWith(expect.stringContaining('Forced scene time skip'), expect.objectContaining({ sessionId: 'session-1' }));
-          await resolveTurn(makeCommand(), generator);
+          await resolveTurn(waitingCommand(), generator);
           const request = (generator.generateSegment as jest.Mock).mock.lastCall[0];
           expect(request.generationParameters).not.toHaveProperty('segmentType');
           expect(request.narrativeContext).not.toHaveProperty('stalledSceneTurns');
@@ -600,13 +601,13 @@ describe('TurnResolver', () => {
         const generator = makeMockGenerator(makeGenerationResult({
           metadata: { characterIds: [], tags: [], location: FIRST_SEGMENT_LOCATION, sceneTransition: { to: FIRST_SEGMENT_LOCATION } },
         }));
-        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(makeCommand(), generator);
+        for (let turn = 0; turn < quietTurnLimit; turn += 1) await resolveTurn(waitingCommand(), generator);
         expect(useSceneStore.getState().scenes).toEqual({});
         (isFeatureEnabled as jest.Mock).mockImplementation((flag: string) => flag === 'SCENE_STATE');
         (generator.generateSegment as jest.Mock).mockResolvedValue(makeGenerationResult({
           metadata: { characterIds: [], tags: [], sceneTransition: { to: 'Old Mill' } },
         }));
-        await resolveTurn(makeCommand(), generator);
+        await resolveTurn(waitingCommand(), generator);
         const request = (generator.generateSegment as jest.Mock).mock.lastCall[0];
         expect(request.generationParameters.segmentType).toBe('transition');
         expect(request.narrativeContext.sceneState.location).toBeNull();
@@ -618,7 +619,7 @@ describe('TurnResolver', () => {
         (isFeatureEnabled as jest.Mock).mockImplementation((flag: string) => flag === 'WORLD_CLOCK');
         (needsSceneTransition as jest.Mock).mockReturnValue(true);
         const generator = makeMockGenerator();
-        await resolveTurn(makeCommand(), generator);
+        await resolveTurn(waitingCommand(), generator);
         const request = (generator.generateSegment as jest.Mock).mock.lastCall[0];
         expect(request.generationParameters.segmentType).toBe('transition');
         const context = { narrativeContext: request.narrativeContext, generationParameters: request.generationParameters };
@@ -629,7 +630,7 @@ describe('TurnResolver', () => {
       it('preserves a due clock transition with scene state enabled before the stall threshold', async () => {
         (needsSceneTransition as jest.Mock).mockReturnValue(true);
         const generator = makeMockGenerator();
-        await resolveTurn(makeCommand(), generator);
+        await resolveTurn(waitingCommand(), generator);
         const request = (generator.generateSegment as jest.Mock).mock.lastCall[0];
         expect(request.generationParameters.segmentType).toBe('transition');
         expect(sceneTemplate({ narrativeContext: request.narrativeContext, generationParameters: request.generationParameters }))
@@ -1034,7 +1035,7 @@ describe('TurnResolver', () => {
       (needsSceneTransition as jest.Mock).mockReturnValue(true);
       const generator = makeMockGenerator();
 
-      await resolveTurn(makeCommand(), generator);
+      await resolveTurn(makeCommand({ choiceText: 'Wait until morning' }), generator);
 
       expect(generator.generateSegment).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -1927,7 +1928,7 @@ describe('TurnResolver', () => {
           generateInitialScene: jest.fn(),
         } as unknown as NarrativeGenerator;
 
-        const command = makeCommand({ fatalRiskAllowed: false });
+        const command = makeCommand({ fatalRiskAllowed: false, choiceText: 'Wait until morning' });
 
         await expect(resolveTurn(command, generator)).rejects.toThrow(
           'Forbidden lethal narrative outcome generated on a protected turn.'

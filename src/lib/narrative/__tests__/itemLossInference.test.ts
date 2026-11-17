@@ -64,4 +64,20 @@ describe('inferItemsLostFromNarrative', () => {
     expect(inferItemsLostFromNarrative('You drop the rope. You check the lantern.', inventory))
       .toEqual([{ name: 'Rope', quantity: 1, lossReason: 'dropped' }]);
   });
+
+  it('recognizes a completed Chinese handover narrated across clauses', () => {
+    const inventory = [createMockInventoryItem({ name: '风干芥菜' })];
+    expect(inferItemsLostFromNarrative(
+      '你把那捆风干芥菜从随身袋里取出来，双手递过去。罗栗接过去，把它挂到炉门边的铁钩上。',
+      inventory
+    )).toEqual([{ name: '风干芥菜', quantity: 1, lossReason: 'delivered' }]);
+  });
+
+  it.each([
+    '你把风干芥菜放在桌上，拿起面包递过去。她接过去吃了。',
+    '你打算把风干芥菜取出来，双手递过去，让她接过去。',
+    '罗栗把她的风干芥菜从袋里取出来，双手递过去。别人接过去。',
+  ])('does not bind another object, a plan or NPC property to a cross-clause loss: %s', (content) => {
+    expect(inferItemsLostFromNarrative(content, [createMockInventoryItem({ name: '风干芥菜' })])).toEqual([]);
+  });
 });

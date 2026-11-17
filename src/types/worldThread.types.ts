@@ -103,6 +103,8 @@ export interface WorldThreadExtractionResult {
 
 /** What the scene prompt renders. Summaries the model itself wrote plus turn arithmetic. */
 export interface WorldClockPromptContext {
+  allowTimeSkip?: boolean;
+  quietAction?: boolean;
   currentTurn: number;
   /** Turns since any thread advanced, resolved, or was opened; 0 on the seed turn. */
   turnsSinceWorldMoved: number;
