@@ -27,6 +27,7 @@ jest.mock('next/server', () => ({
 
 jest.mock('../rateLimiter', () => ({
   globalRateLimiter: {
+    maxRequests: 1000,
     checkLimit: jest.fn(() => ({ allowed: true, remaining: 50, resetTime: Date.now() + 3600000 }))
   },
   RateLimiter: {
@@ -320,6 +321,7 @@ describe('withAIRoute', () => {
 
     expect(handler).not.toHaveBeenCalled();
     expect(response.status).toBe(429);
+    expect(response.headers.get('X-RateLimit-Limit')).toBe('1000');
   });
 
   it('invokes handler and attaches rate limit headers on success', async () => {
@@ -332,7 +334,7 @@ describe('withAIRoute', () => {
     const response = await wrapped(req);
 
     expect(handler).toHaveBeenCalledWith(req);
-    expect(response.headers.get('X-RateLimit-Limit')).toBe('50');
+    expect(response.headers.get('X-RateLimit-Limit')).toBe('1000');
     expect(response.headers.get('X-RateLimit-Remaining')).toBe('49');
     expect(response.headers.get('X-RateLimit-Reset')).toBeDefined();
   });
