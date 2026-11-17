@@ -43,6 +43,28 @@ export const useActiveGameSessionEffects = ({
         const hasSegments =
           useNarrativeStore.getState().getSessionSegments(sessionId).length > 0;
 
+        if (hasSegments) {
+          const [{ useSessionStore }, { repairHistoricalInventory }, { assembleSessionSnapshot }, { enforceChoiceState }] = await Promise.all([
+            import('@/state/sessionStore'),
+            import('@/lib/narrative/turnResolver'),
+            import('@/lib/narrative/sessionSnapshotAssembler'),
+            import('@/lib/ai/choiceStateGuard'),
+          ]);
+          if (!isMounted) return;
+          const active = useSessionStore.getState();
+          if (active.id === sessionId && active.worldId && active.characterId) {
+            repairHistoricalInventory(sessionId, active.characterId);
+            const snapshot = assembleSessionSnapshot(sessionId, { worldId: active.worldId, characterId: active.characterId });
+            const latest = snapshot.decisions.at(-1);
+            if (latest && !latest.selectedOptionId) {
+              const checked = enforceChoiceState(latest, snapshot);
+              if (checked.options.some((option, index) => option.id !== latest.options[index]?.id)) {
+                useNarrativeStore.getState().updateDecision(latest.id, { options: checked.options, contextSummary: checked.contextSummary });
+              }
+            }
+          }
+        }
+
         setInitialized(true);
         setIsGenerating(!hasSegments);
       } catch (error) {
