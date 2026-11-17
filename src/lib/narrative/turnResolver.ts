@@ -797,7 +797,7 @@ function inferMissingItemLosses(
   return reconcileInferredLosses(result, characterInventory);
 }
 
-function repairHistoricalInventory(sessionId: EntityID, characterId: EntityID): void {
+export function repairHistoricalInventory(sessionId: EntityID, characterId: EntityID): void {
   const narrative = useNarrativeStore.getState();
   const inventory = useInventoryStore.getState();
   const repairs = findHistoricalInventoryRepairs(narrative.getSessionSegments(sessionId), inventory.getCharacterItems(characterId));

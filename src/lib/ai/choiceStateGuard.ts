@@ -24,5 +24,6 @@ export function enforceChoiceState(decision: Decision, snapshot?: SessionSnapsho
     if (options.length >= Math.min(3, decision.options.length)) break;
     if (!options.some((option) => option.text === text)) options.push({ id: `${decision.id}-state-${index}`, text, alignment: 'neutral' });
   }
-  return { ...decision, options };
+  return { ...decision, ...(decision.options.length !== options.filter((option) => decision.options.includes(option)).length
+    ? { contextSummary: undefined } : {}), options };
 }
