@@ -68,6 +68,27 @@ describe('generateStoryCheckpointSummary', () => {
     expect(mockClient.generateContent).toHaveBeenCalledTimes(1);
   });
 
+  it('excludes old summaries and player intentions from event-only recaps', async () => {
+    mockClient.generateContent.mockResolvedValue({ content: JSON.stringify({
+      segment: '周槐确认磁通补偿器过载。',
+    }) });
+    await generateStoryCheckpointSummary({
+      ...basePayload,
+      previousSegments: ['OLD_SUMMARY_阿禾之前带着匣子进门'],
+      decisions: [{ id: 'd-intent', text: 'PLAYER_INTENT_我准备让阿禾重新进门' }],
+      activeGoals: ['GOAL_找到隐藏的事故'],
+      currentLocation: 'FINAL_LOCATION_修补铺',
+      events: [{ ...basePayload.events[0], description: '周槐确认磁通补偿器过载。' }],
+    });
+    const prompt = mockClient.generateContent.mock.calls[0][0];
+    expect(prompt).toContain('周槐确认磁通补偿器过载。');
+    expect(prompt).not.toContain('OLD_SUMMARY_');
+    expect(prompt).not.toContain('PLAYER_INTENT_');
+    expect(prompt).not.toContain('GOAL_');
+    expect(prompt).not.toContain('FINAL_LOCATION_');
+    expect(prompt).toContain('one accurate sentence is enough');
+  });
+
   it('falls back to concatenated events when response cannot be parsed', async () => {
     mockClient.generateContent.mockResolvedValue({ content: 'not json at all' });
 

@@ -3,8 +3,8 @@ import type { NarrativeTemplateContext } from './context';
 import { isFeatureEnabled } from '@/lib/featureFlags';
 
 const RESPONSE_SCHEMA = `{
-  "segment": "2-3 sentences (50-75 words) summarizing ONLY the events provided in this checkpoint",
-  "highlights": ["3 bullets distilling the most consequential beats from these events"],
+  "segment": "1-3 concise sentences summarizing ONLY the events provided in this checkpoint",
+  "highlights": ["1-3 factual bullets supported by these recorded events"],
   "majorEvents": ["Chronological recap of the major events in this checkpoint"],
   "includedEvents": 3,
   "includedDecisions": 1,
@@ -49,47 +49,32 @@ export const storyCheckpointTemplate = (
   if (isFeatureEnabled('CHAPTERS') && payload.mode === 'chapter') {
     return chapterRecapTemplate(context);
   }
-  const eventsText = formatEvents(payload.events);
-  const decisionText = formatDecisions(payload.decisions ?? []);
-  const location = payload.currentLocation || 'Unknown';
-  const goals =
-    payload.activeGoals && payload.activeGoals.length > 0
-      ? payload.activeGoals
-          .map((goal, index) => `${index + 1}. ${goal}`)
-          .join('\n')
-      : 'No explicit goals documented.';
+  const eventsText = formatEvents(
+    [...payload.events].sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+  );
   const toneDirectives = context.checkpointToneInstructions;
 
-  // Build recent story context if available
-  const storyContext =
-    payload.previousSegments && payload.previousSegments.length > 0
-      ? `\nRECENT STORY (for context only - DO NOT retell this):\n${payload.previousSegments.join('\n\n')}\n`
-      : '';
+  // Older prose and player intentions leaked into recaps despite instructions
+  // to ignore them. Only pass recorded events into this event-batch summary.
 
   return `Summarize recorded events for an adventure journal. Do not continue the story or invent a new scene.
 
-${storyContext}
-Setting Context:
-- Location: ${location}
-- Active Goals: ${goals}
 ${payload.characterName ? `- Protagonist: ${payload.characterName}` : '- Protagonist: [unnamed character]'}
 
 RECORDED EVENTS (chronological order; these are the only events to summarize):
 ${eventsText}
-${decisionText ? `\nPlayer Decisions:\n${decisionText}` : ''}
 
 SUMMARY REQUIREMENTS:
 - Summarize ONLY recorded events, preserving chronology, uncertainty, holders, quantities and outcomes.
-- Player decisions describe intent, not evidence of success. Do not turn an attempted action into a completed result.
+- A request, plan, promise or attempt remains a request, plan, promise or attempt; it is not a completed result.
 - Never invent travel, handovers, transactions, resolutions or transitions to connect events. The final location does not establish an extra return trip.
-- Earlier summaries are context only. Do not repeat them or reinterpret later events as happening before them.
+- Do not add backstory, infer an earlier arrival, or explain why events happened unless it is explicitly recorded.
+- Do not infer new damage, accidents or mysteries from an object's appearance.
 - Apply these tone and language rules: ${toneDirectives}
-- Write in a continuous narrative style, like a novel, not a summary or timeline
-- Vary sentence structure: mix short punchy sentences with longer flowing ones
+- Use concise third-person past-tense prose. Prefer exact names over inferred pronouns.
 - Preserve only cause-and-effect relationships explicitly supported by recorded events
-- Length: 50-75 words (approximately 2-3 sentences)
+- Use 1-3 sentences at most. For one short event, one accurate sentence is enough; never pad it with invented detail.
 - Treat the events listed above as authoritative canon; prefer names to inferred gendered pronouns
-${payload.characterName ? `- Refer to the protagonist naturally: ${storyContext ? `since this continues an ongoing story, use first name only ("${payload.characterName.split(' ')[0]}") or pronouns (she/he/they) throughout` : `use "${payload.characterName}" for the first reference in this opening segment, then use first name only ("${payload.characterName.split(' ')[0]}") or pronouns (she/he/they) for subsequent references`}` : '- Use third-person pronouns for the protagonist'}
 - Write ONLY in past tense (was/were, did, had) - NEVER present tense (is/are, does, has)
 - Use third-person limited perspective that can be read aloud
 
