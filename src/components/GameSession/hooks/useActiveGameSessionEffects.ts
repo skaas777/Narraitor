@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useNarrativeStore } from '@/state/narrativeStore';
 import Logger from '@/lib/utils/logger';
+import { getCurrentDecision } from '@/lib/narrative/currentDecision';
 
 const logger = new Logger('ActiveGameSessionEffects');
 
@@ -55,7 +56,7 @@ export const useActiveGameSessionEffects = ({
           if (active.id === sessionId && active.worldId && active.characterId) {
             repairHistoricalInventory(sessionId, active.characterId);
             const snapshot = assembleSessionSnapshot(sessionId, { worldId: active.worldId, characterId: active.characterId });
-            const latest = snapshot.decisions.at(-1);
+            const latest = getCurrentDecision(snapshot.decisions, snapshot.segments.at(-1));
             if (latest && !latest.selectedOptionId) {
               const checked = enforceChoiceState(latest, snapshot);
               if (checked.options.some((option, index) => option.id !== latest.options[index]?.id)) {
@@ -108,28 +109,37 @@ export const useActiveGameSessionEffects = ({
     let initialized = false;
     let prevDecisionIds: unknown;
     let prevSegmentIds: unknown;
+    let prevDecisions: unknown;
 
-    const unsubscribe = useNarrativeStore.subscribe((state) => {
+    const syncChoiceLoading = (state: ReturnType<typeof useNarrativeStore.getState>) => {
       const decisionIds = state.sessionDecisions[sessionId];
       const segmentIds = state.sessionSegments[sessionId];
 
       if (
         initialized &&
         decisionIds === prevDecisionIds &&
-        segmentIds === prevSegmentIds
+        segmentIds === prevSegmentIds && state.decisions === prevDecisions
       ) {
         return;
       }
       initialized = true;
       prevDecisionIds = decisionIds;
       prevSegmentIds = segmentIds;
+      prevDecisions = state.decisions;
 
-      if ((decisionIds?.length ?? 0) > 0) {
+      const latestSegmentId = segmentIds?.at(-1);
+      const current = getCurrentDecision(
+        decisionIds?.map((id) => state.decisions[id]).filter(Boolean) ?? [],
+        latestSegmentId ? state.segments[latestSegmentId] : undefined
+      );
+      if (current) {
         setIsGeneratingChoices(false);
       } else if ((segmentIds?.length ?? 0) > 0) {
         setIsGeneratingChoices(true);
       }
-    });
+    };
+    const unsubscribe = useNarrativeStore.subscribe(syncChoiceLoading);
+    syncChoiceLoading(useNarrativeStore.getState());
 
     return () => {
       unsubscribe();

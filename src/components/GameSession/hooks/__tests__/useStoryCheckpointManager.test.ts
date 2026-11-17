@@ -120,4 +120,31 @@ describe('useStoryCheckpointManager', () => {
 
     expect(mockAiFetch).toHaveBeenCalledTimes(2);
   });
+
+  it('drains an event backlog oldest first instead of skipping older events', () => {
+    setupWorldState(Array.from({ length: 12 }, (_, i) => ({
+      ...pendingEvent, id: `event-${12 - i}`, timestamp: `2026-01-01T00:${String(12 - i).padStart(2, '0')}:00.000Z`,
+    })));
+    const { result } = renderHook(() => useStoryCheckpointManager({ worldId: 'world-1', sessionId: 'session-1' }));
+    expect(result.current.pendingEvents.map((event) => event.id)).toEqual(
+      Array.from({ length: 8 }, (_, i) => `event-${i + 1}`)
+    );
+  });
+
+  it('keeps unsummarized events older than a checkpoint when exact coverage IDs exist', () => {
+    mockUseWorldStore.mockImplementation((selector) => selector({
+      worldStates: { 'world-1': { majorEvents: [pendingEvent], storyCheckpoints: [{
+        id: 'cp-newer', sessionId: 'session-1', eventIds: ['event-newer'],
+        metadata: { lastEventTimestamp: '2026-01-01T00:10:00.000Z' },
+      }] } }, worlds: {},
+    }));
+    const { result } = renderHook(() => useStoryCheckpointManager({ worldId: 'world-1', sessionId: 'session-1' }));
+    expect(result.current.pendingEvents.map((event) => event.id)).toEqual(['event-1']);
+  });
+
+  it('does not start a second request when the read-only summary view opens', async () => {
+    renderHook(() => useStoryCheckpointManager({ worldId: 'world-1', sessionId: 'session-1', autoGenerate: false }));
+    await act(async () => { jest.advanceTimersByTime(10000); });
+    expect(mockAiFetch).not.toHaveBeenCalled();
+  });
 });

@@ -14,6 +14,7 @@ import type { NarrativeGenerator } from '@/lib/ai/narrativeGenerator';
 import type { Decision, NarrativeContext } from '@/types/narrative.types';
 import type { SessionSnapshot } from '@/types/turnResolver.types';
 import { assembleSessionSnapshot } from '@/lib/narrative/sessionSnapshotAssembler';
+import { getCurrentDecision } from '@/lib/narrative/currentDecision';
 
 interface UsePlayerChoicesParams {
   sessionId: string;
@@ -200,6 +201,14 @@ export function usePlayerChoices({
         usedFallbackDecision = true;
       }
 
+      // A cloud restore or a newer turn may have won while this request ran.
+      const currentState = useNarrativeStore.getState();
+      const currentSegment = currentState.getSessionSegments(snapshot.sessionId).at(-1);
+      if (currentSegment?.id !== lastSegment.id ||
+          getCurrentDecision(currentState.getSessionDecisions(snapshot.sessionId), currentSegment)) {
+        return;
+      }
+      decision.narrativeSegmentId = lastSegment.id;
       // Add decision to store and get the actual stored ID
       const storedDecisionId = useNarrativeStore
         .getState()
@@ -208,6 +217,7 @@ export function usePlayerChoices({
           options: decision.options,
           decisionWeight: decision.decisionWeight,
           contextSummary: decision.contextSummary,
+          narrativeSegmentId: lastSegment.id,
           stateAuditSegmentId: decision.stateAuditSegmentId,
           // Dev-mode only (round 6) - without this, the persisted
           // decision never carries the prompt/response a later playtest
@@ -242,7 +252,9 @@ export function usePlayerChoices({
           .getState()
           .getSessionDecisions(targetSessionId);
 
-        if (existingDecisions.length === 0 && mountedRef.current) {
+        const latestSegment = useNarrativeStore.getState().getSessionSegments(targetSessionId).at(-1);
+        if (latestSegment?.id === lastSegment.id &&
+            !getCurrentDecision(existingDecisions, latestSegment) && mountedRef.current) {
           const fallbackDecision = buildFallbackDecision(
             "生成选项时发生错误。"
           );
@@ -253,6 +265,7 @@ export function usePlayerChoices({
               options: fallbackDecision.options,
               decisionWeight: fallbackDecision.decisionWeight,
               contextSummary: fallbackDecision.contextSummary,
+              narrativeSegmentId: lastSegment.id,
             });
 
           if (onChoicesGenerated && mountedRef.current) {

@@ -40,6 +40,8 @@ import { SceneStatus } from './SceneStatus';
 import { KeyboardShortcutsDialog } from './KeyboardShortcutsDialog';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { isFeatureEnabled } from '@/lib/featureFlags';
+import { getCurrentDecision } from '@/lib/narrative/currentDecision';
+import { useStoryCheckpointManager } from './hooks/useStoryCheckpointManager';
 
 type DrawerType = 'character' | 'inventory' | 'story-summary' | 'choice-history' | 'journal';
 
@@ -92,9 +94,11 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
   // Only loading/error flags stay local.
   const currentDecision: Decision | null = useNarrativeStore((state) => {
     const decisionIds = state.sessionDecisions[sessionId];
-    return decisionIds?.length
-      ? state.decisions[decisionIds[decisionIds.length - 1]] ?? null
-      : null;
+    const segmentId = state.sessionSegments[sessionId]?.at(-1);
+    return getCurrentDecision(
+      decisionIds?.map((id) => state.decisions[id]).filter(Boolean) ?? [],
+      segmentId ? state.segments[segmentId] : undefined
+    );
   });
   const [localSelectedChoiceId, setLocalSelectedChoiceId] = React.useState<string | undefined>();
   const [shouldTriggerGeneration, setShouldTriggerGeneration] = React.useState(false);
@@ -121,6 +125,8 @@ const ActiveGameSession: React.FC<ActiveGameSessionProps> = ({
   
   // Get character ID from session store
   const characterId = useSessionStore(state => state.characterId);
+  // Keep recaps updating even while the summary drawer is closed.
+  useStoryCheckpointManager({ worldId, sessionId, characterId: characterId ?? undefined });
   
   // Always call hooks - handle test mode logic after
   const storeCharacter = useCharacterStore((state) => state.characters[characterId || '']);

@@ -17,6 +17,7 @@ interface UseStoryCheckpointManagerArgs {
   worldId: string;
   sessionId: string;
   characterId?: string;
+  autoGenerate?: boolean;
 }
 
 const MAX_DECISIONS = 5;
@@ -123,7 +124,7 @@ const formatEventsForApi = (
       return acc;
     }, []);
 
-export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: UseStoryCheckpointManagerArgs) => {
+export const useStoryCheckpointManager = ({ worldId, sessionId, characterId, autoGenerate = true }: UseStoryCheckpointManagerArgs) => {
   const worldState = useWorldStore((state) => (worldId ? state.worldStates[worldId] : undefined));
   const world = useWorldStore((state) => (worldId ? state.worlds[worldId] : undefined));
   const characters = useCharacterStore((state) => state.characters);
@@ -166,13 +167,15 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
       if (summarizedEventIds.has(event.id)) {
         return false;
       }
-      if (lastEventTimestamp && event.timestamp.localeCompare(lastEventTimestamp) <= 0) {
+      // Legacy checkpoints may lack event IDs. Modern batches track exact IDs:
+      // a timestamp alone must not silently discard an older unsummarized event.
+      if (summarizedEventIds.size === 0 && lastEventTimestamp && event.timestamp.localeCompare(lastEventTimestamp) <= 0) {
         return false;
       }
       return true;
     });
 
-    return filtered.slice(0, 8).reverse();
+    return filtered.sort((a, b) => a.timestamp.localeCompare(b.timestamp)).slice(0, 8);
   }, [sessionEvents, summarizedEventIds, lastEventTimestamp]);
 
   const characterNameLookup = React.useMemo(() => {
@@ -263,7 +266,7 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
         {
           storyCheckpoints: [
             newCheckpoint,
-            ...existingCheckpoints,
+            ...(useWorldStore.getState().worldStates?.[worldId]?.storyCheckpoints ?? existingCheckpoints),
           ],
         },
         sessionId
@@ -283,7 +286,7 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
   const lastAttemptedEventIdsRef = React.useRef<string | null>(null);
 
   React.useEffect(() => {
-    if (isFeatureEnabled('CHAPTERS') || pendingEvents.length === 0 || status === 'loading') {
+    if (!autoGenerate || isFeatureEnabled('CHAPTERS') || pendingEvents.length === 0 || status === 'loading') {
       return;
     }
 
@@ -299,7 +302,7 @@ export const useStoryCheckpointManager = ({ worldId, sessionId, characterId }: U
     }, 3000);
 
     return () => clearTimeout(timeoutId);
-  }, [pendingEvents, status, createCheckpoint]);
+  }, [autoGenerate, pendingEvents, status, createCheckpoint]);
 
   return {
     status,

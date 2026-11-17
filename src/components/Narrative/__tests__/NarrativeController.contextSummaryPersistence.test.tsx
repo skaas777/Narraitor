@@ -65,12 +65,17 @@ describe('NarrativeController context summary persistence', () => {
     jest.useRealTimers();
   });
 
-  it('persists contextSummary when storing generated decisions', async () => {
+  it.each(['none', 'answered', 'outdated'])('persists current choices after hydration with prior decision: %s', async (prior) => {
     // A tiny fake store slice, not just a call-recorder: addDecision writes
     // into storedDecisions and getSessionDecisions reads it back, so the test
     // can prove the decision is readable after storing it rather than only
     // that addDecision was invoked with the right arguments.
     const storedDecisions: Array<Record<string, unknown>> = [];
+    if (prior !== 'none') storedDecisions.push({
+      id: 'old-decision', prompt: 'Climb upstairs?', options: [],
+      ...(prior === 'answered' ? { selectedOptionId: 'climb' } : {}),
+      narrativeSegmentId: 'old-corridor-segment',
+    });
     const addDecision = jest.fn((sessionId: string, decisionData: Record<string, unknown>) => {
       const id = 'decision-123';
       storedDecisions.push({ id, sessionId, ...decisionData });
@@ -147,7 +152,7 @@ describe('NarrativeController context summary persistence', () => {
     // Read the decision back through the same getter the store exposes,
     // rather than inspecting addDecision's call args, so this proves the
     // decision is actually stored and retrievable.
-    const [stored] = getSessionDecisions();
+    const stored = getSessionDecisions().at(-1);
     expect(stored).toMatchObject({
       sessionId: 'test-session',
       prompt: 'What do you do?',

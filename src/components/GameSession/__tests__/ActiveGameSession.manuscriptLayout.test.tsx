@@ -443,6 +443,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
     (useNarrativeStore as unknown as { subscribe: jest.Mock }).subscribe = jest.fn(
       (cb: (state: unknown) => void) => {
         cb({
+          segments: { 'seg-1': { id: 'seg-1', content: 'Story starts...', metadata: { tags: [] } } },
           sessionSegments: { [mockSessionId]: ['seg-1'] },
           sessionDecisions: {},
           decisions: {},
@@ -470,7 +471,7 @@ describe('ActiveGameSession Manuscript Layout', () => {
     // Override narrative state with a segment that has characterIds
     const mockNarrativeStateWithChars = {
       segments: {
-        'seg-1': { id: 'seg-1', content: 'Story starts...', characterIds: ['npc-1'] },
+        'seg-1': { id: 'seg-1', content: 'Story starts...', characterIds: ['npc-1'], metadata: { characters: [{ id: 'npc-1', name: '林雾' }] } },
       },
       sessionSegments: { [mockSessionId]: ['seg-1'] },
       sessionDecisions: {},

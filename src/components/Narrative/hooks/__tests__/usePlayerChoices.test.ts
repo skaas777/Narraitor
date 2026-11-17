@@ -123,6 +123,7 @@ describe('usePlayerChoices', () => {
       prompt: 'What do you do?',
       decisionWeight: 'major',
       contextSummary: 'A fork in the road.',
+      narrativeSegmentId: 'seg-1',
     });
     expect(onChoicesGenerated).toHaveBeenCalledTimes(1);
   });
@@ -227,6 +228,38 @@ describe('usePlayerChoices', () => {
     });
 
     expect(aiGenerate).toHaveBeenCalledTimes(1);
+  });
+
+  it('generates replacement choices when a resumed session only has an answered decision', async () => {
+    const { addDecision } = setupStore({
+      getSessionDecisions: jest.fn(() => [{ ...aiDecision, selectedOptionId: 'o1' }]),
+    });
+    const { result } = renderPlayerChoices();
+    await act(async () => { await result.current.generatePlayerChoices(); });
+    expect(addDecision).toHaveBeenCalledWith('s1', expect.objectContaining({ narrativeSegmentId: 'seg-1' }));
+  });
+
+  it('discards late choices if cloud recovery has advanced to a newer passage', async () => {
+    const { addDecision, getSessionSegments } = setupStore();
+    const { result, aiGenerate } = renderPlayerChoices();
+    aiGenerate.mockImplementation(async () => {
+      getSessionSegments.mockReturnValue([{ ...baseSegment, id: 'seg-newer' }]);
+      return aiDecision;
+    });
+    await act(async () => { await result.current.generatePlayerChoices(); });
+    expect(addDecision).not.toHaveBeenCalled();
+  });
+
+  it('does not overwrite a decision restored while an older request is in flight', async () => {
+    const currentDecisions: unknown[] = [];
+    const { addDecision } = setupStore({ getSessionDecisions: jest.fn(() => currentDecisions) });
+    const { result, aiGenerate } = renderPlayerChoices();
+    aiGenerate.mockImplementation(async () => {
+      currentDecisions.push({ ...aiDecision, id: 'cloud-decision', narrativeSegmentId: 'seg-1' });
+      return aiDecision;
+    });
+    await act(async () => { await result.current.generatePlayerChoices(); });
+    expect(addDecision).not.toHaveBeenCalled();
   });
 
   it('cancels the request at the shared budget and stores exactly one fallback decision', async () => {
