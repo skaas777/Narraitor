@@ -13,6 +13,7 @@ import {
 import { FIRST_SEGMENT_LOCATION } from '@/types/narrative.types';
 import { safeTrim } from '@/lib/utils';
 import { isFeatureEnabled } from '@/lib/featureFlags';
+import { reconcileBalanceEvidence } from '@/lib/narrative/storyBalances';
 
 export const formatNarrativeResponse = async (
   response: { content?: string; tokenUsage?: number },
@@ -61,6 +62,11 @@ export const formatNarrativeResponse = async (
     extractedMetadata.majorEvent && safeTrim(extractedMetadata.majorEvent).length > 0
       ? safeTrim(extractedMetadata.majorEvent)
       : undefined;
+  const balances = reconcileBalanceEvidence(
+    normalizedContent,
+    extractedMetadata.storyMemory?.balances,
+    metadataAnalysis.storyMemory?.balances
+  );
 
   return {
     content: normalizedContent,
@@ -72,8 +78,7 @@ export const formatNarrativeResponse = async (
     metadata: {
       storyMemory: extractedMetadata.storyMemory ? {
         ...extractedMetadata.storyMemory,
-        ...(extractedMetadata.storyMemory.balances || !metadataAnalysis.storyMemory?.balances
-          ? {} : { balances: metadataAnalysis.storyMemory.balances }),
+        ...(balances ? { balances } : {}),
       } : metadataAnalysis.storyMemory,
       stateConflicts: metadataAnalysis.stateConflicts,
       characterIds: confirmedCharacterIds,

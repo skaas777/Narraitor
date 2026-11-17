@@ -1,6 +1,8 @@
 import { formatNarrativeResponse } from '../narrativeGenerator.response';
 import { analyzeSegmentMetadata } from '../narrativeGenerator.metadata';
 import type { AIClient } from '../types';
+import { findStoryStateIssues } from '@/lib/narrative/storyMemory';
+import type { NarrativeSegment } from '@/types/narrative.types';
 
 jest.mock('../narrativeGenerator.metadata', () => ({ analyzeSegmentMetadata: jest.fn() }));
 const mockAnalysis = analyzeSegmentMetadata as jest.MockedFunction<typeof analyzeSegmentMetadata>;
@@ -72,4 +74,48 @@ it('preserves explicit no-loss and primary state when fallback analysis disagree
   expect(result.metadata.location).toBe('温室侧舱');
   expect(result.metadata.storyMemory).toEqual(memory);
   expect(mockAnalysis.mock.calls.at(-1)?.[4]?.knownNpcs).toEqual([{ id: 'zhou-lan', name: '周岚' }]);
+});
+
+describe('transaction evidence reconciliation', () => {
+  const content = '你把三文铜钱一枚一枚按在她筐沿上：「两把云萝卜。」她伸手一拨，铜钱落进布兜里。回到餐车，你点清零钱：二十五文。';
+  const prior = [{ content: '你点清零钱，剩下二十八文。', metadata: { tags: [] } }] as unknown as NarrativeSegment[];
+  const trade = { currency: '文', balance: 25, change: -3,
+    evidence: '把三文铜钱一枚一枚按在筐沿上，她伸手一拨，铜钱落进布兜里' };
+  const exactEvidence = '把三文铜钱一枚一枚按在她筐沿上';
+
+  it('repairs a stitched quote when independent analysis agrees on the full transaction', async () => {
+    mockAnalysis.mockResolvedValueOnce({ presentCharacterIds: [], items: [], storyMemory: {
+      balances: [{ ...trade, evidence: exactEvidence }],
+    } });
+    const result = await formatNarrativeResponse({ content: JSON.stringify({ content,
+      metadata: { storyMemory: { balances: [trade] } },
+    }) }, 'scene', client);
+    expect(result.metadata.storyMemory?.balances).toEqual([{ ...trade, evidence: exactEvidence }]);
+    expect(findStoryStateIssues(result, prior, [])).toEqual([]);
+  });
+
+  it.each([
+    { balance: 24 }, { change: -4 }, { currency: '金币' },
+    { evidence: '你付出三文买下两把萝卜。' },
+  ])('keeps a disputed or unsupported transaction blocked (%j)', async (difference) => {
+    mockAnalysis.mockResolvedValueOnce({ presentCharacterIds: [], items: [], storyMemory: {
+      balances: [{ ...trade, evidence: exactEvidence, ...difference }],
+    } });
+    const result = await formatNarrativeResponse({ content: JSON.stringify({ content,
+      metadata: { storyMemory: { balances: [trade] } },
+    }) }, 'scene', client);
+    expect(result.metadata.storyMemory?.balances?.[0].evidence).toBe(trade.evidence);
+    expect(findStoryStateIssues(result, prior, []).join(' ')).toContain('verbatim transaction');
+  });
+
+  it('does not let a matching citation bypass the wallet arithmetic', async () => {
+    const wrong = { ...trade, balance: 24 };
+    mockAnalysis.mockResolvedValueOnce({ presentCharacterIds: [], items: [], storyMemory: {
+      balances: [{ ...wrong, evidence: exactEvidence }],
+    } });
+    const result = await formatNarrativeResponse({ content: JSON.stringify({ content,
+      metadata: { storyMemory: { balances: [wrong] } },
+    }) }, 'scene', client);
+    expect(findStoryStateIssues(result, prior, []).join(' ')).toContain('previous total 28');
+  });
 });
