@@ -66,6 +66,8 @@ export interface TurnCommand {
   signal?: AbortSignal;
   /** Streaming chunk callback for progressive rendering. */
   onChunk?: (chunk: string) => void;
+  /** Clear the live draft once its authoritative passage is stored. */
+  onCommitted?: () => void;
   /** Discard the previous draft before streaming an automatic replacement. */
   onPreviewReset?: () => void;
 }
@@ -80,6 +82,8 @@ export interface InitialTurnCommand {
   generateChoices: boolean;
   signal?: AbortSignal;
   onChunk?: (chunk: string) => void;
+  /** Clear the live draft once its authoritative passage is stored. */
+  onCommitted?: () => void;
 }
 
 /** Authoritative identity for one item-use turn. */

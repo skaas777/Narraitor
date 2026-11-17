@@ -31,6 +31,19 @@ it('keeps analysis-based acquisition as fallback only when the primary field is 
   expect(result.metadata.itemsAcquired).toEqual([{ name: '测试压力表', quantity: 1 }]);
 });
 
+it('initializes validated opening gear even when the draft reports no new acquisitions', async () => {
+  const result = await formatNarrativeResponse({ content: JSON.stringify({
+    content: '你收好自己的测试压力表。', metadata: { itemsAcquired: [] },
+  }) }, 'scene', client, undefined, [], { heldItems: [], isOpeningScene: true });
+  expect(result.metadata.itemsAcquired).toEqual([{ name: '测试压力表', quantity: 1 }]);
+});
+
+it('does not initialize starting gear again when it is already registered', async () => {
+  const result = await formatNarrativeResponse({ content: '你收好测试压力表。' }, 'scene', client,
+    undefined, [], { heldItems: [{ name: '测试压力表', quantity: 1 }], isOpeningScene: true });
+  expect(result.metadata.itemsAcquired).toBeUndefined();
+});
+
 it('keeps an empty physical-presence result instead of restoring a remote NPC candidate', async () => {
   const result = await formatNarrativeResponse({ content: JSON.stringify({
     content: '你独自在库房听见通讯器里的声音。',

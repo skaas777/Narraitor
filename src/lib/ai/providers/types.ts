@@ -62,6 +62,8 @@ export interface ProviderDescriptor {
     enabled?: boolean;
     effort?: string;
   };
+  /** DeepSeek Chat Completions thinking control, owned by server configuration. */
+  thinking?: { type: 'enabled' | 'disabled' };
 }
 
 /**

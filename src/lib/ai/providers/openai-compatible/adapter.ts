@@ -126,6 +126,7 @@ export const openAICompatibleAdapter: ProviderAdapter = {
             top_p: descriptor.topPOverride ?? 1.0,
           }),
       ...(descriptor.reasoning ? { reasoning: descriptor.reasoning } : {}),
+      ...(descriptor.thinking ? { thinking: descriptor.thinking } : {}),
       ...(spec.stream
         ? {
             stream: true,

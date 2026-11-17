@@ -390,7 +390,7 @@ export class NarrativeGenerator {
         this.geminiClient,
         undefined,
         [],
-        { heldItems: characterInventory, knownNpcs: npcRoster.map(({ id, name }) => ({ id, name })) }
+        { heldItems: characterInventory, isOpeningScene: true, knownNpcs: npcRoster.map(({ id, name }) => ({ id, name })) }
       );
 
       result = await enforceLanguageComplexity(result, toneSettings, this.geminiClient);

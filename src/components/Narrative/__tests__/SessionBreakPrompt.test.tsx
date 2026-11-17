@@ -3,6 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { SessionBreakPrompt } from '../SessionBreakPrompt';
 
 describe('SessionBreakPrompt', () => {
+  it('keeps its dialog outside the hidden narrative controller', () => {
+    render(<div aria-hidden="true"><SessionBreakPrompt isOpen onDismiss={jest.fn()} /></div>);
+    expect(screen.getByRole('dialog').closest('[aria-hidden="true"]')).toBeNull();
+    expect(screen.getByRole('button', { name: '继续阅读' })).toHaveFocus();
+  });
   it('holds the chapter dialog until its recap arrives, with focus kept inside', () => {
     const onDismiss = jest.fn();
     const { rerender } = render(<SessionBreakPrompt isOpen chapterNumber={1} onDismiss={onDismiss} />);

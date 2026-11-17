@@ -9,6 +9,8 @@ import { validateLossReason } from './narrativeGenerator.response.helpers';
 
 export interface AcquisitionContext {
   heldItems: readonly { name: string; quantity: number }[];
+  /** Only the opening passage initializes starting gear. */
+  isOpeningScene?: boolean;
   previousPassage?: string;
   playerAction?: string;
   previousLocation?: string;
@@ -87,7 +89,8 @@ Rules for presence:
 - For a candidate with no known name, return identifiedCharacters with its exact name or identifying role ONLY if that name/role appears verbatim in the passage. Do not invent a name, duplicate a known NPC, or use the ID as a display name.
 
 Rules for items:
-- Include an item only if the protagonist newly obtains it here and finishes the scene still holding or carrying it.
+${acquisitionContext?.isOpeningScene ? '- OPENING INVENTORY exception: initialize portable starting possessions explicitly established as belonging to the protagonist and retained for ongoing use, including their own carried tools without a new handover. Exclude shop fixtures, objects with unclear ownership, ally belongings, and items only promised in the setting. Add an evidence field to every items entry containing an exact passage quote that includes the item name and establishes personal possession.' : ''}
+- Outside OPENING INVENTORY, include an item only if the protagonist newly obtains it here and finishes the scene still holding or carrying it.
 - Using, testing, repositioning, or continuing to carry an existing item is NOT a new acquisition.
 - Do not rename or re-add tools already carried at the start of the scene. Return an empty items array when nothing new is acquired.
 - Taking portable tools out of a storage cabinet for ongoing use IS acquisition, even if the character immediately uses them in the same passage. Do not confuse a newly taken portable tool with a fixed environmental instrument.
@@ -171,6 +174,7 @@ ${content}
       conflicts?: Array<{ priorEvidence?: string; passageEvidence?: string; reason?: string }>;
       items?: Array<{
         name?: string;
+        evidence?: string;
         description?: string;
         quantity?: number;
         acquisitionMethod?: InventoryAcquisitionMethod;
@@ -195,7 +199,10 @@ ${content}
       ...confirmedIds,
     ])].filter((id) => allowed.has(id.toLowerCase()) && !absentIds.has(id.toLowerCase()));
 
-    const rawItems = Array.isArray(parsed.items) ? parsed.items : [];
+    const rawItems = (Array.isArray(parsed.items) ? parsed.items : []).filter((item) =>
+      !acquisitionContext?.isOpeningScene || Boolean(item && quoted(item.evidence) &&
+        typeof item.name === 'string' && item.evidence!.includes(item.name))
+    );
     const allowedAcquisitionMethods: InventoryAcquisitionMethod[] = [
       'loot',
       'quest',

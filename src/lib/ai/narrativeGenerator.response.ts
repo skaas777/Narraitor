@@ -53,7 +53,10 @@ export const formatNarrativeResponse = async (
   // An explicitly empty result means no NPC is physically present.
   const confirmedCharacterIds = metadataAnalysis.presentCharacterIds;
   const analyzedItems =
-    Array.isArray(extractedMetadata.itemsAcquired)
+    acquisitionContext?.isOpeningScene
+      ? metadataAnalysis.items.filter((item) => !acquisitionContext.heldItems.some((held) =>
+          held.name === item.name))
+      : Array.isArray(extractedMetadata.itemsAcquired)
       ? extractedMetadata.itemsAcquired
       : metadataAnalysis.items;
   const analyzedLosses = Array.isArray(extractedMetadata.itemsLost)

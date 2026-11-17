@@ -18,6 +18,9 @@ export function personalProvider(): ProviderDescriptor | null {
   if (!apiKey || !endpoint || !model || !isSafeProviderEndpoint(endpoint)) return null;
   return {
     type: 'openai-compatible', apiKey, endpoint, model,
+    // DeepSeek defaults to high-effort thinking. A turn includes multiple
+    // state extraction calls; keep the same model responsive within route budgets.
+    ...(/^deepseek-/i.test(model) ? { thinking: { type: 'disabled' as const } } : {}),
     // Chinese character sheets and reasoning share the provider's output budget.
     // The default 2048-token ceiling can cut a valid JSON response in half.
     maxTokensOverride: 8192,

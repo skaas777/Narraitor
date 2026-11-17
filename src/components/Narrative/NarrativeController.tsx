@@ -600,6 +600,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
         generateChoices: generateChoices ?? true,
         signal: generationAbort.signal,
         onChunk: handleStreamChunk,
+        onCommitted: resetStreamingPreview,
       };
 
       const turnResult = await resolveInitialTurn(initialCommand, narrativeGenerator);
@@ -824,6 +825,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
         },
         signal: segmentAbort.signal,
         onChunk: handleStreamChunk,
+        onCommitted: resetStreamingPreview,
         onPreviewReset: resetStreamingPreview,
       };
 

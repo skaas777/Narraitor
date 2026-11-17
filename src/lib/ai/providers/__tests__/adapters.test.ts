@@ -118,6 +118,11 @@ describe('geminiAdapter', () => {
 });
 
 describe('openAICompatibleAdapter', () => {
+  it('forwards a configured DeepSeek thinking mode without changing other providers', () => {
+    expect(openAICompatibleAdapter.buildBody({ ...OPENAI, thinking: { type: 'disabled' } }, SPEC))
+      .toHaveProperty('thinking', { type: 'disabled' });
+    expect(openAICompatibleAdapter.buildBody(OPENAI, SPEC)).not.toHaveProperty('thinking');
+  });
   it('posts to the configured endpoint verbatim, streaming or not', () => {
     expect(openAICompatibleAdapter.buildUrl(OPENAI, SPEC)).toBe(OPENAI.endpoint);
     expect(openAICompatibleAdapter.buildUrl(OPENAI, { ...SPEC, stream: true })).toBe(OPENAI.endpoint);

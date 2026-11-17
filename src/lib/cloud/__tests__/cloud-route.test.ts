@@ -92,6 +92,7 @@ test('unchanged cloud saves can be checked without downloading the whole adventu
 
 
 test('the private provider supplies Chinese output guidance and enough room for complete character JSON', () => {
+  process.env.PERSONAL_AI_MODEL = 'deepseek-v4-pro';
   const result = resolveProvider(new NextRequest(url));
   expect(result.ok).toBe(true);
   if (!result.ok) throw new Error('Expected configured provider');
@@ -99,4 +100,6 @@ test('the private provider supplies Chinese output guidance and enough room for 
   expect(provider?.customSystemPromptOverride).toContain('简体中文');
   expect(provider?.customSystemPromptOverride).toContain('保留请求所要求的 JSON 字段名');
   expect(provider?.maxTokensOverride).toBeGreaterThanOrEqual(8192);
+  expect(provider?.model).toBe('deepseek-v4-pro');
+  expect(provider?.thinking).toEqual({ type: 'disabled' });
 });
