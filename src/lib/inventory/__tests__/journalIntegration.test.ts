@@ -1,7 +1,7 @@
 // src/lib/inventory/__tests__/journalIntegration.test.ts
 
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { createAcquisitionJournalEntry } from '../journalIntegration';
+import { createAcquisitionJournalEntry, createLossJournalEntry } from '../journalIntegration';
 import type { InventoryItem } from '@/types/inventory.types';
 import type { EntityID } from '@/types/common.types';
 
@@ -133,6 +133,16 @@ describe('createAcquisitionJournalEntry', () => {
     );
 
     expect(entry.metadata.automaticEntry).toBe(true);
+  });
+
+  it.each([
+    ['delivered', '交付'], ['consumed', '使用'], ['stolen', '被盗'],
+    ['destroyed', '损毁'], ['dropped', '丢弃'], ['sold', '售出'],
+    ['gifted', '赠出'], ['sacrificed', '献祭'],
+  ] as const)('describes %s using its own action instead of loss', (lossReason, action) => {
+    const entry = createLossJournalEntry(mockItem, { name: mockItem.name, quantity: 2, lossReason, lossContext: '由顾岚接收封存。' }, mockWorldId, mockCharacterId);
+    expect(entry.content).toBe(`${action} 2 个 Rusty Sword。 由顾岚接收封存。`);
+    expect(entry.content).not.toContain('丢失');
   });
 
   it('handles items with no acquisition description', () => {

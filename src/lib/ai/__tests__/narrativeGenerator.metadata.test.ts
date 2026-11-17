@@ -65,4 +65,37 @@ describe('metadata recovery from completed narrative', () => {
     expect(result.stateConflicts?.[0]).toContain('明确拒绝');
     expect(result.presenceVerified).toBe(true);
   });
+
+  it('retains an unmentioned person in the same scene and sends established presence to analysis', async () => {
+    const generateContent = jest.fn().mockResolvedValue({ content: JSON.stringify({
+      presentCharacterIds: [], items: [], location: '温室侧舱的工作台旁',
+    }) });
+    const result = await analyzeSegmentMetadata('你低头阅读笔记。', undefined, [],
+      { generateContent } as unknown as AIClient, { ...context, previousPresentCharacterIds: ['zhou-lan'] });
+    expect(result.presentCharacterIds).toEqual(['zhou-lan']);
+    expect(generateContent.mock.calls[0][0]).toContain('PREVIOUSLY PRESENT');
+  });
+
+  it.each([
+    ['周岚离开侧舱。你留下读笔记。', { absentCharacters: [{ id: 'zhou-lan', evidence: '周岚离开侧舱' }] }],
+    ['你独自走上顶楼，周岚留在侧舱。', { movementEvidence: '你独自走上顶楼' }],
+  ])('removes presence when departure or player movement is established: %s', async (passage, movement) => {
+    const generateContent = jest.fn().mockResolvedValue({ content: JSON.stringify({
+      presentCharacterIds: [], items: [], ...movement,
+    }) });
+    const result = await analyzeSegmentMetadata(passage, undefined, [],
+      { generateContent } as unknown as AIClient, { ...context, previousPresentCharacterIds: ['zhou-lan'] });
+    expect(result.presentCharacterIds).toEqual([]);
+  });
+
+  it('rejects unsupported departures and does not add remote or remembered people', async () => {
+    const generateContent = jest.fn().mockResolvedValue({ content: JSON.stringify({
+      presentCharacterIds: [], items: [], movementEvidence: '你独自走上顶楼',
+      absentCharacters: [{ id: 'zhou-lan', evidence: '她已经离去' }],
+    }) });
+    const result = await analyzeSegmentMetadata('你读着笔记，回忆澜的声音。', undefined, [],
+      { generateContent } as unknown as AIClient, { ...context, previousPresentCharacterIds: ['zhou-lan'] });
+    expect(result.presentCharacterIds).toEqual(['zhou-lan']);
+    expect(result.presentCharacterIds).not.toContain('lan-ai');
+  });
 });

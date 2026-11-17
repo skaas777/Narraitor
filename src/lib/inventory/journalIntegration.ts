@@ -207,17 +207,17 @@ function formatLossTitle(
   }
 }
 
-function describeLossReason(reason: string | undefined): string {
+function describeLossAction(reason: string | undefined): string {
   switch (reason) {
-    case 'consumed': return "使用后";
-    case 'delivered': return "交付后";
-    case 'stolen': return "被盗后";
-    case 'destroyed': return "被毁后";
-    case 'dropped': return "丢弃后";
-    case 'sold': return "售出后";
-    case 'gifted': return "赠出后";
-    case 'sacrificed': return "献祭后";
-    default: return '';
+    case 'consumed': return "使用";
+    case 'delivered': return "交付";
+    case 'stolen': return "被盗";
+    case 'destroyed': return "损毁";
+    case 'dropped': return "丢弃";
+    case 'sold': return "售出";
+    case 'gifted': return "赠出";
+    case 'sacrificed': return "献祭";
+    default: return '丢失';
   }
 }
 
@@ -225,12 +225,11 @@ function formatLossContext(
   item: InventoryItem,
   lossMetadata: LostItemMetadata
 ): string {
+  const action = describeLossAction(lossMetadata.lossReason);
   const subject = lossMetadata.quantity && lossMetadata.quantity > 1
-    ? `丢失 ${lossMetadata.quantity} 个 ${item.name}`
-    : `丢失 ${item.name}`;
-
-  const reasonPhrase = describeLossReason(lossMetadata.lossReason);
-  const opener = reasonPhrase ? `${subject} ${reasonPhrase}。` : `${subject}。`;
+    ? `${action} ${lossMetadata.quantity} 个 ${item.name}`
+    : `${action} ${item.name}`;
+  const opener = `${subject}。`;
 
   return lossMetadata.lossContext
     ? `${opener} ${lossMetadata.lossContext}`

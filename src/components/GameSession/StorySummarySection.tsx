@@ -16,7 +16,8 @@ export const StorySummarySection: React.FC<StorySummarySectionProps> = ({
   sessionId,
   characterId,
 }) => {
-  const { status, error } = useStoryCheckpointManager({ worldId, sessionId, characterId });
+  // The active session owns generation; opening this view only reads progress.
+  const { status, error } = useStoryCheckpointManager({ worldId, sessionId, characterId, autoGenerate: false });
   const worldState = useWorldStore((state) =>
     worldId ? state.worldStates[worldId] : undefined
   );

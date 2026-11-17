@@ -12,6 +12,7 @@ export interface AcquisitionContext {
   previousPassage?: string;
   playerAction?: string;
   previousLocation?: string;
+  previousPresentCharacterIds?: readonly string[];
   knownNpcs?: readonly { id: string; name: string }[];
   storyMemoryContext?: string;
 }
@@ -56,7 +57,7 @@ export const analyzeSegmentMetadata = async (
     }
   });
 
-  const eligibleIds = [...new Set([...candidateIds, ...(acquisitionContext?.knownNpcs?.map((npc) => npc.id) ?? [])])];
+  const eligibleIds = [...new Set([...candidateIds, ...(acquisitionContext?.previousPresentCharacterIds ?? []), ...(acquisitionContext?.knownNpcs?.map((npc) => npc.id) ?? [])])];
   const rosterLines = eligibleIds
     .map((id) => {
       const entry = roster.get(id);
@@ -78,6 +79,9 @@ You are validating metadata for an already-written narrative segment. Do not wri
 Rules for presence:
 - Only mark an NPC as present if the narration makes it clear they are co-located with the protagonist at the END. People left behind, departed visitors, and people met earlier along the route are absent even if they spoke face-to-face earlier in this passage.
 - Exclude NPCs who are merely referenced, remembered, mentioned as being elsewhere, or communicating remotely (phone, radio, etc.).
+- The PREVIOUSLY PRESENT list is established scene state. If the protagonist stays with this group, an unmentioned NPC remains present. Silence is not a departure.
+- Return absentCharacters with an exact passage quote for each previously present NPC who leaves, stays behind when the protagonist moves, or is explicitly established as elsewhere. Leaving an object is not leaving the scene.
+- Return movementEvidence as an exact passage quote ONLY when the protagonist actually moves to another scene. A refined location label, an intention, a memory, or an NPC moving is not protagonist movement. On a scene move, include only NPCs established as accompanying or meeting the protagonist at the destination.
 - An NPC on the other side of a closed door, airlock, window, or other separating barrier is not in the protagonist's room. Coordinating through an intercom or operating an external connector does not establish co-location.
 - Only use the provided candidate IDs.
 - For a candidate with no known name, return identifiedCharacters with its exact name or identifying role ONLY if that name/role appears verbatim in the passage. Do not invent a name, duplicate a known NPC, or use the ID as a display name.
@@ -106,6 +110,8 @@ Rules for state recovery:
 Respond with STRICT JSON in this shape (no commentary):
 {
   "presentCharacterIds": ["npc-id-1", "npc-id-2"],
+  "absentCharacters": [{"id":"npc-id-1","evidence":"Exact quote establishing departure or separation"}],
+  "movementEvidence": "Exact quote of protagonist moving, or empty string",
   "identifiedCharacters": [{"id":"npc-id-1","name":"Exact name or role from passage"}],
   "location": "Actual final location",
   "itemsLost": [{"name":"Exact held item name","quantity":1,"lossReason":"delivered","lossContext":"Actual handover shown in this passage"}],
@@ -132,6 +138,8 @@ PLAYER ACTION (attempt only):
 ${acquisitionContext.playerAction?.slice(0, 1000) || '(none)'}
 PREVIOUS LOCATION (retain only if the passage does not actually move the protagonist):
 ${acquisitionContext.previousLocation || '(unknown)'}
+PREVIOUSLY PRESENT (retain on scene continuity unless departure or separation is established):
+${JSON.stringify(acquisitionContext.previousPresentCharacterIds ?? [])}
 EXISTING STORY MEMORY (reuse its topic keys; do not copy unchanged history):
 ${acquisitionContext.storyMemoryContext?.slice(0, 5000) || '(none)'}` : ''}
 
@@ -154,6 +162,8 @@ ${content}
 
     const parsed = JSON.parse(json) as {
       presentCharacterIds?: string[];
+      absentCharacters?: Array<{ id?: string; evidence?: string }>;
+      movementEvidence?: string;
       location?: string;
       itemsLost?: Array<{ name?: string; quantity?: number; lossReason?: string; lossContext?: string }>;
       storyMemory?: unknown;
@@ -168,12 +178,22 @@ ${content}
     };
 
     const allowed = new Set(eligibleIds.map((id) => id.toLowerCase()));
-    const presentCharacterIds = Array.isArray(parsed.presentCharacterIds)
+    const confirmedIds = Array.isArray(parsed.presentCharacterIds)
       ? parsed.presentCharacterIds
           .map((id) => id?.toString().trim())
           .filter((id): id is string => Boolean(id))
           .filter((id) => allowed.has(id.toLowerCase()))
       : [];
+    const quoted = (evidence: unknown): evidence is string =>
+      typeof evidence === 'string' && evidence.trim().length >= 2 && content.includes(evidence);
+    const moved = quoted(parsed.movementEvidence);
+    const absentIds = new Set((Array.isArray(parsed.absentCharacters) ? parsed.absentCharacters : [])
+      .filter((entry) => entry && typeof entry.id === 'string' && quoted(entry.evidence))
+      .map((entry) => entry.id!.toLowerCase()));
+    const presentCharacterIds = [...new Set([
+      ...(moved ? [] : acquisitionContext?.previousPresentCharacterIds ?? []),
+      ...confirmedIds,
+    ])].filter((id) => allowed.has(id.toLowerCase()) && !absentIds.has(id.toLowerCase()));
 
     const rawItems = Array.isArray(parsed.items) ? parsed.items : [];
     const allowedAcquisitionMethods: InventoryAcquisitionMethod[] = [

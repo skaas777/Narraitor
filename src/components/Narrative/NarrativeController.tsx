@@ -36,6 +36,7 @@ import { useWorldStore } from '@/state/worldStore';
 import { useNPCStore } from '@/state/npcStore';
 import { resolveTurn, resolveInitialTurn } from '@/lib/narrative/turnResolver';
 import { assembleSessionSnapshot } from '@/lib/narrative/sessionSnapshotAssembler';
+import { getCurrentDecision } from '@/lib/narrative/currentDecision';
 import type {
   TurnCommand,
   InitialTurnCommand,
@@ -521,7 +522,7 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
       if (
         generateChoices &&
         existingSegments.length > 0 &&
-        existingDecisions.length === 0 &&
+        !getCurrentDecision(existingDecisions, existingSegments.at(-1)) &&
         !isSessionEndingSegment(existingSegments[existingSegments.length - 1])
       ) {
         setTimeout(() => {
@@ -530,7 +531,9 @@ export const NarrativeController: React.FC<NarrativeControllerProps> = ({
               worldId,
               characterId: characterId ?? '',
             });
-            generatePlayerChoices(hydrationSnapshot);
+            if (!getCurrentDecision(hydrationSnapshot.decisions, hydrationSnapshot.segments.at(-1))) {
+              void generatePlayerChoices(hydrationSnapshot);
+            }
           }
         }, 300);
       }

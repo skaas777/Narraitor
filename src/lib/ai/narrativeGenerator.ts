@@ -191,6 +191,7 @@ export class NarrativeGenerator {
       const acquisitionContext = {
         heldItems: characterInventory,
         previousPassage: request.narrativeContext?.previousSegments?.at(-1)?.content,
+        previousPresentCharacterIds: request.narrativeContext?.previousSegments?.at(-1)?.metadata.characterIds ?? [],
         playerAction: request.narrativeContext?.currentSituation,
         knownNpcs: context.npcRoster.map(({ id, name }) => ({ id, name })),
         storyMemoryContext: request.narrativeContext?.storyMemory,
