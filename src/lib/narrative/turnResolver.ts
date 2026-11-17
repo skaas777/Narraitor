@@ -60,6 +60,8 @@ import {
 } from '@/lib/inventory/itemUsageNarrative';
 import { isLethalNarrativeDraft } from './fatalDraftValidation';
 import { buildStoryMemoryContext, findStoryStateIssues, reconcileInferredLosses } from './storyMemory';
+import { findHistoricalInventoryRepairs } from './historicalInventoryRepair';
+import { getPlayerPacing } from './playerPacing';
 
 /**
  * Per-session lock so concurrent resolveTurn calls execute sequentially.
@@ -297,6 +299,7 @@ async function resolveTurnInner(
 
   assertChapterRecapReady(sessionId);
 
+  repairHistoricalInventory(sessionId, characterId);
   // Pre-turn snapshot for prompt context
   let preTurnSnapshot = assembleSessionSnapshot(sessionId, ids);
   const memorySegments = preTurnSnapshot.segments;
@@ -342,21 +345,23 @@ async function resolveTurnInner(
   const currentTurn = preTurnSnapshot.turnIndex + 1;
   const world = worldId ? useWorldStore.getState().worlds[worldId] : undefined;
 
+  const pacing = getPlayerPacing(command.choiceText ?? '');
   const worldClock = isFeatureEnabled('WORLD_CLOCK')
-    ? buildWorldClockPromptContext(
+    ? { ...buildWorldClockPromptContext(
         useWorldThreadStore
           .getState()
           .getAll()
           .filter((thread) => thread.sessionId === sessionId),
         currentTurn,
         world?.toneSettings?.customInstructions
-      )
+      ), ...pacing }
     : undefined;
   const quietSceneTurns = isFeatureEnabled('SCENE_STATE')
     ? countQuietSceneTurns(preTurnSnapshot.segments, sceneState?.completedBeats)
     : 0;
-  const shouldBreakSceneStall = quietSceneTurns >= SCENE_STALL_QUIET_TURNS;
+  const shouldBreakSceneStall = pacing.allowTimeSkip && quietSceneTurns >= SCENE_STALL_QUIET_TURNS;
   const shouldRequestSceneTransition = shouldBreakSceneStall || (
+    pacing.allowTimeSkip &&
     needsSceneTransition(worldClock) &&
     !didWorldClockTransitionLastClockTurn(preTurnSnapshot.segments)
   );
@@ -604,6 +609,7 @@ async function resolveItemUseTurnInner(
   const { sessionId, worldId, characterId, itemId } = command;
   assertChapterRecapReady(sessionId);
   if (isFeatureEnabled('SCENE_STATE')) await waitForSceneStoreHydration();
+  repairHistoricalInventory(sessionId, characterId);
   const generationError = useNarrativeStore.getState().generationError;
   const activeSessionId = useSessionStore.getState().id;
 
@@ -789,6 +795,22 @@ function inferMissingItemLosses(
     .getState()
     .getCharacterItems(characterId);
   return reconcileInferredLosses(result, characterInventory);
+}
+
+function repairHistoricalInventory(sessionId: EntityID, characterId: EntityID): void {
+  const narrative = useNarrativeStore.getState();
+  const inventory = useInventoryStore.getState();
+  const repairs = findHistoricalInventoryRepairs(narrative.getSessionSegments(sessionId), inventory.getCharacterItems(characterId));
+  for (const repair of repairs) {
+    const segment = useNarrativeStore.getState().segments[repair.segmentId];
+    if (!segment) continue;
+    inventory.removeItem(characterId, repair.itemId, 1);
+    if (useInventoryStore.getState().getCharacterItems(characterId).some((item) => item.id === repair.itemId)) continue;
+    narrative.updateSegment(segment.id, { metadata: {
+      ...segment.metadata, itemsLost: [...(segment.metadata.itemsLost ?? []), repair.loss],
+    } });
+    logger.info('[TurnResolver] Reconciled confirmed historical handover', { sessionId, segmentId: segment.id, itemId: repair.itemId });
+  }
 }
 
 function validationFailure(
@@ -1027,9 +1049,14 @@ function reconcileScenePresence(
   const previouslySeen = new Set(
     earlierSegments.flatMap((earlier) => earlier.metadata?.characterIds ?? [])
   );
-  const current = new Set(hadSceneRecord
-    ? useSceneStore.getState().scenes[sessionId]?.presentNpcIds ?? []
-    : latestSegmentNpcIds(earlierSegments, playerId));
+  // characterIds are analyzed from the finished passage and represent who is
+  // physically present at its end. Rebuilding from that list removes people
+  // who left even when the model omitted an explicit sceneExits field.
+  const current = new Set(segment.metadata.presenceVerified
+    ? (segment.metadata.characterIds ?? []).filter((id) => id !== playerId)
+    : hadSceneRecord
+      ? useSceneStore.getState().scenes[sessionId]?.presentNpcIds ?? []
+      : latestSegmentNpcIds(earlierSegments, playerId));
   const knownNpcIds = new Set([
     ...current,
     ...(segment.metadata?.characterIds ?? []),

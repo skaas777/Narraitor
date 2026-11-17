@@ -24,9 +24,12 @@ export const analyzeSegmentMetadata = async (
   acquisitionContext?: AcquisitionContext
 ): Promise<{
   presentCharacterIds: string[];
+  presenceVerified?: boolean;
   location?: string;
   itemsLost?: LostItemMetadata[];
   storyMemory?: StoryMemoryUpdate;
+  identifiedCharacters?: GeneratedCharacterMetadata[];
+  stateConflicts?: string[];
   items: Array<{
     name: string;
     description?: string;
@@ -65,17 +68,19 @@ export const analyzeSegmentMetadata = async (
 
   const prompt = `
 You are validating metadata for an already-written narrative segment. Do not write or continue the story. Analyze the passage and produce:
-1. Which of the provided NPC IDs are PHYSICALLY present in the scene with the protagonist (sharing the same location, acting together, or speaking face-to-face).
+1. Which of the provided NPC IDs are PHYSICALLY present with the protagonist at the END of the passage.
 2. Any tangible items the protagonist newly acquires in this scene and still possesses at its end.
 3. The protagonist's actual location at the END of the passage, not a destination they merely plan to visit or an NPC's remote location.
 4. Items from the provided possessions that the protagonist actually loses, hands over, or fully consumes in THIS passage.
 5. A small storyMemory delta of established facts and completed steps, preserving uncertainty and reusing existing topic keys.
+6. Any definite contradiction against established memory or the submitted action. Return conflicts only with VERBATIM priorEvidence (from memory/action) and passageEvidence (from this passage) plus a concise reason. Do not flag style, uncertainty, a causal change actually shown, or an NPC's attributed rumor as established truth.
 
 Rules for presence:
-- Only mark an NPC as present if the narration makes it clear they are co-located with the protagonist during this scene.
+- Only mark an NPC as present if the narration makes it clear they are co-located with the protagonist at the END. People left behind, departed visitors, and people met earlier along the route are absent even if they spoke face-to-face earlier in this passage.
 - Exclude NPCs who are merely referenced, remembered, mentioned as being elsewhere, or communicating remotely (phone, radio, etc.).
 - An NPC on the other side of a closed door, airlock, window, or other separating barrier is not in the protagonist's room. Coordinating through an intercom or operating an external connector does not establish co-location.
 - Only use the provided candidate IDs.
+- For a candidate with no known name, return identifiedCharacters with its exact name or identifying role ONLY if that name/role appears verbatim in the passage. Do not invent a name, duplicate a known NPC, or use the ID as a display name.
 
 Rules for items:
 - Include an item only if the protagonist newly obtains it here and finishes the scene still holding or carrying it.
@@ -95,13 +100,17 @@ Rules for state recovery:
 - storyMemory.facts: at most 8 {"key":"stable topic","value":"confirmed state or attributed uncertain claim"}.
 - storyMemory.completedSteps: at most 4 {"key":"stable task","value":"result actually completed here"}. Plans and instructions are not completed tasks. Do not re-record an unchanged completed task.
 - Use the narrative's language. Do not invent time, items, people, evidence or events. Use empty arrays when there is no change.
+- Keep confirmed schedules, prices and total balances stable unless this passage establishes an actual causal change. A turn count does not mean a day passed. If the player asks for a short rest or refuses booking/selling, performing a sale, booking, or a multi-day jump on their behalf is a conflict.
+- storyMemory.balances: only actual money changes, [{"currency":"same established unit","balance":28,"change":-2,"evidence":"verbatim transaction here"}]. Total balance = previous confirmed total + actual net change; a single pickup is not the whole wallet. Omit unchanged balances.
 
 Respond with STRICT JSON in this shape (no commentary):
 {
   "presentCharacterIds": ["npc-id-1", "npc-id-2"],
+  "identifiedCharacters": [{"id":"npc-id-1","name":"Exact name or role from passage"}],
   "location": "Actual final location",
   "itemsLost": [{"name":"Exact held item name","quantity":1,"lossReason":"delivered","lossContext":"Actual handover shown in this passage"}],
   "storyMemory": {"facts":[],"completedSteps":[]},
+  "conflicts": [{"priorEvidence":"verbatim prior fact or player instruction","passageEvidence":"verbatim contradictory passage","reason":"why these facts conflict"}],
   "items": [
     {
       "name": "Item name",
@@ -137,7 +146,10 @@ ${content}
     const raw = response.content ?? '';
     const json = extractJsonObject(raw);
     if (json === null) {
-      return { presentCharacterIds: candidateIds, items: [] };
+      // A validator failure is not evidence that every candidate is present.
+      // Carrying the old candidate list into the saved segment leaves NPCs on
+      // screen after they have left and produces "unnamed person" entries.
+      return { presentCharacterIds: [], items: [] };
     }
 
     const parsed = JSON.parse(json) as {
@@ -145,6 +157,8 @@ ${content}
       location?: string;
       itemsLost?: Array<{ name?: string; quantity?: number; lossReason?: string; lossContext?: string }>;
       storyMemory?: unknown;
+      identifiedCharacters?: Array<{ id?: string; name?: string }>;
+      conflicts?: Array<{ priorEvidence?: string; passageEvidence?: string; reason?: string }>;
       items?: Array<{
         name?: string;
         description?: string;
@@ -159,7 +173,7 @@ ${content}
           .map((id) => id?.toString().trim())
           .filter((id): id is string => Boolean(id))
           .filter((id) => allowed.has(id.toLowerCase()))
-      : candidateIds;
+      : [];
 
     const rawItems = Array.isArray(parsed.items) ? parsed.items : [];
     const allowedAcquisitionMethods: InventoryAcquisitionMethod[] = [
@@ -212,12 +226,26 @@ ${content}
 
     return {
       presentCharacterIds,
+      presenceVerified: Array.isArray(parsed.presentCharacterIds),
+      stateConflicts: (Array.isArray(parsed.conflicts) ? parsed.conflicts : []).slice(0, 3).flatMap((conflict) => {
+        if (!conflict || typeof conflict.priorEvidence !== 'string' || typeof conflict.passageEvidence !== 'string' || typeof conflict.reason !== 'string') return [];
+        const previous = `${acquisitionContext?.storyMemoryContext ?? ''}\n${acquisitionContext?.playerAction ?? ''}`;
+        if (conflict.priorEvidence.trim().length < 4 || conflict.passageEvidence.trim().length < 4 ||
+            !previous.includes(conflict.priorEvidence) || !content.includes(conflict.passageEvidence)) return [];
+        return [`${conflict.reason.slice(0, 240)} Established: ${conflict.priorEvidence.slice(0, 200)}; draft: ${conflict.passageEvidence.slice(0, 200)}`];
+      }),
+      identifiedCharacters: (parsed.identifiedCharacters ?? []).flatMap((npc) => {
+        if (!npc || typeof npc.id !== 'string' || typeof npc.name !== 'string') return [];
+        const name = safeTrim(npc.name);
+        return allowed.has(npc.id) && !roster.has(npc.id) && name.length >= 2 && name.length <= 40 && content.includes(name)
+          ? [{ id: npc.id, name }] : [];
+      }),
       items,
       location: typeof parsed.location === 'string' ? safeTrim(parsed.location).slice(0, 160) || undefined : undefined,
       itemsLost,
       storyMemory: parseStoryMemory(parsed.storyMemory),
     };
   } catch {
-    return { presentCharacterIds: candidateIds, items: [] };
+    return { presentCharacterIds: [], items: [] };
   }
 };

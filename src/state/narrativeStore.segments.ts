@@ -156,6 +156,8 @@ export const createNarrativeSegmentActions = (
       // are intentionally absent from the rendered UI but are the durable
       // source for long-term memory and legacy-save migration.
       storyMemory: metadata?.storyMemory,
+      presenceVerified: metadata?.presenceVerified,
+      stateConflicts: metadata?.stateConflicts,
       storyMemoryBackfilled: metadata?.storyMemoryBackfilled,
       storyMemoryBackfillAttempts: metadata?.storyMemoryBackfillAttempts,
       endingId: metadata?.endingId,

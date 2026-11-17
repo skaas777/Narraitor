@@ -283,6 +283,8 @@ export interface NarrativeMetadata {
   location?: string;
   characterIds?: EntityID[];
   sceneEntries?: EntityID[];
+  /** True only when the final-passage physical-presence validation succeeded. */
+  presenceVerified?: boolean;
   sceneExits?: EntityID[];
   sceneTransition?: { to: string };
   sceneBeat?: { id: string; text: string };
@@ -302,6 +304,7 @@ export interface NarrativeMetadata {
   majorEvent?: string;
   /** Only new or explicitly changed facts from this passage; stored with the save. */
   storyMemory?: StoryMemoryUpdate;
+  stateConflicts?: string[];
   /** Legacy-history extraction succeeded; false permits a bounded retry after failure. */
   storyMemoryBackfilled?: boolean;
   /** Failed extractions may retry on subsequent turns, at most three attempts per session. */
@@ -337,6 +340,7 @@ export type DecisionOutcome =
 
 /** Incremental, persisted canon. Keys identify questions/objects, never prose variants. */
 export interface StoryMemoryUpdate {
+  balances?: Array<{ currency: string; balance: number; change?: number; evidence?: string }>;
   facts?: Array<{ key: string; value: string }>;
   completedSteps?: Array<{ key: string; value: string }>;
   time?: { day: number; minute: number; label: string };
@@ -429,7 +433,9 @@ export interface NarrativeGenerationResult {
   segmentType: 'scene' | 'dialogue' | 'action' | 'transition';
   metadata: {
     storyMemory?: StoryMemoryUpdate;
+    stateConflicts?: string[];
     characterIds: EntityID[];
+    presenceVerified?: boolean;
     sceneEntries?: EntityID[];
     sceneExits?: EntityID[];
     sceneTransition?: { to: string };

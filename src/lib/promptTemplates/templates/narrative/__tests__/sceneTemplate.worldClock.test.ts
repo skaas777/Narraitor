@@ -73,6 +73,7 @@ describe('sceneTemplate world clock block', () => {
   it('names one due-now thread and lets the segment cut time forward to land it', () => {
     const prompt = sceneTemplate(
       makeContext({
+        allowTimeSkip: true,
         currentTurn: 12,
         turnsSinceWorldMoved: 3,
         threads: [
@@ -192,6 +193,7 @@ describe('sceneTemplate world clock block', () => {
   it('asks the matter to conclude, with a forward cut, once a fired pick has struck out', () => {
     const prompt = sceneTemplate(
       makeContext({
+        allowTimeSkip: true,
         currentTurn: 24,
         turnsSinceWorldMoved: 1,
         register: 'slasher; the woods are hungry',

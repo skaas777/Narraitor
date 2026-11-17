@@ -71,8 +71,10 @@ export function useNarrativeParticipants({
     };
 
     segment.metadata?.characterIds?.forEach(addId);
-    segment.characterIds?.forEach(addId);
-    addId(speakerId);
+    if (!segment.metadata?.presenceVerified) {
+      segment.characterIds?.forEach(addId);
+      addId(speakerId);
+    }
 
     return Array.from(normalizedIds.values())
       .filter((id) => !(isDialogue && speakerId && id === speakerId))
@@ -80,10 +82,10 @@ export function useNarrativeParticipants({
         const npc = getById(id);
         return {
           id,
-          name: npc?.name ?? deriveFallbackName(id),
+          name: npc?.name ?? segment.metadata?.characters?.find((entry) => entry.id === id)?.name ?? deriveFallbackName(id),
           avatarUrl: npc?.avatarUrl,
         };
-      });
+      }).filter((participant) => !['未命名人物', '未知人物'].includes(participant.name));
   }, [segment, getById, speakerId, isDialogue]);
 
   const highlightTerms = React.useMemo(() => {

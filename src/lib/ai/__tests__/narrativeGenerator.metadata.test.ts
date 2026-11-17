@@ -51,4 +51,18 @@ describe('metadata recovery from completed narrative', () => {
     expect(result.itemsLost).toBeUndefined();
     expect(result.storyMemory).toBeUndefined();
   });
+
+  it('requires quoted evidence on both sides of a claimed contradiction', async () => {
+    const content = '你付了三十六文订好船票。';
+    const client = { generateContent: jest.fn().mockResolvedValue({ content: JSON.stringify({
+      presentCharacterIds: [], items: [], conflicts: [
+        { priorEvidence: '我不订票', passageEvidence: '付了三十六文订好船票', reason: '替玩家完成了明确拒绝的购买' },
+        { priorEvidence: '不存在的旧事实', passageEvidence: '付了三十六文订好船票', reason: '猜测' },
+      ],
+    }) }) } as unknown as AIClient;
+    const result = await analyzeSegmentMetadata(content, undefined, [], client, { ...context, playerAction: '我不订票，只喝水休息。' });
+    expect(result.stateConflicts).toHaveLength(1);
+    expect(result.stateConflicts?.[0]).toContain('明确拒绝');
+    expect(result.presenceVerified).toBe(true);
+  });
 });

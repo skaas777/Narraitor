@@ -1,6 +1,7 @@
 import type { InventoryItem } from '@/types/inventory.types';
 import type { NarrativeGenerationResult, NarrativeSegment, StoryMemoryUpdate } from '@/types/narrative.types';
 import { inferItemsLostFromNarrative, sameItemName } from './itemLossInference';
+import { extractExplicitPersonalBalances, parseBalances } from './storyBalances';
 
 type MemoryEntry = { key: string; value: string };
 type HistorySegment = Pick<NarrativeSegment, 'content' | 'metadata'>;
@@ -22,14 +23,15 @@ export function parseStoryMemory(value: unknown, limits = { facts: 8, completedS
     });
   const facts = entries(raw.facts, limits.facts);
   const completedSteps = entries(raw.completedSteps, limits.completedSteps);
+  const balances = parseBalances(raw.balances);
   const clock = raw.time as Record<string, unknown> | undefined;
   const time = clock && Number.isInteger(clock.day) && Number(clock.day) >= 1 &&
     Number.isInteger(clock.minute) && Number(clock.minute) >= 0 && Number(clock.minute) < 1440 &&
     cleanText(clock.label, 80)
     ? { day: Number(clock.day), minute: Number(clock.minute), label: cleanText(clock.label, 80) }
     : undefined;
-  return facts.length || completedSteps.length || time
-    ? { facts, completedSteps, ...(time ? { time } : {}) }
+  return facts.length || completedSteps.length || balances.length || time
+    ? { facts, completedSteps, ...(balances.length ? { balances } : {}), ...(time ? { time } : {}) }
     : undefined;
 }
 
@@ -58,6 +60,7 @@ function selectRelevant(entries: MemoryEntry[], query: string, limit: number, fo
 export function collectStoryMemory(segments: readonly HistorySegment[]): StoryMemoryUpdate {
   const facts = new Map<string, MemoryEntry>();
   const completedSteps = new Map<string, MemoryEntry>();
+  const balances = new Map<string, NonNullable<StoryMemoryUpdate['balances']>[number]>();
   let time: StoryMemoryUpdate['time'];
   for (const segment of segments) {
     const update = parseStoryMemory(segment.metadata.storyMemory, { facts: 80, completedSteps: 60 });
@@ -69,8 +72,12 @@ export function collectStoryMemory(segments: readonly HistorySegment[]): StoryMe
       }
     }
     if (update?.time && (!time || clockValue(update.time) >= clockValue(time))) time = update.time;
+    for (const balance of update?.balances ?? extractExplicitPersonalBalances(segment.content)) {
+      balances.set(balance.currency, balance);
+    }
   }
-  return { facts: [...facts.values()], completedSteps: [...completedSteps.values()], ...(time ? { time } : {}) };
+  return { facts: [...facts.values()], completedSteps: [...completedSteps.values()],
+    ...(balances.size ? { balances: [...balances.values()] } : {}), ...(time ? { time } : {}) };
 }
 
 const clockValue = (time: NonNullable<StoryMemoryUpdate['time']>): number => time.day * 1440 + time.minute;
@@ -120,6 +127,8 @@ export function buildStoryMemoryContext(
   };
   const context = `
 PERSISTENT STORY MEMORY — use together with the latest passage, for both story and choices:
+CONFIRMED TOTAL MONEY (a coin pickup below is NOT the whole wallet):
+${memory.balances?.map((entry) => `- ${entry.currency}: ${entry.balance}`).join('\n') || '- Not yet established. Never invent a total from one isolated pickup.'}
 ${section('ESTABLISHED FACTS (latest value per stable topic)', facts, 4200)}
 ${section('COMPLETED INVESTIGATIONS / SETTLED RESULTS (do not require again)', completed, 2800)}
 CURRENT STORY TIME: ${memory.time ? `day ${memory.time.day}, minute ${memory.time.minute}: ${memory.time.label}` : 'Not yet recorded; continue from the latest passage. Never reset to an earlier time.'}
@@ -141,6 +150,7 @@ PERSISTENT MEMORY OUTPUT (metadata.storyMemory, a SMALL DELTA, not a retelling):
 - completedSteps: up to 4 {"key":"stable investigation/task","value":"what was actually learned/completed"}. A plan, permission, appointment or clue pointing elsewhere does not mean the task is completed. Record the result once it really happens.
 - time: {"day":1,"minute":330,"label":"第一天卯初"} ONLY when story time is explicit. Days are 1-based; minute is 0-1439 from midnight, never before CURRENT STORY TIME. Relative advances add to the existing clock; a new day increments day. Otherwise omit time.
 - Omit unchanged fields. All memory values are in the story's language, hidden from the passage.
+- balances: only when money actually changes, [{"currency":"文","balance":28,"change":-2,"evidence":"verbatim transaction from this passage"}]. Use the SAME currency key. balance is the TOTAL wallet, not the amount received. New balance = previous confirmed balance + net change from actual transactions. Do not charge a purchase, fare or gift that the player has not chosen. Omit unchanged balances; never rewrite prices/schedules without an established causal change.
 Resolve an ongoing investigation in stages: allow assembled evidence to produce a concrete answer or outcome. Do not replace every answer with another note, confiscation, registration, postponement, or demand to re-obtain the same evidence. A successful action achieves its stated objective before any separate complication.
 `;
 
@@ -150,8 +160,19 @@ export function findStoryStateIssues(
   segments: readonly HistorySegment[],
   inventory: readonly InventoryItem[]
 ): string[] {
-  const issues: string[] = [];
+  const issues: string[] = [...(result.metadata.stateConflicts ?? [])];
   const memory = collectStoryMemory(segments);
+  for (const balance of result.metadata.storyMemory?.balances ?? []) {
+    const previous = memory.balances?.find((entry) => entry.currency === balance.currency);
+    if (previous && (balance.change === undefined
+      ? balance.balance !== previous.balance
+      : previous.balance + balance.change !== balance.balance)) {
+      issues.push(`${balance.currency}: previous total ${previous.balance}; balance must equal that total plus this passage's actual net transaction, not an older balance or an isolated pickup.`);
+    }
+    if (!balance.evidence || !result.content.includes(balance.evidence)) {
+      issues.push(`${balance.currency}: a balance update needs a verbatim transaction evidenced in this passage.`);
+    }
+  }
   if (memory.time && result.metadata.storyMemory?.time &&
       clockValue(result.metadata.storyMemory.time) < clockValue(memory.time)) {
     issues.push(`Time moved backward from ${memory.time.label}; keep day/minute at or after ${clockValue(memory.time)} total minutes.`);

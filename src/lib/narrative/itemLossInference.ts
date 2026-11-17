@@ -34,6 +34,8 @@ const canonicalItemName = (value: string): string => {
 
 const NON_EVENT = /\b(not|never|didn't|don't|would|could|might|plan|intend|remember|recall|if)\b|没有|并未|尚未|不曾|不要|别把|不肯|拒绝|打算|准备|想要|如果|假如|倘若|想起|记得|回忆|此前|先前|昨天|早已/i;
 const INCOMING_ITEM = /\b(?:hands?|gives?|returns?)\s+(?:it\s+)?to you\b|\b(?:you receive|you accept)\b|交还给你|还给你|递给你|交给你|塞给你|送给你|你接过|你收下/i;
+const HANDOVER = /\b(?:hand(?:ed)?|give|gave|deliver(?:ed)?|present(?:ed)?)\b|递(?:过去|给)|交给|交出|送给|赠给|递交|付给/i;
+const ACCEPTANCE = /\b(?:accept(?:ed)?|take(?:s|n)?|receive(?:d)?|gets?)\b|接(?:过去|过来|下)|接受|收下|挂在|放进(?:他|她|对方)/i;
 
 /** Conservative identity match for inference and pre-commit inventory checks. */
 export function sameItemName(a: string, b: string): boolean {
@@ -86,7 +88,30 @@ export const inferItemsLostFromNarrative = (
       return containsName && !NON_EVENT.test(part) && !INCOMING_ITEM.test(part) &&
         LOSS_REASON_PATTERNS.some(({ pattern }) => pattern.test(part));
     });
-    if (!clause) continue;
+    if (!clause) {
+      // A completed handover is often narrated in two clauses: the item is
+      // taken from the bag and handed over, then the recipient accepts it.
+      // Keep this evidence-based: require the held item's name, a transfer
+      // verb, and an acceptance/retention signal in the same short passage.
+      const itemMention = /[\p{Script=Han}]/u.test(name)
+        ? content.toLowerCase().indexOf(name)
+        : content.search(new RegExp(`\\b${escapeRegExp(name)}\\b`, 'i'));
+      if (itemMention >= 0) {
+        const window = content.slice(Math.max(0, itemMention - 80), itemMention + name.length + 180);
+        const continuation = content.slice(itemMention + name.length, itemMention + name.length + 120)
+          .split(/[，,。.!?！？\n]/u).slice(1, 3);
+        const boundTransfer = continuation.some((part) =>
+          /^(?:\s|你|双手|随即|然后|接着|再|轻轻|把它|将它)*(?:递过去|递给|交给|交出|送给|赠给)/u.test(part));
+        const otherNamedItem = inventory.some((other) => other.id !== item.id &&
+          other.name !== item.name && window.includes(other.name));
+        if (/(?:你(?:把|从|取|拿)|\byou\b)/i.test(window) &&
+            boundTransfer && HANDOVER.test(window) && ACCEPTANCE.test(window) &&
+            !NON_EVENT.test(window) && !INCOMING_ITEM.test(window) && !otherNamedItem) {
+          losses.push({ name: item.name, quantity: quantityFromClause(window, item), lossReason: 'delivered' });
+        }
+      }
+      continue;
+    }
     const reason = LOSS_REASON_PATTERNS.find(({ pattern }) => pattern.test(clause))!.reason;
     losses.push({ name: item.name, quantity: quantityFromClause(clause, item), lossReason: reason });
   }
