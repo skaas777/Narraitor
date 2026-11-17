@@ -35,6 +35,8 @@ export type DecisionWeight = 'minor' | 'major' | 'critical';
  * Represents a decision point in the narrative
  */
 export interface Decision {
+  /** Completed-passage id checked by the separate state audit. */
+  stateAuditSegmentId?: EntityID;
   id: EntityID;
   prompt: string;
   options: DecisionOption[];

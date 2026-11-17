@@ -858,6 +858,7 @@ async function replaceChoicesAfterItemUse(
       options: decision.options,
       decisionWeight: decision.decisionWeight,
       contextSummary: decision.contextSummary,
+      stateAuditSegmentId: decision.stateAuditSegmentId,
     });
   } catch (error) {
     logger.warn(
