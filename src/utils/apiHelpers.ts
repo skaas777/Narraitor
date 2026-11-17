@@ -72,7 +72,7 @@ export function handleRateLimiting(request: NextRequest): {
         {
           status: 429,
           headers: {
-            'X-RateLimit-Limit': '50',
+            'X-RateLimit-Limit': globalRateLimiter.maxRequests.toString(),
             'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
             'X-RateLimit-Reset': Math.ceil(rateLimitResult.resetTime / 1000).toString()
           }
@@ -185,7 +185,7 @@ async function validateAIRequest(request: NextRequest): Promise<{
  */
 function createRateLimitHeaders(result: RateLimitResult): Record<string, string> {
   return {
-    'X-RateLimit-Limit': '50',
+    'X-RateLimit-Limit': globalRateLimiter.maxRequests.toString(),
     'X-RateLimit-Remaining': result.remaining.toString(),
     'X-RateLimit-Reset': Math.ceil(result.resetTime / 1000).toString()
   };

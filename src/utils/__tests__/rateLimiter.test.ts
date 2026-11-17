@@ -16,6 +16,22 @@ describe('RateLimiter', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
+  });
+
+  it('supports a long production game while still enforcing its hourly cap', () => {
+    jest.replaceProperty(process, 'env', { ...process.env, NODE_ENV: 'production' });
+    const productionLimiter = new RateLimiter();
+    // Budget for fifty turns with ten supporting AI calls per turn.
+    for (let i = 0; i < 500; i++) {
+      expect(productionLimiter.checkLimit('player').allowed).toBe(true);
+    }
+    for (let i = 500; i < productionLimiter.maxRequests; i++) {
+      productionLimiter.checkLimit('player');
+    }
+    expect(productionLimiter.checkLimit('player').allowed).toBe(false);
+    jest.advanceTimersByTime(60 * 60 * 1000 + 1);
+    expect(productionLimiter.checkLimit('player').allowed).toBe(true);
   });
 
   it('allows requests up to the limit and denies the next one', () => {

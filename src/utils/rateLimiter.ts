@@ -13,7 +13,9 @@ export interface RateLimitResult {
 
 // Rate limiting constants
 const DEV_MAX_REQUESTS = 500; // Lenient limit for development/testing
-const PROD_MAX_REQUESTS = 50; // Strict limit for production
+// A story turn fans out into narrative, metadata, choices, and item requests.
+// Fifty calls stopped normal play after about eleven turns in production.
+const PROD_MAX_REQUESTS = 1000;
 const DEV_WINDOW_MS = 10 * 60 * 1000; // 10 minutes for development/testing
 const PROD_WINDOW_MS = 60 * 60 * 1000; // 1 hour for production
 
@@ -23,7 +25,7 @@ const PROD_WINDOW_MS = 60 * 60 * 1000; // 1 hour for production
  */
 export class RateLimiter {
   private requests = new Map<string, RateLimitEntry>();
-  private readonly maxRequests: number;
+  readonly maxRequests: number;
   private readonly windowMs: number;
 
   /**
