@@ -78,6 +78,23 @@ describe('generateStoryCheckpointSummary', () => {
     expect(result.majorEvents).toEqual(['Maera dissolved the council']);
     expect(result.model).toBe('fallback');
   });
+
+  it('summarizes recorded canon and owns event counts and the latest timestamp', async () => {
+    mockClient.generateContent.mockResolvedValue({ content: JSON.stringify({
+      segment: '林砚取得工具，随后在泊位报告船已到达。',
+      includedEvents: 99, includedDecisions: 99, lastEventTimestamp: 'invented',
+    }) });
+    const events = [...basePayload.events, { ...basePayload.events[0], id: 'event-2',
+      description: '报告白鹭号到达', timestamp: '2025-11-20T18:10:00Z' }];
+    const result = await generateStoryCheckpointSummary({ ...basePayload, events });
+    expect(result.includedEvents).toBe(2);
+    expect(result.includedDecisions).toBe(1);
+    expect(result.lastEventTimestamp).toBe(events[1].timestamp);
+    const prompt = mockClient.generateContent.mock.calls[0][0];
+    expect(prompt).toContain('Do not continue the story or invent a new scene');
+    expect(prompt).toContain('Never invent travel, handovers, transactions');
+    expect(prompt).not.toContain('Write what happens NEXT');
+  });
 });
 
 

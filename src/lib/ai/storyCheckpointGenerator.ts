@@ -99,7 +99,12 @@ export const generateStoryCheckpointSummary = async (
   }
 
   try {
-    return parseResponse(response.content, model ?? getAIConfig().modelName);
+    return {
+      ...parseResponse(response.content, model ?? getAIConfig().modelName),
+      includedEvents: payload.events.length,
+      includedDecisions: payload.decisions?.length ?? 0,
+      lastEventTimestamp: payload.events.at(-1)?.timestamp,
+    };
   } catch {
     // Fallback: create a simple segment from event descriptions
     const eventText = payload.events
@@ -112,7 +117,7 @@ export const generateStoryCheckpointSummary = async (
       majorEvents: sanitizeArray(payload.events.map((event) => event.description)),
       includedEvents: payload.events.length,
       includedDecisions: payload.decisions?.length ?? 0,
-      lastEventTimestamp: payload.events[0]?.timestamp,
+      lastEventTimestamp: payload.events.at(-1)?.timestamp,
       model: 'fallback',
     };
   }
