@@ -109,8 +109,10 @@ export const buildChoicePrompt = ({
   const basePrompt = `${template(context)}\n${sharedMemory}\nChoose new actions that use already established evidence. Never offer a completed investigation or delivery as an uncompleted prerequisite. A historical item is not available unless CURRENT POSSESSION lists it.
 LATEST ACTUAL PLAYER ACTION: ${latestAction.slice(0, 1500)}
 Respect the player's stated direction and refusals. If they chose rest, leisure, a gift, or a quiet conversation, offer real continuations of that activity. Do not make every option return to a declined booking, purchase, investigation or money-earning goal. Do not invent new urgency or shrink deadlines. Off-screen possessions belonging to an NPC are unavailable to the player. Money suggestions must use the latest established total balance, not a single coin pickup or an older balance.`;
+  const latestPassage = snapshot?.segments.at(-1)?.content ?? narrativeContext.previousSegments?.at(-1)?.content ?? '';
+  const groundedPrompt = `${basePrompt}\nLATEST COMPLETED PASSAGE (stronger than earlier excerpts):\n${latestPassage.slice(-5000)}\nUse only quantities and possessions confirmed in this latest passage or CURRENT POSSESSION. Never copy an older quantity such as a prior number of pots, portions, coins, seats or ingredients when the latest passage changed it.`;
   const inventoryAwarePrompt = enhancePromptWithInventory(
-    basePrompt,
+    groundedPrompt,
     resolvedCharacterIds,
     snapshot
   );
