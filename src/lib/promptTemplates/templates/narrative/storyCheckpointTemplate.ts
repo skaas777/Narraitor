@@ -66,7 +66,7 @@ export const storyCheckpointTemplate = (
       ? `\nRECENT STORY (for context only - DO NOT retell this):\n${payload.previousSegments.join('\n\n')}\n`
       : '';
 
-  return `You are writing an ongoing story. ${storyContext ? 'Continue the narrative naturally from where it left off.' : 'Begin the story with this opening scene.'}
+  return `Summarize recorded events for an adventure journal. Do not continue the story or invent a new scene.
 
 ${storyContext}
 Setting Context:
@@ -74,32 +74,24 @@ Setting Context:
 - Active Goals: ${goals}
 ${payload.characterName ? `- Protagonist: ${payload.characterName}` : '- Protagonist: [unnamed character]'}
 
-NEW EVENTS (write the next beat of the story based on these):
+RECORDED EVENTS (chronological order; these are the only events to summarize):
 ${eventsText}
 ${decisionText ? `\nPlayer Decisions:\n${decisionText}` : ''}
 
-NARRATIVE WRITING REQUIREMENTS:
-${
-  storyContext
-    ? `- Build naturally from the recent story above - DO NOT retell or re-summarize what already happened
-- Write what happens NEXT as a continuation of the ongoing narrative
-- Use transitions and connective phrases to flow from the previous beat`
-    : '- Set the opening scene for this new story'
-}
+SUMMARY REQUIREMENTS:
+- Summarize ONLY recorded events, preserving chronology, uncertainty, holders, quantities and outcomes.
+- Player decisions describe intent, not evidence of success. Do not turn an attempted action into a completed result.
+- Never invent travel, handovers, transactions, resolutions or transitions to connect events. The final location does not establish an extra return trip.
+- Earlier summaries are context only. Do not repeat them or reinterpret later events as happening before them.
 - Apply these tone and language rules: ${toneDirectives}
 - Write in a continuous narrative style, like a novel, not a summary or timeline
 - Vary sentence structure: mix short punchy sentences with longer flowing ones
-- Create cause-and-effect flow: show how events connect and build on each other
-- Maintain tension and pacing appropriate to the action
+- Preserve only cause-and-effect relationships explicitly supported by recorded events
 - Length: 50-75 words (approximately 2-3 sentences)
-- Treat the events listed above as authoritative canon
+- Treat the events listed above as authoritative canon; prefer names to inferred gendered pronouns
 ${payload.characterName ? `- Refer to the protagonist naturally: ${storyContext ? `since this continues an ongoing story, use first name only ("${payload.characterName.split(' ')[0]}") or pronouns (she/he/they) throughout` : `use "${payload.characterName}" for the first reference in this opening segment, then use first name only ("${payload.characterName.split(' ')[0]}") or pronouns (she/he/they) for subsequent references`}` : '- Use third-person pronouns for the protagonist'}
 - Write ONLY in past tense (was/were, did, had) - NEVER present tense (is/are, does, has)
 - Use third-person limited perspective that can be read aloud
-
-EXAMPLE OF GOOD NARRATIVE FLOW:
-Instead of: "The hero entered the tavern. The hero ordered a drink. The hero noticed a stranger."
-Write like: "The hero pushed through the tavern's creaking door, the warm firelight a stark contrast to the cold rain outside. She ordered a whiskey, neat—and that's when she noticed the hooded stranger watching from the corner booth."
 
 Return STRICT JSON (no markdown fences):
 ${RESPONSE_SCHEMA}

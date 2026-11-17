@@ -71,6 +71,7 @@ const buildDecisionPayload = (
   }
 
   return decisions
+    .filter((decision) => Boolean(decision.selectedOptionId))
     .map((decision) => {
       const selectedOption = decision.options.find((option) => option.id === decision.selectedOptionId);
       const consequenceText = decision.consequences
