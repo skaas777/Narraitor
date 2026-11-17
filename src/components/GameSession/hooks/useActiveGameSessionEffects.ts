@@ -61,6 +61,25 @@ export const useActiveGameSessionEffects = ({
               if (checked.options.some((option, index) => option.id !== latest.options[index]?.id)) {
                 useNarrativeStore.getState().updateDecision(latest.id, { options: checked.options, contextSummary: checked.contextSummary });
               }
+              if (latest.stateAuditSegmentId !== snapshot.segments.at(-1)?.id) {
+                const [{ auditChoiceState }, { createDefaultGeminiClient }] = await Promise.all([
+                  import('@/lib/ai/choiceStateAudit'), import('@/lib/ai/defaultGeminiClient'),
+                ]);
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 20000);
+                try {
+                  const audited = await auditChoiceState(createDefaultGeminiClient(), checked, snapshot, controller.signal);
+                  const current = useNarrativeStore.getState().decisions[latest.id];
+                  if (isMounted && current && !current.selectedOptionId &&
+                      useSessionStore.getState().id === sessionId) {
+                    useNarrativeStore.getState().updateDecision(latest.id, {
+                      options: audited.options, contextSummary: audited.contextSummary,
+                      stateAuditSegmentId: audited.stateAuditSegmentId,
+                    });
+                  }
+                } catch { /* The deterministic guard remains when an audit is unavailable. */ }
+                finally { clearTimeout(timeout); }
+              }
             }
           }
         }

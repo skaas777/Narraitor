@@ -3,7 +3,7 @@ import type { SessionSnapshot } from '@/types/turnResolver.types';
 import { sameItemName } from '@/lib/narrative/itemLossInference';
 import { getPlayerPacing } from '@/lib/narrative/playerPacing';
 
-export function enforceChoiceState(decision: Decision, snapshot?: SessionSnapshot): Decision {
+export function enforceChoiceState(decision: Decision, snapshot?: SessionSnapshot, invalidIds: readonly string[] = []): Decision {
   if (!snapshot) return decision;
   const unavailable = snapshot.segments.flatMap((segment) => segment.metadata.itemsLost ?? [])
     .filter((loss) => !snapshot.inventory.some((item) => sameItemName(item.name, loss.name)));
@@ -11,6 +11,7 @@ export function enforceChoiceState(decision: Decision, snapshot?: SessionSnapsho
   const declined = [...action.matchAll(/(?:暂不|先不|不要|拒绝|不)(订票|订位|登记|做菜|营业|出发|开船|取证|调查)/gu)].map((match) => match[1]);
   const quiet = getPlayerPacing(action).quietAction;
   const options = decision.options.filter((option) => {
+    if (invalidIds.includes(option.id)) return false;
     // Reacquiring an item is allowed; spending/using a historically lost item
     // without first recovering it is not. Names remain exact, not fuzzy.
     if (unavailable.some((item) => option.text.includes(item.name)) &&

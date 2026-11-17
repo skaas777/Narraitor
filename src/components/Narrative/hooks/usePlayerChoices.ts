@@ -208,6 +208,7 @@ export function usePlayerChoices({
           options: decision.options,
           decisionWeight: decision.decisionWeight,
           contextSummary: decision.contextSummary,
+          stateAuditSegmentId: decision.stateAuditSegmentId,
           // Dev-mode only (round 6) - without this, the persisted
           // decision never carries the prompt/response a later playtest
           // round would need to check the model's actual compliance.

@@ -17,6 +17,7 @@ import { getActiveProviderModel } from '@/state/providerStore';
 import { DEFAULT_TEXT_MODEL } from './config';
 import type { SessionSnapshot } from '@/types/turnResolver.types';
 import { enforceChoiceState } from './choiceStateGuard';
+import { auditChoiceState } from './choiceStateAudit';
 
 /**
  * Parameters for choice generation
@@ -130,7 +131,7 @@ export async function generateChoices(
       decision.options = decision.options.slice(0, maxOptions);
     }
 
-    return enforceChoiceState(applyAlignmentConsequences(attachSkillChecksWhereRelevant(decision, world)), snapshot);
+    return await auditChoiceState(aiClient, enforceChoiceState(applyAlignmentConsequences(attachSkillChecksWhereRelevant(decision, world)), snapshot), snapshot, signal);
   } catch (error) {
     const errorDetails = {
       error: error instanceof Error ? error.message : String(error),
