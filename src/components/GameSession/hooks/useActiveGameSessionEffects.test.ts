@@ -6,7 +6,7 @@ import { useActiveGameSessionEffects } from './useActiveGameSessionEffects';
 describe('useActiveGameSessionEffects', () => {
   beforeEach(() => {
     useNarrativeStore.setState({
-      segments: { 'seg-1': { id: 'seg-1', sessionId: 'session-1', worldId: 'world-1', content: 'You reach the rooftop.', type: 'scene', metadata: { tags: [] }, timestamp: new Date() } },
+      segments: { 'seg-1': { id: 'seg-1', sessionId: 'session-1', worldId: 'world-1', content: 'You reach the rooftop.', type: 'scene', metadata: { tags: [] }, timestamp: new Date(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() } },
       sessionSegments: { 'session-1': ['seg-1'] }, decisions: {}, sessionDecisions: {},
     });
   });
