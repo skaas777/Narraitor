@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import type { SessionMetrics } from './hooks/useSessionPacing';
 
 export interface SessionBreakPromptProps {
@@ -92,7 +93,7 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
   const segmentCount = sessionMetrics?.segmentCount;
   const decisionCount = sessionMetrics?.decisionCount;
 
-  return (
+  return createPortal(
     <div
       className={['session-break-prompt-overlay', className].filter(Boolean).join(' ')}
       role="presentation"
@@ -161,6 +162,7 @@ export const SessionBreakPrompt: React.FC<SessionBreakPromptProps> = ({
           </button>}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

@@ -520,6 +520,7 @@ async function resolveTurnInner(
     worldId,
     characterId,
     isFirstSegment: false,
+    onCommitted: command.onCommitted,
     isFatalCriticalFailure: command.isFatalCriticalFailure,
     playerCharacterName: preTurnSnapshot.character?.name,
     fatalRiskAllowed: command.fatalRiskAllowed,
@@ -596,6 +597,7 @@ async function resolveInitialTurnInner(
     worldId,
     characterId,
     isFirstSegment: true,
+    onCommitted: command.onCommitted,
     isFatalCriticalFailure: false,
     playerCharacterName,
     fatalRiskAllowed: false,
@@ -874,6 +876,7 @@ interface ReconciliationPolicy {
 }
 
 interface CommitAndSettleParams {
+  onCommitted?: () => void;
   result: Omit<NarrativeGenerationResult, 'metadata'> & {
     metadata: NarrativeSegment['metadata'];
   };
@@ -899,6 +902,7 @@ async function commitAndSettleGeneratedTurn({
   playerCharacterName,
   reconciliationPolicy,
   fatalRiskAllowed,
+  onCommitted,
 }: CommitAndSettleParams): Promise<TurnResult> {
   const resolvedFatalRiskAllowed =
     result.metadata?.fatalRiskAllowed ?? fatalRiskAllowed ?? false;
@@ -953,6 +957,9 @@ async function commitAndSettleGeneratedTurn({
   );
   const storedSegment =
     useNarrativeStore.getState().segments[storedSegmentId] ?? newSegment;
+  // Protected chunks and the commit can share one React render. Clear the
+  // draft by lifecycle before slower reconciliation, not by text equality.
+  onCommitted?.();
   if (isFeatureEnabled('SCENE_STATE')) {
     const hadSceneRecord = Boolean(useSceneStore.getState().scenes[sessionId]);
     const transitionTo = storedSegment.metadata.sceneTransition?.to;

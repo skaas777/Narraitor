@@ -11,6 +11,21 @@ describe('metadata recovery from completed narrative', () => {
     previousLocation: '温室侧舱', playerAction: '前往加强环，把压力表交给周岚。',
   };
 
+  it('initializes only opening possessions backed by an exact passage quote', async () => {
+    const passage = '你收好自己的便携检测仪。阿禾抱着导航匣。';
+    const generateContent = jest.fn().mockResolvedValue({ content: JSON.stringify({
+      presentCharacterIds: [], items: [
+        { name: '便携检测仪', quantity: 1, evidence: '你收好自己的便携检测仪' },
+        { name: '备用电芯', quantity: 2, evidence: '你有两节备用电芯' },
+        { name: '导航匣', quantity: 1 },
+      ],
+    }) });
+    const result = await analyzeSegmentMetadata(passage, undefined, [],
+      { generateContent } as unknown as AIClient, { heldItems: [], isOpeningScene: true });
+    expect(result.items.map((item) => item.name)).toEqual(['便携检测仪']);
+    expect(generateContent.mock.calls[0][0]).toContain('OPENING INVENTORY');
+  });
+
   it('recovers handover, current location and memory with known face-to-face NPC ids', async () => {
     const generateContent = jest.fn().mockResolvedValue({ content: JSON.stringify({
       presentCharacterIds: ['zhou-lan', 'invented-id'], items: [], location: '主控外第三道加强环',

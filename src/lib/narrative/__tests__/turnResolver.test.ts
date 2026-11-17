@@ -1199,6 +1199,23 @@ describe('TurnResolver', () => {
       ).toHaveLength(0);
     });
 
+    it.each(['initial', 'next'] as const)('clears the %s draft at commit before slow reconciliation', async (kind) => {
+      const clockDeferred = deferred<null>();
+      (applyWorldClockUpdates as jest.Mock).mockReturnValue(clockDeferred.promise);
+      const onCommitted = jest.fn(() => {
+        expect(useNarrativeStore.getState().getSessionSegments('session-1')).toHaveLength(1);
+      });
+      const generator = makeMockGenerator();
+      const pending = kind === 'initial'
+        ? resolveInitialTurn({ sessionId: 'session-1', worldId: 'world-1', characterId: 'char-1', generateChoices: true, onCommitted }, generator)
+        : resolveTurn(makeCommand({ onCommitted }), generator);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(onCommitted).toHaveBeenCalledTimes(1);
+      clockDeferred.resolve(null);
+      await pending;
+      expect(onCommitted).toHaveBeenCalledTimes(1);
+    });
+
     it('blocks until world clock updates resolve', async () => {
       const clockDeferred = deferred<null>();
       (applyWorldClockUpdates as jest.Mock).mockReturnValue(clockDeferred.promise);

@@ -60,6 +60,10 @@ Create an engaging opening scene that:
 5. Establishes the initial setting and situation
 6. Is engaging and substantial - exactly 1 paragraph of 3-5 sentences that vividly establishes the scene
 
+STARTING POSSESSIONS:
+- When the setting establishes starting tools, supplies or money, briefly show which portable possessions the protagonist personally keeps or carries. Record those in metadata.itemsAcquired, with exact quantities only when established.
+- Distinguish personal kit from shop fixtures, objects merely on a workbench, and NPC belongings. An ally must actually hand an object over before it belongs to the protagonist.
+
 ${(worldName && (worldName.toLowerCase().includes('1990') || worldName.toLowerCase().includes('1980') || worldName.toLowerCase().includes('1970'))) || (genre && (genre.toLowerCase().includes('modern') || genre.toLowerCase().includes('contemporary') || genre.toLowerCase().includes('realistic'))) ? `
 
 CRITICAL REALISM CONSTRAINTS:
