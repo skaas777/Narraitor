@@ -33,3 +33,21 @@ export function parseBalances(value: unknown): Balance[] {
     }];
   });
 }
+
+/** Repair only a misquoted citation, never a disputed monetary state. The
+ * independent passage analysis must agree on the entire transaction tuple. */
+export function reconcileBalanceEvidence(
+  content: string,
+  primary: readonly Balance[] | undefined,
+  analyzed: readonly Balance[] | undefined
+): Balance[] | undefined {
+  if (!primary) return analyzed ? [...analyzed] : undefined;
+  return primary.map((balance) => {
+    if (balance.evidence && content.includes(balance.evidence)) return balance;
+    const confirmed = analyzed?.find((entry) =>
+      entry.currency === balance.currency && entry.balance === balance.balance &&
+      entry.change === balance.change && entry.evidence && content.includes(entry.evidence)
+    );
+    return confirmed ? { ...balance, evidence: confirmed.evidence } : balance;
+  });
+}
